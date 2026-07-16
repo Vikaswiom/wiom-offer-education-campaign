@@ -1,0 +1,30 @@
+# Manual, read-only diagnostic: run probe_campaign.py against the CleverTap API
+# and print everything it can find about one campaign id in the job log.
+# Trigger from the Actions tab (Run workflow) — it never pushes anything.
+name: probe-campaign
+
+on:
+  workflow_dispatch:
+    inputs:
+      campaign_id:
+        description: "CleverTap campaign id to probe"
+        required: false
+        default: "1784203536"
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: probe
+        env:
+          CLEVERTAP_ACCOUNT: ${{ secrets.CLEVERTAP_ACCOUNT }}
+          CLEVERTAP_PASSCODE: ${{ secrets.CLEVERTAP_PASSCODE }}
+        run: python3 probe_campaign.py "${{ inputs.campaign_id }}"
