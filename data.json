@@ -1,5 +1,5 @@
 {
-  "generated": "2026-07-16 17:10",
+  "generated": "2026-07-16 17:27",
   "sample": false,
   "region": "eu1",
   "start_date": "2026-07-16",
@@ -75,7 +75,7 @@
       "key": "tech",
       "label": "Technician App",
       "color": "#2563EB",
-      "note": "Technician app — same creative, separate campaign.",
+      "note": "Technician app — attributed by profile property role = technician on every event (campaign attribution unusable: campaign 1784203536 reports no impressions). Campaign ids observed on technicians' inApp_Shown: none.",
       "campaigns": [
         "1784203536"
       ],
@@ -87,14 +87,14 @@
       ],
       "funnel": {
         "shown": 0,
-        "edu_ok": 0,
-        "completed": 0
+        "edu_ok": 6,
+        "completed": 5
       },
       "options": [
         {
           "option": "1",
           "label": "1st (top)",
-          "users": 0
+          "users": 4
         },
         {
           "option": "2",
@@ -104,15 +104,22 @@
         {
           "option": "3",
           "label": "3rd (bottom)",
-          "users": 0
+          "users": 1
         }
       ],
-      "daily": []
+      "daily": [
+        {
+          "date": "2026-07-16",
+          "shown": 0,
+          "completed": 5
+        }
+      ],
+      "attribution": "role"
     }
   ],
   "unattributed": {
-    "edu_ok": 7,
-    "completed": 6
+    "edu_ok": 1,
+    "completed": 1
   },
   "both_apps": 0
 }
