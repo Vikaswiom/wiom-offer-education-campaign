@@ -1,0 +1,60 @@
+{
+  "generated": "2026-07-16 18:04",
+  "sample": false,
+  "region": "eu1",
+  "campaign_id": "1784201594",
+  "accent": "#D9008D",
+  "start_date": "2026-07-16",
+  "funnel_steps": [
+    [
+      "shown",
+      "Shown (in-app)",
+      "inApp_Shown"
+    ],
+    [
+      "edu_ok",
+      "Tapped ठीक है",
+      "CSP_Offer_Education_OK_Clicked"
+    ],
+    [
+      "quiz_answered",
+      "Answered quiz",
+      "CSP_Offer_Quiz_Answered"
+    ],
+    [
+      "quiz_closed",
+      "Tapped ठीक है, समझ गया",
+      "CSP_Offer_Quiz_Closed"
+    ]
+  ],
+  "funnel": {
+    "shown": 10,
+    "edu_ok": 9,
+    "quiz_answered": 4,
+    "quiz_closed": 4
+  },
+  "options": [
+    {
+      "option": "1",
+      "text": "आपका सही अमाउंट आपके व्योम ऐप में दिखेगा, वही फाइनल अमाउंट होगा।",
+      "users": 1
+    },
+    {
+      "option": "2",
+      "text": "जो अमाउंट ऐप में दिख रहा है, बस वही देना होगा।",
+      "users": 2
+    },
+    {
+      "option": "3",
+      "text": "अमाउंट मैं नहीं तय करता — आपका ऐप दिखाता है।",
+      "users": 1
+    }
+  ],
+  "daily": [
+    {
+      "date": "2026-07-16",
+      "shown": 10,
+      "answered": 4
+    }
+  ]
+}
