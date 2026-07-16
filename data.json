@@ -1,22 +1,7 @@
 {
-  "generated": "2026-07-16 18:43",
+  "generated": "2026-07-16 19:06",
   "sample": false,
   "region": "eu1",
-  "campaign_ids": [
-    "1784201594",
-    "1784207437"
-  ],
-  "shown_by_campaign": [
-    {
-      "id": "1784201594",
-      "users": 12
-    },
-    {
-      "id": "1784207437",
-      "users": 0
-    }
-  ],
-  "accent": "#D9008D",
   "start_date": "2026-07-16",
   "funnel_steps": [
     [
@@ -35,34 +20,99 @@
       "CSP_Offer_Quiz_Answered"
     ]
   ],
-  "funnel": {
-    "shown": 12,
-    "edu_ok": 11,
-    "completed": 7
-  },
   "option_answer": "आपका सही अमाउंट आपके व्योम ऐप में दिखेगा, वही फाइनल अमाउंट होगा।",
-  "options": [
+  "apps": [
     {
-      "option": "1",
-      "label": "1st (top)",
-      "users": 5
+      "key": "csp",
+      "label": "CSP App",
+      "color": "#D9008D",
+      "note": "Partner/CSP app — the original two campaigns.",
+      "campaigns": [
+        "1784201594",
+        "1784207437"
+      ],
+      "shown_by_campaign": [
+        {
+          "id": "1784201594",
+          "users": 13
+        },
+        {
+          "id": "1784207437",
+          "users": 0
+        }
+      ],
+      "funnel": {
+        "shown": 13,
+        "edu_ok": 11,
+        "completed": 6
+      },
+      "options": [
+        {
+          "option": "1",
+          "label": "1st (top)",
+          "users": 4
+        },
+        {
+          "option": "2",
+          "label": "2nd (middle)",
+          "users": 1
+        },
+        {
+          "option": "3",
+          "label": "3rd (bottom)",
+          "users": 1
+        }
+      ],
+      "daily": [
+        {
+          "date": "2026-07-16",
+          "shown": 13,
+          "completed": 6
+        }
+      ]
     },
     {
-      "option": "2",
-      "label": "2nd (middle)",
-      "users": 2
-    },
-    {
-      "option": "3",
-      "label": "3rd (bottom)",
-      "users": 1
+      "key": "tech",
+      "label": "Technician App",
+      "color": "#2563EB",
+      "note": "Technician app — same creative, separate campaign.",
+      "campaigns": [
+        "1784203536"
+      ],
+      "shown_by_campaign": [
+        {
+          "id": "1784203536",
+          "users": 0
+        }
+      ],
+      "funnel": {
+        "shown": 0,
+        "edu_ok": 0,
+        "completed": 0
+      },
+      "options": [
+        {
+          "option": "1",
+          "label": "1st (top)",
+          "users": 0
+        },
+        {
+          "option": "2",
+          "label": "2nd (middle)",
+          "users": 0
+        },
+        {
+          "option": "3",
+          "label": "3rd (bottom)",
+          "users": 0
+        }
+      ],
+      "daily": []
     }
   ],
-  "daily": [
-    {
-      "date": "2026-07-16",
-      "shown": 12,
-      "completed": 7
-    }
-  ]
+  "unattributed": {
+    "edu_ok": 4,
+    "completed": 2
+  },
+  "both_apps": 0
 }

@@ -7,7 +7,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Noto+Sans+Devanagari:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{
-  --accent:#D9008D; --alt:#8B5CF6;
+  --csp:#D9008D; --tech:#2563EB; --alt:#8B5CF6;
   --ink:#161021; --muted:#6B6478; --faint:#9A93A8;
   --line:#E9E4F1; --bg:#F5F2F9; --surface:#FFFFFF; --soft:#FAF8FC;
   --good:#0F7A46; --good-bg:#E4F7ED; --warn:#B4770A; --warn-bg:#FFF3DD;
@@ -39,10 +39,11 @@ section{margin-top:24px;}
 .kpi .d b{color:var(--good);font-weight:800;}
 
 .panel{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:20px 22px;box-shadow:var(--shadow);}
-.fpanel{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px 20px;box-shadow:var(--shadow);border-top:4px solid var(--accent);}
+.funnels{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.fpanel{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px 20px;box-shadow:var(--shadow);border-top:4px solid var(--c,#ccc);}
 .fpanel .ftitle{display:flex;align-items:center;gap:8px;font-size:16px;font-weight:900;letter-spacing:-.2px;}
-.fpanel .ftitle .sw{width:12px;height:12px;border-radius:50%;background:var(--accent);}
-.fpanel .fsub{font-size:12.5px;color:var(--muted);font-weight:600;margin:5px 0 16px;line-height:1.4;}
+.fpanel .ftitle .sw{width:12px;height:12px;border-radius:50%;background:var(--c);}
+.fpanel .fsub{font-size:12.5px;color:var(--muted);font-weight:600;margin:5px 0 16px;line-height:1.45;}
 .fnl-step{margin:11px 0;}
 .fnl-step .lbl{display:flex;justify-content:space-between;align-items:baseline;font-size:13px;font-weight:700;margin-bottom:5px;}
 .fnl-step .lbl .nm{color:var(--ink);}
@@ -52,16 +53,24 @@ section{margin-top:24px;}
 .fnl-step .br{height:100%;border-radius:7px;min-width:3px;transition:width .5s cubic-bezier(.2,.7,.2,1);}
 .fnl-step .dp{font-size:11px;font-weight:700;color:var(--warn);margin-top:4px;height:14px;}
 .fnl-step .dp.zero{color:var(--good);}
+.pending{background:var(--warn-bg);border:1px solid #F2DCA8;color:#7A5200;border-radius:10px;
+  padding:9px 12px;font-size:12px;font-weight:700;margin-top:10px;}
 
 .two{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
-@media(max-width:820px){.kpis{grid-template-columns:1fr 1fr;}.two{grid-template-columns:1fr;}}
+@media(max-width:820px){.kpis{grid-template-columns:1fr 1fr;}.two,.funnels{grid-template-columns:1fr;}}
 
-.qgrid{display:flex;flex-direction:column;gap:16px;}
+.shot{width:100%;display:block;border-radius:10px;border:1px solid var(--line);}
+.cap{font-size:12.5px;color:var(--muted);line-height:1.65;margin-top:12px;}
+.cap b{color:var(--ink);}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;}
+.chip{font-size:11.5px;font-weight:700;background:var(--soft);border:1px solid var(--line);border-radius:20px;padding:3px 10px;color:var(--muted);}
+
+.qgrid{display:flex;flex-direction:column;gap:14px;}
 .qrow .ql{font-size:13px;font-weight:700;margin-bottom:5px;display:flex;justify-content:space-between;gap:12px;}
-.qrow .ql .qt{font-weight:600;color:var(--muted);line-height:1.45;}
+.qrow .ql .qt{font-weight:600;color:var(--muted);}
 .qrow .ql b{font-weight:800;white-space:nowrap;}
 .qbar{background:var(--soft);border-radius:6px;height:10px;overflow:hidden;}
-.qbar span{display:block;height:100%;border-radius:6px;background:var(--alt);}
+.qbar span{display:block;height:100%;border-radius:6px;}
 
 .chart{width:100%;height:220px;}
 .gridline{stroke:var(--line);stroke-width:1;stroke-dasharray:3 4;opacity:.7;}
@@ -81,23 +90,36 @@ section{margin-top:24px;}
 <div class="wrap">
   <header>
     <h1>Offer Education — Campaign Tracking</h1>
-    <p class="sub">हर कस्टमर को मिलता है अलग अलग ऑफर · in-app education + quiz funnel, from CleverTap events.</p>
+    <p class="sub">हर कस्टमर को मिलता है अलग अलग ऑफर · same in-app creative running in two apps, from CleverTap events.</p>
     <div class="banner" id="banner">⚠️ Showing <b>sample data</b> — run <code>fetch_ct_data.py</code> to load live CleverTap numbers.</div>
-    <div class="legend">
-      <span class="lg"><span class="sw" style="background:var(--accent)"></span>Shown</span>
-      <span class="lg"><span class="sw" style="background:var(--alt)"></span>Completed</span>
-      <span class="updated" id="updated"></span>
-    </div>
+    <div class="legend" id="legend"><span class="updated" id="updated"></span></div>
   </header>
 
   <section>
-    <div class="h2">Headline</div>
+    <div class="h2">Headline — both apps combined</div>
     <div class="kpis" id="kpis"></div>
   </section>
 
   <section>
-    <div class="h2">Funnel — shown → education → quiz → close</div>
-    <div class="fpanel" id="funnel"></div>
+    <div class="h2">Funnels — by app</div>
+    <div class="funnels" id="funnels"></div>
+    <div class="note" id="attrnote"></div>
+  </section>
+
+  <section>
+    <div class="h2">Creative — what they see</div>
+    <div class="panel">
+      <img class="shot" src="screens.png" alt="The three in-app screens: education, quiz, and the सही confirmation">
+      <div class="cap">
+        <b>1 · Education</b> — chat card showing what to tell a customer who asks the price, plus the
+        <b>₹300 per new connection</b> guarantee. &nbsp;<b>2 · Quiz</b> — one question, three options.
+        &nbsp;<b>3 · सही</b> — green confirmation, auto-dismisses after 3s.<br><br>
+        <b>All three quiz options are deliberately identical.</b> Different wordings would make people compare them
+        and wonder what detail they were missing — the opposite of the goal. Whichever they tap, they read the same
+        sentence, so there is nothing to get wrong and no load on them.
+      </div>
+      <div class="chips" id="chips"></div>
+    </div>
   </section>
 
   <section class="two">
@@ -119,7 +141,14 @@ section{margin-top:24px;}
 <div class="tt" id="tip"></div>
 
 <script>
-const FALLBACK={"generated":"(local preview — sample data)","sample":true,"campaign_ids":["1784201594","1784207437"],"shown_by_campaign":[{"id":"1784201594","users":11},{"id":"1784207437","users":0}],"region":"eu1","start_date":"2026-07-16","funnel_steps":[["shown","Shown (in-app)","inApp_Shown"],["edu_ok","Read education → tapped ठीक है","CSP_Offer_Education_OK_Clicked"],["completed","Completed (education + quiz)","CSP_Offer_Quiz_Answered"]],"funnel":{"shown":11,"edu_ok":10,"completed":6},"option_answer":"आपका सही अमाउंट आपके व्योम ऐप में दिखेगा, वही फाइनल अमाउंट होगा।","options":[{"option":"1","label":"1st (top)","users":1},{"option":"2","label":"2nd (middle)","users":2},{"option":"3","label":"3rd (bottom)","users":1}],"daily":[{"date":"2026-07-16","shown":11,"completed":6}]};
+const FALLBACK={"generated":"(local preview — sample data)","sample":true,"region":"eu1","start_date":"2026-07-16",
+"funnel_steps":[["shown","Shown (in-app)","inApp_Shown"],["edu_ok","Read education → tapped ठीक है","CSP_Offer_Education_OK_Clicked"],["completed","Completed (education + quiz)","CSP_Offer_Quiz_Answered"]],
+"option_answer":"आपका सही अमाउंट आपके व्योम ऐप में दिखेगा, वही फाइनल अमाउंट होगा।",
+"apps":[
+ {"key":"csp","label":"CSP App","color":"#D9008D","note":"Partner/CSP app — the original two campaigns.","campaigns":["1784201594","1784207437"],"shown_by_campaign":[{"id":"1784201594","users":13},{"id":"1784207437","users":0}],"funnel":{"shown":13,"edu_ok":11,"completed":6},"options":[{"option":"1","label":"1st (top)","users":3},{"option":"2","label":"2nd (middle)","users":2},{"option":"3","label":"3rd (bottom)","users":1}],"daily":[{"date":"2026-07-16","shown":13,"completed":6}]},
+ {"key":"tech","label":"Technician App","color":"#2563EB","note":"Technician app — same creative, separate campaign.","campaigns":["1784203536"],"shown_by_campaign":[{"id":"1784203536","users":0}],"funnel":{"shown":0,"edu_ok":0,"completed":0},"options":[{"option":"1","label":"1st (top)","users":0},{"option":"2","label":"2nd (middle)","users":0},{"option":"3","label":"3rd (bottom)","users":0}],"daily":[]}],
+"unattributed":{"edu_ok":4,"completed":2},"both_apps":0};
+
 const tip=document.getElementById('tip');
 function showTip(html,x,y){tip.innerHTML=html;tip.style.opacity=1;const w=tip.offsetWidth;tip.style.left=Math.min(Math.max(x-w/2,8),innerWidth-w-8)+'px';tip.style.top=(y-tip.offsetHeight-12)+'px';}
 function hideTip(){tip.style.opacity=0;}
@@ -128,78 +157,97 @@ const nf=n=>n.toLocaleString('en-IN');
 const esc=s=>(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 
 function render(D){
-  const steps=D.funnel_steps, f=D.funnel, A=D.accent||'#D9008D';
+  const steps=D.funnel_steps, A=D.apps||[];
   document.getElementById('banner').classList.toggle('show',!!D.sample);
   document.getElementById('updated').textContent='Updated: '+(D.generated||'');
 
-  const shown=f.shown, edu=f.edu_ok, done=f.completed;
-  const kpi=[
-    ['Shown (unique)', nf(shown), 'deduped across '+(D.campaign_ids||[]).length+' campaigns'],
+  document.getElementById('legend').innerHTML=
+    A.map(a=>`<span class="lg"><span class="sw" style="background:${a.color}"></span>${esc(a.label)}</span>`).join('')+
+    '<span class="updated">Updated: '+(D.generated||'')+'</span>';
+
+  // headline — both apps combined
+  const sum=k=>A.reduce((t,a)=>t+a.funnel[k],0);
+  const shown=sum('shown'), edu=sum('edu_ok'), done=sum('completed');
+  document.getElementById('kpis').innerHTML=[
+    ['Shown (unique)', nf(shown), A.map(a=>esc(a.label)+' '+a.funnel.shown).join(' · ')],
     ['Read education', nf(edu), '<b>'+pct(edu,shown)+'%</b> of shown'],
     ['Completed', nf(done), '<b>'+pct(done,edu)+'%</b> of those who read it'],
     ['Completion rate', pct(done,shown)+'%', 'education + quiz ÷ shown']
-  ];
-  document.getElementById('kpis').innerHTML=kpi.map(k=>
-    `<div class="kpi"><div class="k">${k[0]}</div><div class="v">${k[1]}</div><div class="d">${k[2]}</div></div>`).join('');
+  ].map(k=>`<div class="kpi"><div class="k">${k[0]}</div><div class="v">${k[1]}</div><div class="d">${k[2]}</div></div>`).join('');
 
-  // funnel — every step as a % of shown (the impression baseline)
-  const base=shown||edu||1;
-  const rows=steps.map((s,i)=>{
-    const v=f[s[0]], p=pct(v,base);
-    const prev=i>0?f[steps[i-1][0]]:v, drop=prev-v, dp=pct(drop,prev);
-    const dropTxt=i===0?'':(drop>0?`↓ ${drop} dropped (−${dp}%)`:'✓ all continued');
-    const tipHtml=`${esc(s[1])} <span class="m">(${s[2]})</span>: <b>${nf(v)}</b> <span class="m">· ${p}% of shown</span>${i>0?`<br><span class="m">↓ ${drop} from ${esc(steps[i-1][1])}</span>`:''}`;
-    return `<div class="fnl-step" data-tip="${encodeURIComponent(tipHtml)}"><div class="lbl"><span class="nm">${esc(s[1])}</span><span class="vl">${nf(v)} <small>${p}%</small></span></div>
-      <div class="trk"><div class="br" style="width:${p}%;background:${A}"></div></div>
-      <div class="dp ${drop>0?'':'zero'}">${dropTxt}</div></div>`;
+  // one funnel per app
+  document.getElementById('funnels').innerHTML=A.map(a=>{
+    const f=a.funnel, base=f.shown||1;
+    const rows=steps.map((s,i)=>{
+      const v=f[s[0]], p=pct(v,base);
+      const prev=i>0?f[steps[i-1][0]]:v, drop=prev-v, dp=pct(drop,prev);
+      const dropTxt=i===0?'':(drop>0?`↓ ${drop} dropped (−${dp}%)`:'✓ all continued');
+      const tipHtml=`<b>${esc(a.label)}</b><br>${esc(s[1])} <span class="m">(${s[2]})</span>: <b>${nf(v)}</b> <span class="m">· ${p}% of shown</span>`;
+      return `<div class="fnl-step" data-tip="${encodeURIComponent(tipHtml)}"><div class="lbl"><span class="nm">${esc(s[1])}</span><span class="vl">${nf(v)} <small>${p}%</small></span></div>
+        <div class="trk"><div class="br" style="width:${p}%;background:${a.color}"></div></div>
+        <div class="dp ${drop>0?'':'zero'}">${dropTxt}</div></div>`;
+    }).join('');
+    const camps=(a.shown_by_campaign||[]).map(c=>`<b>${c.id}</b> ${nf(c.users)}`).join(' · ');
+    const pend=f.shown===0?`<div class="pending">⏳ No impressions yet — campaign ${a.campaigns.join(' / ')} has not fired. Numbers appear once it goes live.</div>`:'';
+    return `<div class="fpanel" style="--c:${a.color}"><div class="ftitle"><span class="sw"></span>${esc(a.label)}</div>
+      <div class="fsub">${esc(a.note)}<br>Campaigns: ${camps||'—'} · ${nf(f.shown)} shown → ${nf(f.completed)} completed (<b>${pct(f.completed,f.shown)}%</b>)</div>${rows}${pend}</div>`;
   }).join('');
-  const BC=D.shown_by_campaign||[];
-  const bcSum=BC.reduce((a,c)=>a+c.users,0), overlap=bcSum-shown;
-  const bcTxt=BC.map(c=>`<b>${c.id}</b> ${nf(c.users)}`).join(' · ');
-  document.getElementById('funnel').innerHTML=
-    `<div class="ftitle"><span class="sw"></span>Offer Education in-app</div>
-     <div class="fsub">Campaigns: ${bcTxt||'—'} · live since ${D.start_date||'—'} · ${nf(shown)} shown → ${nf(done)} completed (<b>${pct(done,shown)}%</b>)
-     ${overlap>0?`<br><b>${overlap}</b> CSP${overlap>1?'s':''} saw both campaigns — counted once here, so the per-campaign numbers above sum to more than ${nf(shown)}.`:''}<br>
-     Completed = tapped any quiz option, which means they read the education and attempted the quiz. Biggest drop-off: education → quiz (<b>${pct(done,edu)}%</b> of readers finished).</div>${rows}`;
   document.querySelectorAll('.fnl-step').forEach(el=>{
     el.addEventListener('mousemove',e=>showTip(decodeURIComponent(el.dataset.tip),e.clientX,e.clientY));
     el.addEventListener('mouseleave',hideTip);
   });
 
-  // tap position — all 3 options show the SAME sentence, so this is habit, not preference
-  const O=D.options||[], oSum=O.reduce((a,o)=>a+o.users,0);
-  document.getElementById('opts').innerHTML=O.map(o=>{
-    const p=oSum?Math.round(o.users/oSum*100):0;
-    return `<div class="qrow"><div class="ql"><span class="qt">${esc(o.label||('Option '+o.option))}</span>
-      <b>${p}% <small style="color:var(--faint)">(${o.users})</small></b></div>
-      <div class="qbar"><span style="width:${p}%"></span></div></div>`;
-  }).join('') || '<div style="color:var(--faint);font-size:13px">No answers yet.</div>';
+  // how the split is done + its caveats
+  const U=D.unattributed||{edu_ok:0,completed:0};
+  let an=`<b>How the two apps are told apart.</b> Only <code>inApp_Shown</code> carries a campaign id. `+
+    `The <code>CSP_Offer_*</code> events are fired by the in-app HTML, which is identical in both apps, so they carry no app marker. `+
+    `Each app's funnel is therefore built by <b>identity</b>: profiles shown that app's campaign, intersected with profiles that fired each later event.`;
+  if(U.edu_ok||U.completed) an+=`<br><br>⚠️ <b>${U.edu_ok} profile(s) read the education and ${U.completed} completed, but have no <code>inApp_Shown</code> record in either app</b>, so they are in neither funnel above. Usually test devices or impressions that predate tracking — if this number grows, the app split is under-counting.`;
+  if(D.both_apps) an+=`<br><br>⚠️ <b>${D.both_apps} profile(s) were shown both apps' campaigns</b> and are counted in both funnels.`;
+  document.getElementById('attrnote').innerHTML=an;
+
+  document.getElementById('chips').innerHTML=A.map(a=>
+    `<span class="chip" style="color:${a.color};border-color:${a.color}33">${esc(a.label)}: ${a.campaigns.join(', ')}</span>`).join('');
+
+  // tap position — all 3 options are the SAME sentence, so this is habit not preference
+  const rows=A.map(a=>{
+    const oSum=a.options.reduce((t,o)=>t+o.users,0);
+    return a.options.map(o=>{
+      const p=oSum?Math.round(o.users/oSum*100):0;
+      return `<div class="qrow"><div class="ql"><span class="qt">${esc(a.label)} · ${esc(o.label)}</span>
+        <b>${p}% <small style="color:var(--faint)">(${o.users})</small></b></div>
+        <div class="qbar"><span style="width:${p}%;background:${a.color}"></span></div></div>`;
+    }).join('');
+  }).join('');
+  document.getElementById('opts').innerHTML=rows;
   document.getElementById('optnote').innerHTML=
     `<b>All three options are identical</b> — every one reads “${esc(D.option_answer||'')}”. `+
-    `Whichever they tap, the CSP reads the same sentence, so there is nothing to compare and nothing to get wrong. `+
-    `This chart is therefore <b>tap position, not preference</b>: a heavy skew to <b>1st (top)</b> just means people tap the first thing they see.`;
+    `So this is <b>tap position, not preference</b>: a skew to <b>1st (top)</b> just means people tap the first thing they see.`;
 
   drawTrend(D);
   document.getElementById('foot').innerHTML='Events: '+steps.map(s=>`<code>${s[2]}</code>`).join(' ')+
-    `<br><code>inApp_Shown</code> filtered to <code>campaign_id</code> in ${(D.campaign_ids||[]).map(c=>`<code>${c}</code>`).join(' , ')}. Both campaigns run the same in-app, so the <code>CSP_Offer_*</code> events cover both. Region <code>${D.region||'eu1'}</code>. Unique users per event, deduped on profile identity across campaigns.`;
+    `<br>Region <code>${D.region||'eu1'}</code> · live since ${D.start_date||'—'} · unique users per event, deduped on profile identity.`;
 }
 
 function drawTrend(D){
   const svg=document.getElementById('trend'), W=520,H=220,pad={l:34,r:14,t:14,b:26};
-  const days=(D.daily||[]).map(d=>d.date);
-  if(!days.length){svg.innerHTML='<text class="tick" x="260" y="110" text-anchor="middle">No data yet</text>';return;}
-  const maxY=Math.max(1,...D.daily.map(d=>Math.max(d.shown,d.completed)));
+  const A=(D.apps||[]).filter(a=>a.daily&&a.daily.length);
+  if(!A.length){svg.innerHTML='<text class="tick" x="260" y="110" text-anchor="middle">No data yet</text>';return;}
+  const days=[...new Set(A.flatMap(a=>a.daily.map(d=>d.date)))].sort();
+  const maxY=Math.max(1,...A.flatMap(a=>a.daily.map(d=>Math.max(d.shown,d.completed))));
   const x=i=>pad.l+(days.length<2?(W-pad.l-pad.r)/2:i/(days.length-1)*(W-pad.l-pad.r));
   const y=v=>H-pad.b-(v/maxY)*(H-pad.t-pad.b);
   let g='';
   for(let t=0;t<=maxY;t+=Math.max(1,Math.ceil(maxY/4))){g+=`<line class="gridline" x1="${pad.l}" y1="${y(t)}" x2="${W-pad.r}" y2="${y(t)}"/><text class="tick" x="${pad.l-8}" y="${y(t)+4}" text-anchor="end">${t}</text>`;}
   days.forEach((d,i)=>{g+=`<text class="tick" x="${x(i)}" y="${H-8}" text-anchor="middle">${d.slice(5)}</text>`;});
-  [['shown','#D9008D','Shown'],['completed','#8B5CF6','Completed']].forEach(([k,col,lab])=>{
-    if(days.length>1){
-      const pts=D.daily.map((d,i)=>`${x(i)},${y(d[k])}`).join(' ');
-      g+=`<polyline points="${pts}" fill="none" stroke="${col}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>`;
-    }
-    D.daily.forEach((d,i)=>{g+=`<circle class="dot" cx="${x(i)}" cy="${y(d[k])}" r="5" fill="#fff" stroke="${col}" stroke-width="2.5" data-t="${encodeURIComponent(`<b>${lab}</b><br>${d.date}: <b>${d[k]}</b> users`)}"/>`;});
+  A.forEach(a=>{
+    const byDay={}; a.daily.forEach(d=>byDay[d.date]=d);
+    [['shown',1,'Shown'],['completed',.45,'Completed']].forEach(([k,op,lab])=>{
+      const pts=days.filter(d=>byDay[d]).map(d=>`${x(days.indexOf(d))},${y(byDay[d][k])}`).join(' ');
+      if(days.length>1&&pts) g+=`<polyline points="${pts}" fill="none" stroke="${a.color}" stroke-opacity="${op}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"${k==='completed'?' stroke-dasharray="4 3"':''}/>`;
+      days.forEach((d,i)=>{ if(!byDay[d])return;
+        g+=`<circle class="dot" cx="${x(i)}" cy="${y(byDay[d][k])}" r="5" fill="#fff" stroke="${a.color}" stroke-opacity="${op}" stroke-width="2.5" data-t="${encodeURIComponent(`<b>${esc(a.label)} · ${lab}</b><br>${d}: <b>${byDay[d][k]}</b> users`)}"/>`;});
+    });
   });
   svg.innerHTML=g;
   svg.querySelectorAll('.dot').forEach(el=>{
