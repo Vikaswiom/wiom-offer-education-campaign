@@ -1,5 +1,5 @@
 {
-  "generated": "2026-07-16 18:04",
+  "generated": "2026-07-16 18:16",
   "sample": false,
   "region": "eu1",
   "campaign_id": "1784201594",
@@ -28,33 +28,34 @@
     ]
   ],
   "funnel": {
-    "shown": 10,
-    "edu_ok": 9,
-    "quiz_answered": 4,
-    "quiz_closed": 4
+    "shown": 11,
+    "edu_ok": 10,
+    "quiz_answered": 6,
+    "quiz_closed": 6
   },
+  "option_answer": "आपका सही अमाउंट आपके व्योम ऐप में दिखेगा, वही फाइनल अमाउंट होगा।",
   "options": [
     {
       "option": "1",
-      "text": "आपका सही अमाउंट आपके व्योम ऐप में दिखेगा, वही फाइनल अमाउंट होगा।",
-      "users": 1
+      "label": "1st (top)",
+      "users": 3
     },
     {
       "option": "2",
-      "text": "जो अमाउंट ऐप में दिख रहा है, बस वही देना होगा।",
+      "label": "2nd (middle)",
       "users": 2
     },
     {
       "option": "3",
-      "text": "अमाउंट मैं नहीं तय करता — आपका ऐप दिखाता है।",
+      "label": "3rd (bottom)",
       "users": 1
     }
   ],
   "daily": [
     {
       "date": "2026-07-16",
-      "shown": 10,
-      "answered": 4
+      "shown": 11,
+      "answered": 6
     }
   ]
 }

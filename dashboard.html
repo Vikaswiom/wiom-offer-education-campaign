@@ -102,11 +102,10 @@ section{margin-top:24px;}
 
   <section class="two">
     <div>
-      <div class="h2">Which wording they picked</div>
+      <div class="h2">Which position they tapped</div>
       <div class="panel">
         <div class="qgrid" id="opts"></div>
-        <div class="note"><b>Not a score.</b> All three options carry the correct message, so every answer
-        reports <code>correct: yes</code>. This is a preference read — which framing CSPs tap.</div>
+        <div class="note" id="optnote"></div>
       </div>
     </div>
     <div>
@@ -120,7 +119,7 @@ section{margin-top:24px;}
 <div class="tt" id="tip"></div>
 
 <script>
-const FALLBACK={"generated":"(local preview — sample data)","sample":true,"campaign_id":"1784201594","region":"eu1","start_date":"2026-07-16","funnel_steps":[["shown","Shown (in-app)","inApp_Shown"],["edu_ok","Tapped ठीक है","CSP_Offer_Education_OK_Clicked"],["quiz_answered","Answered quiz","CSP_Offer_Quiz_Answered"],["quiz_closed","Tapped ठीक है, समझ गया","CSP_Offer_Quiz_Closed"]],"funnel":{"shown":10,"edu_ok":9,"quiz_answered":4,"quiz_closed":4},"options":[{"option":"1","text":"आपका सही अमाउंट आपके व्योम ऐप में दिखेगा, वही फाइनल अमाउंट होगा।","users":1},{"option":"2","text":"जो अमाउंट ऐप में दिख रहा है, बस वही देना होगा।","users":2},{"option":"3","text":"अमाउंट मैं नहीं तय करता — आपका ऐप दिखाता है।","users":1}],"daily":[{"date":"2026-07-16","shown":10,"answered":4}]};
+const FALLBACK={"generated":"(local preview — sample data)","sample":true,"campaign_id":"1784201594","region":"eu1","start_date":"2026-07-16","funnel_steps":[["shown","Shown (in-app)","inApp_Shown"],["edu_ok","Tapped ठीक है","CSP_Offer_Education_OK_Clicked"],["quiz_answered","Answered quiz","CSP_Offer_Quiz_Answered"],["quiz_closed","Tapped ठीक है, समझ गया","CSP_Offer_Quiz_Closed"]],"funnel":{"shown":10,"edu_ok":9,"quiz_answered":4,"quiz_closed":4},"option_answer":"आपका सही अमाउंट आपके व्योम ऐप में दिखेगा, वही फाइनल अमाउंट होगा।","options":[{"option":"1","label":"1st (top)","users":1},{"option":"2","label":"2nd (middle)","users":2},{"option":"3","label":"3rd (bottom)","users":1}],"daily":[{"date":"2026-07-16","shown":10,"answered":4}]};
 const tip=document.getElementById('tip');
 function showTip(html,x,y){tip.innerHTML=html;tip.style.opacity=1;const w=tip.offsetWidth;tip.style.left=Math.min(Math.max(x-w/2,8),innerWidth-w-8)+'px';tip.style.top=(y-tip.offsetHeight-12)+'px';}
 function hideTip(){tip.style.opacity=0;}
@@ -163,14 +162,18 @@ function render(D){
     el.addEventListener('mouseleave',hideTip);
   });
 
-  // option preference
+  // tap position — all 3 options show the SAME sentence, so this is habit, not preference
   const O=D.options||[], oSum=O.reduce((a,o)=>a+o.users,0);
   document.getElementById('opts').innerHTML=O.map(o=>{
     const p=oSum?Math.round(o.users/oSum*100):0;
-    return `<div class="qrow"><div class="ql"><span class="qt">Option ${o.option} — "${esc(o.text)}"</span>
+    return `<div class="qrow"><div class="ql"><span class="qt">${esc(o.label||('Option '+o.option))}</span>
       <b>${p}% <small style="color:var(--faint)">(${o.users})</small></b></div>
       <div class="qbar"><span style="width:${p}%"></span></div></div>`;
   }).join('') || '<div style="color:var(--faint);font-size:13px">No answers yet.</div>';
+  document.getElementById('optnote').innerHTML=
+    `<b>All three options are identical</b> — every one reads “${esc(D.option_answer||'')}”. `+
+    `Whichever they tap, the CSP reads the same sentence, so there is nothing to compare and nothing to get wrong. `+
+    `This chart is therefore <b>tap position, not preference</b>: a heavy skew to <b>1st (top)</b> just means people tap the first thing they see.`;
 
   drawTrend(D);
   document.getElementById('foot').innerHTML='Events: '+steps.map(s=>`<code>${s[2]}</code>`).join(' ')+

@@ -40,12 +40,11 @@ STEP_LABELS = {
     "quiz_answered": "Answered quiz",
     "quiz_closed":   "Tapped ठीक है, समझ गया",
 }
-# All three options carry the correct message — this is a preference split, not a score.
-OPTION_TEXT = {
-    "1": "आपका सही अमाउंट आपके व्योम ऐप में दिखेगा, वही फाइनल अमाउंट होगा।",
-    "2": "जो अमाउंट ऐप में दिख रहा है, बस वही देना होगा।",
-    "3": "अमाउंट मैं नहीं तय करता — आपका ऐप दिखाता है।",
-}
+# All three options are IDENTICAL — deliberately. The CSP reads the same sentence
+# whichever one they tap, so there is nothing to compare and nothing to get wrong.
+# That means `option` records only WHICH POSITION was tapped, not which wording.
+OPTION_ANSWER = "आपका सही अमाउंट आपके व्योम ऐप में दिखेगा, वही फाइनल अमाउंट होगा।"
+OPTION_LABEL = {"1": "1st (top)", "2": "2nd (middle)", "3": "3rd (bottom)"}
 
 # ---- creds ------------------------------------------------------------------
 def load_creds():
@@ -157,7 +156,7 @@ def main():
                    "shown": len(daily[d]["shown"]),
                    "answered": len(daily[d]["quiz_answered"])} for d in days]
 
-    option_list = [{"option": o, "text": OPTION_TEXT[o], "users": len(opts[o])} for o in ("1", "2", "3")]
+    option_list = [{"option": o, "label": OPTION_LABEL[o], "users": len(opts[o])} for o in ("1", "2", "3")]
 
     out = {
         "generated": datetime.datetime.now().strftime("%Y-%m-%d %H:%M"),
@@ -168,6 +167,7 @@ def main():
         "start_date": f"{frm[:4]}-{frm[4:6]}-{frm[6:8]}",
         "funnel_steps": [[k, STEP_LABELS[k], ev] for ev, k in FUNNEL],
         "funnel": funnel,
+        "option_answer": OPTION_ANSWER,   # the single sentence all 3 options show
         "options": option_list,
         "daily": daily_list,
     }
