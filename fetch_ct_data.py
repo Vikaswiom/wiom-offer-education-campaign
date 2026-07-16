@@ -30,7 +30,7 @@ CAMPAIGN_IDS = ["1784201594", "1784207437"]
 START_DATE   = "20260716"                    # campaign launch (YYYYMMDD); override via argv[1]
 ACCENT       = "#D9008D"
 
-# funnel event name -> data key.  inApp_Shown is filtered to CAMPAIGN_ID; the
+# funnel event name -> data key.  inApp_Shown is filtered to CAMPAIGN_IDS; the
 # CSP_Offer_* events are unique to this in-app so they need no filter.
 #
 # Tapping ANY quiz option means the CSP read the education AND attempted the quiz, so
