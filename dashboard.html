@@ -122,18 +122,9 @@ section{margin-top:24px;}
     </div>
   </section>
 
-  <section class="two">
-    <div>
-      <div class="h2">Which position they tapped</div>
-      <div class="panel">
-        <div class="qgrid" id="opts"></div>
-        <div class="note" id="optnote"></div>
-      </div>
-    </div>
-    <div>
-      <div class="h2">Per day</div>
-      <div class="panel"><svg class="chart" id="trend" viewBox="0 0 520 220" preserveAspectRatio="none"></svg></div>
-    </div>
+  <section>
+    <div class="h2">Per day</div>
+    <div class="panel"><svg class="chart" id="trend" viewBox="0 0 520 220" preserveAspectRatio="none"></svg></div>
   </section>
 
   <p class="foot" id="foot"></p>
@@ -219,21 +210,6 @@ function render(D){
 
   document.getElementById('chips').innerHTML=A.map(a=>
     `<span class="chip" style="color:${a.color};border-color:${a.color}33">${esc(a.label)}: ${a.campaigns.join(', ')}</span>`).join('');
-
-  // tap position — all 3 options are the SAME sentence, so this is habit not preference
-  const rows=A.map(a=>{
-    const oSum=a.options.reduce((t,o)=>t+o.users,0);
-    return a.options.map(o=>{
-      const p=oSum?Math.round(o.users/oSum*100):0;
-      return `<div class="qrow"><div class="ql"><span class="qt">${esc(a.label)} · ${esc(o.label)}</span>
-        <b>${p}% <small style="color:var(--faint)">(${o.users})</small></b></div>
-        <div class="qbar"><span style="width:${p}%;background:${a.color}"></span></div></div>`;
-    }).join('');
-  }).join('');
-  document.getElementById('opts').innerHTML=rows;
-  document.getElementById('optnote').innerHTML=
-    `<b>All three options are identical</b> — every one reads “${esc(D.option_answer||'')}”. `+
-    `So this is <b>tap position, not preference</b>: a skew to <b>1st (top)</b> just means people tap the first thing they see.`;
 
   drawTrend(D);
   document.getElementById('foot').innerHTML='Events: '+steps.map(s=>`<code>${s[2]}</code>`).join(' ')+
