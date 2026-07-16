@@ -28,17 +28,20 @@ ACCENT      = "#D9008D"
 
 # funnel event name -> data key.  inApp_Shown is filtered to CAMPAIGN_ID; the
 # CSP_Offer_* events are unique to this in-app so they need no filter.
+#
+# Tapping ANY quiz option means the CSP read the education AND attempted the quiz,
+# so CSP_Offer_Education_Quiz_Completed is the single completion signal. The old
+# CSP_Offer_Quiz_Closed was dropped: it auto-fired on dismiss, so it always equalled
+# the answer count and carried no information.
 FUNNEL = [
-    ("inApp_Shown",                    "shown"),
-    ("CSP_Offer_Education_OK_Clicked", "edu_ok"),
-    ("CSP_Offer_Quiz_Answered",        "quiz_answered"),
-    ("CSP_Offer_Quiz_Closed",          "quiz_closed"),
+    ("inApp_Shown",                          "shown"),
+    ("CSP_Offer_Education_OK_Clicked",       "edu_ok"),
+    ("CSP_Offer_Education_Quiz_Completed",   "completed"),
 ]
 STEP_LABELS = {
-    "shown":         "Shown (in-app)",
-    "edu_ok":        "Tapped ठीक है",
-    "quiz_answered": "Answered quiz",
-    "quiz_closed":   "Tapped ठीक है, समझ गया",
+    "shown":     "Shown (in-app)",
+    "edu_ok":    "Read education → tapped ठीक है",
+    "completed": "Completed (education + quiz)",
 }
 # All three options are IDENTICAL — deliberately. The CSP reads the same sentence
 # whichever one they tap, so there is nothing to compare and nothing to get wrong.
@@ -91,9 +94,20 @@ def _req(url, method="GET", body=None):
     raise RuntimeError(f"CleverTap API unreachable after {MAX_ATTEMPTS} attempts ({last}): {url}")
 
 def export_event(event_name, frm, to):
-    """Yield every event record {profile, ts, event_props} for the date range."""
+    """Yield every event record {profile, ts, event_props} for the date range.
+
+    CleverTap 400s on an event name it has never seen. That is the normal state for
+    a freshly renamed event before the campaign is republished, so treat it as zero
+    rather than crashing the whole refresh.
+    """
     url = f"{BASE}/1/events.json?batch_size=5000"
-    resp = _req(url, method="POST", body={"event_name": event_name, "from": int(frm), "to": int(to)})
+    try:
+        resp = _req(url, method="POST", body={"event_name": event_name, "from": int(frm), "to": int(to)})
+    except urllib.error.HTTPError as e:
+        if e.code == 400:
+            print(f"  {event_name:36s} -> unknown to CleverTap yet (HTTP 400), counting as 0")
+            return
+        raise
     cursor = resp.get("cursor")
     seen_any = False
     while cursor:
@@ -139,11 +153,11 @@ def main():
             if not ident:
                 continue
             uniq[key].add(ident); kept += 1
-            if key in ("shown", "quiz_answered"):
+            if key in ("shown", "completed"):
                 day = str(rec.get("ts", ""))[:8]    # ts = YYYYMMDDHHMMSS, not epoch
                 if len(day) == 8:
-                    daily.setdefault(day, {"shown": set(), "quiz_answered": set()})[key].add(ident)
-            if key == "quiz_answered":
+                    daily.setdefault(day, {"shown": set(), "completed": set()})[key].add(ident)
+            if key == "completed":
                 o = str(props_of(rec).get("option", ""))
                 if o in opts:
                     opts[o].add(ident)
@@ -154,7 +168,7 @@ def main():
     days = sorted(daily.keys())
     daily_list = [{"date": f"{d[:4]}-{d[4:6]}-{d[6:8]}",
                    "shown": len(daily[d]["shown"]),
-                   "answered": len(daily[d]["quiz_answered"])} for d in days]
+                   "completed": len(daily[d]["completed"])} for d in days]
 
     option_list = [{"option": o, "label": OPTION_LABEL[o], "users": len(opts[o])} for o in ("1", "2", "3")]
 
@@ -175,12 +189,11 @@ def main():
     json.dump(out, open(path, "w", encoding="utf-8"), ensure_ascii=False, indent=2)
     print("wrote", path)
 
-    s, e = funnel["shown"], funnel["edu_ok"]
-    a, c = funnel["quiz_answered"], funnel["quiz_closed"]
+    s, e, c = funnel["shown"], funnel["edu_ok"], funnel["completed"]
     p = lambda x, y: round(100 * x / y) if y else 0
-    print(f"  shown={s}  edu_ok={e} ({p(e,s)}%)  answered={a} ({p(a,e)}% of edu_ok)  closed={c} ({p(c,a)}% of answered)")
-    if a and sum(len(opts[o]) for o in opts) == 0:
-        print("  WARNING: quiz answers found but no `option` prop matched — check the prop name/values.")
+    print(f"  shown={s}  edu_ok={e} ({p(e,s)}%)  completed={c} ({p(c,e)}% of edu_ok, {p(c,s)}% of shown)")
+    if c and sum(len(opts[o]) for o in opts) == 0:
+        print("  WARNING: completions found but no `option` prop matched — check the prop name/values.")
 
 if __name__ == "__main__":
     main()

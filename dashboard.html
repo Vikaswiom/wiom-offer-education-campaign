@@ -84,8 +84,8 @@ section{margin-top:24px;}
     <p class="sub">हर कस्टमर को मिलता है अलग अलग ऑफर · in-app education + quiz funnel, from CleverTap events.</p>
     <div class="banner" id="banner">⚠️ Showing <b>sample data</b> — run <code>fetch_ct_data.py</code> to load live CleverTap numbers.</div>
     <div class="legend">
-      <span class="lg"><span class="sw" style="background:var(--accent)"></span>Funnel</span>
-      <span class="lg"><span class="sw" style="background:var(--alt)"></span>Option preference</span>
+      <span class="lg"><span class="sw" style="background:var(--accent)"></span>Shown</span>
+      <span class="lg"><span class="sw" style="background:var(--alt)"></span>Completed</span>
       <span class="updated" id="updated"></span>
     </div>
   </header>
@@ -119,7 +119,7 @@ section{margin-top:24px;}
 <div class="tt" id="tip"></div>
 
 <script>
-const FALLBACK={"generated":"(local preview — sample data)","sample":true,"campaign_id":"1784201594","region":"eu1","start_date":"2026-07-16","funnel_steps":[["shown","Shown (in-app)","inApp_Shown"],["edu_ok","Tapped ठीक है","CSP_Offer_Education_OK_Clicked"],["quiz_answered","Answered quiz","CSP_Offer_Quiz_Answered"],["quiz_closed","Tapped ठीक है, समझ गया","CSP_Offer_Quiz_Closed"]],"funnel":{"shown":10,"edu_ok":9,"quiz_answered":4,"quiz_closed":4},"option_answer":"आपका सही अमाउंट आपके व्योम ऐप में दिखेगा, वही फाइनल अमाउंट होगा।","options":[{"option":"1","label":"1st (top)","users":1},{"option":"2","label":"2nd (middle)","users":2},{"option":"3","label":"3rd (bottom)","users":1}],"daily":[{"date":"2026-07-16","shown":10,"answered":4}]};
+const FALLBACK={"generated":"(local preview — sample data)","sample":true,"campaign_id":"1784201594","region":"eu1","start_date":"2026-07-16","funnel_steps":[["shown","Shown (in-app)","inApp_Shown"],["edu_ok","Read education → tapped ठीक है","CSP_Offer_Education_OK_Clicked"],["completed","Completed (education + quiz)","CSP_Offer_Education_Quiz_Completed"]],"funnel":{"shown":11,"edu_ok":10,"completed":6},"option_answer":"आपका सही अमाउंट आपके व्योम ऐप में दिखेगा, वही फाइनल अमाउंट होगा।","options":[{"option":"1","label":"1st (top)","users":1},{"option":"2","label":"2nd (middle)","users":2},{"option":"3","label":"3rd (bottom)","users":1}],"daily":[{"date":"2026-07-16","shown":11,"completed":6}]};
 const tip=document.getElementById('tip');
 function showTip(html,x,y){tip.innerHTML=html;tip.style.opacity=1;const w=tip.offsetWidth;tip.style.left=Math.min(Math.max(x-w/2,8),innerWidth-w-8)+'px';tip.style.top=(y-tip.offsetHeight-12)+'px';}
 function hideTip(){tip.style.opacity=0;}
@@ -132,12 +132,12 @@ function render(D){
   document.getElementById('banner').classList.toggle('show',!!D.sample);
   document.getElementById('updated').textContent='Updated: '+(D.generated||'');
 
-  const shown=f.shown, edu=f.edu_ok, ans=f.quiz_answered, clo=f.quiz_closed;
+  const shown=f.shown, edu=f.edu_ok, done=f.completed;
   const kpi=[
     ['Shown (unique)', nf(shown), 'in-app impressions · campaign '+D.campaign_id],
-    ['Tapped ठीक है', nf(edu), '<b>'+pct(edu,shown)+'%</b> of shown'],
-    ['Answered quiz', nf(ans), '<b>'+pct(ans,edu)+'%</b> of those who tapped ठीक है'],
-    ['Completed', nf(clo), '<b>'+pct(clo,shown)+'%</b> full funnel']
+    ['Read education', nf(edu), '<b>'+pct(edu,shown)+'%</b> of shown'],
+    ['Completed', nf(done), '<b>'+pct(done,edu)+'%</b> of those who read it'],
+    ['Completion rate', pct(done,shown)+'%', 'education + quiz ÷ shown']
   ];
   document.getElementById('kpis').innerHTML=kpi.map(k=>
     `<div class="kpi"><div class="k">${k[0]}</div><div class="v">${k[1]}</div><div class="d">${k[2]}</div></div>`).join('');
@@ -155,8 +155,8 @@ function render(D){
   }).join('');
   document.getElementById('funnel').innerHTML=
     `<div class="ftitle"><span class="sw"></span>Offer Education in-app</div>
-     <div class="fsub">Campaign <b>${D.campaign_id}</b> · live since ${D.start_date||'—'} · ${nf(shown)} shown → ${nf(clo)} completed (<b>${pct(clo,shown)}%</b>)<br>
-     Biggest drop-off: education → quiz (<b>${pct(ans,edu)}%</b> of those who read it engaged with the quiz)</div>${rows}`;
+     <div class="fsub">Campaign <b>${D.campaign_id}</b> · live since ${D.start_date||'—'} · ${nf(shown)} shown → ${nf(done)} completed (<b>${pct(done,shown)}%</b>)<br>
+     Completed = tapped any quiz option, which means they read the education and attempted the quiz. Biggest drop-off: education → quiz (<b>${pct(done,edu)}%</b> of readers finished).</div>${rows}`;
   document.querySelectorAll('.fnl-step').forEach(el=>{
     el.addEventListener('mousemove',e=>showTip(decodeURIComponent(el.dataset.tip),e.clientX,e.clientY));
     el.addEventListener('mouseleave',hideTip);
@@ -184,13 +184,13 @@ function drawTrend(D){
   const svg=document.getElementById('trend'), W=520,H=220,pad={l:34,r:14,t:14,b:26};
   const days=(D.daily||[]).map(d=>d.date);
   if(!days.length){svg.innerHTML='<text class="tick" x="260" y="110" text-anchor="middle">No data yet</text>';return;}
-  const maxY=Math.max(1,...D.daily.map(d=>Math.max(d.shown,d.answered)));
+  const maxY=Math.max(1,...D.daily.map(d=>Math.max(d.shown,d.completed)));
   const x=i=>pad.l+(days.length<2?(W-pad.l-pad.r)/2:i/(days.length-1)*(W-pad.l-pad.r));
   const y=v=>H-pad.b-(v/maxY)*(H-pad.t-pad.b);
   let g='';
   for(let t=0;t<=maxY;t+=Math.max(1,Math.ceil(maxY/4))){g+=`<line class="gridline" x1="${pad.l}" y1="${y(t)}" x2="${W-pad.r}" y2="${y(t)}"/><text class="tick" x="${pad.l-8}" y="${y(t)+4}" text-anchor="end">${t}</text>`;}
   days.forEach((d,i)=>{g+=`<text class="tick" x="${x(i)}" y="${H-8}" text-anchor="middle">${d.slice(5)}</text>`;});
-  [['shown','#D9008D','Shown'],['answered','#8B5CF6','Answered']].forEach(([k,col,lab])=>{
+  [['shown','#D9008D','Shown'],['completed','#8B5CF6','Completed']].forEach(([k,col,lab])=>{
     if(days.length>1){
       const pts=D.daily.map((d,i)=>`${x(i)},${y(d[k])}`).join(' ');
       g+=`<polyline points="${pts}" fill="none" stroke="${col}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>`;

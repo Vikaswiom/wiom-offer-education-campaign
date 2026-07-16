@@ -1,5 +1,5 @@
 {
-  "generated": "2026-07-16 18:16",
+  "generated": "2026-07-16 18:25",
   "sample": false,
   "region": "eu1",
   "campaign_id": "1784201594",
@@ -13,49 +13,43 @@
     ],
     [
       "edu_ok",
-      "Tapped ठीक है",
+      "Read education → tapped ठीक है",
       "CSP_Offer_Education_OK_Clicked"
     ],
     [
-      "quiz_answered",
-      "Answered quiz",
-      "CSP_Offer_Quiz_Answered"
-    ],
-    [
-      "quiz_closed",
-      "Tapped ठीक है, समझ गया",
-      "CSP_Offer_Quiz_Closed"
+      "completed",
+      "Completed (education + quiz)",
+      "CSP_Offer_Education_Quiz_Completed"
     ]
   ],
   "funnel": {
     "shown": 11,
-    "edu_ok": 10,
-    "quiz_answered": 6,
-    "quiz_closed": 6
+    "edu_ok": 11,
+    "completed": 0
   },
   "option_answer": "आपका सही अमाउंट आपके व्योम ऐप में दिखेगा, वही फाइनल अमाउंट होगा।",
   "options": [
     {
       "option": "1",
       "label": "1st (top)",
-      "users": 3
+      "users": 0
     },
     {
       "option": "2",
       "label": "2nd (middle)",
-      "users": 2
+      "users": 0
     },
     {
       "option": "3",
       "label": "3rd (bottom)",
-      "users": 1
+      "users": 0
     }
   ],
   "daily": [
     {
       "date": "2026-07-16",
       "shown": 11,
-      "answered": 6
+      "completed": 0
     }
   ]
 }
