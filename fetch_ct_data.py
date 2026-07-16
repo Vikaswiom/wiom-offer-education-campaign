@@ -29,14 +29,15 @@ ACCENT      = "#D9008D"
 # funnel event name -> data key.  inApp_Shown is filtered to CAMPAIGN_ID; the
 # CSP_Offer_* events are unique to this in-app so they need no filter.
 #
-# Tapping ANY quiz option means the CSP read the education AND attempted the quiz,
-# so CSP_Offer_Education_Quiz_Completed is the single completion signal. The old
-# CSP_Offer_Quiz_Closed was dropped: it auto-fired on dismiss, so it always equalled
-# the answer count and carried no information.
+# Tapping ANY quiz option means the CSP read the education AND attempted the quiz, so
+# CSP_Offer_Quiz_Answered is the single completion signal. Name kept as-is (rather than
+# something like *_Completed) so the events already in CleverTap keep counting.
+# CSP_Offer_Quiz_Closed was dropped: it auto-fired on dismiss, so it always equalled the
+# answer count and carried no information.
 FUNNEL = [
-    ("inApp_Shown",                          "shown"),
-    ("CSP_Offer_Education_OK_Clicked",       "edu_ok"),
-    ("CSP_Offer_Education_Quiz_Completed",   "completed"),
+    ("inApp_Shown",                    "shown"),
+    ("CSP_Offer_Education_OK_Clicked", "edu_ok"),
+    ("CSP_Offer_Quiz_Answered",        "completed"),
 ]
 STEP_LABELS = {
     "shown":     "Shown (in-app)",

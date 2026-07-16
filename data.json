@@ -1,5 +1,5 @@
 {
-  "generated": "2026-07-16 18:25",
+  "generated": "2026-07-16 18:31",
   "sample": false,
   "region": "eu1",
   "campaign_id": "1784201594",
@@ -19,37 +19,37 @@
     [
       "completed",
       "Completed (education + quiz)",
-      "CSP_Offer_Education_Quiz_Completed"
+      "CSP_Offer_Quiz_Answered"
     ]
   ],
   "funnel": {
     "shown": 11,
     "edu_ok": 11,
-    "completed": 0
+    "completed": 7
   },
   "option_answer": "आपका सही अमाउंट आपके व्योम ऐप में दिखेगा, वही फाइनल अमाउंट होगा।",
   "options": [
     {
       "option": "1",
       "label": "1st (top)",
-      "users": 0
+      "users": 4
     },
     {
       "option": "2",
       "label": "2nd (middle)",
-      "users": 0
+      "users": 2
     },
     {
       "option": "3",
       "label": "3rd (bottom)",
-      "users": 0
+      "users": 1
     }
   ],
   "daily": [
     {
       "date": "2026-07-16",
       "shown": 11,
-      "completed": 0
+      "completed": 7
     }
   ]
 }
