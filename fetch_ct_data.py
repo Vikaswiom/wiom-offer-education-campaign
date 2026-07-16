@@ -64,6 +64,14 @@ STEP_LABELS = {
 OPTION_ANSWER = "आपका सही अमाउंट आपके व्योम ऐप में दिखेगा, वही फाइनल अमाउंट होगा।"
 OPTION_LABEL = {"1": "1st (top)", "2": "2nd (middle)", "3": "3rd (bottom)"}
 
+# Technician workaround: campaign 1784203536 reports no inApp_Shown, so campaign
+# attribution can never populate the Technician funnel. Instead, every funnel event
+# is filtered by this profile property (matched case-insensitively on key and value).
+# NOTE: this funnel is NOT a locked cohort — a step can exceed "shown" if technician
+# impressions are under-reported.
+ROLE_PROP = "role"
+TECH_ROLE_VALUE = "technician"
+
 ALL_CAMPAIGNS = [c for a in APPS for c in a["campaigns"]]
 
 # ---- creds ------------------------------------------------------------------
@@ -159,6 +167,15 @@ def campaign_of(rec):
             return c
     return None
 
+def is_tech(rec):
+    """True when the record's profile carries ROLE_PROP == TECH_ROLE_VALUE.
+    The events export returns custom profile fields under profile.profileData."""
+    pd = (rec.get("profile") or {}).get("profileData") or {}
+    for k, v in pd.items():
+        if str(k).strip().lower() == ROLE_PROP:
+            return str(v).strip().lower() == TECH_ROLE_VALUE
+    return False
+
 # ---- pull -------------------------------------------------------------------
 def main():
     frm = sys.argv[1] if len(sys.argv) > 1 else START_DATE
@@ -173,6 +190,12 @@ def main():
     edu_idents     = set()                                # identity
     comp_records   = []                                   # (identity, day, option)
 
+    # technician workaround: role-filtered collection, independent of campaign ids
+    tech           = {"shown": set(), "edu_ok": set(), "completed": set()}
+    tech_daily     = {}                                   # day -> {"shown","completed"} sets
+    tech_opts      = {"1": set(), "2": set(), "3": set()}
+    tech_cmp_seen  = {}                                   # raw campaign_id -> set(identity)
+
     for event_name, key in FUNNEL:
         n = kept = 0
         for rec in export_event(event_name, frm, to):
@@ -181,6 +204,13 @@ def main():
             if not ident:
                 continue
             if key == "shown":
+                if is_tech(rec):
+                    tech["shown"].add(ident)
+                    d = day_of(rec)
+                    if d:
+                        tech_daily.setdefault(d, {"shown": set(), "completed": set()})["shown"].add(ident)
+                    raw = str(props_of(rec).get("campaign_id", "")) or "(no campaign_id)"
+                    tech_cmp_seen.setdefault(raw, set()).add(ident)
                 cid = campaign_of(rec)
                 if not cid:
                     continue                              # some other campaign's impression
@@ -189,9 +219,19 @@ def main():
                 if d:
                     shown_day[cid].setdefault(d, set()).add(ident)
             elif key == "edu_ok":
+                if is_tech(rec):
+                    tech["edu_ok"].add(ident)
                 edu_idents.add(ident); kept += 1
             else:
-                comp_records.append((ident, day_of(rec), str(props_of(rec).get("option", ""))))
+                o = str(props_of(rec).get("option", ""))
+                if is_tech(rec):
+                    tech["completed"].add(ident)
+                    if o in tech_opts:
+                        tech_opts[o].add(ident)
+                    d = day_of(rec)
+                    if d:
+                        tech_daily.setdefault(d, {"shown": set(), "completed": set()})["completed"].add(ident)
+                comp_records.append((ident, day_of(rec), o))
                 kept += 1
         uniq_note = {"shown": len(set().union(*shown_by_cmp.values())) if shown_by_cmp else 0,
                      "edu_ok": len(edu_idents),
@@ -231,12 +271,34 @@ def main():
                        "completed": len(a_daily[d]["completed"])} for d in sorted(a_daily)],
         })
 
-    # profiles that acted but were never seen in any tracked inApp_Shown
+    # technician workaround: overwrite the tech app's campaign-locked numbers (always
+    # zero — campaign 1784203536 reports no impressions) with the role-filtered funnel
+    tech_idents = tech["shown"] | tech["edu_ok"] | tech["completed"]
+    seen = ", ".join(f"{cid} ({len(s)})" for cid, s in
+                     sorted(tech_cmp_seen.items(), key=lambda kv: -len(kv[1]))[:5]) or "none"
+    for a_out in apps_out:
+        if a_out["key"] != "tech":
+            continue
+        a_out["attribution"] = "role"
+        a_out["note"] = ("Technician app — attributed by profile property role = technician "
+                         "on every event (campaign attribution unusable: campaign "
+                         f"{'/'.join(a_out['campaigns'])} reports no impressions). "
+                         f"Campaign ids observed on technicians' inApp_Shown: {seen}.")
+        a_out["funnel"] = {k: len(tech[k]) for k in ("shown", "edu_ok", "completed")}
+        a_out["options"] = [{"option": o, "label": OPTION_LABEL[o], "users": len(tech_opts[o])}
+                            for o in ("1", "2", "3")]
+        a_out["daily"] = [{"date": f"{d[:4]}-{d[4:6]}-{d[6:8]}",
+                           "shown": len(tech_daily[d]["shown"]),
+                           "completed": len(tech_daily[d]["completed"])} for d in sorted(tech_daily)]
+
+    # profiles that acted but belong to no funnel above (no tracked inApp_Shown, not
+    # role = technician either)
     all_shown = set().union(*shown_by_cmp.values()) if shown_by_cmp else set()
-    unattributed = {"edu_ok": len(edu_idents - all_shown), "completed": len(comp_idents - all_shown)}
+    unattributed = {"edu_ok": len(edu_idents - all_shown - tech_idents),
+                    "completed": len(comp_idents - all_shown - tech_idents)}
+    # overlap between the two funnels' cohorts (CSP campaign-shown vs technician role)
     both_apps = len(
-        (set().union(*[shown_by_cmp[c] for c in APPS[0]["campaigns"]])) &
-        (set().union(*[shown_by_cmp[c] for c in APPS[1]["campaigns"]]))
+        (set().union(*[shown_by_cmp[c] for c in APPS[0]["campaigns"]])) & tech_idents
     ) if len(APPS) == 2 else 0
 
     out = {
@@ -257,12 +319,21 @@ def main():
     p = lambda x, y: round(100 * x / y) if y else 0
     for a in apps_out:
         f = a["funnel"]
-        print(f"  {a['label']:16s} shown={f['shown']:4d}  edu_ok={f['edu_ok']:4d} ({p(f['edu_ok'],f['shown'])}%)  "
+        tag = " (by role)" if a.get("attribution") == "role" else ""
+        print(f"  {a['label'] + tag:26s} shown={f['shown']:4d}  edu_ok={f['edu_ok']:4d} ({p(f['edu_ok'],f['shown'])}%)  "
               f"completed={f['completed']:4d} ({p(f['completed'],f['shown'])}%)")
+        if a.get("attribution") == "role":
+            # not a locked cohort: role-filtered steps are independent, so a later step
+            # exceeding "shown" means technician impressions are under-reported, not a bug
+            if f["edu_ok"] > f["shown"] or f["completed"] > f["shown"]:
+                print(f"  WARNING: {a['label']}: funnel steps exceed shown — "
+                      "technician inApp_Shown is under-reported")
+            continue
         # A locked cohort can only shrink: nobody may appear at a later step who was not shown.
         assert f["edu_ok"] <= f["shown"], f"{a['label']}: edu_ok {f['edu_ok']} > shown {f['shown']}"
         assert f["completed"] <= f["edu_ok"] or f["completed"] <= f["shown"], \
             f"{a['label']}: completed {f['completed']} exceeds its cohort"
+    print(f"  technician inApp_Shown campaign ids: {seen}")
     if unattributed["edu_ok"] or unattributed["completed"]:
         print(f"  unattributed (acted but no inApp_Shown in either app): "
               f"edu_ok={unattributed['edu_ok']}  completed={unattributed['completed']}")

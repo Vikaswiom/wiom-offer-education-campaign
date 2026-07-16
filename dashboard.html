@@ -184,12 +184,15 @@ function render(D){
       const dropTxt=i===0?'':(drop>0?`↓ ${drop} dropped (−${dp}%)`:'✓ all continued');
       const tipHtml=`<b>${esc(a.label)}</b><br>${esc(s[1])} <span class="m">(${s[2]})</span>: <b>${nf(v)}</b> <span class="m">· ${p}% of shown</span>`;
       return `<div class="fnl-step" data-tip="${encodeURIComponent(tipHtml)}"><div class="lbl"><span class="nm">${esc(s[1])}</span><span class="vl">${nf(v)} <small>${p}%</small></span></div>
-        <div class="trk"><div class="br" style="width:${p}%;background:${a.color}"></div></div>
+        <div class="trk"><div class="br" style="width:${Math.min(p,100)}%;background:${a.color}"></div></div>
         <div class="dp ${drop>0?'':'zero'}">${dropTxt}</div></div>`;
     }).join('');
     const camps=(a.shown_by_campaign||[]).map(c=>`<b>${c.id}</b> ${nf(c.users)}`).join(' · ');
-    const pend=f.shown===0?`<div class="pending">⏳ No impressions yet — campaign ${a.campaigns.join(' / ')} has not fired. Numbers appear once it goes live.</div>`:'';
-    const coh=f.shown?`<b>Cohort: the ${nf(f.shown)} profile${f.shown===1?'':'s'} shown this app's campaign.</b> Every step below counts only those ${nf(f.shown)}, followed down the funnel — nobody else can enter.`:'';
+    const isRole=a.attribution==='role', noAct=f.shown===0&&f.edu_ok===0&&f.completed===0;
+    const pend=isRole?(noAct?`<div class="pending">⏳ No technician-role activity yet — no event in the window carries a profile with <code>role = technician</code>.</div>`:''):
+      (f.shown===0?`<div class="pending">⏳ No impressions yet — campaign ${a.campaigns.join(' / ')} has not fired. Numbers appear once it goes live.</div>`:'');
+    const coh=isRole?`<b>Role cohort (workaround):</b> every step counts unique profiles with <code>role = technician</code> that fired the event — not locked to the shown set, so a step can exceed “Shown”.`:
+      (f.shown?`<b>Cohort: the ${nf(f.shown)} profile${f.shown===1?'':'s'} shown this app's campaign.</b> Every step below counts only those ${nf(f.shown)}, followed down the funnel — nobody else can enter.`:'');
     return `<div class="fpanel" style="--c:${a.color}"><div class="ftitle"><span class="sw"></span>${esc(a.label)}</div>
       <div class="fsub">${esc(a.note)}<br>Campaigns: ${camps||'—'} · ${nf(f.shown)} shown → ${nf(f.completed)} completed (<b>${pct(f.completed,f.shown)}%</b>)<br>${coh}</div>${rows}${pend}</div>`;
   }).join('');
@@ -204,7 +207,8 @@ function render(D){
     `If 100 CSPs are shown the CSP campaign, every later step counts how many <i>of those 100</i> got there — a CSP who never saw it cannot appear in the CSP funnel, and a technician can never leak into it.`+
     `<br><br><b>Why it needs identities.</b> Only <code>inApp_Shown</code> carries a campaign id. The <code>CSP_Offer_*</code> events are fired by the in-app HTML, which is byte-identical in both apps, so they carry no app marker at all. `+
     `The cohort is therefore built by intersecting profile identities — possible only because we read the events export (which returns <code>profile.identity</code>) rather than the counts API, which would just return totals with no way to tell the two apps apart.`;
-  if(U.edu_ok||U.completed) an+=`<br><br>⚠️ <b>Outside every cohort: ${U.edu_ok} profile(s) read the education and ${U.completed} completed, but have no <code>inApp_Shown</code> record in either app.</b> They are in neither funnel above — correct for a locked cohort, but worth watching. Usually test devices, or impressions that predate tracking. If this grows, the cohorts are under-counting real reach.`;
+  if((D.apps||[]).some(a=>a.attribution==='role')) an+=`<br><br><b>Technician workaround.</b> Campaign attribution reports no impressions for the Technician campaign, so its funnel is built differently: every event (<code>inApp_Shown</code> included) is filtered by the profile property <code>role = technician</code> instead of by campaign id. This funnel is not campaign-locked, and a later step exceeding “Shown” means technician impressions are under-reported, not double counting.`;
+  if(U.edu_ok||U.completed) an+=`<br><br>⚠️ <b>Outside every cohort: ${U.edu_ok} profile(s) read the education and ${U.completed} completed, but have no <code>inApp_Shown</code> record in either app and no <code>role = technician</code> profile property.</b> They are in neither funnel above — correct for a locked cohort, but worth watching. Usually test devices, or impressions that predate tracking. If this grows, the cohorts are under-counting real reach.`;
   if(D.both_apps) an+=`<br><br>⚠️ <b>${D.both_apps} profile(s) were shown both apps' campaigns</b> and are counted in both funnels.`;
   document.getElementById('attrnote').innerHTML=an;
 
