@@ -22,9 +22,13 @@ Then:  git commit -am "refresh dashboard" && git push   (GitHub Pages serves dat
 import os, sys, json, time, datetime, urllib.request, urllib.error
 
 # ---- config -----------------------------------------------------------------
-CAMPAIGN_ID = "1784201594"                   # offer-education in-app campaign
-START_DATE  = "20260716"                     # campaign launch (YYYYMMDD); override via argv[1]
-ACCENT      = "#D9008D"
+# Both campaigns run the SAME in-app HTML, so the CSP_Offer_* events cover both with no
+# filter. Only inApp_Shown carries campaign_id, so it is filtered to this list.
+# Because we dedupe identities ourselves (events export, not the counts API), a CSP who
+# saw BOTH campaigns is counted ONCE in the headline — a true cross-campaign unique.
+CAMPAIGN_IDS = ["1784201594", "1784207437"]
+START_DATE   = "20260716"                    # campaign launch (YYYYMMDD); override via argv[1]
+ACCENT       = "#D9008D"
 
 # funnel event name -> data key.  inApp_Shown is filtered to CAMPAIGN_ID; the
 # CSP_Offer_* events are unique to this in-app so they need no filter.
@@ -130,30 +134,41 @@ def identity_of(rec):
 def props_of(rec):
     return rec.get("event_props") or {}
 
-def in_campaign(rec):
-    """inApp_Shown carries campaign_id in event_props; match on 'contains'."""
-    return CAMPAIGN_ID in str(props_of(rec).get("campaign_id", ""))
+def campaign_of(rec):
+    """Which tracked campaign this inApp_Shown belongs to, or None. Matched on 'contains'
+    because campaign_id can arrive as a bare id or wrapped in a longer string."""
+    v = str(props_of(rec).get("campaign_id", ""))
+    for c in CAMPAIGN_IDS:
+        if c in v:
+            return c
+    return None
 
 # ---- pull -------------------------------------------------------------------
 def main():
     frm = sys.argv[1] if len(sys.argv) > 1 else START_DATE
     to = datetime.date.today().strftime("%Y%m%d")
-    print(f"CleverTap {REGION} · campaign {CAMPAIGN_ID} · {frm} -> {to}")
+    print(f"CleverTap {REGION} · campaigns {' + '.join(CAMPAIGN_IDS)} · {frm} -> {to}")
 
-    uniq  = {k: set() for _, k in FUNNEL}          # key -> set(identity)
-    daily = {}                                     # day -> {shown:set, quiz_answered:set}
-    opts  = {"1": set(), "2": set(), "3": set()}   # option -> set(identity)
+    uniq   = {k: set() for _, k in FUNNEL}         # key -> set(identity)
+    daily  = {}                                    # day -> {shown:set, completed:set}
+    opts   = {"1": set(), "2": set(), "3": set()}  # option -> set(identity)
+    by_cmp = {c: set() for c in CAMPAIGN_IDS}      # campaign -> set(identity) shown
 
     for event_name, key in FUNNEL:
         n = kept = 0
         for rec in export_event(event_name, frm, to):
             n += 1
-            if key == "shown" and not in_campaign(rec):
-                continue                            # another campaign's impression
+            cid = None
+            if key == "shown":
+                cid = campaign_of(rec)
+                if not cid:
+                    continue                        # another campaign's impression
             ident = identity_of(rec)
             if not ident:
                 continue
             uniq[key].add(ident); kept += 1
+            if cid:
+                by_cmp[cid].add(ident)
             if key in ("shown", "completed"):
                 day = str(rec.get("ts", ""))[:8]    # ts = YYYYMMDDHHMMSS, not epoch
                 if len(day) == 8:
@@ -162,8 +177,14 @@ def main():
                 o = str(props_of(rec).get("option", ""))
                 if o in opts:
                     opts[o].add(ident)
-        note = f" ({kept} in campaign {CAMPAIGN_ID})" if key == "shown" else ""
+        note = f" ({kept} in tracked campaigns)" if key == "shown" else ""
         print(f"  {event_name:32s} -> {n} events{note}, {len(uniq[key])} unique users")
+        if key == "shown":
+            for c in CAMPAIGN_IDS:
+                print(f"      campaign {c}: {len(by_cmp[c])} unique")
+            overlap = sum(len(by_cmp[c]) for c in CAMPAIGN_IDS) - len(uniq["shown"])
+            if overlap > 0:
+                print(f"      {overlap} CSP(s) saw both — counted once in the headline")
 
     funnel = {k: len(uniq[k]) for _, k in FUNNEL}
     days = sorted(daily.keys())
@@ -177,7 +198,10 @@ def main():
         "generated": datetime.datetime.now().strftime("%Y-%m-%d %H:%M"),
         "sample": False,
         "region": REGION,
-        "campaign_id": CAMPAIGN_ID,
+        "campaign_ids": CAMPAIGN_IDS,
+        # per-campaign reach. These can sum to MORE than funnel.shown, because a CSP who
+        # saw both campaigns appears in each but only once in the deduped headline.
+        "shown_by_campaign": [{"id": c, "users": len(by_cmp[c])} for c in CAMPAIGN_IDS],
         "accent": ACCENT,
         "start_date": f"{frm[:4]}-{frm[4:6]}-{frm[6:8]}",
         "funnel_steps": [[k, STEP_LABELS[k], ev] for ev, k in FUNNEL],

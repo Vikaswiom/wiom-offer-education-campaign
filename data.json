@@ -1,8 +1,21 @@
 {
-  "generated": "2026-07-16 18:31",
+  "generated": "2026-07-16 18:43",
   "sample": false,
   "region": "eu1",
-  "campaign_id": "1784201594",
+  "campaign_ids": [
+    "1784201594",
+    "1784207437"
+  ],
+  "shown_by_campaign": [
+    {
+      "id": "1784201594",
+      "users": 12
+    },
+    {
+      "id": "1784207437",
+      "users": 0
+    }
+  ],
   "accent": "#D9008D",
   "start_date": "2026-07-16",
   "funnel_steps": [
@@ -23,7 +36,7 @@
     ]
   ],
   "funnel": {
-    "shown": 11,
+    "shown": 12,
     "edu_ok": 11,
     "completed": 7
   },
@@ -32,7 +45,7 @@
     {
       "option": "1",
       "label": "1st (top)",
-      "users": 4
+      "users": 5
     },
     {
       "option": "2",
@@ -48,7 +61,7 @@
   "daily": [
     {
       "date": "2026-07-16",
-      "shown": 11,
+      "shown": 12,
       "completed": 7
     }
   ]
