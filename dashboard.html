@@ -122,11 +122,6 @@ section{margin-top:24px;}
     </div>
   </section>
 
-  <section>
-    <div class="h2">Per day</div>
-    <div class="panel"><svg class="chart" id="trend" viewBox="0 0 520 220" preserveAspectRatio="none"></svg></div>
-  </section>
-
   <p class="foot" id="foot"></p>
 </div>
 <div class="tt" id="tip"></div>
@@ -211,36 +206,8 @@ function render(D){
   document.getElementById('chips').innerHTML=A.map(a=>
     `<span class="chip" style="color:${a.color};border-color:${a.color}33">${esc(a.label)}: ${a.campaigns.join(', ')}</span>`).join('');
 
-  drawTrend(D);
   document.getElementById('foot').innerHTML='Events: '+steps.map(s=>`<code>${s[2]}</code>`).join(' ')+
     `<br>Region <code>${D.region||'eu1'}</code> · live since ${D.start_date||'—'} · unique users per event, deduped on profile identity.`;
-}
-
-function drawTrend(D){
-  const svg=document.getElementById('trend'), W=520,H=220,pad={l:34,r:14,t:14,b:26};
-  const A=(D.apps||[]).filter(a=>a.daily&&a.daily.length);
-  if(!A.length){svg.innerHTML='<text class="tick" x="260" y="110" text-anchor="middle">No data yet</text>';return;}
-  const days=[...new Set(A.flatMap(a=>a.daily.map(d=>d.date)))].sort();
-  const maxY=Math.max(1,...A.flatMap(a=>a.daily.map(d=>Math.max(d.shown,d.completed))));
-  const x=i=>pad.l+(days.length<2?(W-pad.l-pad.r)/2:i/(days.length-1)*(W-pad.l-pad.r));
-  const y=v=>H-pad.b-(v/maxY)*(H-pad.t-pad.b);
-  let g='';
-  for(let t=0;t<=maxY;t+=Math.max(1,Math.ceil(maxY/4))){g+=`<line class="gridline" x1="${pad.l}" y1="${y(t)}" x2="${W-pad.r}" y2="${y(t)}"/><text class="tick" x="${pad.l-8}" y="${y(t)+4}" text-anchor="end">${t}</text>`;}
-  days.forEach((d,i)=>{g+=`<text class="tick" x="${x(i)}" y="${H-8}" text-anchor="middle">${d.slice(5)}</text>`;});
-  A.forEach(a=>{
-    const byDay={}; a.daily.forEach(d=>byDay[d.date]=d);
-    [['shown',1,'Shown'],['completed',.45,'Completed']].forEach(([k,op,lab])=>{
-      const pts=days.filter(d=>byDay[d]).map(d=>`${x(days.indexOf(d))},${y(byDay[d][k])}`).join(' ');
-      if(days.length>1&&pts) g+=`<polyline points="${pts}" fill="none" stroke="${a.color}" stroke-opacity="${op}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"${k==='completed'?' stroke-dasharray="4 3"':''}/>`;
-      days.forEach((d,i)=>{ if(!byDay[d])return;
-        g+=`<circle class="dot" cx="${x(i)}" cy="${y(byDay[d][k])}" r="5" fill="#fff" stroke="${a.color}" stroke-opacity="${op}" stroke-width="2.5" data-t="${encodeURIComponent(`<b>${esc(a.label)} · ${lab}</b><br>${d}: <b>${byDay[d][k]}</b> users`)}"/>`;});
-    });
-  });
-  svg.innerHTML=g;
-  svg.querySelectorAll('.dot').forEach(el=>{
-    el.addEventListener('mousemove',e=>showTip(decodeURIComponent(el.dataset.t),e.clientX,e.clientY));
-    el.addEventListener('mouseleave',hideTip);
-  });
 }
 
 fetch('data.json',{cache:'no-store'}).then(r=>{if(!r.ok)throw 0;return r.json();}).then(render).catch(()=>render(FALLBACK));
