@@ -189,8 +189,9 @@ function render(D){
     }).join('');
     const camps=(a.shown_by_campaign||[]).map(c=>`<b>${c.id}</b> ${nf(c.users)}`).join(' · ');
     const pend=f.shown===0?`<div class="pending">⏳ No impressions yet — campaign ${a.campaigns.join(' / ')} has not fired. Numbers appear once it goes live.</div>`:'';
+    const coh=f.shown?`<b>Cohort: the ${nf(f.shown)} profile${f.shown===1?'':'s'} shown this app's campaign.</b> Every step below counts only those ${nf(f.shown)}, followed down the funnel — nobody else can enter.`:'';
     return `<div class="fpanel" style="--c:${a.color}"><div class="ftitle"><span class="sw"></span>${esc(a.label)}</div>
-      <div class="fsub">${esc(a.note)}<br>Campaigns: ${camps||'—'} · ${nf(f.shown)} shown → ${nf(f.completed)} completed (<b>${pct(f.completed,f.shown)}%</b>)</div>${rows}${pend}</div>`;
+      <div class="fsub">${esc(a.note)}<br>Campaigns: ${camps||'—'} · ${nf(f.shown)} shown → ${nf(f.completed)} completed (<b>${pct(f.completed,f.shown)}%</b>)<br>${coh}</div>${rows}${pend}</div>`;
   }).join('');
   document.querySelectorAll('.fnl-step').forEach(el=>{
     el.addEventListener('mousemove',e=>showTip(decodeURIComponent(el.dataset.tip),e.clientX,e.clientY));
@@ -199,10 +200,11 @@ function render(D){
 
   // how the split is done + its caveats
   const U=D.unattributed||{edu_ok:0,completed:0};
-  let an=`<b>How the two apps are told apart.</b> Only <code>inApp_Shown</code> carries a campaign id. `+
-    `The <code>CSP_Offer_*</code> events are fired by the in-app HTML, which is identical in both apps, so they carry no app marker. `+
-    `Each app's funnel is therefore built by <b>identity</b>: profiles shown that app's campaign, intersected with profiles that fired each later event.`;
-  if(U.edu_ok||U.completed) an+=`<br><br>⚠️ <b>${U.edu_ok} profile(s) read the education and ${U.completed} completed, but have no <code>inApp_Shown</code> record in either app</b>, so they are in neither funnel above. Usually test devices or impressions that predate tracking — if this number grows, the app split is under-counting.`;
+  let an=`<b>Each funnel is a locked cohort.</b> The people shown an app's campaign are the denominator, and only those exact profiles are followed down the funnel. `+
+    `If 100 CSPs are shown the CSP campaign, every later step counts how many <i>of those 100</i> got there — a CSP who never saw it cannot appear in the CSP funnel, and a technician can never leak into it.`+
+    `<br><br><b>Why it needs identities.</b> Only <code>inApp_Shown</code> carries a campaign id. The <code>CSP_Offer_*</code> events are fired by the in-app HTML, which is byte-identical in both apps, so they carry no app marker at all. `+
+    `The cohort is therefore built by intersecting profile identities — possible only because we read the events export (which returns <code>profile.identity</code>) rather than the counts API, which would just return totals with no way to tell the two apps apart.`;
+  if(U.edu_ok||U.completed) an+=`<br><br>⚠️ <b>Outside every cohort: ${U.edu_ok} profile(s) read the education and ${U.completed} completed, but have no <code>inApp_Shown</code> record in either app.</b> They are in neither funnel above — correct for a locked cohort, but worth watching. Usually test devices, or impressions that predate tracking. If this grows, the cohorts are under-counting real reach.`;
   if(D.both_apps) an+=`<br><br>⚠️ <b>${D.both_apps} profile(s) were shown both apps' campaigns</b> and are counted in both funnels.`;
   document.getElementById('attrnote').innerHTML=an;
 

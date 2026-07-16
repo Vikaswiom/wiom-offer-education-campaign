@@ -259,6 +259,10 @@ def main():
         f = a["funnel"]
         print(f"  {a['label']:16s} shown={f['shown']:4d}  edu_ok={f['edu_ok']:4d} ({p(f['edu_ok'],f['shown'])}%)  "
               f"completed={f['completed']:4d} ({p(f['completed'],f['shown'])}%)")
+        # A locked cohort can only shrink: nobody may appear at a later step who was not shown.
+        assert f["edu_ok"] <= f["shown"], f"{a['label']}: edu_ok {f['edu_ok']} > shown {f['shown']}"
+        assert f["completed"] <= f["edu_ok"] or f["completed"] <= f["shown"], \
+            f"{a['label']}: completed {f['completed']} exceeds its cohort"
     if unattributed["edu_ok"] or unattributed["completed"]:
         print(f"  unattributed (acted but no inApp_Shown in either app): "
               f"edu_ok={unattributed['edu_ok']}  completed={unattributed['completed']}")
