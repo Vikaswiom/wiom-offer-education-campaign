@@ -240,6 +240,33 @@ def main():
 
     comp_idents = {i for i, _, _ in comp_records}
 
+    # ---- pass 1b: real impressions for the technician campaigns ----
+    # The Technician app never fires the custom inApp_Shown, but CleverTap records
+    # its own system event when an in-app renders: Notification Viewed with
+    # wzrk_id "<campaignId>_<YYYYMMDD>" (this is what the campaigns UI counts).
+    tech_app = APPS[1]
+    tech_shown_wzrk = {c: set() for c in tech_app["campaigns"]}
+    tech_shown_day  = {}                                  # day -> set(identity)
+    try:
+        for rec in export_event("Notification Viewed", frm, to):
+            props = props_of(rec)
+            if str(props.get("Campaign type", "")).lower() != "inapp":
+                continue
+            ident = identity_of(rec)
+            if not ident:
+                continue
+            wid = str(props.get("wzrk_id", ""))
+            for c in tech_app["campaigns"]:
+                if c in wid:
+                    tech_shown_wzrk[c].add(ident)
+                    d = day_of(rec)
+                    if d:
+                        tech_shown_day.setdefault(d, set()).add(ident)
+    except Exception as e:
+        print(f"  Notification Viewed export failed ({e}) — technician funnel falls back to role attribution")
+    tech_shown_all = set().union(*tech_shown_wzrk.values()) if tech_shown_wzrk else set()
+    print(f"  Notification Viewed (InApp, tech)  -> {len(tech_shown_all)} unique users")
+
     # ---- pass 2: attribute downstream events to an app by identity ----
     apps_out = []
     for a in APPS:
@@ -271,34 +298,73 @@ def main():
                        "completed": len(a_daily[d]["completed"])} for d in sorted(a_daily)],
         })
 
-    # technician workaround: overwrite the tech app's campaign-locked numbers (always
-    # zero — campaign 1784203536 reports no impressions) with the role-filtered funnel
-    tech_idents = tech["shown"] | tech["edu_ok"] | tech["completed"]
+    # technician workaround: the campaign-locked inApp_Shown numbers are always zero
+    # for the tech app, so overwrite them. Preferred source: real impressions from
+    # Notification Viewed (locked cohort, matches the campaigns UI). Fallback when
+    # that export yields nothing: the role = technician profile-property filter.
+    tech_idents = tech["shown"] | tech["edu_ok"] | tech["completed"]  # role-tech actors
     seen = ", ".join(f"{cid} ({len(s)})" for cid, s in
                      sorted(tech_cmp_seen.items(), key=lambda kv: -len(kv[1]))[:5]) or "none"
     for a_out in apps_out:
         if a_out["key"] != "tech":
             continue
-        a_out["attribution"] = "role"
-        a_out["note"] = ("Technician app — attributed by profile property role = technician "
-                         "on every event (campaign attribution unusable: campaign "
-                         f"{'/'.join(a_out['campaigns'])} reports no impressions). "
-                         f"Campaign ids observed on technicians' inApp_Shown: {seen}.")
-        a_out["funnel"] = {k: len(tech[k]) for k in ("shown", "edu_ok", "completed")}
-        a_out["options"] = [{"option": o, "label": OPTION_LABEL[o], "users": len(tech_opts[o])}
-                            for o in ("1", "2", "3")]
-        a_out["daily"] = [{"date": f"{d[:4]}-{d[4:6]}-{d[6:8]}",
-                           "shown": len(tech_daily[d]["shown"]),
-                           "completed": len(tech_daily[d]["completed"])} for d in sorted(tech_daily)]
+        if tech_shown_all:
+            a_out["attribution"] = "impressions"
+            a_out["shown_by_campaign"] = [{"id": c, "users": len(tech_shown_wzrk[c])}
+                                          for c in tech_app["campaigns"]]
+            t_edu, t_comp = edu_idents & tech_shown_all, comp_idents & tech_shown_all
+            a_out["funnel"] = {"shown": len(tech_shown_all), "edu_ok": len(t_edu),
+                               "completed": len(t_comp)}
+            t_opts = {"1": set(), "2": set(), "3": set()}
+            t_daily = {}
+            for d, idents in tech_shown_day.items():
+                t_daily.setdefault(d, {"shown": set(), "completed": set()})["shown"] |= idents
+            for ident, d, o in comp_records:
+                if ident in tech_shown_all:
+                    if o in t_opts:
+                        t_opts[o].add(ident)
+                    if d:
+                        t_daily.setdefault(d, {"shown": set(), "completed": set()})["completed"].add(ident)
+            a_out["options"] = [{"option": o, "label": OPTION_LABEL[o], "users": len(t_opts[o])}
+                                for o in ("1", "2", "3")]
+            a_out["daily"] = [{"date": f"{d[:4]}-{d[4:6]}-{d[6:8]}",
+                               "shown": len(t_daily[d]["shown"]),
+                               "completed": len(t_daily[d]["completed"])} for d in sorted(t_daily)]
+            outside = len((tech["edu_ok"] | tech["completed"]) - tech_shown_all)
+            a_out["note"] = ("Technician app — Shown comes from CleverTap's own impression event "
+                             "(Notification Viewed, wzrk_id "
+                             f"{'/'.join(tech_app['campaigns'])}) because this app does not fire "
+                             "the custom inApp_Shown; education/quiz are locked to that cohort "
+                             "by identity."
+                             + (f" {outside} role = technician profile(s) acted without a "
+                                "recorded impression." if outside else ""))
+        else:
+            a_out["attribution"] = "role"
+            a_out["note"] = ("Technician app — attributed by profile property role = technician "
+                             "on every event (no impressions found for campaign "
+                             f"{'/'.join(a_out['campaigns'])} in either inApp_Shown or "
+                             "Notification Viewed). Campaign ids observed on technicians' "
+                             f"inApp_Shown: {seen}.")
+            a_out["funnel"] = {k: len(tech[k]) for k in ("shown", "edu_ok", "completed")}
+            a_out["options"] = [{"option": o, "label": OPTION_LABEL[o], "users": len(tech_opts[o])}
+                                for o in ("1", "2", "3")]
+            a_out["daily"] = [{"date": f"{d[:4]}-{d[4:6]}-{d[6:8]}",
+                               "shown": len(tech_daily[d]["shown"]),
+                               "completed": len(tech_daily[d]["completed"])} for d in sorted(tech_daily)]
 
-    # profiles that acted but belong to no funnel above (no tracked inApp_Shown, not
-    # role = technician either)
-    all_shown = set().union(*shown_by_cmp.values()) if shown_by_cmp else set()
-    unattributed = {"edu_ok": len(edu_idents - all_shown - tech_idents),
-                    "completed": len(comp_idents - all_shown - tech_idents)}
-    # overlap between the two funnels' cohorts (CSP campaign-shown vs technician role)
+    # profiles that acted but belong to no funnel above. When the impressions source
+    # is active, role-tech actors without a recorded impression land here — reported
+    # separately so under-reported technician impressions stay visible.
+    all_shown = (set().union(*shown_by_cmp.values()) if shown_by_cmp else set()) | tech_shown_all
+    excl = tech_idents if not tech_shown_all else set()   # role fallback keeps old behaviour
+    un_edu, un_comp = edu_idents - all_shown - excl, comp_idents - all_shown - excl
+    unattributed = {"edu_ok": len(un_edu), "completed": len(un_comp),
+                    "edu_ok_technician": len(un_edu & tech_idents),
+                    "completed_technician": len(un_comp & tech_idents)}
+    # overlap between the two funnels' cohorts
     both_apps = len(
-        (set().union(*[shown_by_cmp[c] for c in APPS[0]["campaigns"]])) & tech_idents
+        (set().union(*[shown_by_cmp[c] for c in APPS[0]["campaigns"]])) &
+        (tech_shown_all or tech_idents)
     ) if len(APPS) == 2 else 0
 
     out = {
@@ -319,7 +385,7 @@ def main():
     p = lambda x, y: round(100 * x / y) if y else 0
     for a in apps_out:
         f = a["funnel"]
-        tag = " (by role)" if a.get("attribution") == "role" else ""
+        tag = {"role": " (by role)", "impressions": " (impressions)"}.get(a.get("attribution"), "")
         print(f"  {a['label'] + tag:26s} shown={f['shown']:4d}  edu_ok={f['edu_ok']:4d} ({p(f['edu_ok'],f['shown'])}%)  "
               f"completed={f['completed']:4d} ({p(f['completed'],f['shown'])}%)")
         if a.get("attribution") == "role":
