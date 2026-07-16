@@ -1,5 +1,5 @@
 {
-  "generated": "2026-07-16 19:14",
+  "generated": "2026-07-16 17:07",
   "sample": false,
   "region": "eu1",
   "start_date": "2026-07-16",
@@ -34,40 +34,40 @@
       "shown_by_campaign": [
         {
           "id": "1784201594",
-          "users": 13
+          "users": 15
         },
         {
           "id": "1784207437",
-          "users": 0
+          "users": 14
         }
       ],
       "funnel": {
-        "shown": 13,
-        "edu_ok": 11,
-        "completed": 6
+        "shown": 28,
+        "edu_ok": 26,
+        "completed": 17
       },
       "options": [
         {
           "option": "1",
           "label": "1st (top)",
-          "users": 4
+          "users": 11
         },
         {
           "option": "2",
           "label": "2nd (middle)",
-          "users": 1
+          "users": 3
         },
         {
           "option": "3",
           "label": "3rd (bottom)",
-          "users": 1
+          "users": 3
         }
       ],
       "daily": [
         {
           "date": "2026-07-16",
-          "shown": 13,
-          "completed": 6
+          "shown": 28,
+          "completed": 17
         }
       ]
     },
@@ -111,8 +111,8 @@
     }
   ],
   "unattributed": {
-    "edu_ok": 4,
-    "completed": 2
+    "edu_ok": 7,
+    "completed": 6
   },
   "both_apps": 0
 }
