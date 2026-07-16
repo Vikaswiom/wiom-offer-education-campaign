@@ -1,0 +1,81 @@
+# Scheduled data refresh for dashboard.html (data.json).
+#
+# Every 30 minutes: run fetch_ct_data.py against the CleverTap events API and
+# push data.json to main (only when the data actually changed). GitHub Pages
+# redeploys on push, so the live dashboard updates ~1 min later.
+#
+# One-time setup — add two repo secrets
+# (Settings → Secrets and variables → Actions → New repository secret):
+#   CLEVERTAP_ACCOUNT    X-CleverTap-Account-Id
+#   CLEVERTAP_PASSCODE   X-CleverTap-Passcode
+# (region defaults to eu1 inside the script; add CLEVERTAP_REGION only if that changes)
+#
+# Until the secrets exist the job exits quietly without failing, so adding this
+# workflow is safe — it just does nothing until the secrets are configured.
+name: refresh-ct-data
+
+on:
+  schedule:
+    # 30-min cadence on off-peak minutes — GitHub's scheduler drops slots at the
+    # congested :00/:15/:30/:45 marks, so odd minutes fire far more reliably
+    - cron: "11,41 * * * *" # UTC; Actions may still add a few minutes of delay
+  workflow_dispatch: {} # manual "Run workflow" button for testing
+
+# never let two refreshes race each other
+concurrency:
+  group: refresh-ct-data
+  cancel-in-progress: false
+
+permissions:
+  contents: write # push data.json to main (Pages redeploys on push)
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10 # a wedged CleverTap export must never hang a runner
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: refresh snapshot + push if changed
+        env:
+          CLEVERTAP_ACCOUNT: ${{ secrets.CLEVERTAP_ACCOUNT }}
+          CLEVERTAP_PASSCODE: ${{ secrets.CLEVERTAP_PASSCODE }}
+        run: |
+          if [ -z "$CLEVERTAP_ACCOUNT" ] || [ -z "$CLEVERTAP_PASSCODE" ]; then
+            echo "::warning::CLEVERTAP_ACCOUNT / CLEVERTAP_PASSCODE secrets not set — skipping refresh"
+            exit 0
+          fi
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          python3 fetch_ct_data.py
+          if git diff --quiet -- data.json; then
+            echo "no data change — skip push"
+            exit 0
+          fi
+
+          # keep the fresh snapshot safe: main can move under this job, and the
+          # resync below resets the working tree (same pattern as the
+          # kamai-kavach refresh pipeline, which this is copied from)
+          cp data.json /tmp/data.fresh.json
+          msg="data: refresh CT snapshot"
+          for attempt in 1 2 3; do
+            git fetch origin main --quiet
+            git reset --hard origin/main --quiet
+            cp /tmp/data.fresh.json data.json
+            if git diff --quiet -- data.json; then
+              echo "no data change after resync — skip push"
+              exit 0
+            fi
+            git add data.json
+            git commit --quiet -m "$msg"
+            if git push --quiet origin HEAD:main; then
+              echo "pushed — GitHub Pages will redeploy in ~1 min"
+              exit 0
+            fi
+            echo "push rejected (main moved mid-run?) — resync and retry $attempt/3"
+          done
+          echo "::error::push failed after 3 attempts"
+          exit 1
