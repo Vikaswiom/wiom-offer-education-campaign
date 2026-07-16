@@ -1,5 +1,5 @@
 {
-  "generated": "2026-07-16 17:27",
+  "generated": "2026-07-16 17:36",
   "sample": false,
   "region": "eu1",
   "start_date": "2026-07-16",
@@ -75,18 +75,18 @@
       "key": "tech",
       "label": "Technician App",
       "color": "#2563EB",
-      "note": "Technician app — attributed by profile property role = technician on every event (campaign attribution unusable: campaign 1784203536 reports no impressions). Campaign ids observed on technicians' inApp_Shown: none.",
+      "note": "Technician app — Shown comes from CleverTap's own impression event (Notification Viewed, wzrk_id 1784203536) because this app does not fire the custom inApp_Shown; education/quiz are locked to that cohort by identity.",
       "campaigns": [
         "1784203536"
       ],
       "shown_by_campaign": [
         {
           "id": "1784203536",
-          "users": 0
+          "users": 7
         }
       ],
       "funnel": {
-        "shown": 0,
+        "shown": 7,
         "edu_ok": 6,
         "completed": 5
       },
@@ -110,16 +110,18 @@
       "daily": [
         {
           "date": "2026-07-16",
-          "shown": 0,
+          "shown": 7,
           "completed": 5
         }
       ],
-      "attribution": "role"
+      "attribution": "impressions"
     }
   ],
   "unattributed": {
     "edu_ok": 1,
-    "completed": 1
+    "completed": 1,
+    "edu_ok_technician": 0,
+    "completed_technician": 0
   },
   "both_apps": 0
 }
