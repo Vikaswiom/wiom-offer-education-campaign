@@ -1,5 +1,5 @@
 {
-  "generated": "2026-07-17 06:07",
+  "generated": "2026-07-17 07:00",
   "sample": false,
   "region": "eu1",
   "start_date": "2026-07-16",
@@ -38,19 +38,19 @@
         },
         {
           "id": "1784207437",
-          "users": 30
+          "users": 36
         }
       ],
       "funnel": {
-        "shown": 44,
-        "edu_ok": 37,
-        "completed": 29
+        "shown": 49,
+        "edu_ok": 43,
+        "completed": 32
       },
       "options": [
         {
           "option": "1",
           "label": "1st (top)",
-          "users": 20
+          "users": 22
         },
         {
           "option": "2",
@@ -60,7 +60,7 @@
         {
           "option": "3",
           "label": "3rd (bottom)",
-          "users": 5
+          "users": 6
         }
       ],
       "daily": [
@@ -71,8 +71,8 @@
         },
         {
           "date": "2026-07-17",
-          "shown": 17,
-          "completed": 12
+          "shown": 23,
+          "completed": 15
         }
       ]
     },
@@ -87,19 +87,19 @@
       "shown_by_campaign": [
         {
           "id": "1784203536",
-          "users": 11
+          "users": 15
         }
       ],
       "funnel": {
-        "shown": 11,
-        "edu_ok": 9,
-        "completed": 8
+        "shown": 15,
+        "edu_ok": 13,
+        "completed": 11
       },
       "options": [
         {
           "option": "1",
           "label": "1st (top)",
-          "users": 6
+          "users": 8
         },
         {
           "option": "2",
@@ -109,7 +109,7 @@
         {
           "option": "3",
           "label": "3rd (bottom)",
-          "users": 2
+          "users": 3
         }
       ],
       "daily": [
@@ -120,8 +120,8 @@
         },
         {
           "date": "2026-07-17",
-          "shown": 4,
-          "completed": 3
+          "shown": 8,
+          "completed": 6
         }
       ],
       "attribution": "impressions"
