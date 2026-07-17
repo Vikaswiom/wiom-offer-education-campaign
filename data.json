@@ -1,5 +1,5 @@
 {
-  "generated": "2026-07-17 01:07",
+  "generated": "2026-07-17 04:20",
   "sample": false,
   "region": "eu1",
   "start_date": "2026-07-16",
@@ -38,19 +38,19 @@
         },
         {
           "id": "1784207437",
-          "users": 14
+          "users": 18
         }
       ],
       "funnel": {
-        "shown": 28,
-        "edu_ok": 26,
-        "completed": 17
+        "shown": 32,
+        "edu_ok": 29,
+        "completed": 20
       },
       "options": [
         {
           "option": "1",
           "label": "1st (top)",
-          "users": 11
+          "users": 14
         },
         {
           "option": "2",
@@ -68,6 +68,11 @@
           "date": "2026-07-16",
           "shown": 28,
           "completed": 17
+        },
+        {
+          "date": "2026-07-17",
+          "shown": 4,
+          "completed": 3
         }
       ]
     },
