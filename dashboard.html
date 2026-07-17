@@ -107,7 +107,7 @@ section{margin-top:24px;}
   </section>
 
   <section id="eduonly-sec" style="display:none">
-    <div class="h2">Funnels — education only (no quiz)</div>
+    <div class="h2">Reach — education only (no quiz)</div>
     <div class="funnels" id="funnels2"></div>
     <div class="note" id="eduonlynote"></div>
   </section>
@@ -189,16 +189,13 @@ function render(D){
     const isEdu=a.variant==='education_only';
     const isRole=a.attribution==='role', isImpr=a.attribution==='impressions';
     const noAct=f.shown===0&&f.edu_ok===0&&!f.completed;
-    const unset=isEdu&&(a.campaigns||[]).some(c=>String(c).startsWith('PASTE_'));
-    const pend=unset?`<div class="pending">⚙️ Campaign id not set yet — <b>Shown</b> stays 0 until it is. The tap count is every profile that fired <code>${a.steps[1][2]}</code>.</div>`:
-      isRole?(noAct?`<div class="pending">⏳ No technician-role activity yet — no event in the window carries a profile with <code>role = technician</code>.</div>`:''):
+    const pend=isRole?(noAct?`<div class="pending">⏳ No technician-role activity yet — no event in the window carries a profile with <code>role = technician</code>.</div>`:''):
       (f.shown===0?`<div class="pending">⏳ No impressions yet — campaign ${a.campaigns.join(' / ')} has not fired. Numbers appear once it goes live.</div>`:'');
-    const coh=isEdu?(f.shown?`<b>Cohort: the ${nf(f.shown)} profile${f.shown===1?'':'s'} shown this campaign.</b> Its own event name identifies the app, so the tap step needs no attribution guesswork.`:
-        `<b>Not a cohort yet</b> — with no campaign id there is no shown set, so the tap count is unfiltered.`):
+    const coh=isEdu?`<b>Reach only.</b> Unique users the in-app was shown to, from campaign ${a.campaigns.join(' / ')}.`:
       isRole?`<b>Role cohort (workaround):</b> every step counts unique profiles with <code>role = technician</code> that fired the event — not locked to the shown set, so a step can exceed “Shown”.`:
       isImpr&&f.shown?`<b>Cohort: the ${nf(f.shown)} profile${f.shown===1?'':'s'} whose in-app render was recorded by CleverTap</b> (<code>Notification Viewed</code>). Every step below counts only those ${nf(f.shown)}, followed down the funnel — nobody else can enter.`:
       (f.shown?`<b>Cohort: the ${nf(f.shown)} profile${f.shown===1?'':'s'} shown this app's campaign.</b> Every step below counts only those ${nf(f.shown)}, followed down the funnel — nobody else can enter.`:'');
-    const head=isEdu?`${nf(f.shown)} shown → ${nf(f.edu_ok)} tapped ठीक है (<b>${pct(f.edu_ok,f.shown)}%</b>)`
+    const head=isEdu?`<b>${nf(f.shown)}</b> unique user${f.shown===1?'':'s'} shown`
                     :`${nf(f.shown)} shown → ${nf(f.completed)} completed (<b>${pct(f.completed,f.shown)}%</b>)`;
     return `<div class="fpanel" style="--c:${a.color}"><div class="ftitle"><span class="sw"></span>${esc(a.label)}</div>
       <div class="fsub">${a.note}<br>Campaigns: ${camps||'—'} · ${head}<br>${coh}</div>${rows}${pend}</div>`;
@@ -208,9 +205,8 @@ function render(D){
     document.getElementById('eduonly-sec').style.display='';
     document.getElementById('funnels2').innerHTML=E.map(funnelCard).join('');
     document.getElementById('eduonlynote').innerHTML=
-      `<b>A different creative, tracked separately.</b> This campaign shows only the education screen and <b>ठीक है</b> — no quiz — capped at <b>once per day, 3 times lifetime</b> (set in CleverTap, not in the HTML).<br><br>`+
-      `<b>Why it has its own events.</b> The education+quiz creative above is byte-identical in both apps, so its events carry no app marker and the Technician funnel had to be rebuilt from <code>Notification Viewed</code> and a <code>role</code> property. This creative ships as two files that differ by one line — `+
-      E.map(a=>`<code>${a.steps[1][2]}</code>`).join(' and ')+` — so a tap says which app it came from with no guessing.`;
+      `<b>A different creative, measured on reach alone.</b> This campaign shows only the education screen and <b>ठीक है</b> — no quiz — capped at <b>once per day, 3 times lifetime</b> (set in CleverTap, not in the HTML).<br><br>`+
+      `<b>Why there is no tap metric.</b> On this creative <b>ठीक है</b> is only a dismiss button — the sole way to close the screen. Charting it would invite reading a “drop-off” into what is really just people closing a message they have already seen. The job here is to put the message in front of people, so unique reach is the number that means something.`;
   }
   document.querySelectorAll('.fnl-step').forEach(el=>{
     el.addEventListener('mousemove',e=>showTip(decodeURIComponent(el.dataset.tip),e.clientX,e.clientY));

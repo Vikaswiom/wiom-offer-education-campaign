@@ -1,5 +1,5 @@
 {
-  "generated": "2026-07-17 11:58",
+  "generated": "2026-07-17 17:34",
   "sample": false,
   "region": "eu1",
   "start_date": "2026-07-16",
@@ -131,7 +131,7 @@
       "label": "CSP App · education only",
       "color": "#E8629B",
       "variant": "education_only",
-      "attribution": "event",
+      "attribution": "campaign",
       "campaigns": [
         "1784285997"
       ],
@@ -144,22 +144,16 @@
       "steps": [
         [
           "shown",
-          "Shown (in-app)",
+          "Shown to users",
           "inApp_Shown / Notification Viewed"
-        ],
-        [
-          "edu_ok",
-          "Tapped ठीक है",
-          "CSP_Offer_EduOnly_OK_Clicked"
         ]
       ],
       "funnel": {
-        "shown": 0,
-        "edu_ok": 0
+        "shown": 0
       },
       "options": [],
       "daily": [],
-      "note": "Education screen + ठीक है only, no quiz. Capped once/day, 3 lifetime. Its own event name identifies the app, so taps need no attribution guesswork."
+      "note": "Education screen + ठीक है only, no quiz. Capped once/day, 3 lifetime. Reach only — unique users the in-app was shown to."
     },
     {
       "key": "tech_eduonly",
@@ -179,28 +173,21 @@
       "steps": [
         [
           "shown",
-          "Shown (in-app)",
+          "Shown to users",
           "inApp_Shown / Notification Viewed"
-        ],
-        [
-          "edu_ok",
-          "Tapped ठीक है",
-          "TECH_Offer_EduOnly_OK_Clicked"
         ]
       ],
       "funnel": {
-        "shown": 1,
-        "edu_ok": 0
+        "shown": 1
       },
       "options": [],
       "daily": [
         {
           "date": "2026-07-17",
-          "shown": 1,
-          "completed": 0
+          "shown": 1
         }
       ],
-      "note": "Education screen + ठीक है only, no quiz. Capped once/day, 3 lifetime. Its own event name identifies the app, so taps need no attribution guesswork."
+      "note": "Education screen + ठीक है only, no quiz. Capped once/day, 3 lifetime. Reach only — unique users the in-app was shown to."
     }
   ],
   "unattributed": {
