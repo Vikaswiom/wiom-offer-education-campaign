@@ -1,5 +1,5 @@
 {
-  "generated": "2026-07-17 09:19",
+  "generated": "2026-07-17 16:01",
   "sample": false,
   "region": "eu1",
   "start_date": "2026-07-16",
@@ -38,19 +38,19 @@
         },
         {
           "id": "1784207437",
-          "users": 45
+          "users": 53
         }
       ],
       "funnel": {
-        "shown": 58,
-        "edu_ok": 52,
-        "completed": 41
+        "shown": 66,
+        "edu_ok": 58,
+        "completed": 46
       },
       "options": [
         {
           "option": "1",
           "label": "1st (top)",
-          "users": 29
+          "users": 33
         },
         {
           "option": "2",
@@ -60,7 +60,7 @@
         {
           "option": "3",
           "label": "3rd (bottom)",
-          "users": 7
+          "users": 8
         }
       ],
       "daily": [
@@ -71,8 +71,8 @@
         },
         {
           "date": "2026-07-17",
-          "shown": 32,
-          "completed": 24
+          "shown": 40,
+          "completed": 29
         }
       ]
     },
@@ -87,19 +87,19 @@
       "shown_by_campaign": [
         {
           "id": "1784203536",
-          "users": 22
+          "users": 24
         }
       ],
       "funnel": {
-        "shown": 22,
-        "edu_ok": 19,
-        "completed": 13
+        "shown": 24,
+        "edu_ok": 21,
+        "completed": 14
       },
       "options": [
         {
           "option": "1",
           "label": "1st (top)",
-          "users": 10
+          "users": 11
         },
         {
           "option": "2",
@@ -120,11 +120,81 @@
         },
         {
           "date": "2026-07-17",
-          "shown": 15,
-          "completed": 8
+          "shown": 17,
+          "completed": 9
         }
       ],
       "attribution": "impressions"
+    },
+    {
+      "key": "csp_eduonly",
+      "label": "CSP App · education only",
+      "color": "#E8629B",
+      "variant": "education_only",
+      "attribution": "event",
+      "campaigns": [
+        "PASTE_CSP_EDUONLY_CAMPAIGN_ID"
+      ],
+      "shown_by_campaign": [
+        {
+          "id": "PASTE_CSP_EDUONLY_CAMPAIGN_ID",
+          "users": 0
+        }
+      ],
+      "steps": [
+        [
+          "shown",
+          "Shown (in-app)",
+          "inApp_Shown / Notification Viewed"
+        ],
+        [
+          "edu_ok",
+          "Tapped ठीक है",
+          "CSP_Offer_EduOnly_OK_Clicked"
+        ]
+      ],
+      "funnel": {
+        "shown": 0,
+        "edu_ok": 0
+      },
+      "options": [],
+      "daily": [],
+      "note": "Education screen + ठीक है only, no quiz. Capped once/day, 3 lifetime. Campaign id not configured yet — <b>shown</b> stays 0 until it is set; the tap count below is every profile that fired the event."
+    },
+    {
+      "key": "tech_eduonly",
+      "label": "Technician App · education only",
+      "color": "#5B8DEF",
+      "variant": "education_only",
+      "attribution": "event",
+      "campaigns": [
+        "PASTE_TECH_EDUONLY_CAMPAIGN_ID"
+      ],
+      "shown_by_campaign": [
+        {
+          "id": "PASTE_TECH_EDUONLY_CAMPAIGN_ID",
+          "users": 0
+        }
+      ],
+      "steps": [
+        [
+          "shown",
+          "Shown (in-app)",
+          "inApp_Shown / Notification Viewed"
+        ],
+        [
+          "edu_ok",
+          "Tapped ठीक है",
+          "TECH_Offer_EduOnly_OK_Clicked"
+        ]
+      ],
+      "funnel": {
+        "shown": 0,
+        "edu_ok": 0
+      },
+      "options": [],
+      "daily": [],
+      "note": "Education screen + ठीक है only, no quiz. Capped once/day, 3 lifetime. Campaign id not configured yet — <b>shown</b> stays 0 until it is set; the tap count below is every profile that fired the event."
     }
   ],
   "unattributed": {

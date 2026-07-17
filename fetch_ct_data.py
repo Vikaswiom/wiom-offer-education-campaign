@@ -72,7 +72,29 @@ OPTION_LABEL = {"1": "1st (top)", "2": "2nd (middle)", "3": "3rd (bottom)"}
 ROLE_PROP = "role"
 TECH_ROLE_VALUE = "technician"
 
-ALL_CAMPAIGNS = [c for a in APPS for c in a["campaigns"]]
+# ---- education-only variant (no quiz) ---------------------------------------
+# Separate campaigns running a cut-down creative: education screen + ठीक है, nothing
+# else. Capped in CleverTap at once/day, 3 lifetime.
+#
+# Unlike the quiz variant, each app fires its OWN event name. That is the whole point:
+# the quiz creative is byte-identical across apps, so its events carry no app marker and
+# the Technician funnel had to be reconstructed from Notification Viewed + role guesswork.
+# Here the event itself says which app it came from, so no attribution guessing is needed
+# for the tap step — only `shown` still depends on a campaign id.
+EDUONLY = [
+    {"key": "csp_eduonly",  "label": "CSP App · education only",        "color": "#E8629B",
+     "event": "CSP_Offer_EduOnly_OK_Clicked",
+     "campaigns": ["PASTE_CSP_EDUONLY_CAMPAIGN_ID"]},
+    {"key": "tech_eduonly", "label": "Technician App · education only", "color": "#5B8DEF",
+     "event": "TECH_Offer_EduOnly_OK_Clicked",
+     "campaigns": ["PASTE_TECH_EDUONLY_CAMPAIGN_ID"]},
+]
+
+def _configured(app):
+    return [c for c in app["campaigns"] if c and not c.startswith("PASTE_")]
+
+ALL_CAMPAIGNS = ([c for a in APPS for c in a["campaigns"]] +
+                 [c for a in EDUONLY for c in _configured(a)])
 
 # ---- creds ------------------------------------------------------------------
 def load_creds():
@@ -298,6 +320,68 @@ def main():
                        "completed": len(a_daily[d]["completed"])} for d in sorted(a_daily)],
         })
 
+    # ---- pass 3: education-only variant, one funnel per app ----
+    # Two steps only (shown -> tapped ठीक है); no quiz exists in this creative.
+    for e in EDUONLY:
+        camps = _configured(e)
+        tappers, tap_day = set(), {}
+        for rec in export_event(e["event"], frm, to):
+            i = identity_of(rec)
+            if not i:
+                continue
+            tappers.add(i)
+            d = day_of(rec)
+            if d:
+                tap_day.setdefault(d, set()).add(i)
+
+        # `shown` from whichever impression source this campaign actually reports.
+        # The Technician app does not fire the custom inApp_Shown, so accept either
+        # and union them rather than assuming one works.
+        shown, shown_day_e = set(), {}
+        for c in camps:
+            shown |= shown_by_cmp.get(c, set())
+            for d, idents in shown_day.get(c, {}).items():
+                shown_day_e.setdefault(d, set()).update(idents)
+        if camps:
+            try:
+                for rec in export_event("Notification Viewed", frm, to):
+                    props = props_of(rec)
+                    if str(props.get("Campaign type", "")).lower() != "inapp":
+                        continue
+                    i = identity_of(rec)
+                    wid = str(props.get("wzrk_id", ""))
+                    if i and any(c in wid for c in camps):
+                        shown.add(i)
+                        d = day_of(rec)
+                        if d:
+                            shown_day_e.setdefault(d, set()).add(i)
+            except Exception as ex:
+                print(f"  {e['label']}: Notification Viewed lookup failed ({ex})")
+
+        # Lock to the cohort only when we actually have impressions; otherwise report the
+        # raw tap count rather than silently zeroing a funnel that has real taps.
+        tapped = (tappers & shown) if shown else tappers
+        daily_keys = sorted(set(shown_day_e) | set(tap_day))
+        apps_out.append({
+            "key": e["key"], "label": e["label"], "color": e["color"],
+            "variant": "education_only",
+            "attribution": "event" if not shown else "campaign",
+            "campaigns": e["campaigns"],
+            "shown_by_campaign": [{"id": c, "users": len(shown_by_cmp.get(c, set()))} for c in e["campaigns"]],
+            "steps": [["shown", "Shown (in-app)", "inApp_Shown / Notification Viewed"],
+                      ["edu_ok", "Tapped ठीक है", e["event"]]],
+            "funnel": {"shown": len(shown), "edu_ok": len(tapped)},
+            "options": [],
+            "daily": [{"date": f"{d[:4]}-{d[4:6]}-{d[6:8]}",
+                       "shown": len(shown_day_e.get(d, set())),
+                       "completed": len(tap_day.get(d, set()))} for d in daily_keys],
+            "note": ("Education screen + ठीक है only, no quiz. Capped once/day, 3 lifetime. "
+                     + ("Campaign id not configured yet — <b>shown</b> stays 0 until it is set; "
+                        "the tap count below is every profile that fired the event."
+                        if not camps else
+                        "Its own event name identifies the app, so taps need no attribution guesswork.")),
+        })
+
     # technician workaround: the campaign-locked inApp_Shown numbers are always zero
     # for the tech app, so overwrite them. Preferred source: real impressions from
     # Notification Viewed (locked cohort, matches the campaigns UI). Fallback when
@@ -385,7 +469,12 @@ def main():
     p = lambda x, y: round(100 * x / y) if y else 0
     for a in apps_out:
         f = a["funnel"]
-        tag = {"role": " (by role)", "impressions": " (impressions)"}.get(a.get("attribution"), "")
+        tag = {"role": " (by role)", "impressions": " (impressions)",
+               "event": " (by event)"}.get(a.get("attribution"), "")
+        # the education-only creative has no quiz, so its funnel stops at edu_ok
+        if a.get("variant") == "education_only":
+            print(f"  {a['label'] + tag:34s} shown={f['shown']:4d}  edu_ok={f['edu_ok']:4d} ({p(f['edu_ok'],f['shown'])}%)")
+            continue
         print(f"  {a['label'] + tag:26s} shown={f['shown']:4d}  edu_ok={f['edu_ok']:4d} ({p(f['edu_ok'],f['shown'])}%)  "
               f"completed={f['completed']:4d} ({p(f['completed'],f['shown'])}%)")
         if a.get("attribution") == "role":
