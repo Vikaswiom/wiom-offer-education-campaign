@@ -1,5 +1,5 @@
 {
-  "generated": "2026-07-17 16:01",
+  "generated": "2026-07-17 16:31",
   "sample": false,
   "region": "eu1",
   "start_date": "2026-07-16",
@@ -38,19 +38,19 @@
         },
         {
           "id": "1784207437",
-          "users": 53
+          "users": 58
         }
       ],
       "funnel": {
-        "shown": 66,
-        "edu_ok": 58,
-        "completed": 46
+        "shown": 70,
+        "edu_ok": 62,
+        "completed": 48
       },
       "options": [
         {
           "option": "1",
           "label": "1st (top)",
-          "users": 33
+          "users": 35
         },
         {
           "option": "2",
@@ -71,8 +71,8 @@
         },
         {
           "date": "2026-07-17",
-          "shown": 40,
-          "completed": 29
+          "shown": 45,
+          "completed": 31
         }
       ]
     },
@@ -87,19 +87,19 @@
       "shown_by_campaign": [
         {
           "id": "1784203536",
-          "users": 24
+          "users": 30
         }
       ],
       "funnel": {
-        "shown": 24,
-        "edu_ok": 21,
-        "completed": 14
+        "shown": 30,
+        "edu_ok": 26,
+        "completed": 20
       },
       "options": [
         {
           "option": "1",
           "label": "1st (top)",
-          "users": 11
+          "users": 17
         },
         {
           "option": "2",
@@ -120,8 +120,8 @@
         },
         {
           "date": "2026-07-17",
-          "shown": 17,
-          "completed": 9
+          "shown": 23,
+          "completed": 15
         }
       ],
       "attribution": "impressions"
@@ -133,11 +133,11 @@
       "variant": "education_only",
       "attribution": "event",
       "campaigns": [
-        "PASTE_CSP_EDUONLY_CAMPAIGN_ID"
+        "1784285997"
       ],
       "shown_by_campaign": [
         {
-          "id": "PASTE_CSP_EDUONLY_CAMPAIGN_ID",
+          "id": "1784285997",
           "users": 0
         }
       ],
@@ -159,7 +159,7 @@
       },
       "options": [],
       "daily": [],
-      "note": "Education screen + ठीक है only, no quiz. Capped once/day, 3 lifetime. Campaign id not configured yet — <b>shown</b> stays 0 until it is set; the tap count below is every profile that fired the event."
+      "note": "Education screen + ठीक है only, no quiz. Capped once/day, 3 lifetime. Its own event name identifies the app, so taps need no attribution guesswork."
     },
     {
       "key": "tech_eduonly",
@@ -168,11 +168,11 @@
       "variant": "education_only",
       "attribution": "event",
       "campaigns": [
-        "PASTE_TECH_EDUONLY_CAMPAIGN_ID"
+        "1784285901"
       ],
       "shown_by_campaign": [
         {
-          "id": "PASTE_TECH_EDUONLY_CAMPAIGN_ID",
+          "id": "1784285901",
           "users": 0
         }
       ],
@@ -194,7 +194,7 @@
       },
       "options": [],
       "daily": [],
-      "note": "Education screen + ठीक है only, no quiz. Capped once/day, 3 lifetime. Campaign id not configured yet — <b>shown</b> stays 0 until it is set; the tap count below is every profile that fired the event."
+      "note": "Education screen + ठीक है only, no quiz. Capped once/day, 3 lifetime. Its own event name identifies the app, so taps need no attribution guesswork."
     }
   ],
   "unattributed": {

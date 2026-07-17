@@ -84,10 +84,10 @@ TECH_ROLE_VALUE = "technician"
 EDUONLY = [
     {"key": "csp_eduonly",  "label": "CSP App · education only",        "color": "#E8629B",
      "event": "CSP_Offer_EduOnly_OK_Clicked",
-     "campaigns": ["PASTE_CSP_EDUONLY_CAMPAIGN_ID"]},
+     "campaigns": ["1784285997"]},
     {"key": "tech_eduonly", "label": "Technician App · education only", "color": "#5B8DEF",
      "event": "TECH_Offer_EduOnly_OK_Clicked",
-     "campaigns": ["PASTE_TECH_EDUONLY_CAMPAIGN_ID"]},
+     "campaigns": ["1784285901"]},
 ]
 
 def _configured(app):
