@@ -1,5 +1,5 @@
 {
-  "generated": "2026-07-17 11:09",
+  "generated": "2026-07-17 11:58",
   "sample": false,
   "region": "eu1",
   "start_date": "2026-07-16",
@@ -38,19 +38,19 @@
         },
         {
           "id": "1784207437",
-          "users": 58
+          "users": 60
         }
       ],
       "funnel": {
-        "shown": 70,
-        "edu_ok": 62,
-        "completed": 49
+        "shown": 72,
+        "edu_ok": 64,
+        "completed": 51
       },
       "options": [
         {
           "option": "1",
           "label": "1st (top)",
-          "users": 36
+          "users": 37
         },
         {
           "option": "2",
@@ -60,7 +60,7 @@
         {
           "option": "3",
           "label": "3rd (bottom)",
-          "users": 8
+          "users": 9
         }
       ],
       "daily": [
@@ -71,8 +71,8 @@
         },
         {
           "date": "2026-07-17",
-          "shown": 45,
-          "completed": 32
+          "shown": 47,
+          "completed": 34
         }
       ]
     },
@@ -166,7 +166,7 @@
       "label": "Technician App · education only",
       "color": "#5B8DEF",
       "variant": "education_only",
-      "attribution": "event",
+      "attribution": "campaign",
       "campaigns": [
         "1784285901"
       ],
@@ -189,11 +189,17 @@
         ]
       ],
       "funnel": {
-        "shown": 0,
+        "shown": 1,
         "edu_ok": 0
       },
       "options": [],
-      "daily": [],
+      "daily": [
+        {
+          "date": "2026-07-17",
+          "shown": 1,
+          "completed": 0
+        }
+      ],
       "note": "Education screen + ठीक है only, no quiz. Capped once/day, 3 lifetime. Its own event name identifies the app, so taps need no attribution guesswork."
     }
   ],
