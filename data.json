@@ -1,5 +1,5 @@
 {
-  "generated": "2026-07-17 04:20",
+  "generated": "2026-07-17 06:07",
   "sample": false,
   "region": "eu1",
   "start_date": "2026-07-16",
@@ -38,29 +38,29 @@
         },
         {
           "id": "1784207437",
-          "users": 18
+          "users": 30
         }
       ],
       "funnel": {
-        "shown": 32,
-        "edu_ok": 29,
-        "completed": 20
+        "shown": 44,
+        "edu_ok": 37,
+        "completed": 29
       },
       "options": [
         {
           "option": "1",
           "label": "1st (top)",
-          "users": 14
+          "users": 20
         },
         {
           "option": "2",
           "label": "2nd (middle)",
-          "users": 3
+          "users": 4
         },
         {
           "option": "3",
           "label": "3rd (bottom)",
-          "users": 3
+          "users": 5
         }
       ],
       "daily": [
@@ -71,8 +71,8 @@
         },
         {
           "date": "2026-07-17",
-          "shown": 4,
-          "completed": 3
+          "shown": 17,
+          "completed": 12
         }
       ]
     },
@@ -87,19 +87,19 @@
       "shown_by_campaign": [
         {
           "id": "1784203536",
-          "users": 7
+          "users": 11
         }
       ],
       "funnel": {
-        "shown": 7,
-        "edu_ok": 6,
-        "completed": 5
+        "shown": 11,
+        "edu_ok": 9,
+        "completed": 8
       },
       "options": [
         {
           "option": "1",
           "label": "1st (top)",
-          "users": 4
+          "users": 6
         },
         {
           "option": "2",
@@ -109,7 +109,7 @@
         {
           "option": "3",
           "label": "3rd (bottom)",
-          "users": 1
+          "users": 2
         }
       ],
       "daily": [
@@ -117,6 +117,11 @@
           "date": "2026-07-16",
           "shown": 7,
           "completed": 5
+        },
+        {
+          "date": "2026-07-17",
+          "shown": 4,
+          "completed": 3
         }
       ],
       "attribution": "impressions"
