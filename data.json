@@ -1,5 +1,5 @@
 {
-  "generated": "2026-07-18 14:04",
+  "generated": "2026-07-18 15:09",
   "sample": false,
   "region": "eu1",
   "start_date": "2026-07-16",
@@ -38,19 +38,19 @@
         },
         {
           "id": "1784207437",
-          "users": 126
+          "users": 129
         }
       ],
       "funnel": {
-        "shown": 138,
-        "edu_ok": 125,
-        "completed": 102
+        "shown": 141,
+        "edu_ok": 126,
+        "completed": 103
       },
       "options": [
         {
           "option": "1",
           "label": "1st (top)",
-          "users": 77
+          "users": 78
         },
         {
           "option": "2",
@@ -76,8 +76,8 @@
         },
         {
           "date": "2026-07-18",
-          "shown": 58,
-          "completed": 44
+          "shown": 61,
+          "completed": 45
         }
       ]
     },
@@ -92,13 +92,13 @@
       "shown_by_campaign": [
         {
           "id": "1784203536",
-          "users": 89
+          "users": 92
         }
       ],
       "funnel": {
-        "shown": 89,
-        "edu_ok": 78,
-        "completed": 63
+        "shown": 92,
+        "edu_ok": 80,
+        "completed": 64
       },
       "options": [
         {
@@ -114,7 +114,7 @@
         {
           "option": "3",
           "label": "3rd (bottom)",
-          "users": 5
+          "users": 6
         }
       ],
       "daily": [
@@ -130,8 +130,8 @@
         },
         {
           "date": "2026-07-18",
-          "shown": 59,
-          "completed": 38
+          "shown": 62,
+          "completed": 39
         }
       ],
       "attribution": "impressions"
@@ -148,7 +148,7 @@
       "shown_by_campaign": [
         {
           "id": "1784285997",
-          "users": 26
+          "users": 27
         }
       ],
       "steps": [
@@ -159,7 +159,7 @@
         ]
       ],
       "funnel": {
-        "shown": 26
+        "shown": 27
       },
       "options": [],
       "daily": [
@@ -169,7 +169,7 @@
         },
         {
           "date": "2026-07-18",
-          "shown": 23
+          "shown": 24
         }
       ],
       "note": "Education screen + ठीक है only, no quiz. Capped once/day, 3 lifetime. Reach only — unique users the in-app was shown to."
@@ -197,7 +197,7 @@
         ]
       ],
       "funnel": {
-        "shown": 34
+        "shown": 37
       },
       "options": [],
       "daily": [
@@ -207,7 +207,7 @@
         },
         {
           "date": "2026-07-18",
-          "shown": 29
+          "shown": 32
         }
       ],
       "note": "Education screen + ठीक है only, no quiz. Capped once/day, 3 lifetime. Reach only — unique users the in-app was shown to."
