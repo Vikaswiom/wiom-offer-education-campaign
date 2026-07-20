@@ -169,7 +169,19 @@ def export_event(event_name, frm, to):
         for rec in (resp.get("records") or []):
             yield rec
 
+# test / internal CSP shops (profileData.cspid) to drop from ALL counts.
+EXCLUDE_CSP = {"a0a0b1"}
+
+def cspid_of(rec):
+    pd = (rec.get("profile") or {}).get("profileData") or {}
+    for k, v in pd.items():
+        if str(k).strip().lower() == "cspid":
+            return str(v).strip()
+    return None
+
 def identity_of(rec):
+    if cspid_of(rec) in EXCLUDE_CSP:            # excluded CSP → drops out of every count via the `if not ident` guards
+        return None
     p = rec.get("profile") or {}
     return p.get("identity") or p.get("objectId") or p.get("email") or None
 
