@@ -1,5 +1,5 @@
 {
-  "generated": "2026-07-20 00:07",
+  "generated": "2026-07-20 03:58",
   "sample": false,
   "region": "eu1",
   "start_date": "2026-07-16",
@@ -38,11 +38,11 @@
         },
         {
           "id": "1784207437",
-          "users": 185
+          "users": 187
         }
       ],
       "funnel": {
-        "shown": 197,
+        "shown": 199,
         "edu_ok": 176,
         "completed": 143
       },
@@ -83,6 +83,11 @@
           "date": "2026-07-19",
           "shown": 64,
           "completed": 38
+        },
+        {
+          "date": "2026-07-20",
+          "shown": 2,
+          "completed": 0
         }
       ]
     },
@@ -158,7 +163,7 @@
       "shown_by_campaign": [
         {
           "id": "1784285997",
-          "users": 64
+          "users": 65
         }
       ],
       "steps": [
@@ -169,7 +174,7 @@
         ]
       ],
       "funnel": {
-        "shown": 64
+        "shown": 65
       },
       "options": [],
       "daily": [
@@ -184,6 +189,10 @@
         {
           "date": "2026-07-19",
           "shown": 39
+        },
+        {
+          "date": "2026-07-20",
+          "shown": 2
         }
       ],
       "note": "Education screen + ठीक है only, no quiz. Capped once/day, 3 lifetime. Reach only — unique users the in-app was shown to."
