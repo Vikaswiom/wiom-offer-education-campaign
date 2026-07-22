@@ -1,5 +1,5 @@
 {
-  "generated": "2026-07-22 06:13",
+  "generated": "2026-07-22 09:13",
   "sample": false,
   "region": "eu1",
   "start_date": "2026-07-16",
@@ -38,29 +38,29 @@
         },
         {
           "id": "1784207437",
-          "users": 302
+          "users": 316
         }
       ],
       "funnel": {
-        "shown": 313,
-        "edu_ok": 286,
-        "completed": 235
+        "shown": 327,
+        "edu_ok": 298,
+        "completed": 245
       },
       "options": [
         {
           "option": "1",
           "label": "1st (top)",
-          "users": 180
+          "users": 186
         },
         {
           "option": "2",
           "label": "2nd (middle)",
-          "users": 22
+          "users": 23
         },
         {
           "option": "3",
           "label": "3rd (bottom)",
-          "users": 33
+          "users": 36
         }
       ],
       "daily": [
@@ -96,8 +96,8 @@
         },
         {
           "date": "2026-07-22",
-          "shown": 19,
-          "completed": 12
+          "shown": 35,
+          "completed": 22
         }
       ]
     },
@@ -105,26 +105,26 @@
       "key": "tech",
       "label": "Technician App",
       "color": "#2563EB",
-      "note": "Technician app — Shown comes from CleverTap's own impression event (Notification Viewed, wzrk_id 1784203536) because this app does not fire the custom inApp_Shown; education/quiz are locked to that cohort by identity. 23 role = technician profile(s) acted without a recorded impression.",
+      "note": "Technician app — Shown comes from CleverTap's own impression event (Notification Viewed, wzrk_id 1784203536) because this app does not fire the custom inApp_Shown; education/quiz are locked to that cohort by identity. 37 role = technician profile(s) acted without a recorded impression.",
       "campaigns": [
         "1784203536"
       ],
       "shown_by_campaign": [
         {
           "id": "1784203536",
-          "users": 240
+          "users": 249
         }
       ],
       "funnel": {
-        "shown": 240,
-        "edu_ok": 223,
-        "completed": 187
+        "shown": 249,
+        "edu_ok": 232,
+        "completed": 196
       },
       "options": [
         {
           "option": "1",
           "label": "1st (top)",
-          "users": 149
+          "users": 155
         },
         {
           "option": "2",
@@ -134,7 +134,7 @@
         {
           "option": "3",
           "label": "3rd (bottom)",
-          "users": 26
+          "users": 29
         }
       ],
       "daily": [
@@ -170,8 +170,8 @@
         },
         {
           "date": "2026-07-22",
-          "shown": 12,
-          "completed": 7
+          "shown": 21,
+          "completed": 16
         }
       ],
       "attribution": "impressions"
@@ -188,7 +188,7 @@
       "shown_by_campaign": [
         {
           "id": "1784285997",
-          "users": 117
+          "users": 119
         }
       ],
       "steps": [
@@ -199,7 +199,7 @@
         ]
       ],
       "funnel": {
-        "shown": 117
+        "shown": 119
       },
       "options": [],
       "daily": [
@@ -225,7 +225,7 @@
         },
         {
           "date": "2026-07-22",
-          "shown": 5
+          "shown": 9
         }
       ],
       "note": "Education screen + ठीक है only, no quiz. Capped once/day, 3 lifetime. Reach only — unique users the in-app was shown to."
@@ -253,7 +253,7 @@
         ]
       ],
       "funnel": {
-        "shown": 135
+        "shown": 142
       },
       "options": [],
       "daily": [
@@ -279,17 +279,17 @@
         },
         {
           "date": "2026-07-22",
-          "shown": 11
+          "shown": 21
         }
       ],
       "note": "Education screen + ठीक है only, no quiz. Capped once/day, 3 lifetime. Reach only — unique users the in-app was shown to."
     }
   ],
   "unattributed": {
-    "edu_ok": 32,
-    "completed": 22,
-    "edu_ok_technician": 23,
-    "completed_technician": 18
+    "edu_ok": 48,
+    "completed": 32,
+    "edu_ok_technician": 37,
+    "completed_technician": 27
   },
   "both_apps": 0
 }
