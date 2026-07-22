@@ -1,5 +1,5 @@
 {
-  "generated": "2026-07-22 15:12",
+  "generated": "2026-07-22 16:59",
   "sample": false,
   "region": "eu1",
   "start_date": "2026-07-16",
@@ -279,7 +279,7 @@
         },
         {
           "date": "2026-07-22",
-          "shown": 36
+          "shown": 37
         }
       ],
       "note": "Education screen + ठीक है only, no quiz. Capped once/day, 3 lifetime. Reach only — unique users the in-app was shown to."
