@@ -1,5 +1,5 @@
 {
-  "generated": "2026-07-23 14:27",
+  "generated": "2026-07-23 16:12",
   "sample": false,
   "region": "eu1",
   "start_date": "2026-07-16",
@@ -38,19 +38,19 @@
         },
         {
           "id": "1784207437",
-          "users": 347
+          "users": 350
         }
       ],
       "funnel": {
-        "shown": 358,
-        "edu_ok": 333,
-        "completed": 275
+        "shown": 361,
+        "edu_ok": 336,
+        "completed": 276
       },
       "options": [
         {
           "option": "1",
           "label": "1st (top)",
-          "users": 213
+          "users": 214
         },
         {
           "option": "2",
@@ -101,8 +101,8 @@
         },
         {
           "date": "2026-07-23",
-          "shown": 28,
-          "completed": 21
+          "shown": 31,
+          "completed": 22
         }
       ]
     },
@@ -110,26 +110,26 @@
       "key": "tech",
       "label": "Technician App",
       "color": "#2563EB",
-      "note": "Technician app — Shown comes from CleverTap's own impression event (Notification Viewed, wzrk_id 1784203536) because this app does not fire the custom inApp_Shown; education/quiz are locked to that cohort by identity. 63 role = technician profile(s) acted without a recorded impression.",
+      "note": "Technician app — Shown comes from CleverTap's own impression event (Notification Viewed, wzrk_id 1784203536) because this app does not fire the custom inApp_Shown; education/quiz are locked to that cohort by identity. 64 role = technician profile(s) acted without a recorded impression.",
       "campaigns": [
         "1784203536"
       ],
       "shown_by_campaign": [
         {
           "id": "1784203536",
-          "users": 264
+          "users": 263
         }
       ],
       "funnel": {
-        "shown": 264,
-        "edu_ok": 252,
-        "completed": 216
+        "shown": 263,
+        "edu_ok": 251,
+        "completed": 215
       },
       "options": [
         {
           "option": "1",
           "label": "1st (top)",
-          "users": 173
+          "users": 172
         },
         {
           "option": "2",
@@ -180,8 +180,8 @@
         },
         {
           "date": "2026-07-23",
-          "shown": 16,
-          "completed": 11
+          "shown": 15,
+          "completed": 10
         }
       ],
       "attribution": "impressions"
@@ -304,10 +304,10 @@
     }
   ],
   "unattributed": {
-    "edu_ok": 102,
-    "completed": 76,
-    "edu_ok_technician": 63,
-    "completed_technician": 49
+    "edu_ok": 105,
+    "completed": 79,
+    "edu_ok_technician": 64,
+    "completed_technician": 50
   },
   "both_apps": 0
 }
