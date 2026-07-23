@@ -1,5 +1,5 @@
 {
-  "generated": "2026-07-23 16:12",
+  "generated": "2026-07-23 17:58",
   "sample": false,
   "region": "eu1",
   "start_date": "2026-07-16",
@@ -267,7 +267,7 @@
         ]
       ],
       "funnel": {
-        "shown": 163
+        "shown": 162
       },
       "options": [],
       "daily": [
@@ -297,7 +297,7 @@
         },
         {
           "date": "2026-07-23",
-          "shown": 22
+          "shown": 21
         }
       ],
       "note": "Education screen + ठीक है only, no quiz. Capped once/day, 3 lifetime. Reach only — unique users the in-app was shown to."
