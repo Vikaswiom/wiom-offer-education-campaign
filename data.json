@@ -1,5 +1,5 @@
 {
-  "generated": "2026-07-23 01:08",
+  "generated": "2026-07-23 04:29",
   "sample": false,
   "region": "eu1",
   "start_date": "2026-07-16",
@@ -38,19 +38,19 @@
         },
         {
           "id": "1784207437",
-          "users": 326
+          "users": 328
         }
       ],
       "funnel": {
-        "shown": 337,
-        "edu_ok": 307,
-        "completed": 254
+        "shown": 339,
+        "edu_ok": 308,
+        "completed": 255
       },
       "options": [
         {
           "option": "1",
           "label": "1st (top)",
-          "users": 195
+          "users": 196
         },
         {
           "option": "2",
@@ -98,6 +98,11 @@
           "date": "2026-07-22",
           "shown": 50,
           "completed": 31
+        },
+        {
+          "date": "2026-07-23",
+          "shown": 2,
+          "completed": 1
         }
       ]
     },
@@ -172,6 +177,11 @@
           "date": "2026-07-22",
           "shown": 30,
           "completed": 25
+        },
+        {
+          "date": "2026-07-23",
+          "shown": 1,
+          "completed": 0
         }
       ],
       "attribution": "impressions"
@@ -226,6 +236,10 @@
         {
           "date": "2026-07-22",
           "shown": 12
+        },
+        {
+          "date": "2026-07-23",
+          "shown": 1
         }
       ],
       "note": "Education screen + ठीक है only, no quiz. Capped once/day, 3 lifetime. Reach only — unique users the in-app was shown to."
@@ -286,8 +300,8 @@
     }
   ],
   "unattributed": {
-    "edu_ok": 68,
-    "completed": 49,
+    "edu_ok": 69,
+    "completed": 50,
     "edu_ok_technician": 50,
     "completed_technician": 37
   },
