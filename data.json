@@ -1,5 +1,5 @@
 {
-  "generated": "2026-07-24 11:53",
+  "generated": "2026-07-24 14:07",
   "sample": false,
   "region": "eu1",
   "start_date": "2026-07-16",
@@ -38,19 +38,19 @@
         },
         {
           "id": "1784207437",
-          "users": 355
+          "users": 357
         }
       ],
       "funnel": {
-        "shown": 366,
-        "edu_ok": 340,
-        "completed": 285
+        "shown": 368,
+        "edu_ok": 341,
+        "completed": 286
       },
       "options": [
         {
           "option": "1",
           "label": "1st (top)",
-          "users": 222
+          "users": 223
         },
         {
           "option": "2",
@@ -106,8 +106,8 @@
         },
         {
           "date": "2026-07-24",
-          "shown": 10,
-          "completed": 10
+          "shown": 12,
+          "completed": 11
         }
       ]
     },
@@ -115,26 +115,26 @@
       "key": "tech",
       "label": "Technician App",
       "color": "#2563EB",
-      "note": "Technician app — Shown comes from CleverTap's own impression event (Notification Viewed, wzrk_id 1784203536) because this app does not fire the custom inApp_Shown; education/quiz are locked to that cohort by identity. 80 role = technician profile(s) acted without a recorded impression.",
+      "note": "Technician app — Shown comes from CleverTap's own impression event (Notification Viewed, wzrk_id 1784203536) because this app does not fire the custom inApp_Shown; education/quiz are locked to that cohort by identity. 81 role = technician profile(s) acted without a recorded impression.",
       "campaigns": [
         "1784203536"
       ],
       "shown_by_campaign": [
         {
           "id": "1784203536",
-          "users": 264
+          "users": 265
         }
       ],
       "funnel": {
-        "shown": 264,
-        "edu_ok": 253,
-        "completed": 217
+        "shown": 265,
+        "edu_ok": 254,
+        "completed": 218
       },
       "options": [
         {
           "option": "1",
           "label": "1st (top)",
-          "users": 173
+          "users": 174
         },
         {
           "option": "2",
@@ -190,8 +190,8 @@
         },
         {
           "date": "2026-07-24",
-          "shown": 4,
-          "completed": 2
+          "shown": 6,
+          "completed": 3
         }
       ],
       "attribution": "impressions"
@@ -208,7 +208,7 @@
       "shown_by_campaign": [
         {
           "id": "1784285997",
-          "users": 137
+          "users": 138
         }
       ],
       "steps": [
@@ -219,7 +219,7 @@
         ]
       ],
       "funnel": {
-        "shown": 137
+        "shown": 138
       },
       "options": [],
       "daily": [
@@ -253,7 +253,7 @@
         },
         {
           "date": "2026-07-24",
-          "shown": 12
+          "shown": 15
         }
       ],
       "note": "Education screen + ठीक है only, no quiz. Capped once/day, 3 lifetime. Reach only — unique users the in-app was shown to."
@@ -281,7 +281,7 @@
         ]
       ],
       "funnel": {
-        "shown": 162
+        "shown": 163
       },
       "options": [],
       "daily": [
@@ -315,17 +315,17 @@
         },
         {
           "date": "2026-07-24",
-          "shown": 4
+          "shown": 5
         }
       ],
       "note": "Education screen + ठीक है only, no quiz. Capped once/day, 3 lifetime. Reach only — unique users the in-app was shown to."
     }
   ],
   "unattributed": {
-    "edu_ok": 135,
-    "completed": 103,
-    "edu_ok_technician": 80,
-    "completed_technician": 63
+    "edu_ok": 137,
+    "completed": 106,
+    "edu_ok_technician": 81,
+    "completed_technician": 65
   },
   "both_apps": 0
 }
