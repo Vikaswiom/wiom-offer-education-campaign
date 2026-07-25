@@ -1,5 +1,5 @@
 {
-  "generated": "2026-07-25 11:47",
+  "generated": "2026-07-25 13:57",
   "sample": false,
   "region": "eu1",
   "start_date": "2026-07-16",
@@ -38,19 +38,19 @@
         },
         {
           "id": "1784207437",
-          "users": 370
+          "users": 372
         }
       ],
       "funnel": {
-        "shown": 381,
-        "edu_ok": 356,
-        "completed": 299
+        "shown": 383,
+        "edu_ok": 357,
+        "completed": 300
       },
       "options": [
         {
           "option": "1",
           "label": "1st (top)",
-          "users": 235
+          "users": 236
         },
         {
           "option": "2",
@@ -111,8 +111,8 @@
         },
         {
           "date": "2026-07-25",
-          "shown": 14,
-          "completed": 9
+          "shown": 17,
+          "completed": 10
         }
       ]
     },
@@ -120,7 +120,7 @@
       "key": "tech",
       "label": "Technician App",
       "color": "#2563EB",
-      "note": "Technician app — Shown comes from CleverTap's own impression event (Notification Viewed, wzrk_id 1784203536) because this app does not fire the custom inApp_Shown; education/quiz are locked to that cohort by identity. 101 role = technician profile(s) acted without a recorded impression.",
+      "note": "Technician app — Shown comes from CleverTap's own impression event (Notification Viewed, wzrk_id 1784203536) because this app does not fire the custom inApp_Shown; education/quiz are locked to that cohort by identity. 104 role = technician profile(s) acted without a recorded impression.",
       "campaigns": [
         "1784203536"
       ],
@@ -200,7 +200,7 @@
         },
         {
           "date": "2026-07-25",
-          "shown": 5,
+          "shown": 4,
           "completed": 3
         }
       ],
@@ -267,7 +267,7 @@
         },
         {
           "date": "2026-07-25",
-          "shown": 7
+          "shown": 6
         }
       ],
       "note": "Education screen + ठीक है only, no quiz. Capped once/day, 3 lifetime. Reach only — unique users the in-app was shown to."
@@ -340,10 +340,10 @@
     }
   ],
   "unattributed": {
-    "edu_ok": 169,
-    "completed": 132,
-    "edu_ok_technician": 101,
-    "completed_technician": 82
+    "edu_ok": 174,
+    "completed": 136,
+    "edu_ok_technician": 104,
+    "completed_technician": 85
   },
   "both_apps": 0
 }
