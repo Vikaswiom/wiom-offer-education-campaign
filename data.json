@@ -1,5 +1,5 @@
 {
-  "generated": "2026-07-26 12:12",
+  "generated": "2026-07-26 14:13",
   "sample": false,
   "region": "eu1",
   "start_date": "2026-07-16",
@@ -43,14 +43,14 @@
       ],
       "funnel": {
         "shown": 395,
-        "edu_ok": 369,
-        "completed": 311
+        "edu_ok": 372,
+        "completed": 313
       },
       "options": [
         {
           "option": "1",
           "label": "1st (top)",
-          "users": 243
+          "users": 245
         },
         {
           "option": "2",
@@ -116,8 +116,8 @@
         },
         {
           "date": "2026-07-26",
-          "shown": 15,
-          "completed": 9
+          "shown": 17,
+          "completed": 11
         }
       ]
     },
@@ -125,7 +125,7 @@
       "key": "tech",
       "label": "Technician App",
       "color": "#2563EB",
-      "note": "Technician app — Shown comes from CleverTap's own impression event (Notification Viewed, wzrk_id 1784203536) because this app does not fire the custom inApp_Shown; education/quiz are locked to that cohort by identity. 126 role = technician profile(s) acted without a recorded impression.",
+      "note": "Technician app — Shown comes from CleverTap's own impression event (Notification Viewed, wzrk_id 1784203536) because this app does not fire the custom inApp_Shown; education/quiz are locked to that cohort by identity. 134 role = technician profile(s) acted without a recorded impression.",
       "campaigns": [
         "1784203536"
       ],
@@ -281,7 +281,7 @@
         },
         {
           "date": "2026-07-26",
-          "shown": 6
+          "shown": 7
         }
       ],
       "note": "Education screen + ठीक है only, no quiz. Capped once/day, 3 lifetime. Reach only — unique users the in-app was shown to."
@@ -354,10 +354,10 @@
     }
   ],
   "unattributed": {
-    "edu_ok": 216,
-    "completed": 167,
-    "edu_ok_technician": 126,
-    "completed_technician": 101
+    "edu_ok": 227,
+    "completed": 174,
+    "edu_ok_technician": 134,
+    "completed_technician": 105
   },
   "both_apps": 0
 }
