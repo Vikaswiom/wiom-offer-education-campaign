@@ -1,5 +1,5 @@
 {
-  "generated": "2026-07-27 11:36",
+  "generated": "2026-07-27 13:56",
   "sample": false,
   "region": "eu1",
   "start_date": "2026-07-16",
@@ -38,19 +38,19 @@
         },
         {
           "id": "1784207437",
-          "users": 384
+          "users": 385
         }
       ],
       "funnel": {
-        "shown": 395,
-        "edu_ok": 373,
-        "completed": 317
+        "shown": 396,
+        "edu_ok": 374,
+        "completed": 318
       },
       "options": [
         {
           "option": "1",
           "label": "1st (top)",
-          "users": 248
+          "users": 249
         },
         {
           "option": "2",
@@ -121,8 +121,8 @@
         },
         {
           "date": "2026-07-27",
-          "shown": 2,
-          "completed": 3
+          "shown": 3,
+          "completed": 4
         }
       ]
     },
@@ -130,7 +130,7 @@
       "key": "tech",
       "label": "Technician App",
       "color": "#2563EB",
-      "note": "Technician app — Shown comes from CleverTap's own impression event (Notification Viewed, wzrk_id 1784203536) because this app does not fire the custom inApp_Shown; education/quiz are locked to that cohort by identity. 156 role = technician profile(s) acted without a recorded impression.",
+      "note": "Technician app — Shown comes from CleverTap's own impression event (Notification Viewed, wzrk_id 1784203536) because this app does not fire the custom inApp_Shown; education/quiz are locked to that cohort by identity. 158 role = technician profile(s) acted without a recorded impression.",
       "campaigns": [
         "1784203536"
       ],
@@ -143,13 +143,13 @@
       "funnel": {
         "shown": 267,
         "edu_ok": 257,
-        "completed": 224
+        "completed": 225
       },
       "options": [
         {
           "option": "1",
           "label": "1st (top)",
-          "users": 179
+          "users": 180
         },
         {
           "option": "2",
@@ -221,7 +221,7 @@
         {
           "date": "2026-07-27",
           "shown": 0,
-          "completed": 1
+          "completed": 2
         }
       ],
       "attribution": "impressions"
@@ -368,10 +368,10 @@
     }
   ],
   "unattributed": {
-    "edu_ok": 268,
-    "completed": 208,
-    "edu_ok_technician": 156,
-    "completed_technician": 120
+    "edu_ok": 272,
+    "completed": 213,
+    "edu_ok_technician": 158,
+    "completed_technician": 123
   },
   "both_apps": 0
 }
