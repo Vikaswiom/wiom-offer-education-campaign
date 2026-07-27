@@ -1,5 +1,5 @@
 {
-  "generated": "2026-07-27 18:01",
+  "generated": "2026-07-27 18:06",
   "region": "eu1",
   "start_date": "2026-07-27",
   "funnel": [
@@ -8,52 +8,52 @@
       "label": "Popup shown",
       "event": "Bonus_Seva_Intro_Viewed",
       "users": 0,
-      "events": 0
+      "events": 7
     },
     {
       "key": "learn_more",
       "label": "Tapped और जानें",
       "event": "Bonus_Seva_LearnMore_Clicked",
       "users": 0,
-      "events": 0
+      "events": 7
     },
     {
       "key": "video_played",
       "label": "Video started",
       "event": "Bonus_Seva_Video_Played",
       "users": 0,
-      "events": 0
+      "events": 7
     },
     {
       "key": "understood",
       "label": "Tapped समझ गया",
       "event": "Bonus_Seva_Understood_Clicked",
       "users": 0,
-      "events": 0
+      "events": 4
     },
     {
       "key": "quiz_answered",
       "label": "Answered the quiz",
       "event": "Bonus_Seva_Quiz_Answered",
       "users": 0,
-      "events": 0
+      "events": 4
     },
     {
       "key": "completed",
       "label": "Completed the flow",
       "event": "Bonus_Seva_Flow_Completed",
       "users": 0,
-      "events": 0
+      "events": 4
     }
   ],
   "dropoffs": {
     "intro_dismissed": {
       "users": 0,
-      "events": 0
+      "events": 1
     },
     "video_dismissed": {
       "users": 0,
-      "events": 0,
+      "events": 1,
       "watched": {
         "users": 0,
         "avg": 0,
