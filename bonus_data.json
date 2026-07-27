@@ -1,0 +1,120 @@
+{
+  "generated": "2026-07-27 18:01",
+  "region": "eu1",
+  "start_date": "2026-07-27",
+  "funnel": [
+    {
+      "key": "intro_viewed",
+      "label": "Popup shown",
+      "event": "Bonus_Seva_Intro_Viewed",
+      "users": 0,
+      "events": 0
+    },
+    {
+      "key": "learn_more",
+      "label": "Tapped और जानें",
+      "event": "Bonus_Seva_LearnMore_Clicked",
+      "users": 0,
+      "events": 0
+    },
+    {
+      "key": "video_played",
+      "label": "Video started",
+      "event": "Bonus_Seva_Video_Played",
+      "users": 0,
+      "events": 0
+    },
+    {
+      "key": "understood",
+      "label": "Tapped समझ गया",
+      "event": "Bonus_Seva_Understood_Clicked",
+      "users": 0,
+      "events": 0
+    },
+    {
+      "key": "quiz_answered",
+      "label": "Answered the quiz",
+      "event": "Bonus_Seva_Quiz_Answered",
+      "users": 0,
+      "events": 0
+    },
+    {
+      "key": "completed",
+      "label": "Completed the flow",
+      "event": "Bonus_Seva_Flow_Completed",
+      "users": 0,
+      "events": 0
+    }
+  ],
+  "dropoffs": {
+    "intro_dismissed": {
+      "users": 0,
+      "events": 0
+    },
+    "video_dismissed": {
+      "users": 0,
+      "events": 0,
+      "watched": {
+        "users": 0,
+        "avg": 0,
+        "median": 0,
+        "buckets": [
+          {
+            "label": "0–5s",
+            "users": 0
+          },
+          {
+            "label": "6–15s",
+            "users": 0
+          },
+          {
+            "label": "16–30s",
+            "users": 0
+          },
+          {
+            "label": "31–44s",
+            "users": 0
+          },
+          {
+            "label": "45s+",
+            "users": 0
+          }
+        ]
+      }
+    }
+  },
+  "understood_watched": {
+    "users": 0,
+    "avg": 0,
+    "median": 0,
+    "buckets": [
+      {
+        "label": "0–5s",
+        "users": 0
+      },
+      {
+        "label": "6–15s",
+        "users": 0
+      },
+      {
+        "label": "16–30s",
+        "users": 0
+      },
+      {
+        "label": "31–44s",
+        "users": 0
+      },
+      {
+        "label": "45s+",
+        "users": 0
+      }
+    ]
+  },
+  "quiz": {
+    "answered": 0,
+    "correct": 0,
+    "wrong": 0,
+    "choices": []
+  },
+  "daily": []
+}

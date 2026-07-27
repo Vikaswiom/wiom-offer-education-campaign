@@ -51,25 +51,28 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
           python3 fetch_ct_data.py
-          if git diff --quiet -- data.json; then
+          python3 fetch_bonus_data.py
+          if git diff --quiet -- data.json bonus_data.json; then
             echo "no data change — skip push"
             exit 0
           fi
 
-          # keep the fresh snapshot safe: main can move under this job, and the
+          # keep the fresh snapshots safe: main can move under this job, and the
           # resync below resets the working tree (same pattern as the
           # kamai-kavach refresh pipeline, which this is copied from)
           cp data.json /tmp/data.fresh.json
+          cp bonus_data.json /tmp/bonus_data.fresh.json
           msg="data: refresh CT snapshot"
           for attempt in 1 2 3; do
             git fetch origin main --quiet
             git reset --hard origin/main --quiet
             cp /tmp/data.fresh.json data.json
-            if git diff --quiet -- data.json; then
+            cp /tmp/bonus_data.fresh.json bonus_data.json
+            if git diff --quiet -- data.json bonus_data.json; then
               echo "no data change after resync — skip push"
               exit 0
             fi
-            git add data.json
+            git add data.json bonus_data.json
             git commit --quiet -m "$msg"
             if git push --quiet origin HEAD:main; then
               echo "pushed — GitHub Pages will redeploy in ~1 min"
