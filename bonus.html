@@ -34,6 +34,7 @@ section{margin-top:24px;}
 .kpi .v{font-size:32px;font-weight:900;letter-spacing:-1px;margin-top:6px;line-height:1;}
 .kpi .d{font-size:12px;font-weight:600;color:var(--faint);margin-top:6px;}
 .kpi .d b{color:var(--good);font-weight:800;}
+.kpi .e{font-size:11px;font-weight:700;color:var(--faint);margin-top:7px;padding-top:7px;border-top:1px dashed var(--line);}
 .panel{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:20px 22px;box-shadow:var(--shadow);}
 .fnl-step{margin:11px 0;}
 .fnl-step .lbl{display:flex;justify-content:space-between;align-items:baseline;font-size:13px;font-weight:700;margin-bottom:5px;}
@@ -43,8 +44,10 @@ section{margin-top:24px;}
 .fnl-step .lbl .vl small{color:var(--faint);font-weight:700;font-size:11.5px;margin-left:3px;}
 .fnl-step .trk{background:var(--soft);border-radius:7px;height:24px;overflow:hidden;}
 .fnl-step .br{height:100%;border-radius:7px;min-width:3px;background:var(--brand);transition:width .5s cubic-bezier(.2,.7,.2,1);}
-.fnl-step .dp{font-size:11px;font-weight:700;color:var(--warn);margin-top:4px;height:14px;}
+.fnl-step .dp{font-size:11px;font-weight:700;color:var(--warn);margin-top:4px;height:14px;
+  display:flex;justify-content:space-between;align-items:baseline;gap:12px;}
 .fnl-step .dp.zero{color:var(--good);}
+.fnl-step .dp .ev{color:var(--faint);font-weight:700;white-space:nowrap;}
 .pending{background:var(--warn-bg);border:1px solid #F2DCA8;color:#7A5200;border-radius:10px;
   padding:9px 12px;font-size:12px;font-weight:700;margin-top:10px;}
 .two{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
@@ -52,6 +55,7 @@ section{margin-top:24px;}
 .stat{display:flex;justify-content:space-between;align-items:baseline;padding:9px 0;border-bottom:1px dashed var(--line);font-size:13px;font-weight:600;color:var(--muted);}
 .stat:last-of-type{border-bottom:none;}
 .stat b{font-size:16px;font-weight:900;color:var(--ink);}
+.stat .ev{font-size:11px;font-weight:700;color:var(--faint);margin-left:7px;white-space:nowrap;}
 .qrow{margin:12px 0;}
 .qrow .ql{font-size:13px;font-weight:700;margin-bottom:5px;display:flex;justify-content:space-between;gap:12px;}
 .qrow .ql .qt{font-weight:600;color:var(--muted);}
@@ -152,15 +156,16 @@ const esc=s=>(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&g
 function render(D){
   document.getElementById('banner').classList.toggle('show',!!D.sample);
   document.getElementById('updated').textContent='Updated: '+(D.generated||'');
-  const F={}; (D.funnel||[]).forEach(s=>F[s.key]=s.users);
+  const F={}, E={}; (D.funnel||[]).forEach(s=>{F[s.key]=s.users;E[s.key]=s.events;});
   const shown=F.intro_viewed||0;
+  const fired=k=>`<span class="ev">fired ${nf(E[k])} times</span>`;
 
   document.getElementById('kpis').innerHTML=[
-    ['Popup shown (unique)', nf(shown), 'since '+(D.start_date||'—')],
-    ['Watched video', nf(F.video_played), '<b>'+pct(F.video_played,shown)+'%</b> of shown'],
-    ['Tapped समझ गया', nf(F.understood), '<b>'+pct(F.understood,shown)+'%</b> of shown'],
-    ['Completed flow', nf(F.completed), '<b>'+pct(F.completed,shown)+'%</b> of shown']
-  ].map(k=>`<div class="kpi"><div class="k">${k[0]}</div><div class="v">${k[1]}</div><div class="d">${k[2]}</div></div>`).join('');
+    ['Popup shown (unique)', nf(shown), 'since '+(D.start_date||'—'), fired('intro_viewed')],
+    ['Watched video', nf(F.video_played), '<b>'+pct(F.video_played,shown)+'%</b> of shown', fired('video_played')],
+    ['Tapped समझ गया', nf(F.understood), '<b>'+pct(F.understood,shown)+'%</b> of shown', fired('understood')],
+    ['Completed flow', nf(F.completed), '<b>'+pct(F.completed,shown)+'%</b> of shown', fired('completed')]
+  ].map(k=>`<div class="kpi"><div class="k">${k[0]}</div><div class="v">${k[1]}</div><div class="d">${k[2]}</div><div class="e">${k[3]}</div></div>`).join('');
 
   const base=shown||1;
   document.getElementById('funnel').innerHTML=(D.funnel||[]).map((s,i,arr)=>{
@@ -171,18 +176,21 @@ function render(D){
     return `<div class="fnl-step" data-tip="${encodeURIComponent(t)}">
       <div class="lbl"><span class="nm">${esc(s.label)}<small>${s.event}</small></span><span class="vl">${nf(s.users)} <small>${p}%</small></span></div>
       <div class="trk"><div class="br" style="width:${Math.min(p,100)}%"></div></div>
-      <div class="dp ${drop>0?'':'zero'}">${dropTxt}</div></div>`;
+      <div class="dp ${drop>0?'':'zero'}"><span>${dropTxt}</span><span class="ev">fired ${nf(s.events)} times</span></div></div>`;
   }).join('')+(shown===0?'<div class="pending">⏳ No events yet — CleverTap shows an event only after its first real fire. Numbers appear once the campaign goes live.</div>':'');
   document.getElementById('funnelnote').innerHTML=
     `<b>Every count is unique users</b> (deduped on profile identity), from the events export. `+
-    `The flow is linear — each step can only be reached through the one above it, so this reads as a true funnel without extra cohort logic.`;
+    `The flow is linear — each step can only be reached through the one above it, so this reads as a true funnel without extra cohort logic.<br><br>`+
+    `<b>"fired N times" is the raw event count</b> — every fire, including repeats by the same person. It runs ahead of the user count `+
+    `when someone is served the in-app again on a later session and walks the flow a second time. Read the big number for reach; `+
+    `read the gap between the two for how often people repeat.`;
 
   const dd=D.dropoffs||{}, id=dd.intro_dismissed||{users:0}, vd=dd.video_dismissed||{users:0,watched:{avg:0,median:0,buckets:[]}};
   const vw=vd.watched||{avg:0,median:0,buckets:[]};
   const maxB=Math.max(1,...(vw.buckets||[]).map(b=>b.users));
   document.getElementById('drops').innerHTML=
-    `<div class="stat"><span>Closed the popup (✕ before video)</span><b>${nf(id.users)}</b></div>`+
-    `<div class="stat"><span>Closed the video page (✕ on player)</span><b>${nf(vd.users)}</b></div>`+
+    `<div class="stat"><span>Closed the popup (✕ before video)</span><span><b>${nf(id.users)}</b><span class="ev">fired ${nf(id.events)} times</span></span></div>`+
+    `<div class="stat"><span>Closed the video page (✕ on player)</span><span><b>${nf(vd.users)}</b><span class="ev">fired ${nf(vd.events)} times</span></span></div>`+
     `<div class="stat"><span>Avg watch time before closing video</span><b>${vw.avg||0}s</b> <span style="font-size:11px">median ${vw.median||0}s</span></div>`+
     `<div style="margin-top:12px;font-size:12px;font-weight:700;color:var(--muted)">Watch time when they closed the video</div>`+
     (vw.buckets||[]).map(b=>`<div class="qrow"><div class="ql"><span class="qt">${esc(b.label)}</span><b>${nf(b.users)}</b></div>
@@ -192,7 +200,7 @@ function render(D){
   const q=D.quiz||{answered:0,correct:0,wrong:0,choices:[]}, uw=D.understood_watched||{avg:0,median:0,buckets:[]};
   const maxC=Math.max(1,...(q.choices||[]).map(c=>c.users));
   document.getElementById('quiz').innerHTML=
-    `<div class="stat"><span>Quiz answered</span><b>${nf(q.answered)}</b></div>`+
+    `<div class="stat"><span>Quiz answered</span><span><b>${nf(q.answered)}</b><span class="ev">fired ${nf(E.quiz_answered)} times</span></span></div>`+
     `<div class="stat"><span>First answer</span><span><span class="pill ok">✓ सही ${nf(q.correct)} (${pct(q.correct,q.answered)}%)</span>&nbsp;<span class="pill no">✗ गलत ${nf(q.wrong)}</span></span></div>`+
     (q.choices||[]).map(c=>`<div class="qrow"><div class="ql"><span class="qt">${esc(c.label)}</span><b>${nf(c.users)}</b></div>
       <div class="qbar"><span style="width:${pct(c.users,maxC)}%"></span></div></div>`).join('')+
