@@ -1,5 +1,5 @@
 {
-  "generated": "2026-07-28 14:51 IST",
+  "generated": "2026-07-28 14:59 IST",
   "region": "eu1",
   "start_date": "2026-07-27",
   "funnel": [
@@ -7,22 +7,22 @@
       "key": "intro_viewed",
       "label": "Popup shown",
       "event": "Bonus_Seva_Intro_Viewed",
-      "users": 126,
-      "events": 136
+      "users": 127,
+      "events": 137
     },
     {
       "key": "learn_more",
       "label": "Tapped और जानें",
       "event": "Bonus_Seva_LearnMore_Clicked",
-      "users": 94,
-      "events": 103
+      "users": 95,
+      "events": 104
     },
     {
       "key": "video_played",
       "label": "Video started",
       "event": "Bonus_Seva_Video_Played",
-      "users": 94,
-      "events": 103
+      "users": 95,
+      "events": 104
     },
     {
       "key": "understood",
@@ -33,15 +33,8 @@
     },
     {
       "key": "quiz_answered",
-      "label": "Answered the quiz",
+      "label": "Completed — answered the quiz",
       "event": "Bonus_Seva_Quiz_Answered",
-      "users": 36,
-      "events": 40
-    },
-    {
-      "key": "completed",
-      "label": "Completed the flow",
-      "event": "Bonus_Seva_Flow_Completed",
       "users": 36,
       "events": 40
     }
@@ -52,11 +45,11 @@
       "events": 25
     },
     "video_dismissed": {
-      "users": 40,
-      "events": 41,
+      "users": 42,
+      "events": 43,
       "watched": {
-        "users": 40,
-        "avg": 39.0,
+        "users": 42,
+        "avg": 39.4,
         "median": 54,
         "buckets": [
           {
@@ -73,15 +66,45 @@
           },
           {
             "label": "31–44s",
-            "users": 4
+            "users": 5
           },
           {
             "label": "45s+",
-            "users": 23
+            "users": 24
           }
         ]
       }
     }
+  },
+  "dismiss_tap": {
+    "users": 36,
+    "events": 40
+  },
+  "impact": {
+    "event": "service_status_help_opened",
+    "cohort_event": "Bonus_Seva_Quiz_Answered",
+    "cohort_users": 36,
+    "pre": {
+      "users": 22,
+      "events": 84,
+      "days": 11.0,
+      "reach_pct": 61,
+      "per_user_day": 0.212,
+      "frm": "2026-07-16",
+      "to": "2026-07-26",
+      "label": "16–26 Jul (before)"
+    },
+    "post": {
+      "users": 16,
+      "events": 54,
+      "days": 0.65,
+      "reach_pct": 44,
+      "per_user_day": 2.325,
+      "frm": "2026-07-27 23:30",
+      "to": "28 Jul 14:59 IST",
+      "label": "since 27 Jul 23:30 (after)"
+    },
+    "lift_pct": 997
   },
   "understood_watched": {
     "users": 38,
@@ -140,7 +163,7 @@
     },
     {
       "date": "2026-07-28",
-      "intro_viewed": 117,
+      "intro_viewed": 118,
       "completed": 30
     }
   ]
