@@ -89,6 +89,10 @@ section{margin-top:24px;}
 .lift.up{background:var(--good-bg);color:var(--good);}
 .lift.down{background:var(--bad-bg);color:var(--bad);}
 .lift.flat{background:var(--soft);color:var(--muted);}
+.readout{margin-top:16px;padding:14px 16px;border-radius:12px;background:var(--soft);
+  border:1px solid var(--line);border-left:3px solid var(--brand);
+  font-size:12.5px;line-height:1.75;color:var(--muted);}
+.readout b{color:var(--ink);}
 .shotwrap{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:10px;border:1px solid var(--line);}
 .shot{width:100%;min-width:900px;display:block;}
 .caphint{font-size:11.5px;font-weight:600;color:var(--faint);margin-top:8px;}
@@ -177,6 +181,29 @@ const pct=(a,b)=>b?Math.round(a/b*100):0;
 const nf=n=>(n||0).toLocaleString('en-IN');
 const esc=s=>(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 
+/* Say a rate the way a person would say it: 2.325/day -> "about 2.3 times a day
+   each", 0.212/day -> "about once every 5 days each". */
+function saySpeed(r){
+  if(!r) return 'not at all';
+  if(r>=1) return `about ${r>=10?Math.round(r):r.toFixed(1)} times a day each`;
+  const every=1/r;
+  return `about once every ${every>=10?Math.round(every):every.toFixed(1)} days each`;
+}
+
+function explainLift(im){
+  const a=im.pre.per_user_day, b=im.post.per_user_day, n=nf(im.cohort_users);
+  const how=`<b>Per user per day</b> = total opens ÷ ${n} people ÷ days in the window. `+
+    `Dividing by both is what makes the two sides comparable at all, given one covers `+
+    `${im.pre.days} days and the other ${im.post.days}.`;
+  if(!a) return `<b>These ${n} CSPs never opened the help screen before the campaign</b>, so there is no `+
+    `percentage to compute — the rate went from zero to ${saySpeed(b)}.<br><br>${how}`;
+  const x=b/a, xs=x>=10?Math.round(x):x.toFixed(1);
+  return `<b>What ${(im.lift_pct>0?'+':'')+im.lift_pct}% means.</b> Before the campaign these ${n} CSPs opened the `+
+    `help screen ${saySpeed(a)}. Since it went live they open it ${saySpeed(b)} — <b>${xs}× as often</b>. `+
+    `The percentage is only that same ratio written as a change: (${b} − ${a}) ÷ ${a} × 100. `+
+    `It is a change in <i>rate</i>, not a claim that ${im.lift_pct}% more people did something.<br><br>${how}`;
+}
+
 function render(D){
   document.getElementById('banner').classList.toggle('show',!!D.sample);
   document.getElementById('updated').textContent='Updated: '+(D.generated||'');
@@ -248,7 +275,8 @@ function render(D){
       `<code>${esc(im.event)}</code> — the (?) help screen the quiz teaches them to open.</div>`+
       `<div class="cmp">${win(im.pre,'')}`+
       `<div class="lift ${cls}">${L==null?'—':(L>0?'+':'')+L+'%'}<small>per user per day</small></div>`+
-      `${win(im.post,' post')}</div>`;
+      `${win(im.post,' post')}</div>`+
+      `<div class="readout">${explainLift(im)}</div>`;
     document.getElementById('impactnote').innerHTML=
       `<b>Read the per-user-per-day number, not the totals.</b> The two windows are very different lengths `+
       `(${im.pre.days} days vs ${im.post.days}), so raw opens and even the "opened at least once" share are `+
