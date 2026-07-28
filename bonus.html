@@ -67,6 +67,12 @@ section{margin-top:24px;}
 .note{background:var(--soft);border:1px solid var(--line);border-radius:12px;padding:13px 15px;font-size:12.5px;
   color:var(--muted);line-height:1.65;margin-top:14px;}
 .note b{color:var(--ink);}
+.shotwrap{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:10px;border:1px solid var(--line);}
+.shot{width:100%;min-width:900px;display:block;}
+.caphint{font-size:11.5px;font-weight:600;color:var(--faint);margin-top:8px;}
+.cap{font-size:12.5px;color:var(--muted);line-height:1.75;margin-top:12px;}
+.cap b{color:var(--ink);}
+.cap code{background:var(--soft);padding:1px 6px;border-radius:5px;font-size:11px;}
 .foot{margin-top:28px;font-size:12px;color:var(--faint);text-align:center;line-height:1.7;}
 .foot code{background:var(--soft);padding:1px 6px;border-radius:5px;font-size:11px;color:var(--muted);}
 </style>
@@ -99,6 +105,18 @@ section{margin-top:24px;}
     <div>
       <div class="h2">Quiz + watch time</div>
       <div class="panel" id="quiz"></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="h2">Creative — what the CSP sees</div>
+    <div class="panel">
+      <a class="shotwrap" href="bonus_screens.png" target="_blank" rel="noopener">
+        <img class="shot" src="bonus_screens.png"
+             alt="The five in-app screens: education popup, portrait video with the locked समझ गया gate, the quiz, the सही confirmation, and the गलत correction">
+      </a>
+      <div class="caphint">Tap the strip to open it full size.</div>
+      <div class="cap" id="creativecap"></div>
     </div>
   </section>
 
@@ -179,7 +197,21 @@ function render(D){
     (q.choices||[]).map(c=>`<div class="qrow"><div class="ql"><span class="qt">${esc(c.label)}</span><b>${nf(c.users)}</b></div>
       <div class="qbar"><span style="width:${pct(c.users,maxC)}%"></span></div></div>`).join('')+
     `<div class="stat" style="margin-top:8px"><span>Watch time at समझ गया tap</span><b>${uw.avg||0}s</b> <span style="font-size:11px">median ${uw.median||0}s</span></div>`+
-    `<div class="note">The समझ गया button unlocks after a 45s wall-clock countdown; <b>watched_seconds</b> on the tap shows how much video was actually played by then (paused/replayed time differs from wall clock).</div>`;
+    `<div class="note">The समझ गया button unlocks after a 45s countdown that starts on first play. <b>watched_seconds</b> is the <b>playhead position</b> at the tap, not active watch time — pausing leaves it behind the countdown, scrubbing forward runs it ahead. The video is 0:55, so a median of ${uw.median||0}s means most people let it run to the end.</div>`;
+
+  document.getElementById('creativecap').innerHTML=
+    `<b>1 · Education popup</b> — "1 अगस्त से आपके बोनस पर असर पड़ सकता है", one CTA (और जानें) and a ✕. `+
+    `Opening it fires <code>Bonus_Seva_Intro_Viewed</code>; the ✕ fires <code>Bonus_Seva_Intro_Dismissed</code> `+
+    `(<b>${nf(id.users)}</b> left here).<br>`+
+    `<b>2 · Portrait video (0:55) with the समझ गया gate</b> — the button is <b>disabled and counts down from 45</b>, `+
+    `and the countdown starts on first play, not when the popup opened. It also unlocks early if the video ends or `+
+    `fails to load, so a broken CDN can never trap anyone. <b>${nf(F.video_played)}</b> started the video, `+
+    `<b>${nf(vd.users)}</b> tapped ✕ on the player instead of waiting.<br>`+
+    `<b>3 · Quiz</b> — a single question, three options; the tap fires <code>Bonus_Seva_Quiz_Answered</code> `+
+    `with <b>choice</b> and <b>correct</b>.<br>`+
+    `<b>4 · सही</b> and <b>5 · गलत</b> — the wrong answer is never just marked wrong: the screen shows the `+
+    `chosen option in red, the right one in green, and spells out the answer. Both end on ठीक है, which fires `+
+    `<code>Bonus_Seva_Flow_Completed</code> and closes the in-app.`;
 
   document.querySelectorAll('.fnl-step').forEach(el=>{
     el.addEventListener('mousemove',e=>showTip(decodeURIComponent(el.dataset.tip),e.clientX,e.clientY));
