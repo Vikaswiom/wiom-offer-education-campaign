@@ -1,5 +1,5 @@
 {
-  "generated": "2026-07-28 18:47 IST",
+  "generated": "2026-07-28 21:23 IST",
   "region": "eu1",
   "start_date": "2026-07-27",
   "funnel": [
@@ -7,50 +7,50 @@
       "key": "intro_viewed",
       "label": "Popup shown",
       "event": "Bonus_Seva_Intro_Viewed",
-      "users": 166,
-      "events": 178
+      "users": 208,
+      "events": 220
     },
     {
       "key": "learn_more",
       "label": "Tapped और जानें",
       "event": "Bonus_Seva_LearnMore_Clicked",
-      "users": 121,
-      "events": 130
+      "users": 154,
+      "events": 163
     },
     {
       "key": "video_played",
       "label": "Video started",
       "event": "Bonus_Seva_Video_Played",
-      "users": 121,
-      "events": 130
+      "users": 154,
+      "events": 163
     },
     {
       "key": "understood",
       "label": "Tapped समझ गया",
       "event": "Bonus_Seva_Understood_Clicked",
-      "users": 41,
-      "events": 45
+      "users": 58,
+      "events": 62
     },
     {
       "key": "quiz_answered",
       "label": "Completed — answered the quiz",
       "event": "Bonus_Seva_Quiz_Answered",
-      "users": 39,
-      "events": 43
+      "users": 55,
+      "events": 59
     }
   ],
   "dropoffs": {
     "intro_dismissed": {
-      "users": 32,
-      "events": 33
+      "users": 37,
+      "events": 38
     },
     "video_dismissed": {
-      "users": 61,
-      "events": 62,
+      "users": 75,
+      "events": 76,
       "watched": {
-        "users": 61,
-        "avg": 34.9,
-        "median": 48,
+        "users": 75,
+        "avg": 36.1,
+        "median": 50,
         "buckets": [
           {
             "label": "0–5s",
@@ -58,7 +58,7 @@
           },
           {
             "label": "6–15s",
-            "users": 3
+            "users": 6
           },
           {
             "label": "16–30s",
@@ -66,50 +66,50 @@
           },
           {
             "label": "31–44s",
-            "users": 6
+            "users": 9
           },
           {
             "label": "45s+",
-            "users": 31
+            "users": 39
           }
         ]
       }
     }
   },
   "dismiss_tap": {
-    "users": 39,
-    "events": 43
+    "users": 55,
+    "events": 59
   },
   "impact": {
     "event": "service_status_help_opened",
     "cohort_event": "Bonus_Seva_Quiz_Answered",
-    "cohort_users": 39,
+    "cohort_users": 55,
     "pre": {
-      "users": 23,
-      "events": 85,
+      "users": 30,
+      "events": 105,
       "days": 11.0,
-      "reach_pct": 59,
-      "per_user_day": 0.198,
+      "reach_pct": 55,
+      "per_user_day": 0.174,
       "frm": "2026-07-16",
       "to": "2026-07-26",
       "label": "16–26 Jul (before)"
     },
     "post": {
-      "users": 17,
-      "events": 60,
-      "days": 0.8,
-      "reach_pct": 44,
-      "per_user_day": 1.915,
+      "users": 26,
+      "events": 86,
+      "days": 0.91,
+      "reach_pct": 47,
+      "per_user_day": 1.714,
       "frm": "2026-07-27 23:30",
-      "to": "28 Jul 18:47 IST",
+      "to": "28 Jul 21:23 IST",
       "label": "since 27 Jul 23:30 (after)"
     },
-    "lift_pct": 867
+    "lift_pct": 885
   },
   "understood_watched": {
-    "users": 41,
+    "users": 58,
     "avg": 52.5,
-    "median": 55,
+    "median": 54,
     "buckets": [
       {
         "label": "0–5s",
@@ -129,19 +129,19 @@
       },
       {
         "label": "45s+",
-        "users": 41
+        "users": 58
       }
     ]
   },
   "quiz": {
-    "answered": 39,
-    "correct": 33,
-    "wrong": 6,
+    "answered": 55,
+    "correct": 48,
+    "wrong": 7,
     "choices": [
       {
         "choice": "help_icon",
         "label": "(?) आइकन (सही)",
-        "users": 33
+        "users": 48
       },
       {
         "choice": "luck",
@@ -151,7 +151,7 @@
       {
         "choice": "rotate_phone",
         "label": "फोन घुमाना",
-        "users": 1
+        "users": 2
       }
     ]
   },
@@ -163,8 +163,8 @@
     },
     {
       "date": "2026-07-28",
-      "intro_viewed": 157,
-      "completed": 33
+      "intro_viewed": 199,
+      "completed": 49
     }
   ]
 }
