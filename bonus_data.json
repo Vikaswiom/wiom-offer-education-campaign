@@ -1,5 +1,5 @@
 {
-  "generated": "2026-07-29 01:19 IST",
+  "generated": "2026-07-29 02:49 IST",
   "region": "eu1",
   "start_date": "2026-07-27",
   "funnel": [
@@ -7,29 +7,29 @@
       "key": "intro_viewed",
       "label": "Popup shown",
       "event": "Bonus_Seva_Intro_Viewed",
-      "users": 221,
-      "events": 236
+      "users": 223,
+      "events": 239
     },
     {
       "key": "learn_more",
       "label": "Tapped और जानें",
       "event": "Bonus_Seva_LearnMore_Clicked",
-      "users": 163,
-      "events": 174
+      "users": 166,
+      "events": 177
     },
     {
       "key": "video_played",
       "label": "Video started",
       "event": "Bonus_Seva_Video_Played",
-      "users": 163,
-      "events": 174
+      "users": 166,
+      "events": 177
     },
     {
       "key": "understood",
       "label": "Tapped समझ गया",
       "event": "Bonus_Seva_Understood_Clicked",
-      "users": 63,
-      "events": 67
+      "users": 64,
+      "events": 68
     },
     {
       "key": "quiz_answered",
@@ -45,16 +45,16 @@
       "events": 41
     },
     "video_dismissed": {
-      "users": 79,
-      "events": 80,
+      "users": 81,
+      "events": 82,
       "watched": {
-        "users": 79,
-        "avg": 36.8,
+        "users": 81,
+        "avg": 36.6,
         "median": 53,
         "buckets": [
           {
             "label": "0–5s",
-            "users": 14
+            "users": 15
           },
           {
             "label": "6–15s",
@@ -70,7 +70,7 @@
           },
           {
             "label": "45s+",
-            "users": 42
+            "users": 43
           }
         ]
       }
@@ -97,19 +97,19 @@
     "post": {
       "users": 28,
       "events": 97,
-      "days": 1.08,
+      "days": 1.14,
       "reach_pct": 47,
-      "per_user_day": 1.528,
+      "per_user_day": 1.444,
       "frm": "2026-07-27 23:30",
-      "to": "29 Jul 01:19 IST",
+      "to": "29 Jul 02:48 IST",
       "label": "since 27 Jul 23:30 (after)"
     },
-    "lift_pct": 783
+    "lift_pct": 735
   },
   "understood_watched": {
-    "users": 63,
-    "avg": 52.6,
-    "median": 54,
+    "users": 64,
+    "avg": 52.7,
+    "median": 55,
     "buckets": [
       {
         "label": "0–5s",
@@ -129,7 +129,7 @@
       },
       {
         "label": "45s+",
-        "users": 63
+        "users": 64
       }
     ]
   },
@@ -168,7 +168,7 @@
     },
     {
       "date": "2026-07-29",
-      "intro_viewed": 2,
+      "intro_viewed": 5,
       "completed": 0
     }
   ]
