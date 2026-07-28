@@ -30,6 +30,11 @@ import fetch_ct_data as F   # creds, _req, export_event, identity_of, props_of, 
 
 START_DATE = "20260727"     # bonus seva campaign launch
 
+# The runner's clock is UTC, but every reader of this dashboard is in India.
+# Stamping and windowing in IST also stops the export from missing the first
+# 5h30m of an Indian day, when the UTC date is still yesterday.
+IST = datetime.timezone(datetime.timedelta(hours=5, minutes=30))
+
 FUNNEL = [
     ("Bonus_Seva_Intro_Viewed",       "intro_viewed",  "Popup shown"),
     ("Bonus_Seva_LearnMore_Clicked",  "learn_more",    "Tapped और जानें"),
@@ -66,7 +71,7 @@ def stats(seconds_by_ident):
 
 def main():
     frm = sys.argv[1] if len(sys.argv) > 1 else START_DATE
-    to = datetime.date.today().strftime("%Y%m%d")
+    to = datetime.datetime.now(IST).strftime("%Y%m%d")
     print(f"Bonus Seva · CleverTap {F.REGION} · {frm} -> {to}")
 
     users = {}          # key -> set(identity)
@@ -106,7 +111,7 @@ def main():
 
     choice_counts = Counter(c for c, _ in quiz_first.values() if c)
     out = {
-        "generated": datetime.datetime.now().strftime("%Y-%m-%d %H:%M"),
+        "generated": datetime.datetime.now(IST).strftime("%Y-%m-%d %H:%M IST"),
         "region": F.REGION,
         "start_date": f"{frm[:4]}-{frm[4:6]}-{frm[6:8]}",
         "funnel": [{"key": k, "label": lbl, "event": ev, "users": len(users[k]), "events": counts[k]}
