@@ -1,5 +1,5 @@
 {
-  "generated": "2026-07-29 02:49 IST",
+  "generated": "2026-07-29 04:09 IST",
   "region": "eu1",
   "start_date": "2026-07-27",
   "funnel": [
@@ -97,14 +97,14 @@
     "post": {
       "users": 28,
       "events": 97,
-      "days": 1.14,
+      "days": 1.19,
       "reach_pct": 47,
-      "per_user_day": 1.444,
+      "per_user_day": 1.377,
       "frm": "2026-07-27 23:30",
-      "to": "29 Jul 02:48 IST",
+      "to": "29 Jul 04:09 IST",
       "label": "since 27 Jul 23:30 (after)"
     },
-    "lift_pct": 735
+    "lift_pct": 696
   },
   "understood_watched": {
     "users": 64,
