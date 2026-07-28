@@ -71,6 +71,24 @@ section{margin-top:24px;}
 .note{background:var(--soft);border:1px solid var(--line);border-radius:12px;padding:13px 15px;font-size:12.5px;
   color:var(--muted);line-height:1.65;margin-top:14px;}
 .note b{color:var(--ink);}
+.cohort{font-size:12.5px;font-weight:600;color:var(--muted);margin-bottom:16px;}
+.cohort b{color:var(--ink);font-weight:800;}
+.cohort code{background:var(--soft);padding:1px 6px;border-radius:5px;font-size:11.5px;}
+.cmp{display:grid;grid-template-columns:1fr auto 1fr;gap:16px;align-items:center;}
+@media(max-width:700px){.cmp{grid-template-columns:1fr;}}
+.win{background:var(--soft);border:1px solid var(--line);border-radius:14px;padding:16px 18px;}
+.win .wk{font-size:11px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;color:var(--faint);}
+.win .wd{font-size:12px;font-weight:600;color:var(--muted);margin-top:3px;}
+.win .wv{font-size:30px;font-weight:900;letter-spacing:-1px;margin-top:12px;line-height:1;}
+.win .wu{font-size:11.5px;font-weight:700;color:var(--faint);margin-top:5px;}
+.win .wx{font-size:12px;font-weight:600;color:var(--muted);margin-top:11px;padding-top:10px;border-top:1px dashed var(--line);}
+.win .wx b{color:var(--ink);font-weight:800;}
+.win.post{background:#FFF5FB;border-color:#F5CEE6;}
+.lift{text-align:center;font-size:22px;font-weight:900;letter-spacing:-.5px;padding:10px 16px;border-radius:14px;white-space:nowrap;}
+.lift small{display:block;font-size:10.5px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;margin-top:3px;}
+.lift.up{background:var(--good-bg);color:var(--good);}
+.lift.down{background:var(--bad-bg);color:var(--bad);}
+.lift.flat{background:var(--soft);color:var(--muted);}
 .shotwrap{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:10px;border:1px solid var(--line);}
 .shot{width:100%;min-width:900px;display:block;}
 .caphint{font-size:11.5px;font-weight:600;color:var(--faint);margin-top:8px;}
@@ -110,6 +128,12 @@ section{margin-top:24px;}
       <div class="h2">Quiz + watch time</div>
       <div class="panel" id="quiz"></div>
     </div>
+  </section>
+
+  <section id="impact-sec" style="display:none">
+    <div class="h2">Impact — did the education change behaviour?</div>
+    <div class="panel" id="impact"></div>
+    <div class="note" id="impactnote"></div>
   </section>
 
   <section>
@@ -164,7 +188,7 @@ function render(D){
     ['Popup shown (unique)', nf(shown), 'since '+(D.start_date||'—'), fired('intro_viewed')],
     ['Watched video', nf(F.video_played), '<b>'+pct(F.video_played,shown)+'%</b> of shown', fired('video_played')],
     ['Tapped समझ गया', nf(F.understood), '<b>'+pct(F.understood,shown)+'%</b> of shown', ''],
-    ['Completed flow', nf(F.completed), '<b>'+pct(F.completed,shown)+'%</b> of shown', '']
+    ['Completed flow', nf(F.quiz_answered), '<b>'+pct(F.quiz_answered,shown)+'%</b> of shown', '']
   ].map(k=>`<div class="kpi"><div class="k">${k[0]}</div><div class="v">${k[1]}</div><div class="d">${k[2]}</div>${k[3]?`<div class="e">${k[3]}</div>`:''}</div>`).join('');
 
   const base=shown||1;
@@ -183,7 +207,11 @@ function render(D){
     `The flow is linear — each step can only be reached through the one above it, so this reads as a true funnel without extra cohort logic.<br><br>`+
     `<b>"fired N times" is the raw event count</b> — every fire, including repeats by the same person. It runs ahead of the user count `+
     `when someone is served the in-app again on a later session and walks the flow a second time. Read the big number for reach; `+
-    `read the gap between the two for how often people repeat.`;
+    `read the gap between the two for how often people repeat.<br><br>`+
+    `<b>Completing the flow means answering the quiz</b>, not the ठीक है tap after it. That tap only dismisses the `+
+    `in-app — the education has already landed — so counting it would mark anyone who answered and then backgrounded `+
+    `the app as a drop-out. For the record it fired <b>${nf((D.dismiss_tap||{}).events)}</b> times `+
+    `from <b>${nf((D.dismiss_tap||{}).users)}</b> users.`;
 
   const dd=D.dropoffs||{}, id=dd.intro_dismissed||{users:0}, vd=dd.video_dismissed||{users:0,watched:{avg:0,median:0,buckets:[]}};
   const vw=vd.watched||{avg:0,median:0,buckets:[]};
@@ -206,6 +234,33 @@ function render(D){
       <div class="qbar"><span style="width:${pct(c.users,maxC)}%"></span></div></div>`).join('')+
     `<div class="stat" style="margin-top:8px"><span>Watch time at समझ गया tap</span><b>${uw.avg||0}s</b> <span style="font-size:11px">median ${uw.median||0}s</span></div>`+
     `<div class="note">The समझ गया button unlocks after a 45s countdown that starts on first play. <b>watched_seconds</b> is the <b>playhead position</b> at the tap, not active watch time — pausing leaves it behind the countdown, scrubbing forward runs it ahead. The video is 0:55, so a median of ${uw.median||0}s means most people let it run to the end.</div>`;
+
+  const im=D.impact;
+  if(im&&im.cohort_users){
+    document.getElementById('impact-sec').style.display='';
+    const L=im.lift_pct, cls=L==null?'flat':L>0?'up':L<0?'down':'flat';
+    const win=(w,extra)=>`<div class="win${extra}"><div class="wk">${extra?'After':'Before'}</div>
+      <div class="wd">${esc(w.label)}<br>${w.days} day${w.days===1?'':'s'} of data</div>
+      <div class="wv">${w.per_user_day}</div><div class="wu">opens per user per day</div>
+      <div class="wx"><b>${nf(w.users)}</b> of ${nf(im.cohort_users)} opened it at least once <b>(${w.reach_pct}%)</b> · ${nf(w.events)} opens total</div></div>`;
+    document.getElementById('impact').innerHTML=
+      `<div class="cohort">The same <b>${nf(im.cohort_users)}</b> CSPs who answered the quiz, measured on `+
+      `<code>${esc(im.event)}</code> — the (?) help screen the quiz teaches them to open.</div>`+
+      `<div class="cmp">${win(im.pre,'')}`+
+      `<div class="lift ${cls}">${L==null?'—':(L>0?'+':'')+L+'%'}<small>per user per day</small></div>`+
+      `${win(im.post,' post')}</div>`;
+    document.getElementById('impactnote').innerHTML=
+      `<b>Read the per-user-per-day number, not the totals.</b> The two windows are very different lengths `+
+      `(${im.pre.days} days vs ${im.post.days}), so raw opens and even the "opened at least once" share are `+
+      `biased toward the longer window — over 11 days almost anyone eventually opens something. Only the rate `+
+      `is comparable.<br><br>`+
+      `<b>Why this cohort.</b> Only people who answered the quiz are counted, and they appear on both sides — `+
+      `the same CSPs before and after they saw the campaign. That cancels out differences in tenure, region and `+
+      `CSP mix that a "campaign users vs everyone else" split would leave in.<br><br>`+
+      `<b>What it cannot rule out.</b> With a post window this short, a single busy evening moves the number a lot, `+
+      `and anything else that happened on 27–28 July lands inside it too. Treat an early lift as a signal to keep `+
+      `watching, not as a settled result — it firms up as the post window grows past a few days.`;
+  }
 
   document.getElementById('creativecap').innerHTML=
     `<b>1 · Education popup</b> — "1 अगस्त से आपके बोनस पर असर पड़ सकता है", one CTA (और जानें) and a ✕. `+
