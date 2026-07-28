@@ -163,9 +163,9 @@ function render(D){
   document.getElementById('kpis').innerHTML=[
     ['Popup shown (unique)', nf(shown), 'since '+(D.start_date||'—'), fired('intro_viewed')],
     ['Watched video', nf(F.video_played), '<b>'+pct(F.video_played,shown)+'%</b> of shown', fired('video_played')],
-    ['Tapped समझ गया', nf(F.understood), '<b>'+pct(F.understood,shown)+'%</b> of shown', fired('understood')],
-    ['Completed flow', nf(F.completed), '<b>'+pct(F.completed,shown)+'%</b> of shown', fired('completed')]
-  ].map(k=>`<div class="kpi"><div class="k">${k[0]}</div><div class="v">${k[1]}</div><div class="d">${k[2]}</div><div class="e">${k[3]}</div></div>`).join('');
+    ['Tapped समझ गया', nf(F.understood), '<b>'+pct(F.understood,shown)+'%</b> of shown', ''],
+    ['Completed flow', nf(F.completed), '<b>'+pct(F.completed,shown)+'%</b> of shown', '']
+  ].map(k=>`<div class="kpi"><div class="k">${k[0]}</div><div class="v">${k[1]}</div><div class="d">${k[2]}</div>${k[3]?`<div class="e">${k[3]}</div>`:''}</div>`).join('');
 
   const base=shown||1;
   document.getElementById('funnel').innerHTML=(D.funnel||[]).map((s,i,arr)=>{
