@@ -1,5 +1,5 @@
 {
-  "generated": "2026-07-29 23:22 IST",
+  "generated": "2026-07-30 01:11 IST",
   "region": "eu1",
   "start_date": "2026-07-27",
   "funnel": [
@@ -7,22 +7,22 @@
       "key": "intro_viewed",
       "label": "Popup shown",
       "event": "Bonus_Seva_Intro_Viewed",
-      "users": 300,
-      "events": 329
+      "users": 303,
+      "events": 334
     },
     {
       "key": "learn_more",
       "label": "Tapped और जानें",
       "event": "Bonus_Seva_LearnMore_Clicked",
       "users": 219,
-      "events": 234
+      "events": 235
     },
     {
       "key": "video_played",
       "label": "Video started",
       "event": "Bonus_Seva_Video_Played",
       "users": 219,
-      "events": 234
+      "events": 235
     },
     {
       "key": "understood",
@@ -41,8 +41,8 @@
   ],
   "dropoffs": {
     "intro_dismissed": {
-      "users": 61,
-      "events": 64
+      "users": 64,
+      "events": 67
     },
     "video_dismissed": {
       "users": 111,
@@ -97,14 +97,14 @@
     "post": {
       "users": 41,
       "events": 137,
-      "days": 1.99,
+      "days": 2.07,
       "reach_pct": 53,
-      "per_user_day": 0.88,
+      "per_user_day": 0.849,
       "frm": "2026-07-27 23:30",
-      "to": "29 Jul 23:22 IST",
+      "to": "30 Jul 01:10 IST",
       "label": "since 27 Jul 23:30 (after)"
     },
-    "lift_pct": 533
+    "lift_pct": 511
   },
   "understood_watched": {
     "users": 83,
@@ -168,8 +168,13 @@
     },
     {
       "date": "2026-07-29",
-      "intro_viewed": 94,
+      "intro_viewed": 95,
       "completed": 19
+    },
+    {
+      "date": "2026-07-30",
+      "intro_viewed": 4,
+      "completed": 0
     }
   ]
 }
