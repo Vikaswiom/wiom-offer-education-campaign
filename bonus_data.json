@@ -1,5 +1,5 @@
 {
-  "generated": "2026-07-29 20:27 IST",
+  "generated": "2026-07-29 22:08 IST",
   "region": "eu1",
   "start_date": "2026-07-27",
   "funnel": [
@@ -7,22 +7,22 @@
       "key": "intro_viewed",
       "label": "Popup shown",
       "event": "Bonus_Seva_Intro_Viewed",
-      "users": 294,
-      "events": 322
+      "users": 299,
+      "events": 328
     },
     {
       "key": "learn_more",
       "label": "Tapped और जानें",
       "event": "Bonus_Seva_LearnMore_Clicked",
-      "users": 215,
-      "events": 229
+      "users": 219,
+      "events": 234
     },
     {
       "key": "video_played",
       "label": "Video started",
       "event": "Bonus_Seva_Video_Played",
-      "users": 215,
-      "events": 229
+      "users": 219,
+      "events": 234
     },
     {
       "key": "understood",
@@ -41,16 +41,16 @@
   ],
   "dropoffs": {
     "intro_dismissed": {
-      "users": 59,
-      "events": 62
+      "users": 60,
+      "events": 63
     },
     "video_dismissed": {
-      "users": 109,
-      "events": 113,
+      "users": 111,
+      "events": 116,
       "watched": {
-        "users": 109,
-        "avg": 37.8,
-        "median": 53,
+        "users": 111,
+        "avg": 37.9,
+        "median": 54,
         "buckets": [
           {
             "label": "0–5s",
@@ -62,7 +62,7 @@
           },
           {
             "label": "16–30s",
-            "users": 9
+            "users": 10
           },
           {
             "label": "31–44s",
@@ -70,7 +70,7 @@
           },
           {
             "label": "45s+",
-            "users": 61
+            "users": 62
           }
         ]
       }
@@ -95,16 +95,16 @@
       "label": "16–26 Jul (before)"
     },
     "post": {
-      "users": 40,
-      "events": 136,
-      "days": 1.87,
-      "reach_pct": 52,
-      "per_user_day": 0.943,
+      "users": 41,
+      "events": 137,
+      "days": 1.94,
+      "reach_pct": 53,
+      "per_user_day": 0.916,
       "frm": "2026-07-27 23:30",
-      "to": "29 Jul 20:27 IST",
+      "to": "29 Jul 22:07 IST",
       "label": "since 27 Jul 23:30 (after)"
     },
-    "lift_pct": 574
+    "lift_pct": 554
   },
   "understood_watched": {
     "users": 82,
@@ -168,7 +168,7 @@
     },
     {
       "date": "2026-07-29",
-      "intro_viewed": 87,
+      "intro_viewed": 93,
       "completed": 18
     }
   ]
