@@ -93,6 +93,17 @@ section{margin-top:24px;}
   border:1px solid var(--line);border-left:3px solid var(--brand);
   font-size:12.5px;line-height:1.75;color:var(--muted);}
 .readout b{color:var(--ink);}
+.r2tag{font-family:ui-monospace,Menlo,monospace;font-size:10.5px;font-weight:700;letter-spacing:0;
+  text-transform:none;background:var(--alt);color:#fff;border-radius:20px;padding:2px 9px;margin-left:8px;}
+.r2split{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:16px;
+  padding-top:16px;border-top:1px solid var(--line);}
+@media(max-width:760px){.r2split{grid-template-columns:1fr}}
+.r2h{font-size:11.5px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;color:var(--faint);margin-bottom:11px;}
+.hero{display:flex;gap:26px;flex-wrap:wrap;align-items:flex-end;margin-bottom:4px}
+.hero .hv{font-size:30px;font-weight:900;letter-spacing:-1px;line-height:1}
+.hero .hk{font-size:11.5px;font-weight:700;color:var(--muted);margin-top:5px}
+.hero .hd{font-size:11.5px;font-weight:700;color:var(--faint);margin-top:2px}
+.hero .hv.good{color:var(--good)}
 .tgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(360px,1fr));gap:14px;align-items:start;}
 @media(max-width:760px){.tgrid{grid-template-columns:1fr;}}
 .thead{display:flex;justify-content:space-between;align-items:baseline;gap:10px;
@@ -163,6 +174,12 @@ section{margin-top:24px;}
       <div class="caphint">Tap the strip to open it full size.</div>
       <div class="cap" id="creativecap"></div>
     </div>
+  </section>
+
+  <section id="r2-sec">
+    <div class="h2">Round 2 — Home story (no video) <span class="r2tag">Bonus_Seva2_*</span></div>
+    <div class="panel" id="r2"></div>
+    <div class="note" id="r2note"></div>
   </section>
 
   <p class="foot" id="foot"></p>
@@ -321,6 +338,84 @@ function impactPanel(t,i){
     `</div>`;
 }
 
+/* Round 2 is a different creative with different event names and a different
+   funnel shape, so it gets its own block rather than being bent into the
+   round-1 shape. Renders a pending state until the campaign's first real fire. */
+function renderRound2(r2){
+  var sec=document.getElementById('r2-sec');
+  if(!r2){ sec.style.display='none'; return; }
+  sec.style.display='';
+  var shown=r2.shown||0;
+  var F=keyed(r2.funnel);
+  var done=(F.completed||{}).users||0;
+  var into=(r2.goto||{}).users||0;
+  var ex=r2.exits||{};
+
+  if(!shown){
+    document.getElementById('r2').innerHTML=
+      `<div class="pend">⏳ <b>Not live yet.</b> CleverTap only reports an event after its first real fire, so every `+
+      `<code>Bonus_Seva2_*</code> count reads zero until the campaign goes out. The fetcher already polls all nine `+
+      `events each refresh — numbers appear here on their own, no code change needed at launch.</div>`;
+    document.getElementById('r2note').innerHTML=
+      `<b>What this will show.</b> The Home story replaces the 45s video for CSPs who never answered the round-1 quiz. `+
+      `Because every card advance is its own event, this block can show <b>which card loses people</b> — round 1 could `+
+      `only say "the video". The final CTA deep-links into Sewa Sthiti, so `+
+      `<code>Bonus_Seva2_Flow_Completed</code> carries an <b>exit</b> property splitting completion into `+
+      `"walked into the app" and "just acknowledged".`;
+    return;
+  }
+
+  var steps=(r2.funnel||[]).map(function(s,i,arr){
+    var p=pct(s.users,shown);
+    var prev=i>0?arr[i-1].users:s.users, drop=prev-s.users, dp=pct(drop,prev);
+    var dropTxt=i===0?'':(drop>0?'↓ '+drop+' dropped (−'+dp+'%)':'✓ all continued');
+    return `<div class="fnl-step">
+      <div class="lbl"><span class="nm">${esc(s.label)}</span><span class="vl">${nf(s.users)} <small>${p}%</small></span></div>
+      <div class="trk"><div class="br" style="width:${Math.min(p,100)}%"></div></div>
+      <div class="dp ${drop>0?'':'zero'}"><span>${dropTxt}</span>${s.events?`<span class="ev">fired ${nf(s.events)} times</span>`:''}</div></div>`;
+  }).join('');
+
+  var maxQ=Math.max(1,...(r2.quits||[]).map(function(q){return q.users;}));
+  var quits=(r2.quits||[]).map(function(q){
+    return `<div class="qrow"><div class="ql"><span class="qt">Card ${esc(q.label)}</span><b>${nf(q.users)}</b></div>
+      <div class="qbar"><span style="width:${pct(q.users,maxQ)}%"></span></div></div>`;
+  }).join('')||'<div class="caphint">No ✕ taps recorded yet.</div>';
+
+  var help=(r2.help_metrics||[]).map(function(m){
+    return `<div class="stat"><span>${esc(m.label||m.metric)}</span><b>${nf(m.users)}</b></div>`;
+  }).join('')||'<div class="caphint">No (?) taps recorded yet.</div>';
+
+  document.getElementById('r2').innerHTML=
+    `<div class="thead"><div><div class="tn">Home story · six cards, no video</div>
+      <div class="tl">${r2.live_label?'live '+esc(r2.live_label):'&nbsp;'}</div></div>
+      <div class="tb alt">${nf(shown)} shown</div></div>`+
+    `<div class="hero">`+
+      `<div><div class="hv">${nf(done)}</div><div class="hk">Completed the story</div><div class="hd">${pct(done,shown)}% of shown</div></div>`+
+      `<div><div class="hv good">${nf(into)}</div><div class="hk">Walked into सेवा स्थिति</div><div class="hd">${pct(into,done)}% of completers · ${pct(into,shown)}% of shown</div></div>`+
+      `<div><div class="hv">${nf(ex.acknowledge||0)}</div><div class="hk">Just tapped ठीक है</div><div class="hd">ended without opening the app</div></div>`+
+      `<div><div class="hv">${nf((r2.toggled||{}).users)}</div><div class="hk">Replayed the quality pills</div><div class="hd">optional — pure curiosity</div></div>`+
+    `</div>`+
+    steps+
+    `<div class="r2split">`+
+      `<div><div class="r2h">Where they tapped ✕</div>${quits}</div>`+
+      `<div><div class="r2h">Which (?) they opened</div>${help}</div>`+
+    `</div>`;
+
+  document.getElementById('r2note').innerHTML=
+    `<b>Cards 1–3 are counted from <code>Card_Viewed</code>'s <code>card_index</code></b>, so this funnel shows which `+
+    `card loses people — the thing round 1 could not answer. Cards 4 and 5 are reached by the chip tap and the `+
+    `(?) tap respectively, so those two steps stand in for them rather than being listed twice.<br><br>`+
+    `<b>"Walked into सेवा स्थिति" is the point of the whole redesign.</b> It counts `+
+    `<code>Bonus_Seva2_GoTo_SevaSthiti</code> — CSPs who took the deep link into the real Quality Drilldown instead of `+
+    `dismissing. Read it against completers, not against shown: everyone who got that far had already finished.<br><br>`+
+    `<b>Treat it as a floor, not an exact count.</b> Tapping that CTA navigates away, which destroys the WebView along `+
+    `with any event push still retrying, so this number can only under-report. The creative pushes both events before `+
+    `it jumps and fires its own pixel beacon on each route (<code>dl-bridge</code>, <code>dl-ios</code>, `+
+    `<code>dl-fallback</code>) — compare those against this figure to see what the bridge actually delivered.<br><br>`+
+    `<b>Do not compare round 2's completion rate with round 1's.</b> Round 2 deliberately targets the CSPs who already `+
+    `failed to finish round 1, so its audience is the harder half by construction.`;
+}
+
 function render(D0){
   const D=normalize(D0);
   const TR=D.triggers||[], multi=TR.length>1;
@@ -390,6 +485,8 @@ function render(D0){
     `<code>Bonus_Seva_Flow_Completed</code> and closes the in-app.<br><br>`+
     `Both triggers serve <b>the same creative</b>; the copies differ by one line, the <code>trigger</code> value `+
     `stamped on every event.`;
+
+  renderRound2(D.round2);
 
   document.querySelectorAll('.fnl-step').forEach(el=>{
     el.addEventListener('mousemove',e=>showTip(decodeURIComponent(el.dataset.tip),e.clientX,e.clientY));

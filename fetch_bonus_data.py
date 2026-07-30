@@ -53,6 +53,127 @@ DROPOFFS = [
     ("Bonus_Seva_Flow_Completed",  "dismiss_tap"),
 ]
 
+# --------------------------------------------------------------- round 2 ----
+# The Home-story creative (bonus-seva-home-story.html) replaces the video for
+# CSPs who never answered the round-1 quiz. Entirely different event names, so it
+# cannot ride the trigger split above — the round-1 loop never sees these at all.
+# Reported as its own block instead of being forced into the round-1 funnel shape.
+#
+# Completion still means the education landed; the `exit` property then splits
+# that into "walked into the app" vs "just acknowledged", which round 1 had no
+# way to tell apart.
+R2 = "Bonus_Seva2_"
+R2_EVENTS = ["Story_Viewed", "Gift_Opened", "Card_Viewed", "Quality_Toggled",
+             "Chip_Tapped", "Help_Tapped", "GoTo_SevaSthiti", "Flow_Completed", "Dismissed"]
+R2_FUNNEL = [
+    ("shown",     "Story shown",                    "Bonus_Seva2_Story_Viewed"),
+    ("gift",      "Opened the gift",                "Bonus_Seva2_Gift_Opened"),
+    ("card1",     "Card 1 · the 15 days",           "Bonus_Seva2_Card_Viewed"),
+    ("card2",     "Card 2 · quality → bonus",       "Bonus_Seva2_Card_Viewed"),
+    ("card3",     "Card 3 · find the chip",         "Bonus_Seva2_Card_Viewed"),
+    ("chip",      "Tapped the सेवा स्थिति chip",      "Bonus_Seva2_Chip_Tapped"),
+    ("help",      "Tapped the (?) button",          "Bonus_Seva2_Help_Tapped"),
+    ("completed", "Completed the story",            "Bonus_Seva2_Flow_Completed"),
+]
+CARD_LABEL = {0: "0 · hero / gift", 1: "1 · the 15 days", 2: "2 · quality → bonus",
+              3: "3 · find the chip", 4: "4 · the (?) button", 5: "5 · handoff"}
+# the two drilldown rows the (?) buttons sit next to, as the CSP reads them
+METRIC_LABEL = {"samay_par_kaam": "समय पर काम", "grahak_ki_santushti": "ग्राहक की संतुष्टि"}
+
+
+def fetch_round2(frm, to):
+    u = {}          # key -> set(identity)
+    n = {}          # key -> raw event count
+    cards = {}      # card_index -> set(identity)
+    quits = {}      # card_index -> [set(identity), count]  where the x was tapped
+    exits = {}      # exit value -> set(identity)
+    metrics = {}    # (?) metric -> set(identity)
+    first_ts = 0
+
+    def add(k, ident):
+        u.setdefault(k, set())
+        if ident:
+            u[k].add(ident)
+
+    for name in R2_EVENTS:
+        ev, seen = R2 + name, 0
+        for rec in F.export_event(ev, frm, to):
+            seen += 1
+            ident = F.identity_of(rec)
+            props = F.props_of(rec)
+            if name == "Story_Viewed":
+                add("shown", ident)
+                ts = ts_of(rec)
+                first_ts = min(first_ts, ts) if first_ts and ts else (ts or first_ts)
+            elif name == "Gift_Opened":
+                add("gift", ident)
+            elif name == "Card_Viewed":
+                try:
+                    ci = int(props.get("card_index", -1))
+                except (TypeError, ValueError):
+                    ci = -1
+                if ci >= 0 and ident:
+                    cards.setdefault(ci, set()).add(ident)
+                if ci in (1, 2, 3):
+                    add("card%d" % ci, ident)
+            elif name == "Quality_Toggled":
+                add("toggled", ident)
+            elif name == "Chip_Tapped":
+                add("chip", ident)
+            elif name == "Help_Tapped":
+                add("help", ident)
+                m = str(props.get("metric", "") or "")
+                if m and ident:
+                    metrics.setdefault(m, set()).add(ident)
+            elif name == "GoTo_SevaSthiti":
+                add("goto", ident)
+            elif name == "Flow_Completed":
+                add("completed", ident)
+                x = str(props.get("exit", "") or "unknown")
+                if ident:
+                    exits.setdefault(x, set()).add(ident)
+            elif name == "Dismissed":
+                add("dismissed", ident)
+                try:
+                    ci = int(props.get("card_index", -1))
+                except (TypeError, ValueError):
+                    ci = -1
+                if ci >= 0:
+                    q = quits.setdefault(ci, [set(), 0])
+                    q[1] += 1
+                    if ident:
+                        q[0].add(ident)
+        n[name] = seen
+        print(f"  {ev:34s} -> {seen} events")
+
+    shown = len(u.get("shown", set()))
+    if not shown and not n.get("Story_Viewed"):
+        print("  round 2 not live yet (no Story_Viewed) — reporting a pending block")
+
+    ev_of = {k: lbl_ev for k, _, lbl_ev in [(a, b, c) for a, b, c in R2_FUNNEL]}
+    return {
+        "live_ts": first_ts or None,
+        "live_label": (datetime.datetime.strptime(str(first_ts), "%Y%m%d%H%M%S")
+                       .strftime("%d %b %Y, %H:%M IST") if first_ts else None),
+        "shown": shown,
+        "funnel": [{"key": k, "label": lbl, "event": ev_of[k],
+                    "users": len(u.get(k, set())),
+                    "events": n.get(ev_of[k].replace(R2, ""), 0) if k in ("shown", "gift", "chip", "help", "completed") else None}
+                   for k, lbl, _ in R2_FUNNEL],
+        "cards": [{"index": i, "label": CARD_LABEL.get(i, str(i)), "users": len(cards.get(i, set()))}
+                  for i in sorted(cards)] or
+                 [{"index": i, "label": CARD_LABEL[i], "users": 0} for i in range(6)],
+        "quits": [{"index": i, "label": CARD_LABEL.get(i, str(i)),
+                   "users": len(quits[i][0]), "events": quits[i][1]} for i in sorted(quits)],
+        "exits": {k: len(v) for k, v in exits.items()},
+        "goto": {"users": len(u.get("goto", set())), "events": n.get("GoTo_SevaSthiti", 0)},
+        "toggled": {"users": len(u.get("toggled", set())), "events": n.get("Quality_Toggled", 0)},
+        "help_metrics": [{"metric": m, "label": METRIC_LABEL.get(m, m), "users": len(s)}
+                         for m, s in sorted(metrics.items(), key=lambda kv: -len(kv[1]))],
+        "dismissed_total": {"users": len(u.get("dismissed", set())), "events": n.get("Dismissed", 0)},
+    }
+
+
 # ---------------------------------------------------------------- impact ----
 # Does the education actually change behaviour? The quiz teaches that quality
 # detail lives behind the (?) icon, so the test is whether the people who
@@ -289,6 +410,9 @@ def main():
             print(f"    caveat · {t}: baseline overlaps {im['pre_overlaps'] or 'nothing'}, "
                   f"{im['cohort_shared']} CSPs shared with another trigger")
 
+    print("  --- round 2 (Home story) ---")
+    r2 = fetch_round2(frm, to)
+
     # headline totals: unique across triggers, so one CSP served by both is one person
     def union(k):
         s = set()
@@ -301,6 +425,7 @@ def main():
         "region": F.REGION,
         "start_date": f"{frm[:4]}-{frm[4:6]}-{frm[6:8]}",
         "triggers": triggers,
+        "round2": r2,
         "totals": {"funnel": [{"key": k, "label": lbl, "event": ev,
                                "users": len(union(k)),
                                "events": sum(T[t]["counts"].get(k, 0) for t in keys)}
@@ -320,6 +445,10 @@ def main():
         if im:
             line += f" | impact {im['pre']['per_user_day']}->{im['post']['per_user_day']} (lift {im['lift_pct']}%)"
         print(line)
+    rf = {x["key"]: x["users"] for x in r2["funnel"]}
+    print(f"  round2           shown={rf['shown']} gift={rf['gift']} chip={rf['chip']} "
+          f"help={rf['help']} completed={rf['completed']} ({p(rf['completed'], rf['shown'])}% of shown) "
+          f"| into app={r2['goto']['users']} exits={r2['exits']}")
 
 
 if __name__ == "__main__":
