@@ -1,180 +1,225 @@
 {
-  "generated": "2026-07-30 12:49 IST",
+  "generated": "2026-07-30 13:04 IST",
   "region": "eu1",
   "start_date": "2026-07-27",
-  "funnel": [
+  "triggers": [
     {
-      "key": "intro_viewed",
-      "label": "Popup shown",
-      "event": "Bonus_Seva_Intro_Viewed",
-      "users": 337,
-      "events": 422
-    },
-    {
-      "key": "learn_more",
-      "label": "Tapped और जानें",
-      "event": "Bonus_Seva_LearnMore_Clicked",
-      "users": 257,
-      "events": 291
-    },
-    {
-      "key": "video_played",
-      "label": "Video started",
-      "event": "Bonus_Seva_Video_Played",
-      "users": 256,
-      "events": 290
-    },
-    {
-      "key": "understood",
-      "label": "Tapped समझ गया",
-      "event": "Bonus_Seva_Understood_Clicked",
-      "users": 101,
-      "events": 105
-    },
-    {
-      "key": "quiz_answered",
-      "label": "Completed — answered the quiz",
-      "event": "Bonus_Seva_Quiz_Answered",
-      "users": 93,
-      "events": 97
-    }
-  ],
-  "dropoffs": {
-    "intro_dismissed": {
-      "users": 84,
-      "events": 90
-    },
-    "video_dismissed": {
-      "users": 133,
-      "events": 145,
-      "watched": {
-        "users": 133,
-        "avg": 34.5,
-        "median": 43,
+      "key": "quality_section",
+      "label": "Quality-of-work section",
+      "live_ts": 20260727233314,
+      "live_label": "27 Jul 2026, 23:33 IST",
+      "funnel": [
+        {
+          "key": "intro_viewed",
+          "label": "Popup shown",
+          "event": "Bonus_Seva_Intro_Viewed",
+          "users": 344,
+          "events": 432
+        },
+        {
+          "key": "learn_more",
+          "label": "Tapped और जानें",
+          "event": "Bonus_Seva_LearnMore_Clicked",
+          "users": 262,
+          "events": 297
+        },
+        {
+          "key": "video_played",
+          "label": "Video started",
+          "event": "Bonus_Seva_Video_Played",
+          "users": 261,
+          "events": 296
+        },
+        {
+          "key": "understood",
+          "label": "Tapped समझ गया",
+          "event": "Bonus_Seva_Understood_Clicked",
+          "users": 101,
+          "events": 105
+        },
+        {
+          "key": "quiz_answered",
+          "label": "Completed — answered the quiz",
+          "event": "Bonus_Seva_Quiz_Answered",
+          "users": 93,
+          "events": 97
+        }
+      ],
+      "dropoffs": {
+        "intro_dismissed": {
+          "users": 89,
+          "events": 96
+        },
+        "video_dismissed": {
+          "users": 138,
+          "events": 150,
+          "watched": {
+            "users": 138,
+            "avg": 33.9,
+            "median": 43,
+            "buckets": [
+              {
+                "label": "0–5s",
+                "users": 35
+              },
+              {
+                "label": "6–15s",
+                "users": 7
+              },
+              {
+                "label": "16–30s",
+                "users": 14
+              },
+              {
+                "label": "31–44s",
+                "users": 15
+              },
+              {
+                "label": "45s+",
+                "users": 67
+              }
+            ]
+          }
+        }
+      },
+      "dismiss_tap": {
+        "users": 93,
+        "events": 97
+      },
+      "understood_watched": {
+        "users": 101,
+        "avg": 52.9,
+        "median": 55,
         "buckets": [
           {
             "label": "0–5s",
-            "users": 32
+            "users": 0
           },
           {
             "label": "6–15s",
-            "users": 7
+            "users": 0
           },
           {
             "label": "16–30s",
-            "users": 14
+            "users": 0
           },
           {
             "label": "31–44s",
-            "users": 14
+            "users": 0
           },
           {
             "label": "45s+",
-            "users": 66
+            "users": 101
           }
         ]
-      }
+      },
+      "quiz": {
+        "answered": 93,
+        "correct": 84,
+        "wrong": 9,
+        "choices": [
+          {
+            "choice": "help_icon",
+            "label": "(?) आइकन (सही)",
+            "users": 84
+          },
+          {
+            "choice": "luck",
+            "label": "किस्मत",
+            "users": 7
+          },
+          {
+            "choice": "rotate_phone",
+            "label": "फोन घुमाना",
+            "users": 2
+          }
+        ]
+      },
+      "impact": {
+        "event": "service_status_help_opened",
+        "cohort_event": "Bonus_Seva_Quiz_Answered",
+        "cohort_users": 93,
+        "pre": {
+          "users": 41,
+          "events": 138,
+          "days": 11.0,
+          "reach_pct": 44,
+          "per_user_day": 0.135,
+          "label": "16 Jul–26 Jul (before)"
+        },
+        "post": {
+          "users": 48,
+          "events": 183,
+          "days": 2.56,
+          "reach_pct": 52,
+          "per_user_day": 0.768,
+          "label": "since 27 Jul 23:33 (after)"
+        },
+        "lift_pct": 469,
+        "pre_overlaps": [],
+        "cohort_shared": 0
+      },
+      "daily": [
+        {
+          "date": "2026-07-27",
+          "intro_viewed": 9,
+          "completed": 6
+        },
+        {
+          "date": "2026-07-28",
+          "intro_viewed": 211,
+          "completed": 53
+        },
+        {
+          "date": "2026-07-29",
+          "intro_viewed": 95,
+          "completed": 19
+        },
+        {
+          "date": "2026-07-30",
+          "intro_viewed": 100,
+          "completed": 15
+        }
+      ]
     }
-  },
-  "dismiss_tap": {
-    "users": 93,
-    "events": 97
-  },
-  "impact": {
-    "event": "service_status_help_opened",
-    "cohort_event": "Bonus_Seva_Quiz_Answered",
-    "cohort_users": 93,
-    "pre": {
-      "users": 41,
-      "events": 138,
-      "days": 11.0,
-      "reach_pct": 44,
-      "per_user_day": 0.135,
-      "frm": "2026-07-16",
-      "to": "2026-07-26",
-      "label": "16–26 Jul (before)"
-    },
-    "post": {
-      "users": 48,
-      "events": 168,
-      "days": 2.55,
-      "reach_pct": 52,
-      "per_user_day": 0.707,
-      "frm": "2026-07-27 23:30",
-      "to": "30 Jul 12:49 IST",
-      "label": "since 27 Jul 23:30 (after)"
-    },
-    "lift_pct": 424
-  },
-  "understood_watched": {
-    "users": 101,
-    "avg": 52.9,
-    "median": 55,
-    "buckets": [
+  ],
+  "totals": {
+    "funnel": [
       {
-        "label": "0–5s",
-        "users": 0
+        "key": "intro_viewed",
+        "label": "Popup shown",
+        "event": "Bonus_Seva_Intro_Viewed",
+        "users": 344,
+        "events": 432
       },
       {
-        "label": "6–15s",
-        "users": 0
+        "key": "learn_more",
+        "label": "Tapped और जानें",
+        "event": "Bonus_Seva_LearnMore_Clicked",
+        "users": 262,
+        "events": 297
       },
       {
-        "label": "16–30s",
-        "users": 0
+        "key": "video_played",
+        "label": "Video started",
+        "event": "Bonus_Seva_Video_Played",
+        "users": 261,
+        "events": 296
       },
       {
-        "label": "31–44s",
-        "users": 0
+        "key": "understood",
+        "label": "Tapped समझ गया",
+        "event": "Bonus_Seva_Understood_Clicked",
+        "users": 101,
+        "events": 105
       },
       {
-        "label": "45s+",
-        "users": 101
+        "key": "quiz_answered",
+        "label": "Completed — answered the quiz",
+        "event": "Bonus_Seva_Quiz_Answered",
+        "users": 93,
+        "events": 97
       }
     ]
-  },
-  "quiz": {
-    "answered": 93,
-    "correct": 84,
-    "wrong": 9,
-    "choices": [
-      {
-        "choice": "help_icon",
-        "label": "(?) आइकन (सही)",
-        "users": 84
-      },
-      {
-        "choice": "luck",
-        "label": "किस्मत",
-        "users": 7
-      },
-      {
-        "choice": "rotate_phone",
-        "label": "फोन घुमाना",
-        "users": 2
-      }
-    ]
-  },
-  "daily": [
-    {
-      "date": "2026-07-27",
-      "intro_viewed": 9,
-      "completed": 6
-    },
-    {
-      "date": "2026-07-28",
-      "intro_viewed": 211,
-      "completed": 53
-    },
-    {
-      "date": "2026-07-29",
-      "intro_viewed": 95,
-      "completed": 19
-    },
-    {
-      "date": "2026-07-30",
-      "intro_viewed": 90,
-      "completed": 15
-    }
-  ]
+  }
 }
