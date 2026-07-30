@@ -1,5 +1,5 @@
 {
-  "generated": "2026-07-30 16:16 IST",
+  "generated": "2026-07-30 16:19 IST",
   "region": "eu1",
   "start_date": "2026-07-27",
   "triggers": [
@@ -149,13 +149,13 @@
         },
         "post": {
           "users": 51,
-          "events": 202,
+          "events": 204,
           "days": 2.7,
           "reach_pct": 52,
-          "per_user_day": 0.764,
+          "per_user_day": 0.771,
           "label": "since 27 Jul 23:33 (after)"
         },
-        "lift_pct": 462,
+        "lift_pct": 467,
         "pre_overlaps": [],
         "cohort_shared": 0
       },
@@ -291,7 +291,21 @@
     "dismissed_total": {
       "users": 0,
       "events": 0
-    }
+    },
+    "raw_events": 24,
+    "events_confirmed": [
+      "Story_Viewed",
+      "Gift_Opened",
+      "Card_Viewed",
+      "Quality_Toggled",
+      "Chip_Tapped",
+      "Help_Tapped",
+      "GoTo_SevaSthiti",
+      "Flow_Completed"
+    ],
+    "events_unseen": [
+      "Dismissed"
+    ]
   },
   "totals": {
     "funnel": [
