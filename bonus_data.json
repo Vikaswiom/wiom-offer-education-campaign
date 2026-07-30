@@ -1,5 +1,5 @@
 {
-  "generated": "2026-07-31 01:17 IST",
+  "generated": "2026-07-31 02:50 IST",
   "region": "eu1",
   "start_date": "2026-07-27",
   "triggers": [
@@ -13,22 +13,22 @@
           "key": "intro_viewed",
           "label": "Popup shown",
           "event": "Bonus_Seva_Intro_Viewed",
-          "users": 395,
-          "events": 522
+          "users": 396,
+          "events": 524
         },
         {
           "key": "learn_more",
           "label": "Tapped और जानें",
           "event": "Bonus_Seva_LearnMore_Clicked",
           "users": 299,
-          "events": 354
+          "events": 355
         },
         {
           "key": "video_played",
           "label": "Video started",
           "event": "Bonus_Seva_Video_Played",
           "users": 298,
-          "events": 353
+          "events": 354
         },
         {
           "key": "understood",
@@ -52,7 +52,7 @@
         },
         "video_dismissed": {
           "users": 163,
-          "events": 188,
+          "events": 189,
           "watched": {
             "users": 163,
             "avg": 31.8,
@@ -149,13 +149,13 @@
         },
         "post": {
           "users": 56,
-          "events": 223,
-          "days": 3.07,
+          "events": 227,
+          "days": 3.14,
           "reach_pct": 55,
-          "per_user_day": 0.719,
+          "per_user_day": 0.716,
           "label": "since 27 Jul 23:33 (after)"
         },
-        "lift_pct": 309,
+        "lift_pct": 307,
         "pre_overlaps": [],
         "cohort_shared": 0
       },
@@ -182,7 +182,7 @@
         },
         {
           "date": "2026-07-31",
-          "intro_viewed": 2,
+          "intro_viewed": 4,
           "completed": 0
         }
       ]
@@ -318,22 +318,22 @@
         "key": "intro_viewed",
         "label": "Popup shown",
         "event": "Bonus_Seva_Intro_Viewed",
-        "users": 395,
-        "events": 522
+        "users": 396,
+        "events": 524
       },
       {
         "key": "learn_more",
         "label": "Tapped और जानें",
         "event": "Bonus_Seva_LearnMore_Clicked",
         "users": 299,
-        "events": 354
+        "events": 355
       },
       {
         "key": "video_played",
         "label": "Video started",
         "event": "Bonus_Seva_Video_Played",
         "users": 298,
-        "events": 353
+        "events": 354
       },
       {
         "key": "understood",
