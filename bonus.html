@@ -93,6 +93,20 @@ section{margin-top:24px;}
   border:1px solid var(--line);border-left:3px solid var(--brand);
   font-size:12.5px;line-height:1.75;color:var(--muted);}
 .readout b{color:var(--ink);}
+.tgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(360px,1fr));gap:14px;align-items:start;}
+@media(max-width:760px){.tgrid{grid-template-columns:1fr;}}
+.thead{display:flex;justify-content:space-between;align-items:baseline;gap:10px;
+  margin:-4px 0 14px;padding-bottom:11px;border-bottom:1px solid var(--line);}
+.thead .tn{font-size:14px;font-weight:900;letter-spacing:-.2px;color:var(--ink);}
+.thead .tl{font-size:11px;font-weight:700;color:var(--faint);margin-top:2px;}
+.thead .tb{font-size:11px;font-weight:800;border-radius:20px;padding:3px 10px;white-space:nowrap;
+  background:var(--brand);color:#fff;}
+.thead .tb.alt{background:var(--alt);}
+.pend{background:var(--warn-bg);border:1px solid #F2DCA8;color:#7A5200;border-radius:10px;
+  padding:10px 13px;font-size:12px;font-weight:600;line-height:1.6;}
+.warn{background:var(--warn-bg);border:1px solid #F2DCA8;color:#7A5200;border-radius:10px;
+  padding:10px 13px;font-size:11.5px;font-weight:600;line-height:1.6;margin-top:12px;}
+.warn b{color:#5E3F00;}
 .shotwrap{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:10px;border:1px solid var(--line);}
 .shot{width:100%;min-width:900px;display:block;}
 .caphint{font-size:11.5px;font-weight:600;color:var(--faint);margin-top:8px;}
@@ -118,25 +132,24 @@ section{margin-top:24px;}
   </section>
 
   <section>
-    <div class="h2">Funnel — one locked flow</div>
-    <div class="panel" id="funnel"></div>
+    <div class="h2" id="funnelh2">Funnel — one locked flow</div>
+    <div class="tgrid" id="funnel"></div>
     <div class="note" id="funnelnote"></div>
   </section>
 
-  <section class="two">
-    <div>
-      <div class="h2">Where they leave</div>
-      <div class="panel" id="drops"></div>
-    </div>
-    <div>
-      <div class="h2">Quiz + watch time</div>
-      <div class="panel" id="quiz"></div>
-    </div>
+  <section>
+    <div class="h2">Where they leave</div>
+    <div class="tgrid" id="drops"></div>
+  </section>
+
+  <section>
+    <div class="h2">Quiz + watch time</div>
+    <div class="tgrid" id="quiz"></div>
   </section>
 
   <section id="impact-sec" style="display:none">
     <div class="h2">Impact — did the education change behaviour?</div>
-    <div class="panel" id="impact"></div>
+    <div class="tgrid" id="impact"></div>
     <div class="note" id="impactnote"></div>
   </section>
 
@@ -158,21 +171,28 @@ section{margin-top:24px;}
 
 <script>
 const FALLBACK={"generated":"(local preview — sample data)","sample":true,"region":"eu1","start_date":"2026-07-27",
-"funnel":[
- {"key":"intro_viewed","label":"Popup shown","event":"Bonus_Seva_Intro_Viewed","users":40,"events":44},
- {"key":"learn_more","label":"Tapped और जानें","event":"Bonus_Seva_LearnMore_Clicked","users":31,"events":31},
- {"key":"video_played","label":"Video started","event":"Bonus_Seva_Video_Played","users":30,"events":30},
- {"key":"understood","label":"Tapped समझ गया","event":"Bonus_Seva_Understood_Clicked","users":22,"events":22},
- {"key":"quiz_answered","label":"Answered the quiz","event":"Bonus_Seva_Quiz_Answered","users":21,"events":21},
- {"key":"completed","label":"Completed the flow","event":"Bonus_Seva_Flow_Completed","users":20,"events":20}],
-"dropoffs":{"intro_dismissed":{"users":6,"events":6},
- "video_dismissed":{"users":5,"events":5,"watched":{"users":5,"avg":14.2,"median":9,
-  "buckets":[{"label":"0–5s","users":2},{"label":"6–15s","users":1},{"label":"16–30s","users":1},{"label":"31–44s","users":1},{"label":"45s+","users":0}]}}},
-"understood_watched":{"users":22,"avg":41.5,"median":45,
- "buckets":[{"label":"0–5s","users":1},{"label":"6–15s","users":1},{"label":"16–30s","users":2},{"label":"31–44s","users":4},{"label":"45s+","users":14}]},
-"quiz":{"answered":21,"correct":15,"wrong":6,
- "choices":[{"choice":"help_icon","label":"(?) आइकन (सही)","users":15},{"choice":"luck","label":"किस्मत","users":4},{"choice":"rotate_phone","label":"फोन घुमाना","users":2}]},
-"daily":[{"date":"2026-07-27","intro_viewed":40,"completed":20}]};
+"triggers":[{"key":"quality_section","label":"Quality-of-work section","live_label":"27 Jul 2026, 23:33 IST",
+ "funnel":[
+  {"key":"intro_viewed","label":"Popup shown","event":"Bonus_Seva_Intro_Viewed","users":40,"events":44},
+  {"key":"learn_more","label":"Tapped और जानें","event":"Bonus_Seva_LearnMore_Clicked","users":31,"events":31},
+  {"key":"video_played","label":"Video started","event":"Bonus_Seva_Video_Played","users":30,"events":30},
+  {"key":"understood","label":"Tapped समझ गया","event":"Bonus_Seva_Understood_Clicked","users":22,"events":22},
+  {"key":"quiz_answered","label":"Completed — answered the quiz","event":"Bonus_Seva_Quiz_Answered","users":21,"events":21}],
+ "dropoffs":{"intro_dismissed":{"users":6,"events":6},
+  "video_dismissed":{"users":5,"events":5,"watched":{"users":5,"avg":14.2,"median":9,
+   "buckets":[{"label":"0–5s","users":2},{"label":"6–15s","users":1},{"label":"16–30s","users":1},{"label":"31–44s","users":1},{"label":"45s+","users":0}]}}},
+ "dismiss_tap":{"users":21,"events":21},
+ "understood_watched":{"users":22,"avg":41.5,"median":45,
+  "buckets":[{"label":"0–5s","users":1},{"label":"6–15s","users":1},{"label":"16–30s","users":2},{"label":"31–44s","users":4},{"label":"45s+","users":14}]},
+ "quiz":{"answered":21,"correct":15,"wrong":6,
+  "choices":[{"choice":"help_icon","label":"(?) आइकन (सही)","users":15},{"choice":"luck","label":"किस्मत","users":4},{"choice":"rotate_phone","label":"फोन घुमाना","users":2}]},
+ "impact":null,"daily":[]}],
+"totals":{"funnel":[
+  {"key":"intro_viewed","label":"Popup shown","users":40,"events":44},
+  {"key":"learn_more","label":"Tapped और जानें","users":31,"events":31},
+  {"key":"video_played","label":"Video started","users":30,"events":30},
+  {"key":"understood","label":"Tapped समझ गया","users":22,"events":22},
+  {"key":"quiz_answered","label":"Completed","users":21,"events":21}]}};
 
 const tip=document.getElementById('tip');
 function showTip(html,x,y){tip.innerHTML=html;tip.style.opacity=1;const w=tip.offsetWidth;tip.style.left=Math.min(Math.max(x-w/2,8),innerWidth-w-8)+'px';tip.style.top=(y-tip.offsetHeight-12)+'px';}
@@ -180,6 +200,19 @@ function hideTip(){tip.style.opacity=0;}
 const pct=(a,b)=>b?Math.round(a/b*100):0;
 const nf=n=>(n||0).toLocaleString('en-IN');
 const esc=s=>(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+const keyed=(arr,k)=>{const o={};(arr||[]).forEach(x=>o[x.key]=x);return o;};
+
+/* Older bonus_data.json had one flat funnel and no trigger split. Reshape it so
+   the renderer only ever deals with the trigger-per-panel form. */
+function normalize(D){
+  if(D.triggers) return D;
+  const f=(D.funnel||[]).filter(s=>s.key!=='completed');
+  return Object.assign({},D,{
+    triggers:[{key:'quality_section',label:'Quality-of-work section',live_label:null,
+      funnel:f,dropoffs:D.dropoffs||{},dismiss_tap:D.dismiss_tap||{},
+      understood_watched:D.understood_watched||{},quiz:D.quiz||{},impact:D.impact||null,daily:D.daily||[]}],
+    totals:{funnel:f}});
+}
 
 /* Say a rate the way a person would say it: 2.325/day -> "about 2.3 times a day
    each", 0.212/day -> "about once every 5 days each". */
@@ -195,127 +228,179 @@ function explainLift(im){
   const how=`<b>Per user per day</b> = total opens ÷ ${n} people ÷ days in the window. `+
     `Dividing by both is what makes the two sides comparable at all, given one covers `+
     `${im.pre.days} days and the other ${im.post.days}.`;
-  if(!a) return `<b>These ${n} CSPs never opened the help screen before the campaign</b>, so there is no `+
-    `percentage to compute — the rate went from zero to ${saySpeed(b)}.<br><br>${how}`;
+  if(!a) return `<b>These ${n} CSPs never opened the help screen before</b>, so there is no percentage to `+
+    `compute — the rate went from zero to ${saySpeed(b)}.<br><br>${how}`;
   const x=b/a, xs=x>=10?Math.round(x):x.toFixed(1);
-  return `<b>What ${(im.lift_pct>0?'+':'')+im.lift_pct}% means.</b> Before the campaign these ${n} CSPs opened the `+
-    `help screen ${saySpeed(a)}. Since it went live they open it ${saySpeed(b)} — <b>${xs}× as often</b>. `+
+  return `<b>What ${(im.lift_pct>0?'+':'')+im.lift_pct}% means.</b> Before this trigger went live these ${n} CSPs `+
+    `opened the help screen ${saySpeed(a)}. Since it went live they open it ${saySpeed(b)} — <b>${xs}× as often</b>. `+
     `The percentage is only that same ratio written as a change: (${b} − ${a}) ÷ ${a} × 100. `+
     `It is a change in <i>rate</i>, not a claim that ${im.lift_pct}% more people did something.<br><br>${how}`;
 }
 
-function render(D){
-  document.getElementById('banner').classList.toggle('show',!!D.sample);
-  document.getElementById('updated').textContent='Updated: '+(D.generated||'');
-  const F={}, E={}; (D.funnel||[]).forEach(s=>{F[s.key]=s.users;E[s.key]=s.events;});
-  const shown=F.intro_viewed||0;
-  const fired=k=>`<span class="ev">fired ${nf(E[k])} times</span>`;
+function thead(t,i,extra){
+  const shown=(keyed(t.funnel).intro_viewed||{}).users||0;
+  /* Only claim "not live yet" when nothing has fired — older snapshots carry no
+     go-live stamp for a trigger that has plainly been running for days. */
+  const sub=t.live_label?'live '+esc(t.live_label):(shown?'&nbsp;':'not live yet');
+  return `<div class="thead"><div><div class="tn">${esc(t.label)}</div>
+    <div class="tl">${sub}</div></div>
+    <div class="tb${i?' alt':''}">${extra||nf(shown)+' shown'}</div></div>`;
+}
 
-  document.getElementById('kpis').innerHTML=[
-    ['Popup shown (unique)', nf(shown), 'since '+(D.start_date||'—'), fired('intro_viewed')],
-    ['Watched video', nf(F.video_played), '<b>'+pct(F.video_played,shown)+'%</b> of shown', fired('video_played')],
-    ['Tapped समझ गया', nf(F.understood), '<b>'+pct(F.understood,shown)+'%</b> of shown', ''],
-    ['Completed flow', nf(F.quiz_answered), '<b>'+pct(F.quiz_answered,shown)+'%</b> of shown', '']
-  ].map(k=>`<div class="kpi"><div class="k">${k[0]}</div><div class="v">${k[1]}</div><div class="d">${k[2]}</div>${k[3]?`<div class="e">${k[3]}</div>`:''}</div>`).join('');
-
-  const base=shown||1;
-  document.getElementById('funnel').innerHTML=(D.funnel||[]).map((s,i,arr)=>{
+function funnelPanel(t,i){
+  const base=(keyed(t.funnel).intro_viewed||{}).users||1;
+  const steps=(t.funnel||[]).map((s,j,arr)=>{
     const p=pct(s.users,base);
-    const prev=i>0?arr[i-1].users:s.users, drop=prev-s.users, dp=pct(drop,prev);
-    const dropTxt=i===0?'':(drop>0?`↓ ${drop} dropped (−${dp}%)`:'✓ all continued');
-    const t=`<b>${esc(s.label)}</b> <span class="m">(${s.event})</span><br>${nf(s.users)} users <span class="m">· ${p}% of shown · ${nf(s.events)} events</span>`;
-    return `<div class="fnl-step" data-tip="${encodeURIComponent(t)}">
-      <div class="lbl"><span class="nm">${esc(s.label)}<small>${s.event}</small></span><span class="vl">${nf(s.users)} <small>${p}%</small></span></div>
+    const prev=j>0?arr[j-1].users:s.users, drop=prev-s.users, dp=pct(drop,prev);
+    const dropTxt=j===0?'':(drop>0?`↓ ${drop} dropped (−${dp}%)`:'✓ all continued');
+    const tt=`<b>${esc(s.label)}</b> <span class="m">(${s.event||''})</span><br>${nf(s.users)} users <span class="m">· ${p}% of shown · ${nf(s.events)} events</span>`;
+    return `<div class="fnl-step" data-tip="${encodeURIComponent(tt)}">
+      <div class="lbl"><span class="nm">${esc(s.label)}<small>${s.event||''}</small></span><span class="vl">${nf(s.users)} <small>${p}%</small></span></div>
       <div class="trk"><div class="br" style="width:${Math.min(p,100)}%"></div></div>
       <div class="dp ${drop>0?'':'zero'}"><span>${dropTxt}</span><span class="ev">fired ${nf(s.events)} times</span></div></div>`;
-  }).join('')+(shown===0?'<div class="pending">⏳ No events yet — CleverTap shows an event only after its first real fire. Numbers appear once the campaign goes live.</div>':'');
-  document.getElementById('funnelnote').innerHTML=
-    `<b>Every count is unique users</b> (deduped on profile identity), from the events export. `+
-    `The flow is linear — each step can only be reached through the one above it, so this reads as a true funnel without extra cohort logic.<br><br>`+
-    `<b>"fired N times" is the raw event count</b> — every fire, including repeats by the same person. It runs ahead of the user count `+
-    `when someone is served the in-app again on a later session and walks the flow a second time. Read the big number for reach; `+
-    `read the gap between the two for how often people repeat.<br><br>`+
-    `<b>Completing the flow means answering the quiz</b>, not the ठीक है tap after it. That tap only dismisses the `+
-    `in-app — the education has already landed — so counting it would mark anyone who answered and then backgrounded `+
-    `the app as a drop-out. For the record it fired <b>${nf((D.dismiss_tap||{}).events)}</b> times `+
-    `from <b>${nf((D.dismiss_tap||{}).users)}</b> users.`;
+  }).join('');
+  const empty=!((keyed(t.funnel).intro_viewed||{}).users);
+  return `<div class="panel">${thead(t,i)}${steps}`+
+    (empty?`<div class="pend">⏳ Nothing yet — CleverTap only reports an event after its first real fire. Numbers appear once this trigger goes live.</div>`:'')+
+    `</div>`;
+}
 
-  const dd=D.dropoffs||{}, id=dd.intro_dismissed||{users:0}, vd=dd.video_dismissed||{users:0,watched:{avg:0,median:0,buckets:[]}};
+function dropsPanel(t,i){
+  const dd=t.dropoffs||{}, idm=dd.intro_dismissed||{users:0,events:0}, vd=dd.video_dismissed||{users:0,events:0};
   const vw=vd.watched||{avg:0,median:0,buckets:[]};
   const maxB=Math.max(1,...(vw.buckets||[]).map(b=>b.users));
-  document.getElementById('drops').innerHTML=
-    `<div class="stat"><span>Closed the popup (✕ before video)</span><span><b>${nf(id.users)}</b><span class="ev">fired ${nf(id.events)} times</span></span></div>`+
+  return `<div class="panel">${thead(t,i,nf(idm.users+vd.users)+' left early')}`+
+    `<div class="stat"><span>Closed the popup (✕ before video)</span><span><b>${nf(idm.users)}</b><span class="ev">fired ${nf(idm.events)} times</span></span></div>`+
     `<div class="stat"><span>Closed the video page (✕ on player)</span><span><b>${nf(vd.users)}</b><span class="ev">fired ${nf(vd.events)} times</span></span></div>`+
     `<div class="stat"><span>Avg watch time before closing video</span><b>${vw.avg||0}s</b> <span style="font-size:11px">median ${vw.median||0}s</span></div>`+
     `<div style="margin-top:12px;font-size:12px;font-weight:700;color:var(--muted)">Watch time when they closed the video</div>`+
     (vw.buckets||[]).map(b=>`<div class="qrow"><div class="ql"><span class="qt">${esc(b.label)}</span><b>${nf(b.users)}</b></div>
       <div class="qbar"><span style="width:${pct(b.users,maxB)}%"></span></div></div>`).join('')+
-    `<div class="note">Each ✕ fires <code>Bonus_Seva_Video_Dismissed</code> with <b>watched_seconds</b> — how far into the video the user was when they gave up.</div>`;
+    `</div>`;
+}
 
-  const q=D.quiz||{answered:0,correct:0,wrong:0,choices:[]}, uw=D.understood_watched||{avg:0,median:0,buckets:[]};
+function quizPanel(t,i){
+  const q=t.quiz||{answered:0,correct:0,wrong:0,choices:[]}, uw=t.understood_watched||{avg:0,median:0};
+  const ev=(keyed(t.funnel).quiz_answered||{}).events||0;
   const maxC=Math.max(1,...(q.choices||[]).map(c=>c.users));
-  document.getElementById('quiz').innerHTML=
-    `<div class="stat"><span>Quiz answered</span><span><b>${nf(q.answered)}</b><span class="ev">fired ${nf(E.quiz_answered)} times</span></span></div>`+
+  return `<div class="panel">${thead(t,i,nf(q.answered)+' answered')}`+
+    `<div class="stat"><span>Quiz answered</span><span><b>${nf(q.answered)}</b><span class="ev">fired ${nf(ev)} times</span></span></div>`+
     `<div class="stat"><span>First answer</span><span><span class="pill ok">✓ सही ${nf(q.correct)} (${pct(q.correct,q.answered)}%)</span>&nbsp;<span class="pill no">✗ गलत ${nf(q.wrong)}</span></span></div>`+
     (q.choices||[]).map(c=>`<div class="qrow"><div class="ql"><span class="qt">${esc(c.label)}</span><b>${nf(c.users)}</b></div>
       <div class="qbar"><span style="width:${pct(c.users,maxC)}%"></span></div></div>`).join('')+
     `<div class="stat" style="margin-top:8px"><span>Watch time at समझ गया tap</span><b>${uw.avg||0}s</b> <span style="font-size:11px">median ${uw.median||0}s</span></div>`+
-    `<div class="note">The समझ गया button unlocks after a 45s countdown that starts on first play. <b>watched_seconds</b> is the <b>playhead position</b> at the tap, not active watch time — pausing leaves it behind the countdown, scrubbing forward runs it ahead. The video is 0:55, so a median of ${uw.median||0}s means most people let it run to the end.</div>`;
+    `</div>`;
+}
 
-  const im=D.impact;
-  if(im&&im.cohort_users){
+function impactPanel(t,i){
+  const im=t.impact;
+  if(!im||!im.cohort_users) return `<div class="panel">${thead(t,i,'no cohort yet')}
+    <div class="pend">⏳ Nobody has answered the quiz through this trigger yet, so there is no cohort to measure.</div></div>`;
+  const L=im.lift_pct, cls=L==null?'flat':L>0?'up':L<0?'down':'flat';
+  const win=(w,post)=>`<div class="win${post?' post':''}"><div class="wk">${post?'After':'Before'}</div>
+    <div class="wd">${esc(w.label)}<br>${w.days} day${w.days===1?'':'s'} of data</div>
+    <div class="wv">${w.per_user_day}</div><div class="wu">opens per user per day</div>
+    <div class="wx"><b>${nf(w.users)}</b> of ${nf(im.cohort_users)} opened it at least once <b>(${w.reach_pct}%)</b> · ${nf(w.events)} opens total</div></div>`;
+  const flags=[];
+  if((im.pre_overlaps||[]).length) flags.push(
+    `<b>This baseline is not clean.</b> Its "before" window runs through the live period of `+
+    `${im.pre_overlaps.map(esc).join(' and ')}, so some of these CSPs had already been taught by that `+
+    `campaign before this one reached them. That pushes the "before" rate up and makes the lift here `+
+    `an <i>under</i>statement of the education's effect — but it also means this is no longer a clean before/after.`);
+  if(im.cohort_shared) flags.push(
+    `<b>${nf(im.cohort_shared)} of these ${nf(im.cohort_users)} CSPs also completed the flow through another trigger</b>, `+
+    `so they appear in both columns and their behaviour is counted on both sides.`);
+  return `<div class="panel">${thead(t,i,nf(im.cohort_users)+' in cohort')}`+
+    `<div class="cohort">The same <b>${nf(im.cohort_users)}</b> CSPs who answered the quiz <b>through this trigger</b>, `+
+    `measured on <code>${esc(im.event)}</code>.</div>`+
+    `<div class="cmp">${win(im.pre,false)}`+
+    `<div class="lift ${cls}">${L==null?'—':(L>0?'+':'')+L+'%'}<small>per user per day</small></div>`+
+    `${win(im.post,true)}</div>`+
+    `<div class="readout">${explainLift(im)}</div>`+
+    (flags.length?`<div class="warn">${flags.join('<br><br>')}</div>`:'')+
+    `</div>`;
+}
+
+function render(D0){
+  const D=normalize(D0);
+  const TR=D.triggers||[], multi=TR.length>1;
+  document.getElementById('banner').classList.toggle('show',!!D.sample);
+  document.getElementById('updated').textContent='Updated: '+(D.generated||'');
+
+  const F=keyed((D.totals||{}).funnel), E=k=>(F[k]||{}).events||0, U=k=>(F[k]||{}).users||0;
+  const shown=U('intro_viewed');
+  const fired=k=>`<span class="ev">fired ${nf(E(k))} times</span>`;
+  document.getElementById('kpis').innerHTML=[
+    ['Popup shown (unique)', nf(shown), 'since '+(D.start_date||'—'), fired('intro_viewed')],
+    ['Watched video', nf(U('video_played')), '<b>'+pct(U('video_played'),shown)+'%</b> of shown', fired('video_played')],
+    ['Tapped समझ गया', nf(U('understood')), '<b>'+pct(U('understood'),shown)+'%</b> of shown', ''],
+    ['Completed flow', nf(U('quiz_answered')), '<b>'+pct(U('quiz_answered'),shown)+'%</b> of shown', '']
+  ].map(k=>`<div class="kpi"><div class="k">${k[0]}</div><div class="v">${k[1]}</div><div class="d">${k[2]}</div>${k[3]?`<div class="e">${k[3]}</div>`:''}</div>`).join('');
+
+  document.getElementById('funnelh2').textContent=multi?'Funnels — one per trigger':'Funnel — one locked flow';
+  document.getElementById('funnel').innerHTML=TR.map(funnelPanel).join('');
+  document.getElementById('drops').innerHTML=TR.map(dropsPanel).join('');
+  document.getElementById('quiz').innerHTML=TR.map(quizPanel).join('');
+
+  const dt=TR.reduce((a,t)=>a+((t.dismiss_tap||{}).events||0),0), du=TR.reduce((a,t)=>a+((t.dismiss_tap||{}).users||0),0);
+  document.getElementById('funnelnote').innerHTML=
+    `<b>Every count is unique users</b> (deduped on profile identity), from the events export. `+
+    `The flow is linear — each step can only be reached through the one above it, so this reads as a true funnel `+
+    `without extra cohort logic.<br><br>`+
+    (multi?`<b>The two triggers are kept apart on purpose.</b> They run at the same time with the same event names, `+
+      `so the creative stamps every event with a <code>trigger</code> property and these funnels split on it. `+
+      `Do not compare their conversion rates as if one creative beat the other — a CSP who opened the quality `+
+      `section chose to go looking, while app launch interrupts everyone. Different audiences, not a fair fight. `+
+      `The headline tiles above count each CSP once even if both triggers reached them.<br><br>`:'')+
+    `<b>"fired N times" is the raw event count</b> — every fire, including repeats by the same person. It runs ahead `+
+    `of the user count when someone is served the in-app again on a later session.<br><br>`+
+    `<b>Completing the flow means answering the quiz</b>, not the ठीक है tap after it. That tap only dismisses the `+
+    `in-app — the education has already landed — so counting it would mark anyone who answered and then backgrounded `+
+    `the app as a drop-out. For the record it fired <b>${nf(dt)}</b> times from <b>${nf(du)}</b> users.`;
+
+  if(TR.some(t=>t.impact&&t.impact.cohort_users)){
     document.getElementById('impact-sec').style.display='';
-    const L=im.lift_pct, cls=L==null?'flat':L>0?'up':L<0?'down':'flat';
-    const win=(w,extra)=>`<div class="win${extra}"><div class="wk">${extra?'After':'Before'}</div>
-      <div class="wd">${esc(w.label)}<br>${w.days} day${w.days===1?'':'s'} of data</div>
-      <div class="wv">${w.per_user_day}</div><div class="wu">opens per user per day</div>
-      <div class="wx"><b>${nf(w.users)}</b> of ${nf(im.cohort_users)} opened it at least once <b>(${w.reach_pct}%)</b> · ${nf(w.events)} opens total</div></div>`;
-    document.getElementById('impact').innerHTML=
-      `<div class="cohort">The same <b>${nf(im.cohort_users)}</b> CSPs who answered the quiz, measured on `+
-      `<code>${esc(im.event)}</code> — the (?) help screen the quiz teaches them to open.</div>`+
-      `<div class="cmp">${win(im.pre,'')}`+
-      `<div class="lift ${cls}">${L==null?'—':(L>0?'+':'')+L+'%'}<small>per user per day</small></div>`+
-      `${win(im.post,' post')}</div>`+
-      `<div class="readout">${explainLift(im)}</div>`;
+    document.getElementById('impact').innerHTML=TR.map(impactPanel).join('');
     document.getElementById('impactnote').innerHTML=
-      `<b>Read the per-user-per-day number, not the totals.</b> The two windows are very different lengths `+
-      `(${im.pre.days} days vs ${im.post.days}), so raw opens and even the "opened at least once" share are `+
-      `biased toward the longer window — over 11 days almost anyone eventually opens something. Only the rate `+
-      `is comparable.<br><br>`+
-      `<b>Why this cohort.</b> Only people who answered the quiz are counted, and they appear on both sides — `+
-      `the same CSPs before and after they saw the campaign. That cancels out differences in tenure, region and `+
-      `CSP mix that a "campaign users vs everyone else" split would leave in.<br><br>`+
-      `<b>What it cannot rule out — read this before quoting the lift.</b> The cohort is <i>defined</i> by having `+
-      `answered the quiz during the post window, so every one of them was demonstrably in the app on 27–28 July. `+
-      `Nothing guarantees they were equally active across the 11 pre days, and an inactive day still counts as a `+
-      `day in the denominator. That alone pushes the "after" rate up, campaign or no campaign. A single busy `+
-      `evening also moves a 0.65-day window a lot. Treat this as a signal to keep watching, not a settled result — `+
-      `it firms up as the post window grows past a few days, and it would be settled properly by an unexposed `+
-      `control group over the same dates.`;
+      `<b>Read the per-user-per-day number, not the totals.</b> The before and after windows are very different `+
+      `lengths, so raw opens and even the "opened at least once" share are biased toward the longer one — over `+
+      `eleven days almost anyone eventually opens something. Only the rate is comparable.<br><br>`+
+      `<b>Why this cohort.</b> Only people who answered the quiz are counted, and they appear on both sides — the `+
+      `same CSPs before and after they saw the campaign. That cancels out differences in tenure, region and CSP mix `+
+      `that a "campaign users vs everyone else" split would leave in. Each trigger is measured against its own `+
+      `go-live date, so a trigger that launched later is compared with its own recent baseline.<br><br>`+
+      `<b>What it cannot rule out — read this before quoting a lift.</b> The cohort is <i>defined</i> by having `+
+      `answered the quiz after go-live, so every one of them was demonstrably in the app then. Nothing guarantees `+
+      `they were equally active across the before window, and an inactive day still counts as a day in the `+
+      `denominator. That alone pushes the "after" rate up, campaign or no campaign. A short after window also swings `+
+      `hard on one busy evening. Treat these as signals to keep watching, not settled results — they firm up as the `+
+      `windows grow, and would be settled properly by an unexposed control group over the same dates.`;
   }
 
   document.getElementById('creativecap').innerHTML=
     `<b>1 · Education popup</b> — "1 अगस्त से आपके बोनस पर असर पड़ सकता है", one CTA (और जानें) and a ✕. `+
-    `Opening it fires <code>Bonus_Seva_Intro_Viewed</code>; the ✕ fires <code>Bonus_Seva_Intro_Dismissed</code> `+
-    `(<b>${nf(id.users)}</b> left here).<br>`+
+    `Opening it fires <code>Bonus_Seva_Intro_Viewed</code>; the ✕ fires <code>Bonus_Seva_Intro_Dismissed</code>.<br>`+
     `<b>2 · Portrait video (0:55) with the समझ गया gate</b> — the button is <b>disabled and counts down from 45</b>, `+
     `and the countdown starts on first play, not when the popup opened. It also unlocks early if the video ends or `+
-    `fails to load, so a broken CDN can never trap anyone. <b>${nf(F.video_played)}</b> started the video, `+
-    `<b>${nf(vd.users)}</b> tapped ✕ on the player instead of waiting.<br>`+
+    `fails to load, so a broken CDN can never trap anyone.<br>`+
     `<b>3 · Quiz</b> — a single question, three options; the tap fires <code>Bonus_Seva_Quiz_Answered</code> `+
     `with <b>choice</b> and <b>correct</b>.<br>`+
     `<b>4 · सही</b> and <b>5 · गलत</b> — the wrong answer is never just marked wrong: the screen shows the `+
     `chosen option in red, the right one in green, and spells out the answer. Both end on ठीक है, which fires `+
-    `<code>Bonus_Seva_Flow_Completed</code> and closes the in-app.`;
+    `<code>Bonus_Seva_Flow_Completed</code> and closes the in-app.<br><br>`+
+    `Both triggers serve <b>the same creative</b>; the copies differ by one line, the <code>trigger</code> value `+
+    `stamped on every event.`;
 
   document.querySelectorAll('.fnl-step').forEach(el=>{
     el.addEventListener('mousemove',e=>showTip(decodeURIComponent(el.dataset.tip),e.clientX,e.clientY));
     el.addEventListener('mouseleave',hideTip);
   });
 
-  document.getElementById('foot').innerHTML='Events: '+(D.funnel||[]).map(s=>`<code>${s.event}</code>`).join(' ')+
-    ` <code>Bonus_Seva_Intro_Dismissed</code> <code>Bonus_Seva_Video_Dismissed</code>`+
-    `<br>Region <code>${D.region||'eu1'}</code> · live since ${D.start_date||'—'} · unique users per event, deduped on profile identity · auto-refreshes every ~30 min.`;
+  const evs=(TR[0]||{}).funnel||[];
+  document.getElementById('foot').innerHTML='Events: '+evs.map(s=>`<code>${s.event||''}</code>`).join(' ')+
+    ` <code>Bonus_Seva_Intro_Dismissed</code> <code>Bonus_Seva_Video_Dismissed</code> <code>Bonus_Seva_Flow_Completed</code>`+
+    `<br>Region <code>${D.region||'eu1'}</code> · live since ${D.start_date||'—'} · unique users per event, deduped on profile identity`+
+    `${multi?' · split on the <code>trigger</code> event property':''}.`;
 }
 
 fetch('bonus_data.json',{cache:'no-store'}).then(r=>{if(!r.ok)throw 0;return r.json();}).then(render).catch(()=>render(FALLBACK));

@@ -62,13 +62,26 @@ DROPOFFS = [
 # Same people on both sides — a within-subject comparison, so CSP mix, tenure
 # and seasonality cancel out.
 IMPACT_EVENT = "service_status_help_opened"
-PRE_FROM, PRE_TO = "20260716", "20260726"        # 11 full days before the campaign
-CAMPAIGN_LIVE_TS = 20260727233000                # 27 Jul 23:30, ts is YYYYMMDDHHMMSS
+PRE_DAYS = 11                    # length of the before window, ending the day before go-live
 
 # The windows are wildly different lengths (11 days vs hours), so raw counts are
 # not comparable and per-user-per-day is the number to read. reach_pct is kept
 # because it answers "how many of them ever look", but it is biased toward the
 # longer window and the dashboard says so.
+
+# ------------------------------------------------------------- triggers -----
+# Both CleverTap triggers run at once with the same event names, so the creative
+# stamps every event with `trigger` and the funnels are split on it. Events fired
+# before that property shipped have none, and only the quality-section campaign
+# was ever live then — so a missing value means quality_section, not "unknown".
+LEGACY_TRIGGER = "quality_section"
+TRIGGER_LABEL = {"quality_section": "Quality-of-work section", "app_launch": "App launch"}
+TRIGGER_ORDER = ["quality_section", "app_launch"]
+
+
+def trigger_of(props):
+    t = str(props.get("trigger", "") or "").strip()
+    return t if t else LEGACY_TRIGGER
 CHOICE_LABEL = {"help_icon": "(?) आइकन (सही)", "luck": "किस्मत", "rotate_phone": "फोन घुमाना"}
 BUCKETS = [(0, 5, "0–5s"), (6, 15, "6–15s"), (16, 30, "16–30s"), (31, 44, "31–44s"), (45, 10**9, "45s+")]
 
@@ -98,130 +111,215 @@ def ts_of(rec):
         return 0
 
 
-def impact(cohort, now_ist):
-    """service_status_help_opened for the quiz cohort, before vs after the campaign."""
-    if not cohort:
+
+def day_add(yyyymmdd, delta):
+    d = datetime.datetime.strptime(yyyymmdd, "%Y%m%d") + datetime.timedelta(days=delta)
+    return d.strftime("%Y%m%d")
+
+
+def load_help_opens(frm, to):
+    """Every service_status_help_opened as (identity, ts), fetched once and
+    windowed in memory — two triggers x two windows would otherwise be four
+    identical exports of the same busy event."""
+    opens = []
+    for rec in F.export_event(IMPACT_EVENT, frm, to):
+        ident = F.identity_of(rec)
+        if ident:
+            opens.append((ident, ts_of(rec)))
+    print(f"  {IMPACT_EVENT}: {len(opens)} records {frm}->{to} (fetched once, windowed per trigger)")
+    return opens
+
+
+def impact(cohort, opens, live_ts, now_ist):
+    """Help-screen opens for this trigger's quiz cohort, before vs after ITS go-live.
+
+    The before window is the PRE_DAYS days ending the day before go-live, so a
+    trigger that launches later is compared against its own recent baseline
+    rather than a fixed calendar range someone has to remember to update.
+    """
+    if not cohort or not live_ts:
         return None
 
-    def window(frm, to, days, since_ts=None, label=""):
-        users, events = set(), 0
-        for rec in F.export_event(IMPACT_EVENT, frm, to):
-            if since_ts and ts_of(rec) < since_ts:
-                continue                       # export is day-granular; trim to the go-live minute
-            ident = F.identity_of(rec)
-            if ident in cohort:                # cohort members only
-                users.add(ident); events += 1
-        per = round(events / len(cohort) / days, 3) if days else 0
-        print(f"  {IMPACT_EVENT} {label:5s} {frm}->{to}: {events} events, {len(users)} of "
-              f"{len(cohort)} cohort users, {per}/user/day over {days:.2f}d")
-        return {"users": len(users), "events": events, "days": round(days, 2),
-                "reach_pct": round(100 * len(users) / len(cohort)),
-                "per_user_day": per}
-
-    live = datetime.datetime.strptime(str(CAMPAIGN_LIVE_TS), "%Y%m%d%H%M%S").replace(tzinfo=IST)
+    live = datetime.datetime.strptime(str(live_ts), "%Y%m%d%H%M%S").replace(tzinfo=IST)
+    pre_to = day_add(str(live_ts)[:8], -1)
+    pre_frm = day_add(pre_to, -(PRE_DAYS - 1))
+    pre_lo, pre_hi = int(pre_frm + "000000"), int(pre_to + "235959")
     post_days = max((now_ist - live).total_seconds() / 86400, 1 / 24)   # floor at 1h, never divide by ~0
 
-    pre = window(PRE_FROM, PRE_TO, 11.0, label="pre")
-    post = window(str(CAMPAIGN_LIVE_TS)[:8], now_ist.strftime("%Y%m%d"), post_days,
-                  since_ts=CAMPAIGN_LIVE_TS, label="post")
+    def window(lo, hi, days, label):
+        users, events = set(), 0
+        for ident, ts in opens:
+            if lo <= ts <= hi and ident in cohort:
+                users.add(ident); events += 1
+        per = round(events / len(cohort) / days, 3) if days else 0
+        print(f"    {label:5s} {lo}->{hi}: {events} opens, {len(users)}/{len(cohort)} cohort, "
+              f"{per}/user/day over {days:.2f}d")
+        return {"users": len(users), "events": events, "days": round(days, 2),
+                "reach_pct": round(100 * len(users) / len(cohort)), "per_user_day": per}
+
+    pre = window(pre_lo, pre_hi, float(PRE_DAYS), "pre")
+    post = window(live_ts, int(now_ist.strftime("%Y%m%d%H%M%S")), post_days, "post")
     lift = (round(100 * (post["per_user_day"] - pre["per_user_day"]) / pre["per_user_day"])
             if pre["per_user_day"] else None)
+
+    fmt = lambda s: datetime.datetime.strptime(str(s), "%Y%m%d").strftime("%d %b")
     return {
         "event": IMPACT_EVENT, "cohort_event": "Bonus_Seva_Quiz_Answered", "cohort_users": len(cohort),
-        "pre":  dict(pre,  frm="2026-07-16", to="2026-07-26", label="16–26 Jul (before)"),
-        "post": dict(post, frm="2026-07-27 23:30", to=now_ist.strftime("%d %b %H:%M IST"),
-                     label="since 27 Jul 23:30 (after)"),
+        "pre":  dict(pre,  label=f"{fmt(pre_frm)}–{fmt(pre_to)} (before)"),
+        "post": dict(post, label=f"since {live.strftime('%d %b %H:%M')} (after)"),
         "lift_pct": lift,
     }
 
 
+def blank():
+    return {"users": {}, "counts": {}, "quiz_first": {}, "vd": {}, "un": {}, "daily": {}, "first_ts": 0}
+
+
 def main():
     frm = sys.argv[1] if len(sys.argv) > 1 else START_DATE
-    to = datetime.datetime.now(IST).strftime("%Y%m%d")
+    now_ist = datetime.datetime.now(IST)
+    to = now_ist.strftime("%Y%m%d")
     print(f"Bonus Seva · CleverTap {F.REGION} · {frm} -> {to}")
 
-    users = {}          # key -> set(identity)
-    counts = {}         # key -> raw event count
-    daily = {}          # day -> {"intro_viewed","completed"} sets
-    quiz_first = {}     # identity -> (choice, correct) first answer only
-    vd_seconds = {}     # identity -> max watched_seconds on Video_Dismissed
-    un_seconds = {}     # identity -> max watched_seconds on Understood_Clicked
-    first_ts = 0        # earliest Intro_Viewed ts — confirms which clock CT stamps in
+    T = {}   # trigger -> per-trigger accumulators
+
+    def acc(t):
+        return T.setdefault(t, blank())
 
     for event, key, *_ in [(*f,) for f in FUNNEL] + [(*d,) for d in DROPOFFS]:
-        u, n = set(), 0
+        seen = Counter()
         for rec in F.export_event(event, frm, to):
-            n += 1
             ident = F.identity_of(rec)
+            props = F.props_of(rec)
+            t = trigger_of(props)
+            a = acc(t)
+            a["counts"][key] = a["counts"].get(key, 0) + 1
+            seen[t] += 1
             if not ident:
                 continue
-            u.add(ident)
-            props = F.props_of(rec)
+            a["users"].setdefault(key, set()).add(ident)
             d = F.day_of(rec)
             if key in ("intro_viewed", "quiz_answered") and d:
-                daily.setdefault(d, {"intro_viewed": set(), "quiz_answered": set()})[key].add(ident)
+                a["daily"].setdefault(d, {"intro_viewed": set(), "quiz_answered": set()})[key].add(ident)
             if key == "intro_viewed":
-                first_ts = min(first_ts, ts_of(rec)) if first_ts else ts_of(rec)
-            if key == "quiz_answered" and ident not in quiz_first:
-                quiz_first[ident] = (str(props.get("choice", "")),
-                                     str(props.get("correct", "")).lower() in ("true", "1"))
+                ts = ts_of(rec)
+                a["first_ts"] = min(a["first_ts"], ts) if a["first_ts"] and ts else (ts or a["first_ts"])
+            if key == "quiz_answered" and ident not in a["quiz_first"]:
+                a["quiz_first"][ident] = (str(props.get("choice", "")),
+                                          str(props.get("correct", "")).lower() in ("true", "1"))
             if key == "video_dismissed":
                 try:
-                    vd_seconds[ident] = max(vd_seconds.get(ident, 0), int(float(props.get("watched_seconds", 0))))
+                    a["vd"][ident] = max(a["vd"].get(ident, 0), int(float(props.get("watched_seconds", 0))))
                 except (TypeError, ValueError):
                     pass
             if key == "understood":
                 try:
-                    un_seconds[ident] = max(un_seconds.get(ident, 0), int(float(props.get("watched_seconds", 0))))
+                    a["un"][ident] = max(a["un"].get(ident, 0), int(float(props.get("watched_seconds", 0))))
                 except (TypeError, ValueError):
                     pass
-        users[key], counts[key] = u, n
-        print(f"  {event:34s} -> {n} events, {len(u)} unique users")
+        split = ", ".join(f"{t}={n}" for t, n in sorted(seen.items())) or "none"
+        print(f"  {event:34s} -> {sum(seen.values())} events [{split}]")
 
-    print(f"  earliest Bonus_Seva_Intro_Viewed ts = {first_ts} "
-          f"(campaign went live 27 Jul 23:30 IST — if this reads ~20260727 18xx, CT stamps in UTC)")
+    # order known triggers first, then anything the creative starts sending later
+    keys = [t for t in TRIGGER_ORDER if t in T] + [t for t in sorted(T) if t not in TRIGGER_ORDER]
+    if not keys:
+        keys = [LEGACY_TRIGGER]
+        T[LEGACY_TRIGGER] = blank()
 
-    now_ist = datetime.datetime.now(IST)
-    imp = impact(users["quiz_answered"], now_ist)
+    live = {t: T[t]["first_ts"] for t in keys}
+    for t in keys:
+        print(f"  {t}: first Intro_Viewed ts = {live[t] or '—'}  (CT stamps in IST for this account)")
 
-    choice_counts = Counter(c for c, _ in quiz_first.values() if c)
+    earliest = min([v for v in live.values() if v] or [int(frm + "000000")])
+    help_frm = day_add(str(earliest)[:8], -PRE_DAYS)
+    opens = load_help_opens(help_frm, to)
+
+    triggers = []
+    for t in keys:
+        a = T[t]
+        u = lambda k: a["users"].get(k, set())
+        c = lambda k: a["counts"].get(k, 0)
+        print(f"  impact · {t}:")
+        choice_counts = Counter(ch for ch, _ in a["quiz_first"].values() if ch)
+        triggers.append({
+            "key": t,
+            "label": TRIGGER_LABEL.get(t, t.replace("_", " ").title()),
+            "live_ts": a["first_ts"] or None,
+            "live_label": (datetime.datetime.strptime(str(a["first_ts"]), "%Y%m%d%H%M%S")
+                           .strftime("%d %b %Y, %H:%M IST") if a["first_ts"] else None),
+            "funnel": [{"key": k, "label": lbl, "event": ev, "users": len(u(k)), "events": c(k)}
+                       for ev, k, lbl in FUNNEL],
+            "dropoffs": {
+                "intro_dismissed": {"users": len(u("intro_dismissed")), "events": c("intro_dismissed")},
+                "video_dismissed": {"users": len(u("video_dismissed")), "events": c("video_dismissed"),
+                                    "watched": stats(a["vd"])},
+            },
+            "dismiss_tap": {"users": len(u("dismiss_tap")), "events": c("dismiss_tap")},
+            "understood_watched": stats(a["un"]),
+            "quiz": {
+                "answered": len(a["quiz_first"]),
+                "correct": sum(1 for _, ok in a["quiz_first"].values() if ok),
+                "wrong": sum(1 for _, ok in a["quiz_first"].values() if not ok),
+                "choices": [{"choice": ch, "label": CHOICE_LABEL.get(ch, ch), "users": n}
+                            for ch, n in choice_counts.most_common()],
+            },
+            "impact": impact(u("quiz_answered"), opens, a["first_ts"], now_ist),
+            "daily": [{"date": f"{d[:4]}-{d[4:6]}-{d[6:8]}",
+                       "intro_viewed": len(v["intro_viewed"]), "completed": len(v["quiz_answered"])}
+                      for d, v in sorted(a["daily"].items())],
+        })
+
+    # A trigger that launches second has a "before" window that runs through the
+    # first trigger's live period, so part of its baseline is people the campaign
+    # had already educated — the comparison understates itself. Same for CSPs who
+    # appear in both cohorts. Detect both and let the dashboard say so rather than
+    # quietly reporting a clean-looking lift.
+    cohorts = {t: T[t]["users"].get("quiz_answered", set()) for t in keys}
+    for tr in triggers:
+        im, t = tr["impact"], tr["key"]
+        if not im or not live.get(t):
+            continue
+        pre_to = day_add(str(live[t])[:8], -1)
+        lo, hi = int(day_add(pre_to, -(PRE_DAYS - 1)) + "000000"), int(pre_to + "235959")
+        im["pre_overlaps"] = [TRIGGER_LABEL.get(o, o) for o in keys
+                              if o != t and live.get(o) and lo <= live[o] <= hi]
+        others = set().union(*[cohorts[o] for o in keys if o != t]) if len(keys) > 1 else set()
+        im["cohort_shared"] = len(cohorts[t] & others)
+        if im["pre_overlaps"] or im["cohort_shared"]:
+            print(f"    caveat · {t}: baseline overlaps {im['pre_overlaps'] or 'nothing'}, "
+                  f"{im['cohort_shared']} CSPs shared with another trigger")
+
+    # headline totals: unique across triggers, so one CSP served by both is one person
+    def union(k):
+        s = set()
+        for t in keys:
+            s |= T[t]["users"].get(k, set())
+        return s
+
     out = {
-        "generated": datetime.datetime.now(IST).strftime("%Y-%m-%d %H:%M IST"),
+        "generated": now_ist.strftime("%Y-%m-%d %H:%M IST"),
         "region": F.REGION,
         "start_date": f"{frm[:4]}-{frm[4:6]}-{frm[6:8]}",
-        "funnel": [{"key": k, "label": lbl, "event": ev, "users": len(users[k]), "events": counts[k]}
-                   for ev, k, lbl in FUNNEL],
-        "dropoffs": {
-            "intro_dismissed": {"users": len(users["intro_dismissed"]), "events": counts["intro_dismissed"]},
-            "video_dismissed": {"users": len(users["video_dismissed"]), "events": counts["video_dismissed"],
-                                "watched": stats(vd_seconds)},
-        },
-        "dismiss_tap": {"users": len(users["dismiss_tap"]), "events": counts["dismiss_tap"]},
-        "impact": imp,
-        "understood_watched": stats(un_seconds),
-        "quiz": {
-            "answered": len(quiz_first),
-            "correct": sum(1 for _, ok in quiz_first.values() if ok),
-            "wrong": sum(1 for _, ok in quiz_first.values() if not ok),
-            "choices": [{"choice": c, "label": CHOICE_LABEL.get(c, c), "users": n}
-                        for c, n in choice_counts.most_common()],
-        },
-        "daily": [{"date": f"{d[:4]}-{d[4:6]}-{d[6:8]}",
-                   "intro_viewed": len(v["intro_viewed"]), "completed": len(v["quiz_answered"])}
-                  for d, v in sorted(daily.items())],
+        "triggers": triggers,
+        "totals": {"funnel": [{"key": k, "label": lbl, "event": ev,
+                               "users": len(union(k)),
+                               "events": sum(T[t]["counts"].get(k, 0) for t in keys)}
+                              for ev, k, lbl in FUNNEL]},
     }
     path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "bonus_data.json")
     json.dump(out, open(path, "w", encoding="utf-8"), ensure_ascii=False, indent=2)
     print("wrote", path)
 
-    f = {x["key"]: x["users"] for x in out["funnel"]}
-    p = lambda a, b: round(100 * a / b) if b else 0
-    print(f"  funnel: shown={f['intro_viewed']} -> learn_more={f['learn_more']} ({p(f['learn_more'],f['intro_viewed'])}%) "
-          f"-> played={f['video_played']} -> understood={f['understood']} "
-          f"-> completed/quiz={f['quiz_answered']} ({p(f['quiz_answered'],f['intro_viewed'])}%)")
-    if imp:
-        print(f"  impact: {imp['pre']['per_user_day']} -> {imp['post']['per_user_day']} opens/user/day "
-              f"(lift {imp['lift_pct']}%) for {imp['cohort_users']} quiz answerers")
+    p = lambda a_, b_: round(100 * a_ / b_) if b_ else 0
+    for tr in triggers:
+        f = {x["key"]: x["users"] for x in tr["funnel"]}
+        line = (f"  {tr['key']:16s} shown={f['intro_viewed']} played={f['video_played']} "
+                f"understood={f['understood']} quiz={f['quiz_answered']} "
+                f"({p(f['quiz_answered'], f['intro_viewed'])}% of shown)")
+        im = tr["impact"]
+        if im:
+            line += f" | impact {im['pre']['per_user_day']}->{im['post']['per_user_day']} (lift {im['lift_pct']}%)"
+        print(line)
 
 
 if __name__ == "__main__":
