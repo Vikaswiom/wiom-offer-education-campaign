@@ -352,10 +352,23 @@ function renderRound2(r2){
   var ex=r2.exits||{};
 
   if(!shown){
+    var raw=r2.raw_events||0, ok=r2.events_confirmed||[], no=r2.events_unseen||[];
+    var chips=function(list,cls){return list.map(function(e){
+      return `<code style="background:${cls};padding:1px 6px;border-radius:5px;margin:0 4px 4px 0;display:inline-block">Bonus_Seva2_${esc(e)}</code>`;}).join('');};
     document.getElementById('r2').innerHTML=
-      `<div class="pend">⏳ <b>Not live yet.</b> CleverTap only reports an event after its first real fire, so every `+
-      `<code>Bonus_Seva2_*</code> count reads zero until the campaign goes out. The fetcher already polls all nine `+
-      `events each refresh — numbers appear here on their own, no code change needed at launch.</div>`;
+      `<div class="pend">⏳ <b>Not live to real CSPs yet.</b> `+
+      (raw
+        ? `But <b>${nf(raw)} events have already fired</b> from test profiles — the internal test CSP is excluded from `+
+          `every count, so events register while no user does. That is the instrumentation proving itself before launch: `+
+          `<b>${ok.length} of 9</b> event names have reached CleverTap.`
+        : `CleverTap only reports an event after its first real fire, so every <code>Bonus_Seva2_*</code> count reads `+
+          `zero until the campaign goes out.`)+
+      ` The fetcher polls all nine events every refresh — real numbers appear here on their own, no code change needed `+
+      `at launch.</div>`+
+      (raw?`<div style="margin-top:13px">`+
+        `<div class="r2h">Confirmed reaching CleverTap</div><div>${chips(ok,'var(--good-bg)')}</div>`+
+        (no.length?`<div class="r2h" style="margin-top:12px">Not fired even in testing</div><div>${chips(no,'var(--warn-bg)')}</div>`:'')+
+      `</div>`:'');
     document.getElementById('r2note').innerHTML=
       `<b>What this will show.</b> The Home story replaces the 45s video for CSPs who never answered the round-1 quiz. `+
       `Because every card advance is its own event, this block can show <b>which card loses people</b> — round 1 could `+

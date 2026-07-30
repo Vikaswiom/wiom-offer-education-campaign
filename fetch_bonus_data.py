@@ -147,8 +147,18 @@ def fetch_round2(frm, to):
         print(f"  {ev:34s} -> {seen} events")
 
     shown = len(u.get("shown", set()))
-    if not shown and not n.get("Story_Viewed"):
-        print("  round 2 not live yet (no Story_Viewed) — reporting a pending block")
+    raw = sum(n.values())
+    known = [name for name in R2_EVENTS if n.get(name)]
+    unknown = [name for name in R2_EVENTS if not n.get(name)]
+    # Raw fires with nobody attributable means test traffic: identity_of() returns
+    # None for the excluded internal CSP, so those events count but no user does.
+    # Worth saying out loud — it is proof the instrumentation works before launch.
+    if not shown:
+        if raw:
+            print(f"  round 2 not live to real CSPs yet, but {raw} events have fired from excluded/test "
+                  f"profiles — {len(known)}/{len(R2_EVENTS)} event names confirmed reaching CleverTap")
+        else:
+            print("  round 2 not live yet (no events at all) — reporting a pending block")
 
     ev_of = {k: lbl_ev for k, _, lbl_ev in [(a, b, c) for a, b, c in R2_FUNNEL]}
     return {
@@ -171,6 +181,10 @@ def fetch_round2(frm, to):
         "help_metrics": [{"metric": m, "label": METRIC_LABEL.get(m, m), "users": len(s)}
                          for m, s in sorted(metrics.items(), key=lambda kv: -len(kv[1]))],
         "dismissed_total": {"users": len(u.get("dismissed", set())), "events": n.get("Dismissed", 0)},
+        # pre-launch instrumentation check, surfaced on the pending panel
+        "raw_events": raw,
+        "events_confirmed": known,
+        "events_unseen": unknown,
     }
 
 
