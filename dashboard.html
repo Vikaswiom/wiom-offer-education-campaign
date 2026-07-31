@@ -90,7 +90,7 @@ section{margin-top:24px;}
 <div class="wrap">
   <header>
     <h1>Offer Education — Campaign Tracking</h1>
-    <p class="sub">हर कस्टमर को मिलता है अलग अलग ऑफर · same in-app creative running in two apps, from CleverTap events.</p>
+    <p class="sub">हर कस्टमर को मिलता है अलग अलग ऑफर · three in-app creatives across the CSP and Technician apps, from CleverTap events.</p>
     <div class="banner" id="banner">⚠️ Showing <b>sample data</b> — run <code>fetch_ct_data.py</code> to load live CleverTap numbers.</div>
     <div class="legend" id="legend"><span class="updated" id="updated"></span></div>
   </header>
@@ -110,6 +110,30 @@ section{margin-top:24px;}
     <div class="h2">Reach — education only (no quiz)</div>
     <div class="funnels" id="funnels2"></div>
     <div class="note" id="eduonlynote"></div>
+  </section>
+
+  <section id="offerpage-sec" style="display:none">
+    <div class="h2">Round 2 — full-page offer education (no quiz)</div>
+    <div class="funnels" id="funnels3"></div>
+    <div class="note" id="offerpagenote"></div>
+    <div class="panel" style="margin-top:14px">
+      <div class="two" style="align-items:start">
+        <img class="shot" id="pageshot" src="offer_page_screen.png" alt="The full-page offer education in-app: सही अमाउंट कस्टमर के व्योम ऐप में है">
+        <div class="cap" style="margin-top:0">
+          <b>One screen, one job.</b> The customer's phone is shown with the amount blurred to
+          <b>₹ •••</b> and a green <b>फाइनल अमाउंट</b> tick — so the CSP's line becomes
+          “अपने ऐप में देखिए”, not a number they have to defend.<br><br>
+          <b>ठीक है is an acknowledgement, not comprehension.</b> It is also the only way to close
+          the screen, so read the tap rate as “reached the end and closed it deliberately”, not as
+          “understood the message”. What makes it worth charting here — unlike the education-only
+          creative, where the tap is charted nowhere — is that <b>Shown and the tap come from the
+          same instrument</b>: both are fired by this creative's JS, so the gap between them is a
+          real behavioural gap, not two sources disagreeing.<br><br>
+          <b>The creative is identical in both apps.</b> Only the event name differs, which is
+          exactly what makes the two funnels above trustworthy without any attribution.
+        </div>
+      </div>
+    </div>
   </section>
 
   <section>
@@ -138,7 +162,9 @@ const FALLBACK={"generated":"(local preview — sample data)","sample":true,"reg
 "option_answer":"आपका सही अमाउंट आपके व्योम ऐप में दिखेगा, वही फाइनल अमाउंट होगा।",
 "apps":[
  {"key":"csp","label":"CSP App","color":"#D9008D","note":"Partner/CSP app — the original two campaigns.","campaigns":["1784201594","1784207437"],"shown_by_campaign":[{"id":"1784201594","users":13},{"id":"1784207437","users":0}],"funnel":{"shown":13,"edu_ok":11,"completed":6},"options":[{"option":"1","label":"1st (top)","users":3},{"option":"2","label":"2nd (middle)","users":2},{"option":"3","label":"3rd (bottom)","users":1}],"daily":[{"date":"2026-07-16","shown":13,"completed":6}]},
- {"key":"tech","label":"Technician App","color":"#2563EB","note":"Technician app — same creative, separate campaign.","campaigns":["1784203536"],"shown_by_campaign":[{"id":"1784203536","users":0}],"funnel":{"shown":0,"edu_ok":0,"completed":0},"options":[{"option":"1","label":"1st (top)","users":0},{"option":"2","label":"2nd (middle)","users":0},{"option":"3","label":"3rd (bottom)","users":0}],"daily":[]}],
+ {"key":"tech","label":"Technician App","color":"#2563EB","note":"Technician app — same creative, separate campaign.","campaigns":["1784203536"],"shown_by_campaign":[{"id":"1784203536","users":0}],"funnel":{"shown":0,"edu_ok":0,"completed":0},"options":[{"option":"1","label":"1st (top)","users":0},{"option":"2","label":"2nd (middle)","users":0},{"option":"3","label":"3rd (bottom)","users":0}],"daily":[]},
+ {"key":"csp_offerpage","label":"CSP App · offer page","color":"#A8006E","variant":"offer_page","attribution":"event","campaigns":[],"campaigns_seen":[],"shown_by_campaign":[],"steps":[["shown","Page shown","CSP_Offer_Page_Shown"],["ok","Tapped ठीक है","CSP_Offer_Page_OK_Clicked"]],"funnel":{"shown":0,"ok":0},"ok_outside_shown":0,"options":[],"daily":[],"note":"Full-page offer creative (round 2), no quiz."},
+ {"key":"tech_offerpage","label":"Technician App · offer page","color":"#1D4ED8","variant":"offer_page","attribution":"event","campaigns":[],"campaigns_seen":[],"shown_by_campaign":[],"steps":[["shown","Page shown","TECH_Offer_Page_Shown"],["ok","Tapped ठीक है","TECH_Offer_Page_OK_Clicked"]],"funnel":{"shown":0,"ok":0},"ok_outside_shown":0,"options":[],"daily":[],"note":"Full-page offer creative (round 2), no quiz."}],
 "unattributed":{"edu_ok":4,"completed":2},"both_apps":0};
 
 const tip=document.getElementById('tip');
@@ -157,11 +183,14 @@ function render(D){
     A.map(a=>`<span class="lg"><span class="sw" style="background:${a.color}"></span>${esc(a.label)}</span>`).join('')+
     '<span class="updated">Updated: '+(D.generated||'')+'</span>';
 
-  // Two creatives run side by side: education+quiz, and education-only. Keep their
-  // numbers apart — the headline is the quiz variant, which is the one with a funnel
-  // deep enough to have a completion rate.
-  const V=A.filter(a=>a.variant!=='education_only');
+  // Three creatives run side by side: education+quiz, education-only, and the round-2
+  // offer page. Keep their numbers apart — the headline is the quiz variant, the only
+  // one with a funnel deep enough to have a completion rate. V is matched on the ABSENCE
+  // of a variant, never on "not education_only": a new variant must never be able to
+  // fall through into the headline KPIs by default.
+  const V=A.filter(a=>!a.variant);
   const E=A.filter(a=>a.variant==='education_only');
+  const P=A.filter(a=>a.variant==='offer_page');
 
   const sum=k=>V.reduce((t,a)=>t+(a.funnel[k]||0),0);
   const shown=sum('shown'), edu=sum('edu_ok'), done=sum('completed');
@@ -185,17 +214,24 @@ function render(D){
         <div class="trk"><div class="br" style="width:${Math.min(p,100)}%;background:${a.color}"></div></div>
         <div class="dp ${drop>0?'':'zero'}">${dropTxt}</div></div>`;
     }).join('');
-    const camps=(a.shown_by_campaign||[]).map(c=>`<b>${c.id}</b> ${nf(c.users)}`).join(' · ');
     const isEdu=a.variant==='education_only';
+    const isPage=a.variant==='offer_page';
     const isRole=a.attribution==='role', isImpr=a.attribution==='impressions';
+    // The offer page is measured off its own events, so it has no campaign id to show
+    // and needs none — say that outright rather than printing an empty dash.
+    const camps=isPage?'not needed — the app is in the event name'
+                      :(a.shown_by_campaign||[]).map(c=>`<b>${c.id}</b> ${nf(c.users)}`).join(' · ');
     const noAct=f.shown===0&&f.edu_ok===0&&!f.completed;
-    const pend=isRole?(noAct?`<div class="pending">⏳ No technician-role activity yet — no event in the window carries a profile with <code>role = technician</code>.</div>`:''):
+    const pend=isPage?(f.shown===0&&!f.ok?`<div class="pending">⏳ Nothing yet — no <code>${a.steps[0][2]}</code> in the window. Numbers appear once the campaign fires on a real device.</div>`:''):
+      isRole?(noAct?`<div class="pending">⏳ No technician-role activity yet — no event in the window carries a profile with <code>role = technician</code>.</div>`:''):
       (f.shown===0?`<div class="pending">⏳ No impressions yet — campaign ${a.campaigns.join(' / ')} has not fired. Numbers appear once it goes live.</div>`:'');
-    const coh=isEdu?`<b>Reach only.</b> Unique users the in-app was shown to, from campaign ${a.campaigns.join(' / ')}.`:
+    const coh=isPage?`<b>No cohort reconstruction.</b> Both steps are fired by the creative's own JS under an app-specific event name (<code>${a.steps[0][2]}</code> / <code>${a.steps[1][2]}</code>), so the app is written into the event itself — nothing is intersected, inferred, or attributed.`:
+      isEdu?`<b>Reach only.</b> Unique users the in-app was shown to, from campaign ${a.campaigns.join(' / ')}.`:
       isRole?`<b>Role cohort (workaround):</b> every step counts unique profiles with <code>role = technician</code> that fired the event — not locked to the shown set, so a step can exceed “Shown”.`:
       isImpr&&f.shown?`<b>Cohort: the ${nf(f.shown)} profile${f.shown===1?'':'s'} whose in-app render was recorded by CleverTap</b> (<code>Notification Viewed</code>). Every step below counts only those ${nf(f.shown)}, followed down the funnel — nobody else can enter.`:
       (f.shown?`<b>Cohort: the ${nf(f.shown)} profile${f.shown===1?'':'s'} shown this app's campaign.</b> Every step below counts only those ${nf(f.shown)}, followed down the funnel — nobody else can enter.`:'');
-    const head=isEdu?`<b>${nf(f.shown)}</b> unique user${f.shown===1?'':'s'} shown`
+    const head=isPage?`${nf(f.shown)} shown → ${nf(f.ok)} tapped ठीक है (<b>${pct(f.ok,f.shown)}%</b>)`
+                    :isEdu?`<b>${nf(f.shown)}</b> unique user${f.shown===1?'':'s'} shown`
                     :`${nf(f.shown)} shown → ${nf(f.completed)} completed (<b>${pct(f.completed,f.shown)}%</b>)`;
     return `<div class="fpanel" style="--c:${a.color}"><div class="ftitle"><span class="sw"></span>${esc(a.label)}</div>
       <div class="fsub">${a.note}<br>Campaigns: ${camps||'—'} · ${head}<br>${coh}</div>${rows}${pend}</div>`;
@@ -207,6 +243,27 @@ function render(D){
     document.getElementById('eduonlynote').innerHTML=
       `<b>A different creative, measured on reach alone.</b> This campaign shows only the education screen and <b>ठीक है</b> — no quiz — capped at <b>once per day, 3 times lifetime</b> (set in CleverTap, not in the HTML).<br><br>`+
       `<b>Why there is no tap metric.</b> On this creative <b>ठीक है</b> is only a dismiss button — the sole way to close the screen. Charting it would invite reading a “drop-off” into what is really just people closing a message they have already seen. The job here is to put the message in front of people, so unique reach is the number that means something.`;
+  }
+  if(P.length){
+    document.getElementById('offerpage-sec').style.display='';
+    document.getElementById('funnels3').innerHTML=P.map(funnelCard).join('');
+    const ps=P.reduce((t,a)=>t+(a.funnel.shown||0),0), pk=P.reduce((t,a)=>t+(a.funnel.ok||0),0);
+    const stray=P.reduce((t,a)=>t+(a.ok_outside_shown||0),0);
+    let pn=`<b>The variant that needs no attribution.</b> Every other funnel on this page is reconstructed — `+
+      `the quiz creative is byte-identical in both apps, so its events carry no app marker and the two funnels have to be `+
+      `rebuilt by intersecting profile identities with each campaign's impressions, and the Technician app does not even `+
+      `fire <code>inApp_Shown</code>. This creative ships as two files whose only difference is the event name, so `+
+      `<code>CSP_Offer_Page_*</code> and <code>TECH_Offer_Page_*</code> can never be confused with each other. `+
+      `Nothing is intersected and nothing can land outside a cohort.`+
+      `<br><br><b>Both steps come from the creative, not the app.</b> <code>*_Page_Shown</code> fires from the page's own JS on load, `+
+      `not from the app's <code>inApp_Shown</code> — which is what finally makes the Technician funnel measurable directly, `+
+      `instead of via the <code>Notification Viewed</code> workaround used above.`;
+    if(ps) pn+=`<br><br>Across both apps: <b>${nf(ps)}</b> shown → <b>${nf(pk)}</b> tapped ठीक है (<b>${pct(pk,ps)}%</b>).`;
+    if(stray) pn+=`<br><br>⚠️ <b>${nf(stray)} profile(s) tapped ठीक है with no recorded Page shown.</b> `+
+      `Because the load-time event is fired by the page rather than the app, a device whose CleverTap bridge was still `+
+      `injecting when the page painted can miss it and still record the tap. So this funnel is <b>not</b> a locked cohort, `+
+      `and Shown is a slight under-count rather than the tap being inflated.`;
+    document.getElementById('offerpagenote').innerHTML=pn;
   }
   document.querySelectorAll('.fnl-step').forEach(el=>{
     el.addEventListener('mousemove',e=>showTip(decodeURIComponent(el.dataset.tip),e.clientX,e.clientY));
@@ -228,10 +285,17 @@ function render(D){
   if(D.both_apps) an+=`<br><br>⚠️ <b>${D.both_apps} profile(s) were shown both apps' campaigns</b> and are counted in both funnels.`;
   document.getElementById('attrnote').innerHTML=an;
 
-  document.getElementById('chips').innerHTML=A.map(a=>
-    `<span class="chip" style="color:${a.color};border-color:${a.color}33">${esc(a.label)}: ${a.campaigns.join(', ')}</span>`).join('');
+  // campaign chips: only for the variants that are actually identified by a campaign id
+  document.getElementById('chips').innerHTML=A.filter(a=>(a.campaigns||[]).length).map(a=>
+    `<span class="chip" style="color:${a.color};border-color:${a.color}33">${esc(a.label)}: ${a.campaigns.join(', ')}</span>`).join('')+
+    P.map(a=>`<span class="chip" style="color:${a.color};border-color:${a.color}33">${esc(a.label)}: by event name</span>`).join('');
 
-  document.getElementById('foot').innerHTML='Events: '+steps.map(s=>`<code>${s[2]}</code>`).join(' ')+
+  // the offer-page variant brings its own four event names; the education-only step
+  // reuses inApp_Shown, so it adds nothing here
+  const extraEv=[...new Set([].concat(...P.map(a=>a.steps.map(s=>s[2]))))]
+                  .filter(e=>!steps.some(s=>s[2]===e));
+  document.getElementById('foot').innerHTML='Events: '+steps.concat(extraEv.map(e=>[0,0,e]))
+    .map(s=>`<code>${s[2]}</code>`).join(' ')+
     `<br>Region <code>${D.region||'eu1'}</code> · live since ${D.start_date||'—'} · unique users per event, deduped on profile identity.`;
 }
 

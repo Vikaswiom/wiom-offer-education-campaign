@@ -6,6 +6,14 @@ data.json for dashboard.html.  Two apps, one shared creative:
     CSP App          campaigns 1784201594 + 1784207437
     Technician App   campaign  1784203536
 
+Three creatives now share this file, and they are measured in three different ways —
+which is the whole story of this dashboard:
+
+    education + quiz   one byte-identical creative in both apps, so its events carry no
+                       app marker and the apps must be separated by identity (below)
+    education only     own event name per app for the tap; `shown` still needs a campaign
+    offer page (r2)    own event name per app for BOTH steps — no attribution at all
+
 HOW THE SPLIT WORKS (important): only `inApp_Shown` carries campaign_id. The
 CSP_Offer_* events are fired by the in-app HTML itself, which is identical in both
 apps, so those events carry NO app or campaign marker. We therefore attribute them
@@ -89,6 +97,28 @@ EDUONLY = [
      "event": "TECH_Offer_EduOnly_OK_Clicked",
      "campaigns": ["1784285901"]},
 ]
+
+# ---- offer-page variant (round 2, live 31 Jul 2026) --------------------------
+# Full-page "Appchitra" creative: सही अमाउंट कस्टमर के व्योम ऐप में है — the customer's
+# phone showing ₹••• / फाइनल अमाउंट, and one ठीक है to acknowledge. No quiz.
+#
+# This one needs NO attribution work at all, which is the point of it. Both the
+# impression and the tap are fired by the creative's own JS under an app-specific
+# name, so the app is written into the event name itself. No campaign id, no
+# inApp_Shown, no Notification Viewed, no role guessing, nothing to intersect —
+# and therefore nothing that can land in `unattributed`.
+#
+# NOT a locked cohort. `shown` is fired by the same HTML rather than by the app, so
+# a device whose bridge was still injecting when the page painted can miss `shown`
+# and still record the tap. Any such surplus is reported as `ok_outside_shown`
+# instead of being hidden by clamping.
+OFFERPAGE = [
+    {"key": "csp_offerpage",  "label": "CSP App · offer page",        "color": "#A8006E",
+     "shown_event": "CSP_Offer_Page_Shown",  "ok_event": "CSP_Offer_Page_OK_Clicked"},
+    {"key": "tech_offerpage", "label": "Technician App · offer page", "color": "#1D4ED8",
+     "shown_event": "TECH_Offer_Page_Shown", "ok_event": "TECH_Offer_Page_OK_Clicked"},
+]
+OFFERPAGE_STEP_LABELS = [("shown", "Page shown"), ("ok", "Tapped ठीक है")]
 
 def _configured(app):
     return [c for c in app["campaigns"] if c and not c.startswith("PASTE_")]
@@ -223,6 +253,7 @@ def main():
     shown_day      = {c: {} for c in ALL_CAMPAIGNS}       # campaign -> day -> set(identity)
     edu_idents     = set()                                # identity
     comp_records   = []                                   # (identity, day, option)
+    raw_cmp_users  = {}                                   # raw campaign_id -> set(identity)
 
     # technician workaround: role-filtered collection, independent of campaign ids
     tech           = {"shown": set(), "edu_ok": set(), "completed": set()}
@@ -238,6 +269,11 @@ def main():
             if not ident:
                 continue
             if key == "shown":
+                # every campaign id seen on any inApp_Shown, tracked or not. Used only
+                # to tell us which campaign the offer-page creative is running under,
+                # since that variant needs no campaign id to be measured.
+                raw_cmp_users.setdefault(
+                    str(props_of(rec).get("campaign_id", "")) or "(none)", set()).add(ident)
                 if is_tech(rec):
                     tech["shown"].add(ident)
                     d = day_of(rec)
@@ -379,6 +415,64 @@ def main():
                      "Reach only — unique users the in-app was shown to."),
         })
 
+    # ---- pass 4: offer-page variant (round 2) — two steps, no attribution ----
+    # Both events name their own app, so each funnel is just "export two events and
+    # count unique identities". Nothing here depends on campaign ids or on the other
+    # variants' cohorts.
+    for o in OFFERPAGE:
+        shown_i, ok_i = set(), set()
+        o_daily = {}
+        for ev, bucket, dkey in ((o["shown_event"], shown_i, "shown"),
+                                 (o["ok_event"], ok_i, "ok")):
+            n = 0
+            for rec in export_event(ev, frm, to):
+                n += 1
+                ident = identity_of(rec)
+                if not ident:
+                    continue
+                bucket.add(ident)
+                d = day_of(rec)
+                if d:
+                    o_daily.setdefault(d, {"shown": set(), "ok": set()})[dkey].add(ident)
+            print(f"  {ev:34s} -> {n} events, {len(bucket)} unique users")
+
+        # The tap is fired by the same HTML as `shown`, so a tap from a profile with no
+        # `shown` means that device's bridge was not ready when the page painted. Surface
+        # it rather than clamp it — it is the honest measure of how much the load-time
+        # event is losing.
+        outside = len(ok_i - shown_i)
+        # kept short on purpose: the dashboard card already explains the no-attribution
+        # cohort in its own words, so repeating it here would print it twice.
+        note = "Full-page offer creative (round 2): one screen, one ठीक है, no quiz."
+        if outside:
+            note += (f" {outside} profile{'' if outside == 1 else 's'} tapped ठीक है without a "
+                     f"recorded Page shown — {'that device was' if outside == 1 else 'those devices were'} "
+                     "still injecting the bridge at page load, so treat Shown as a slight under-count.")
+        seen_ids = sorted(((cid, len(u & shown_i)) for cid, u in raw_cmp_users.items()
+                           if (u & shown_i) and cid not in ALL_CAMPAIGNS and cid != "(none)"),
+                          key=lambda kv: -kv[1])[:3]
+        if seen_ids:
+            note += (" Campaign id observed on this cohort's impressions: "
+                     + ", ".join(f"{c} ({n})" for c, n in seen_ids) + ".")
+
+        apps_out.append({
+            "key": o["key"], "label": o["label"], "color": o["color"],
+            "variant": "offer_page",
+            "attribution": "event",
+            "campaigns": [],
+            "campaigns_seen": [{"id": c, "users": n} for c, n in seen_ids],
+            "shown_by_campaign": [],
+            "steps": [[k, lbl, o["shown_event"] if k == "shown" else o["ok_event"]]
+                      for k, lbl in OFFERPAGE_STEP_LABELS],
+            "funnel": {"shown": len(shown_i), "ok": len(ok_i)},
+            "ok_outside_shown": outside,
+            "options": [],
+            "daily": [{"date": f"{d[:4]}-{d[4:6]}-{d[6:8]}",
+                       "shown": len(o_daily[d]["shown"]),
+                       "ok": len(o_daily[d]["ok"])} for d in sorted(o_daily)],
+            "note": note,
+        })
+
     # technician workaround: the campaign-locked inApp_Shown numbers are always zero
     # for the tech app, so overwrite them. Preferred source: real impressions from
     # Notification Viewed (locked cohort, matches the campaigns UI). Fallback when
@@ -471,6 +565,13 @@ def main():
         # the education-only creative reports reach only — no steps to fall through
         if a.get("variant") == "education_only":
             print(f"  {a['label']:34s} shown={f['shown']:4d}  (reach only)")
+            continue
+        # the offer-page creative has its own two-step funnel and its own event names
+        if a.get("variant") == "offer_page":
+            print(f"  {a['label']:34s} shown={f['shown']:4d}  ok={f['ok']:4d} "
+                  f"({p(f['ok'], f['shown'])}%)"
+                  + (f"  [{a['ok_outside_shown']} tapped without a Shown]"
+                     if a.get("ok_outside_shown") else ""))
             continue
         print(f"  {a['label'] + tag:26s} shown={f['shown']:4d}  edu_ok={f['edu_ok']:4d} ({p(f['edu_ok'],f['shown'])}%)  "
               f"completed={f['completed']:4d} ({p(f['completed'],f['shown'])}%)")
