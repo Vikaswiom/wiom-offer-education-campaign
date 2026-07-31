@@ -377,6 +377,56 @@ def load_help_opens(frm, to):
     return opens
 
 
+def timeline(cohort, opens, r1_live, r2_live, now_ist, key_idx=1):
+    """One cohort, three consecutive periods: before any education, while round 1
+    was live, and since round 2 launched.
+
+    The cohort is the CSPs who finished round 2, so the same people appear in all
+    three windows — no mix, tenure or region differences to explain away. They
+    were round-1 non-completers by construction, which is what makes the middle
+    window meaningful: it is what round 1 alone did for the people it failed to
+    convert.
+    """
+    if not cohort or not r1_live or not r2_live or r2_live <= r1_live:
+        return None
+
+    def at(ts):
+        return datetime.datetime.strptime(str(ts), "%Y%m%d%H%M%S").replace(tzinfo=IST)
+
+    a, b = at(r1_live), at(r2_live)
+    pre_to = day_add(str(r1_live)[:8], -1)
+    pre_frm = day_add(pre_to, -(PRE_DAYS - 1))
+    fmt = lambda d: datetime.datetime.strptime(str(d), "%Y%m%d").strftime("%d %b")
+
+    def window(lo, hi, days, label, sub):
+        users, events = set(), 0
+        for row in opens:
+            k, ts = row[key_idx], row[2]
+            if lo <= ts <= hi and k and k in cohort:
+                users.add(k); events += 1
+        per = round(events / len(cohort) / days, 3) if days else 0
+        print(f"    {label:9s} {lo}->{hi}: {events} opens, {len(users)}/{len(cohort)}, "
+              f"{per}/CSP/day over {days:.2f}d")
+        return {"key": label, "label": sub, "users": len(users), "events": events,
+                "days": round(days, 2), "reach_pct": round(100 * len(users) / len(cohort)),
+                "per_user_day": per}
+
+    w0 = window(int(pre_frm + "000000"), int(pre_to + "235959"), float(PRE_DAYS),
+                "before", f"{fmt(pre_frm)}–{fmt(pre_to)}")
+    w1 = window(r1_live, r2_live - 1, max((b - a).total_seconds() / 86400, 1 / 24),
+                "round1", f"{a.strftime('%d %b %H:%M')} → {b.strftime('%d %b %H:%M')}")
+    w2 = window(r2_live, int(now_ist.strftime("%Y%m%d%H%M%S")),
+                max((now_ist - b).total_seconds() / 86400, 1 / 24),
+                "round2", f"since {b.strftime('%d %b %H:%M')}")
+
+    def lift(x, y):
+        return round(100 * (y["per_user_day"] - x["per_user_day"]) / x["per_user_day"]) if x["per_user_day"] else None
+
+    return {"event": IMPACT_EVENT, "cohort_event": "Bonus_Seva2_Flow_Completed",
+            "cohort_users": len(cohort), "windows": [w0, w1, w2],
+            "lift_r1": lift(w0, w1), "lift_r2": lift(w1, w2), "lift_total": lift(w0, w2)}
+
+
 def impact(cohort, opens, live_ts, now_ist, key_idx=0):
     """Help-screen opens for this trigger's quiz cohort, before vs after ITS go-live.
 
@@ -561,6 +611,10 @@ def main():
                                       if live.get(o) and lo <= live[o] <= hi]
             impacts.append({"key": b["key"], "label": b["label"], "live_label": b["live_label"],
                             "cohort_label": "finished the story", "impact": im})
+    r2_live_ts = next((b["live_ts"] for b in r2 if b["key"] == R2_CURRENT), None)
+    print("  --- one cohort, three periods ---")
+    tl = timeline(r2_cohorts.get(R2_CURRENT, set()), opens, earliest, r2_live_ts, now_ist)
+
     print("  --- before/after, one row per campaign ---")
     for x in impacts:
         i = x["impact"]
@@ -580,6 +634,7 @@ def main():
         "start_date": f"{frm[:4]}-{frm[4:6]}-{frm[6:8]}",
         "triggers": triggers,
         "round2": r2,
+        "timeline": tl,
         "impacts": impacts,
         "totals": {"funnel": [{"key": k, "label": lbl, "event": ev,
                                "users": len(union(k)),

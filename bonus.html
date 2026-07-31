@@ -89,6 +89,12 @@ section{margin-top:24px;}
 .lift.up{background:var(--good-bg);color:var(--good);}
 .lift.down{background:var(--bad-bg);color:var(--bad);}
 .lift.flat{background:var(--soft);color:var(--muted);}
+.tl3{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:12px;align-items:center;}
+@media(max-width:900px){.tl3{grid-template-columns:1fr}}
+.win.mid{background:#FFF9EC;border-color:#F0DCB0;}
+.tlsum{margin-top:16px;padding:13px 16px;border-radius:12px;background:var(--good-bg);
+  border:1px solid #BFE7D2;font-size:13px;font-weight:700;color:var(--good);}
+.tlsum span{color:var(--muted);font-weight:600;}
 .readout{margin-top:16px;padding:14px 16px;border-radius:12px;background:var(--soft);
   border:1px solid var(--line);border-left:3px solid var(--brand);
   font-size:12.5px;line-height:1.75;color:var(--muted);}
@@ -160,7 +166,8 @@ section{margin-top:24px;}
 
   <section id="impact-sec" style="display:none">
     <div class="h2">Impact — help-screen opens, before vs after each campaign</div>
-    <div class="tgrid" id="impact"></div>
+    <div class="panel" id="timeline" style="display:none"></div>
+    <div class="tgrid" id="impact" style="margin-top:14px"></div>
     <div class="note" id="impactnote"></div>
   </section>
 
@@ -317,6 +324,34 @@ function quizPanel(t,i){
       <div class="qbar"><span style="width:${pct(c.users,maxC)}%"></span></div></div>`).join('')+
     `<div class="stat" style="margin-top:8px"><span>Watch time at समझ गया tap</span><b>${uw.avg||0}s</b> <span style="font-size:11px">median ${uw.median||0}s</span></div>`+
     `</div>`;
+}
+
+/* One cohort, three consecutive periods — the question "did round 2 add
+   anything on top of round 1" only has an answer if the same people are counted
+   in all three windows. */
+function renderTimeline(tl){
+  var el=document.getElementById('timeline');
+  if(!tl||!tl.cohort_users||!(tl.windows||[]).length){ el.style.display='none'; return; }
+  el.style.display='';
+  var W=tl.windows, KICK={before:'Before any education',round1:'While round 1 was live',round2:'Since round 2 went live'};
+  var box=function(w,cls){
+    return `<div class="win${cls}"><div class="wk">${esc(KICK[w.key]||w.key)}</div>
+      <div class="wd">${esc(w.label)}<br>${w.days} day${w.days===1?'':'s'} of data</div>
+      <div class="wv">${w.per_user_day}</div><div class="wu">opens per CSP per day</div>
+      <div class="wx"><b>${nf(w.users)}</b> of ${nf(tl.cohort_users)} opened it at least once <b>(${w.reach_pct}%)</b> · ${nf(w.events)} opens</div></div>`;
+  };
+  var chip=function(L,cap){
+    var cls=L==null?'flat':L>0?'up':L<0?'down':'flat';
+    return `<div class="lift ${cls}">${L==null?'—':(L>0?'+':'')+L+'%'}<small>${cap}</small></div>`;
+  };
+  el.innerHTML=
+    `<div class="cohort">The same <b>${nf(tl.cohort_users)}</b> CSPs who <b>finished round 2</b>, followed across all `+
+    `three periods and measured on <code>${esc(tl.event)}</code>.</div>`+
+    `<div class="tl3">${box(W[0],'')}${chip(tl.lift_r1,'vs before')}${box(W[1],' mid')}${chip(tl.lift_r2,'vs round 1')}${box(W[2],' post')}</div>`+
+    `<div class="tlsum">Before any education → since round 2: `+
+    `<b>${W[0].per_user_day} → ${W[2].per_user_day}</b> opens per CSP per day`+
+    `${tl.lift_total==null?'':` · <b>${(tl.lift_total>0?'+':'')+tl.lift_total}%</b> overall`}`+
+    ` <span>· the middle window is what round 1 alone did for these same CSPs, who did not finish it</span></div>`;
 }
 
 function impactPanel(t,i){
@@ -523,6 +558,7 @@ function render(D0){
   if(IMPACTS.length){
     document.getElementById('impact-sec').style.display='';
     document.getElementById('impact').innerHTML=IMPACTS.map(impactPanel).join('');
+    renderTimeline(D.timeline);
     document.getElementById('impactnote').innerHTML=
       `<b>Read the per-user-per-day number, not the totals.</b> The before and after windows are very different `+
       `lengths, so raw opens and even the "opened at least once" share are biased toward the longer one — over `+
