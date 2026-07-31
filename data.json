@@ -1,5 +1,5 @@
 {
-  "generated": "2026-07-31 09:28",
+  "generated": "2026-07-31 09:37",
   "sample": false,
   "region": "eu1",
   "start_date": "2026-07-16",
@@ -414,9 +414,96 @@
       "label": "CSP App · offer page",
       "color": "#A8006E",
       "variant": "offer_page",
+      "freq": {
+        "shown": [
+          {
+            "label": "1 time only",
+            "min": 1,
+            "max": 1,
+            "users": 1
+          },
+          {
+            "label": "2 times",
+            "min": 2,
+            "max": 2,
+            "users": 0
+          },
+          {
+            "label": "3 times",
+            "min": 3,
+            "max": 3,
+            "users": 0
+          },
+          {
+            "label": "4 times",
+            "min": 4,
+            "max": 4,
+            "users": 0
+          },
+          {
+            "label": "5 or more times",
+            "min": 5,
+            "max": null,
+            "users": 0
+          }
+        ],
+        "ok": [
+          {
+            "label": "1 time only",
+            "min": 1,
+            "max": 1,
+            "users": 1
+          },
+          {
+            "label": "2 times",
+            "min": 2,
+            "max": 2,
+            "users": 0
+          },
+          {
+            "label": "3 times",
+            "min": 3,
+            "max": 3,
+            "users": 0
+          },
+          {
+            "label": "4 times",
+            "min": 4,
+            "max": 4,
+            "users": 0
+          },
+          {
+            "label": "5 or more times",
+            "min": 5,
+            "max": null,
+            "users": 0
+          }
+        ]
+      },
+      "freq_avg": {
+        "shown": 1.0,
+        "ok": 1.0
+      },
+      "freq_max": {
+        "shown": 1,
+        "ok": 1
+      },
       "attribution": "event",
       "campaigns": [],
-      "campaigns_seen": [],
+      "campaigns_seen": [
+        {
+          "id": "1784207437_20260720",
+          "users": 1
+        },
+        {
+          "id": "1784285997_20260721",
+          "users": 1
+        },
+        {
+          "id": "1784285997_20260727",
+          "users": 1
+        }
+      ],
       "shown_by_campaign": [],
       "steps": [
         [
@@ -431,19 +518,99 @@
         ]
       ],
       "funnel": {
-        "shown": 0,
-        "ok": 0
+        "shown": 1,
+        "ok": 1
       },
       "ok_outside_shown": 0,
       "options": [],
-      "daily": [],
-      "note": "Full-page offer creative (round 2): one screen, one ठीक है, no quiz."
+      "daily": [
+        {
+          "date": "2026-07-31",
+          "shown": 1,
+          "ok": 1
+        }
+      ],
+      "note": "Full-page offer creative (round 2): one screen, one ठीक है, no quiz. Campaign id observed on this cohort's impressions: 1784207437_20260720 (1), 1784285997_20260721 (1), 1784285997_20260727 (1)."
     },
     {
       "key": "tech_offerpage",
       "label": "Technician App · offer page",
       "color": "#1D4ED8",
       "variant": "offer_page",
+      "freq": {
+        "shown": [
+          {
+            "label": "1 time only",
+            "min": 1,
+            "max": 1,
+            "users": 27
+          },
+          {
+            "label": "2 times",
+            "min": 2,
+            "max": 2,
+            "users": 11
+          },
+          {
+            "label": "3 times",
+            "min": 3,
+            "max": 3,
+            "users": 4
+          },
+          {
+            "label": "4 times",
+            "min": 4,
+            "max": 4,
+            "users": 1
+          },
+          {
+            "label": "5 or more times",
+            "min": 5,
+            "max": null,
+            "users": 1
+          }
+        ],
+        "ok": [
+          {
+            "label": "1 time only",
+            "min": 1,
+            "max": 1,
+            "users": 23
+          },
+          {
+            "label": "2 times",
+            "min": 2,
+            "max": 2,
+            "users": 11
+          },
+          {
+            "label": "3 times",
+            "min": 3,
+            "max": 3,
+            "users": 2
+          },
+          {
+            "label": "4 times",
+            "min": 4,
+            "max": 4,
+            "users": 1
+          },
+          {
+            "label": "5 or more times",
+            "min": 5,
+            "max": null,
+            "users": 1
+          }
+        ]
+      },
+      "freq_avg": {
+        "shown": 1.59,
+        "ok": 1.58
+      },
+      "freq_max": {
+        "shown": 5,
+        "ok": 5
+      },
       "attribution": "event",
       "campaigns": [],
       "campaigns_seen": [],
@@ -461,24 +628,24 @@
         ]
       ],
       "funnel": {
-        "shown": 42,
-        "ok": 36
+        "shown": 44,
+        "ok": 38
       },
       "ok_outside_shown": 0,
       "options": [],
       "daily": [
         {
           "date": "2026-07-31",
-          "shown": 42,
-          "ok": 36
+          "shown": 44,
+          "ok": 38
         }
       ],
       "note": "Full-page offer creative (round 2): one screen, one ठीक है, no quiz."
     }
   ],
   "unattributed": {
-    "edu_ok": 390,
-    "completed": 310,
+    "edu_ok": 391,
+    "completed": 311,
     "edu_ok_technician": 226,
     "completed_technician": 186
   },
