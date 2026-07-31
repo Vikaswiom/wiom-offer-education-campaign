@@ -118,16 +118,15 @@ def _r2_blank():
 def raw_identity(rec):
     """Identity WITHOUT the internal-CSP exclusion F.identity_of applies.
 
-    The test shop is excluded from every real number on purpose, but that also
-    makes your own device testing invisible — you can walk the whole story and
-    the funnel still reads zero. This lets the test journey be counted into its
-    own clearly-labelled block instead of vanishing."""
+    Used only to tell "excluded internal shop" apart from "profile has no
+    identity at all" in the log. The internal shop's traffic is never reported
+    as data — a funnel sitting at zero needs to say which of those two it is."""
     p = rec.get("profile") or {}
     return p.get("identity") or p.get("objectId") or p.get("email") or None
 
 
 def _r2_add(a, name, ident, props, rec):
-    """Fold one record into one accumulator (either the real or the test one)."""
+    """Fold one real-CSP record into the accumulator."""
     a["n"][name] = a["n"].get(name, 0) + 1
     cname = str(props.get("card_name", "") or "")
     try:
@@ -159,7 +158,7 @@ def _r2_add(a, name, ident, props, rec):
         a["u"].setdefault(name, set()).add(ident)
 
 
-def _r2_view(a, shape, is_test=False):
+def _r2_view(a, shape):
     """Turn one accumulator into the funnel + splits the dashboard renders."""
     def users_for(key, ev):
         if ev == "Card_Viewed":
@@ -171,7 +170,6 @@ def _r2_view(a, shape, is_test=False):
     quits = sorted(a["quits"].items(), key=lambda kv: kv[1]["idx"])
     exits = {k: len(v) for k, v in a["exits"].items()}
     return {
-        "is_test": is_test,
         "shown": len(a["u"].get("Story_Viewed", set())),
         "funnel": [{"key": k, "label": lbl, "event": R2 + ev,
                     "users": users_for(k, ev),
@@ -200,7 +198,7 @@ def fetch_round2(frm, to):
     sample_keys = set()
 
     def acc(t):
-        return B.setdefault(t, {"real": _r2_blank(), "test": _r2_blank()})
+        return B.setdefault(t, {"real": _r2_blank()})
 
     for name in R2_EVENTS:
         ev, seen = R2 + name, 0
@@ -215,32 +213,34 @@ def fetch_round2(frm, to):
             else:
                 any_id = raw_identity(rec)
                 if any_id:
+                    # a0a0b1 is the internal testing shop: counted here only so the
+                    # log can distinguish "excluded on purpose" from "broken", never
+                    # surfaced as data
                     drop["test"] += 1
-                    _r2_add(pair["test"], name, any_id, props, rec)
                 else:
                     drop["no_identity"] += 1
                     if len(sample_keys) < 12:
                         sample_keys |= set((rec.get("profile") or {}).keys())
         print(f"  {ev:34s} -> {seen} events")
 
-    print(f"  attribution: {drop['real']} from real CSPs, {drop['test']} from the excluded internal shop "
-          f"(shown separately), {drop['no_identity']} with no usable identity")
+    print(f"  attribution: {drop['real']} from real CSPs, {drop['test']} discarded as the internal testing shop, "
+          f"{drop['no_identity']} with no usable identity")
     if drop["no_identity"]:
         print(f"  ::warning::{drop['no_identity']} Bonus_Seva2_* records carry no identity/objectId/email — "
               f"those can never reach a funnel. profile keys seen: {sorted(sample_keys)}")
 
     if not B:
-        B[R2_CURRENT] = {"real": _r2_blank(), "test": _r2_blank()}
+        B[R2_CURRENT] = {"real": _r2_blank()}
 
     builds = []
-    for t in sorted(B, key=lambda k: -(B[k]["real"]["first_ts"] or B[k]["test"]["first_ts"] or 0)):
+    for t in sorted(B, key=lambda k: -(B[k]["real"]["first_ts"] or 0)):
         pair = B[t]
         shape = R2_FUNNEL_5 if t == R2_CURRENT else R2_FUNNEL_GENERIC
-        real, test = _r2_view(pair["real"], shape), _r2_view(pair["test"], shape, True)
+        real = _r2_view(pair["real"], shape)
         a = pair["real"]
-        first_ts = a["first_ts"] or pair["test"]["first_ts"]
-        raw = sum(a["n"].values()) + sum(pair["test"]["n"].values())
-        known = [e for e in R2_EVENTS if a["n"].get(e) or pair["test"]["n"].get(e)]
+        first_ts = a["first_ts"]
+        raw = sum(a["n"].values())
+        known = [e for e in R2_EVENTS if a["n"].get(e)]
         b = dict(real)
         b.update({
             "key": t,
@@ -248,16 +248,13 @@ def fetch_round2(frm, to):
             "live_ts": first_ts or None,
             "live_label": (datetime.datetime.strptime(str(first_ts), "%Y%m%d%H%M%S")
                            .strftime("%d %b %Y, %H:%M IST") if first_ts else None),
-            "test": test if test["shown"] else None,
             "raw_events": raw,
             "events_confirmed": known,
             "events_unseen": [e for e in R2_EVENTS if e not in known],
         })
         builds.append(b)
         rf = {x["key"]: x["users"] for x in real["funnel"]}
-        tf = {x["key"]: x["users"] for x in test["funnel"]}
-        print(f"  {t}: real shown={rf['shown']} completed={rf['completed']} into_app={real['goto']['users']} "
-              f"| test shown={tf['shown']} completed={tf['completed']} into_app={test['goto']['users']}")
+        print(f"  {t}: shown={rf['shown']} completed={rf['completed']} into_app={real['goto']['users']}")
 
     keep = []
     for b in builds:

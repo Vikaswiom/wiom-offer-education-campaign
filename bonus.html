@@ -104,9 +104,6 @@ section{margin-top:24px;}
 .hero .hk{font-size:11.5px;font-weight:700;color:var(--muted);margin-top:5px}
 .hero .hd{font-size:11.5px;font-weight:700;color:var(--faint);margin-top:2px}
 .hero .hv.good{color:var(--good)}
-.testblock{margin-top:18px;padding:16px 18px;border-radius:14px;background:var(--soft);
-  border:1px dashed var(--alt);}
-.testblock code{background:var(--surface);padding:1px 6px;border-radius:5px;font-size:11px;}
 .tgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(360px,1fr));gap:14px;align-items:start;}
 @media(max-width:760px){.tgrid{grid-template-columns:1fr;}}
 .thead{display:flex;justify-content:space-between;align-items:baseline;gap:10px;
@@ -401,17 +398,6 @@ function round2Body(v,shown){
     `</div>`;
 }
 
-function round2Test(t){
-  if(!t) return '';
-  var shown=t.shown||0;
-  var done=(keyed(t.funnel).completed||{}).users||0;
-  return `<div class="testblock">`+
-    `<div class="r2h" style="margin:0 0 10px">Internal test traffic · CSP <code>a0a0b1</code></div>`+
-    `<div class="caphint" style="margin:0 0 12px">Excluded from every number above on purpose — this is your own device walking the story. `+
-    `<b>${nf(shown)}</b> started it, <b>${nf(done)}</b> finished.</div>`+
-    round2Body(t,shown||1)+`</div>`;
-}
-
 function round2Panel(r2){
   var shown=r2.shown||0;
   var F=keyed(r2.funnel);
@@ -420,23 +406,18 @@ function round2Panel(r2){
   var ex=r2.exits||{};
 
   if(!shown){
-    var raw=r2.raw_events||0, ok=r2.events_confirmed||[], no=r2.events_unseen||[];
+    var ok=r2.events_confirmed||[], no=r2.events_unseen||[];
     var chips=function(list,bg){return list.map(function(e){
       return `<code style="background:${bg};padding:1px 6px;border-radius:5px;margin:0 4px 4px 0;display:inline-block">Bonus_Seva2_${esc(e)}</code>`;}).join('');};
     return `<div class="panel">`+round2Head(r2)+
-      `<div class="pend">⏳ <b>Not live to real CSPs yet.</b> `+
-      (raw
-        ? `But <b>${nf(raw)} events have already fired</b> from test profiles — the internal test CSP is excluded from `+
-          `every count, so events register while no user does. That is the instrumentation proving itself before launch: `+
-          `<b>${ok.length} of 9</b> event names have reached CleverTap.`
-        : `CleverTap only reports an event after its first real fire, so every <code>Bonus_Seva2_*</code> count reads `+
-          `zero until the campaign goes out.`)+
-      ` The fetcher polls all nine events every refresh — real numbers appear here on their own, no code change needed `+
-      `at launch.</div>`+
-      (raw?`<div style="margin-top:13px">`+
-        `<div class="r2h">Confirmed reaching CleverTap</div><div>${chips(ok,'var(--good-bg)')}</div>`+
-        (no.length?`<div class="r2h" style="margin-top:12px">Not fired even in testing</div><div>${chips(no,'var(--warn-bg)')}</div>`:'')+
-      `</div>`:'')+round2Test(r2.test)+`</div>`;
+      `<div class="pend">⏳ <b>No CSPs have reached this yet.</b> CleverTap only reports an event after its first `+
+      `real fire, so every <code>Bonus_Seva2_*</code> count reads zero until CSPs start opening the app. `+
+      `Traffic from the internal testing shop is excluded from every number here and is never shown. `+
+      `The fetcher polls all nine events every refresh — numbers appear on their own, no code change needed.</div>`+
+      (ok.length?`<div style="margin-top:13px">`+
+        `<div class="r2h">Seen from real CSPs</div><div>${chips(ok,'var(--good-bg)')}</div>`+
+        (no.length?`<div class="r2h" style="margin-top:12px">Not seen yet</div><div>${chips(no,'var(--warn-bg)')}</div>`:'')+
+      `</div>`:'')+`</div>`;
   }
 
   return `<div class="panel">`+round2Head(r2)+
@@ -446,7 +427,7 @@ function round2Panel(r2){
       `<div><div class="hv">${nf(ex.acknowledge||0)}</div><div class="hk">Just tapped ठीक है</div><div class="hd">ended without opening the app</div></div>`+
       `<div><div class="hv">${nf((r2.toggled||{}).users)}</div><div class="hk">Replayed the quality pills</div><div class="hd">optional — pure curiosity</div></div>`+
     `</div>`+
-    round2Body(r2,shown)+round2Test(r2.test)+`</div>`;
+    round2Body(r2,shown)+`</div>`;
 }
 
 function round2Note(builds){
