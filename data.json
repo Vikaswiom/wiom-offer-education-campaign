@@ -1,5 +1,5 @@
 {
-  "generated": "2026-07-31 16:20 IST",
+  "generated": "2026-07-31 16:25 IST",
   "sample": false,
   "region": "eu1",
   "start_date": "2026-07-16",
@@ -150,7 +150,7 @@
       "key": "tech",
       "label": "Technician App",
       "color": "#2563EB",
-      "note": "Technician app — Shown comes from CleverTap's own impression event (Notification Viewed, wzrk_id 1784203536) because this app does not fire the custom inApp_Shown; education/quiz are locked to that cohort by identity. 228 role = technician profile(s) acted without a recorded impression.",
+      "note": "Technician app — Shown comes from CleverTap's own impression event (Notification Viewed, wzrk_id 1784203536) because this app does not fire the custom inApp_Shown; education/quiz are locked to that cohort by identity. 229 role = technician profile(s) acted without a recorded impression.",
       "campaigns": [
         "1784203536"
       ],
@@ -547,13 +547,13 @@
             "label": "4 times",
             "min": 4,
             "max": 4,
-            "users": 3
+            "users": 1
           },
           {
             "label": "5 or more times",
             "min": 5,
             "max": null,
-            "users": 5
+            "users": 7
           }
         ],
         "ok": [
@@ -561,7 +561,7 @@
             "label": "1 time only",
             "min": 1,
             "max": 1,
-            "users": 28
+            "users": 29
           },
           {
             "label": "2 times",
@@ -590,8 +590,8 @@
         ]
       },
       "freq_avg": {
-        "shown": 2.0,
-        "ok": 1.91
+        "shown": 2.03,
+        "ok": 1.89
       },
       "freq_max": {
         "shown": 10,
@@ -614,7 +614,7 @@
       ],
       "funnel": {
         "shown": 63,
-        "ok": 54
+        "ok": 55
       },
       "ok_outside_shown": 0,
       "options": [],
@@ -622,17 +622,17 @@
         {
           "date": "2026-07-31",
           "shown": 63,
-          "ok": 54
+          "ok": 55
         }
       ],
       "note": "Full-page offer creative (round 2): one screen, one ठीक है, no quiz."
     }
   ],
   "unattributed": {
-    "edu_ok": 394,
-    "completed": 313,
-    "edu_ok_technician": 228,
-    "completed_technician": 187
+    "edu_ok": 395,
+    "completed": 314,
+    "edu_ok_technician": 229,
+    "completed_technician": 188
   },
   "both_apps": 0
 }
