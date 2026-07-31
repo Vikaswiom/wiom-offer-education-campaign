@@ -99,3 +99,34 @@ print("                                            (Include JavaScript off, or a
 print("  Bonus_Seva2_* present, no-identity     -> events can never reach a funnel")
 print("  Bonus_Seva2_* present, identity, but   -> the dashboard window/filter is wrong")
 print("     dashboard still zero")
+
+print("\n--- 4) identity vs cspid: is one CSP one row, or several? ---")
+from collections import defaultdict
+ids_per_csp = defaultdict(set)
+csp_per_id = defaultdict(set)
+no_csp = 0
+tot = 0
+for rec in F.export_event(R2 + "Story_Viewed", FRM, TO):
+    tot += 1
+    p = rec.get("profile") or {}
+    ident = p.get("identity") or p.get("objectId") or p.get("email")
+    c = F.cspid_of(rec)
+    if not c:
+        no_csp += 1
+        continue
+    if ident:
+        ids_per_csp[c].add(ident)
+        csp_per_id[ident].add(c)
+print(f"  Story_Viewed records: {tot}  (no cspid on {no_csp})")
+print(f"  distinct identities : {len(csp_per_id)}")
+print(f"  distinct cspids     : {len(ids_per_csp)}")
+multi = {c: sorted(v) for c, v in ids_per_csp.items() if len(v) > 1}
+print(f"  cspids with >1 identity: {len(multi)}")
+for c, v in list(multi.items())[:8]:
+    print(f"    {c} -> {v}")
+shared = {i: sorted(v) for i, v in csp_per_id.items() if len(v) > 1}
+print(f"  identities seen under >1 cspid: {len(shared)}")
+for i, v in list(shared.items())[:5]:
+    print(f"    identity {i} -> {v}")
+print("  => if distinct cspids < distinct identities, the funnel currently")
+print("     over-counts: one shop appearing as several users.")
