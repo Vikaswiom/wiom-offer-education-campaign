@@ -1,5 +1,5 @@
 {
-  "generated": "2026-07-31 11:02 IST",
+  "generated": "2026-07-31 11:07 IST",
   "region": "eu1",
   "start_date": "2026-07-27",
   "triggers": [
@@ -152,10 +152,10 @@
           "events": 260,
           "days": 3.48,
           "reach_pct": 58,
-          "per_user_day": 0.705,
+          "per_user_day": 0.704,
           "label": "since 27 Jul 23:33 (after)"
         },
-        "lift_pct": 258,
+        "lift_pct": 257,
         "pre_overlaps": [],
         "cohort_shared": 0
       },
@@ -190,7 +190,6 @@
   ],
   "round2": [
     {
-      "is_test": false,
       "shown": 0,
       "funnel": [
         {
@@ -261,128 +260,11 @@
       },
       "key": "home_story_r2_5card",
       "label": "Home story · 5 cards",
-      "live_ts": 20260730221337,
-      "live_label": "30 Jul 2026, 22:13 IST",
-      "test": {
-        "is_test": true,
-        "shown": 1,
-        "funnel": [
-          {
-            "key": "shown",
-            "label": "Story shown",
-            "event": "Bonus_Seva2_Story_Viewed",
-            "users": 1,
-            "events": 6
-          },
-          {
-            "key": "gift",
-            "label": "Opened the gift",
-            "event": "Bonus_Seva2_Gift_Opened",
-            "users": 1,
-            "events": 5
-          },
-          {
-            "key": "window_rule",
-            "label": "1–15 अगस्त + the rule",
-            "event": "Bonus_Seva2_Card_Viewed",
-            "users": 1,
-            "events": null
-          },
-          {
-            "key": "home_chip",
-            "label": "Where सेवा स्थिति lives",
-            "event": "Bonus_Seva2_Card_Viewed",
-            "users": 1,
-            "events": null
-          },
-          {
-            "key": "chip",
-            "label": "Tapped the सेवा स्थिति chip",
-            "event": "Bonus_Seva2_Chip_Tapped",
-            "users": 1,
-            "events": 4
-          },
-          {
-            "key": "help",
-            "label": "Tapped the (?) button",
-            "event": "Bonus_Seva2_Help_Tapped",
-            "users": 1,
-            "events": 4
-          },
-          {
-            "key": "completed",
-            "label": "Completed the story",
-            "event": "Bonus_Seva2_Flow_Completed",
-            "users": 1,
-            "events": 4
-          }
-        ],
-        "cards": [
-          {
-            "name": "window_rule",
-            "index": 1,
-            "label": "1–15 अगस्त + the rule",
-            "users": 1
-          },
-          {
-            "name": "home_chip",
-            "index": 2,
-            "label": "where सेवा स्थिति lives",
-            "users": 1
-          },
-          {
-            "name": "help_icon",
-            "index": 3,
-            "label": "the (?) button",
-            "users": 1
-          },
-          {
-            "name": "done",
-            "index": 4,
-            "label": "handoff",
-            "users": 1
-          }
-        ],
-        "quits": [
-          {
-            "name": "done",
-            "index": 4,
-            "label": "handoff",
-            "users": 1,
-            "events": 1
-          }
-        ],
-        "exits": {
-          "deeplink": 1,
-          "acknowledge": 1
-        },
-        "goto": {
-          "users": 1,
-          "events": 2
-        },
-        "toggled": {
-          "users": 1,
-          "events": 1
-        },
-        "help_metrics": [
-          {
-            "metric": "samay_par_kaam",
-            "label": "समय पर काम",
-            "users": 1
-          },
-          {
-            "metric": "grahak_ki_santushti",
-            "label": "ग्राहक की संतुष्टि",
-            "users": 1
-          }
-        ],
-        "dismissed_total": {
-          "users": 1,
-          "events": 1
-        }
-      },
-      "raw_events": 44,
-      "events_confirmed": [
+      "live_ts": null,
+      "live_label": null,
+      "raw_events": 0,
+      "events_confirmed": [],
+      "events_unseen": [
         "Story_Viewed",
         "Gift_Opened",
         "Card_Viewed",
@@ -392,8 +274,7 @@
         "GoTo_SevaSthiti",
         "Flow_Completed",
         "Dismissed"
-      ],
-      "events_unseen": []
+      ]
     }
   ],
   "totals": {
