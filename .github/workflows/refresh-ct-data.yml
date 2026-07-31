@@ -16,9 +16,22 @@ name: refresh-ct-data
 
 on:
   schedule:
-    # 30-min cadence on off-peak minutes — GitHub's scheduler drops slots at the
-    # congested :00/:15/:30/:45 marks, so odd minutes fire far more reliably
-    - cron: "11,41 * * * *" # UTC; Actions may still add a few minutes of delay
+    # TARGET: a fresh snapshot at least once an hour.
+    #
+    # Asking for hourly does NOT get you hourly. Measured over the 24h to
+    # 31 Jul 2026, the old "11,41" cron requested 48 slots and GitHub ran 11 of
+    # them — a ~23% delivery rate, with observed gaps of 82, 90, 93, 103, 106,
+    # 109, 119, 146, 167 and 231 minutes. A once-an-hour cron would therefore
+    # land roughly every four hours.
+    #
+    # So we request every 10 minutes and let the scheduler drop what it likes:
+    # 144 requests/day at that rate still clears the hourly target with room to
+    # spare. Off-peak minutes on purpose — :00/:15/:30/:45 are the most
+    # congested and the most likely to be dropped.
+    #
+    # Cost is near zero: the job exits before pushing when the data has not
+    # changed, so extra runs cost one API read, not a commit.
+    - cron: "3,13,23,33,43,53 * * * *" # UTC; Actions may still add a few minutes of delay
   workflow_dispatch: {} # manual "Run workflow" button for testing
 
 # never let two refreshes race each other

@@ -564,8 +564,11 @@ function render(D0){
   const evs=(TR[0]||{}).funnel||[];
   document.getElementById('foot').innerHTML='Events: '+evs.map(s=>`<code>${s.event||''}</code>`).join(' ')+
     ` <code>Bonus_Seva_Intro_Dismissed</code> <code>Bonus_Seva_Video_Dismissed</code> <code>Bonus_Seva_Flow_Completed</code>`+
-    `<br>Region <code>${D.region||'eu1'}</code> · live since ${D.start_date||'—'} · unique users per event, deduped on profile identity`+
-    `${multi?' · split on the <code>trigger</code> event property':''}.`;
+    `<br>Region <code>${D.region||'eu1'}</code> · live since ${D.start_date||'—'} · round 1 dedupes on profile identity, `+
+    `round 2 on <code>cspid</code> (unique CSPs)`+
+    `${multi?' · split on the <code>trigger</code> event property':''}.`+
+    `<br>Refreshed at least hourly — the scheduler is asked every 10 min and drops most slots, so <b>the Updated `+
+    `stamp at the top is the only authority on how current this is</b>. Force one: Actions → refresh-ct-data → Run workflow.`;
 }
 
 fetch('bonus_data.json',{cache:'no-store'}).then(r=>{if(!r.ok)throw 0;return r.json();}).then(render).catch(()=>render(FALLBACK));
