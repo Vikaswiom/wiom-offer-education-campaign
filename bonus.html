@@ -458,7 +458,6 @@ function round2Panel(r2){
       `<div><div class="hv">${nf(done)}</div><div class="hk">Completed the story</div><div class="hd">${pct(done,shown)}% of shown</div></div>`+
       `<div><div class="hv good">${nf(into)}</div><div class="hk">Walked into सेवा स्थिति</div><div class="hd">${pct(into,done)}% of completers · ${pct(into,shown)}% of shown</div></div>`+
       `<div><div class="hv">${nf(ex.acknowledge||0)}</div><div class="hk">Just tapped ठीक है</div><div class="hd">ended without opening the app</div></div>`+
-      `<div><div class="hv">${nf((r2.toggled||{}).users)}</div><div class="hk">Replayed the quality pills</div><div class="hd">optional — pure curiosity</div></div>`+
     `</div>`+
     round2Body(r2,shown)+`</div>`;
 }
