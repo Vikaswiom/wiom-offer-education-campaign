@@ -1,5 +1,5 @@
 {
-  "generated": "2026-07-31 16:07 IST",
+  "generated": "2026-07-31 16:20 IST",
   "sample": false,
   "region": "eu1",
   "start_date": "2026-07-16",
@@ -529,13 +529,13 @@
             "label": "1 time only",
             "min": 1,
             "max": 1,
-            "users": 31
+            "users": 32
           },
           {
             "label": "2 times",
             "min": 2,
             "max": 2,
-            "users": 19
+            "users": 18
           },
           {
             "label": "3 times",
@@ -547,7 +547,7 @@
             "label": "4 times",
             "min": 4,
             "max": 4,
-            "users": 2
+            "users": 3
           },
           {
             "label": "5 or more times",
@@ -561,7 +561,7 @@
             "label": "1 time only",
             "min": 1,
             "max": 1,
-            "users": 27
+            "users": 28
           },
           {
             "label": "2 times",
@@ -579,23 +579,23 @@
             "label": "4 times",
             "min": 4,
             "max": 4,
-            "users": 1
+            "users": 0
           },
           {
             "label": "5 or more times",
             "min": 5,
             "max": null,
-            "users": 4
+            "users": 5
           }
         ]
       },
       "freq_avg": {
-        "shown": 1.9,
-        "ok": 1.83
+        "shown": 2.0,
+        "ok": 1.91
       },
       "freq_max": {
-        "shown": 6,
-        "ok": 5
+        "shown": 10,
+        "ok": 8
       },
       "attribution": "event",
       "campaigns": [],
@@ -613,24 +613,24 @@
         ]
       ],
       "funnel": {
-        "shown": 62,
-        "ok": 53
+        "shown": 63,
+        "ok": 54
       },
       "ok_outside_shown": 0,
       "options": [],
       "daily": [
         {
           "date": "2026-07-31",
-          "shown": 62,
-          "ok": 53
+          "shown": 63,
+          "ok": 54
         }
       ],
       "note": "Full-page offer creative (round 2): one screen, one ठीक है, no quiz."
     }
   ],
   "unattributed": {
-    "edu_ok": 393,
-    "completed": 312,
+    "edu_ok": 394,
+    "completed": 313,
     "edu_ok_technician": 228,
     "completed_technician": 187
   },
