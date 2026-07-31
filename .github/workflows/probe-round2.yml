@@ -1,0 +1,34 @@
+# Manual, read-only diagnostic for the round-2 Home story: why the campaigns UI
+# and the dashboard funnel disagree. Prints to the job log, pushes nothing.
+name: probe-round2
+
+on:
+  workflow_dispatch:
+    inputs:
+      from_date:
+        description: "Start of the window, YYYYMMDD"
+        required: false
+        default: "20260730"
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: probe
+        env:
+          CLEVERTAP_ACCOUNT: ${{ secrets.CLEVERTAP_ACCOUNT }}
+          CLEVERTAP_PASSCODE: ${{ secrets.CLEVERTAP_PASSCODE }}
+        run: |
+          if [ -z "$CLEVERTAP_ACCOUNT" ] || [ -z "$CLEVERTAP_PASSCODE" ]; then
+            echo "::warning::CleverTap secrets not set — nothing to probe"
+            exit 0
+          fi
+          python3 probe_round2.py "${{ inputs.from_date }}"
