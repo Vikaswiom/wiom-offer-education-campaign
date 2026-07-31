@@ -112,7 +112,7 @@ R2_FUNNEL_GENERIC = [
 
 def _r2_blank():
     return {"u": {}, "n": {}, "cards": {}, "quits": {}, "exits": {},
-            "metrics": {}, "first_ts": 0}
+            "metrics": {}, "first_ts": 0, "done_at": {}}
 
 
 def csp_key(rec):
@@ -169,6 +169,11 @@ def _r2_add(a, name, ident, props, rec):
         x = str(props.get("exit", "") or "unknown")
         if ident:
             a["exits"].setdefault(x, set()).add(ident)
+            # earliest completion per CSP — the anchor the follow-through windows
+            # are measured from, so everyone is held to the same elapsed time
+            t = _dt(ts_of(rec))
+            if t and (ident not in a["done_at"] or t < a["done_at"][ident]):
+                a["done_at"][ident] = t
     elif name == "Story_Viewed":
         ts = ts_of(rec)
         a["first_ts"] = min(a["first_ts"], ts) if a["first_ts"] and ts else (ts or a["first_ts"])
@@ -252,13 +257,15 @@ def fetch_round2(frm, to):
         B[R2_CURRENT] = {"real": _r2_blank()}
 
     builds = []
-    cohorts = {}   # trigger -> set of cspids that COMPLETED, for the r1-vs-r2 read
+    cohorts = {}   # trigger -> set of cspids that COMPLETED
+    done_at = {}   # trigger -> {cspid: datetime of first completion}
     for t in sorted(B, key=lambda k: -(B[k]["real"]["first_ts"] or 0)):
         pair = B[t]
         shape = R2_FUNNEL_5 if t == R2_CURRENT else R2_FUNNEL_GENERIC
         real = _r2_view(pair["real"], shape)
         a = pair["real"]
         cohorts[t] = set(a["u"].get("Flow_Completed", set()))
+        done_at[t] = dict(a["done_at"])
         first_ts = a["first_ts"]
         raw = sum(a["n"].values())
         known = [e for e in R2_EVENTS if a["n"].get(e)]
@@ -288,7 +295,7 @@ def fetch_round2(frm, to):
         keep.append(b)
     if not keep:
         keep = [b for b in builds if b["key"] == R2_CURRENT] or builds[:1]
-    return keep, cohorts
+    return keep, cohorts, done_at
 
 
 # ---------------------------------------------------------------- impact ----
@@ -377,6 +384,76 @@ def load_help_opens(frm, to):
     return opens
 
 
+CHIP_EVENT = "strip_chip_opened"
+CHIP_VALUE = "quality"
+CHIP_WINDOW_MIN = 30      # completing the story -> opening the सेवा स्थिति chip
+HELP_WINDOW_MIN = 3       # opening the chip -> opening the (?) help screen
+
+
+def _dt(ts):
+    try:
+        return datetime.datetime.strptime(str(int(ts)), "%Y%m%d%H%M%S")
+    except (TypeError, ValueError):
+        return None
+
+
+def followthrough(frm, to, completed_at, opens):
+    """Did finishing the story actually send them into the app, and then deeper?
+
+    Two timed steps, each anchored on the previous one rather than on a fixed
+    clock, so a CSP who finishes at 09:00 and one who finishes at 17:00 are held
+    to the same standard:
+
+        finished the story
+          -> opened the सेवा स्थिति chip   within CHIP_WINDOW_MIN of finishing
+          -> opened the (?) help screen    within HELP_WINDOW_MIN of that chip
+
+    completed_at maps cspid -> datetime of that CSP's FIRST round-2 completion.
+    """
+    if not completed_at:
+        return None
+
+    chip_at, seen_values = {}, Counter()
+    for rec in F.export_event(CHIP_EVENT, frm, to):
+        k, t = csp_key(rec), _dt(ts_of(rec))
+        v = str(F.props_of(rec).get("chip", "") or "")
+        seen_values[v or "(none)"] += 1
+        if not k or not t or v != CHIP_VALUE or k not in completed_at:
+            continue
+        done = completed_at[k]
+        if done <= t <= done + datetime.timedelta(minutes=CHIP_WINDOW_MIN):
+            if k not in chip_at or t < chip_at[k]:
+                chip_at[k] = t
+    print(f"  {CHIP_EVENT}: chip values seen {dict(seen_values.most_common(8))}")
+    if seen_values and CHIP_VALUE not in seen_values:
+        print(f"  ::warning::no {CHIP_EVENT} record carries chip='{CHIP_VALUE}' — the "
+              f"follow-through funnel will read zero at step 2")
+
+    helped = set()
+    for _ident, k, ts in opens:
+        t = _dt(ts)
+        if not k or not t or k not in chip_at:
+            continue
+        if chip_at[k] <= t <= chip_at[k] + datetime.timedelta(minutes=HELP_WINDOW_MIN):
+            helped.add(k)
+
+    n = len(completed_at)
+    print(f"  follow-through: {n} completed -> {len(chip_at)} opened the quality chip "
+          f"within {CHIP_WINDOW_MIN}m -> {len(helped)} opened help within {HELP_WINDOW_MIN}m")
+    return {
+        "chip_event": CHIP_EVENT, "chip_value": CHIP_VALUE,
+        "help_event": IMPACT_EVENT,
+        "chip_window_min": CHIP_WINDOW_MIN, "help_window_min": HELP_WINDOW_MIN,
+        "steps": [
+            {"key": "completed", "label": "Finished the story", "users": n},
+            {"key": "chip", "label": f"Opened the सेवा स्थिति chip · within {CHIP_WINDOW_MIN} min",
+             "users": len(chip_at)},
+            {"key": "help", "label": f"Opened the (?) help screen · within {HELP_WINDOW_MIN} min of that",
+             "users": len(helped)},
+        ],
+    }
+
+
 def timeline(cohort, opens, r1_live, r2_live, now_ist, key_idx=1):
     """One cohort, three consecutive periods: before any education, while round 1
     was live, and since round 2 launched.
@@ -427,7 +504,7 @@ def timeline(cohort, opens, r1_live, r2_live, now_ist, key_idx=1):
             "lift_r1": lift(w0, w1), "lift_r2": lift(w1, w2), "lift_total": lift(w0, w2)}
 
 
-def impact(cohort, opens, live_ts, now_ist, key_idx=0):
+def impact(cohort, opens, live_ts, now_ist, key_idx=0, post_end=None):
     """Help-screen opens for this trigger's quiz cohort, before vs after ITS go-live.
 
     The before window is the PRE_DAYS days ending the day before go-live, so a
@@ -441,7 +518,16 @@ def impact(cohort, opens, live_ts, now_ist, key_idx=0):
     pre_to = day_add(str(live_ts)[:8], -1)
     pre_frm = day_add(pre_to, -(PRE_DAYS - 1))
     pre_lo, pre_hi = int(pre_frm + "000000"), int(pre_to + "235959")
-    post_days = max((now_ist - live).total_seconds() / 86400, 1 / 24)   # floor at 1h, never divide by ~0
+    # A stopped campaign's "after" window must END when it stopped. Round 1 was
+    # switched off the moment round 2 went live; measuring it up to now would
+    # dilute its rate with days it was not running.
+    # Only bound it if the campaign actually ran up to that point. A campaign that
+    # launched AFTER the cutoff was never stopped by it, and clamping would hand it
+    # an empty window and a fake -100%.
+    end_dt = (datetime.datetime.strptime(str(post_end), "%Y%m%d%H%M%S").replace(tzinfo=IST)
+              if post_end and int(post_end) > int(live_ts) else now_ist)
+    post_end = post_end if (post_end and int(post_end) > int(live_ts)) else None
+    post_days = max((end_dt - live).total_seconds() / 86400, 1 / 24)   # floor at 1h
 
     def window(lo, hi, days, label):
         users, events = set(), 0
@@ -456,7 +542,7 @@ def impact(cohort, opens, live_ts, now_ist, key_idx=0):
                 "reach_pct": round(100 * len(users) / len(cohort)), "per_user_day": per}
 
     pre = window(pre_lo, pre_hi, float(PRE_DAYS), "pre")
-    post = window(live_ts, int(now_ist.strftime("%Y%m%d%H%M%S")), post_days, "post")
+    post = window(live_ts, int(end_dt.strftime("%Y%m%d%H%M%S")), post_days, "post")
     lift = (round(100 * (post["per_user_day"] - pre["per_user_day"]) / pre["per_user_day"])
             if pre["per_user_day"] else None)
 
@@ -464,7 +550,9 @@ def impact(cohort, opens, live_ts, now_ist, key_idx=0):
     return {
         "event": IMPACT_EVENT, "cohort_event": "Bonus_Seva_Quiz_Answered", "cohort_users": len(cohort),
         "pre":  dict(pre,  label=f"{fmt(pre_frm)}–{fmt(pre_to)} (before)"),
-        "post": dict(post, label=f"since {live.strftime('%d %b %H:%M')} (after)"),
+        "post": dict(post, label=(f"{live.strftime('%d %b %H:%M')} → {end_dt.strftime('%d %b %H:%M')} (while live)"
+                                  if post_end else f"since {live.strftime('%d %b %H:%M')} (after)")),
+        "stopped": bool(post_end),
         "lift_pct": lift,
     }
 
@@ -561,7 +649,7 @@ def main():
                 "choices": [{"choice": ch, "label": CHOICE_LABEL.get(ch, ch), "users": n}
                             for ch, n in choice_counts.most_common()],
             },
-            "impact": impact(u("quiz_answered"), opens, a["first_ts"], now_ist),
+            "impact": None,   # filled in below, once round 2's go-live is known
             "daily": [{"date": f"{d[:4]}-{d[4:6]}-{d[6:8]}",
                        "intro_viewed": len(v["intro_viewed"]), "completed": len(v["quiz_answered"])}
                       for d, v in sorted(a["daily"].items())],
@@ -573,6 +661,7 @@ def main():
     # appear in both cohorts. Detect both and let the dashboard say so rather than
     # quietly reporting a clean-looking lift.
     cohorts = {t: T[t]["users"].get("quiz_answered", set()) for t in keys}
+    r1_cohorts = dict(cohorts)
     for tr in triggers:
         im, t = tr["impact"], tr["key"]
         if not im or not live.get(t):
@@ -588,13 +677,20 @@ def main():
                   f"{im['cohort_shared']} CSPs shared with another trigger")
 
     print("  --- round 2 (Home story) ---")
-    r2, r2_cohorts = fetch_round2(frm, to)
+    r2, r2_cohorts, r2_done_at = fetch_round2(frm, to)
+    r2_live_ts = next((b["live_ts"] for b in r2 if b["key"] == R2_CURRENT), None)
     # One uniform before/after read per campaign, all on the same event and the
     # same method (PRE_DAYS before its own go-live vs since), so the three can be
     # laid side by side and actually compared.
-    impacts = [{"key": t["key"], "label": t["label"], "live_label": t["live_label"],
-                "cohort_label": "answered the quiz", "impact": t["impact"]}
-               for t in triggers if t.get("impact")]
+    impacts = []
+    for t in triggers:
+        im = impact(r1_cohorts.get(t["key"], set()), opens, t["live_ts"], now_ist,
+                    post_end=r2_live_ts)          # round 1 stopped when round 2 started
+        if not im:
+            continue
+        t["impact"] = im
+        impacts.append({"key": t["key"], "label": t["label"], "live_label": t["live_label"],
+                        "cohort_label": "answered the quiz", "impact": im})
     for b in r2:
         coh = r2_cohorts.get(b["key"], set())
         im = impact(coh, opens, b["live_ts"], now_ist, key_idx=1)   # round 2 is cspid-keyed
@@ -611,9 +707,11 @@ def main():
                                       if live.get(o) and lo <= live[o] <= hi]
             impacts.append({"key": b["key"], "label": b["label"], "live_label": b["live_label"],
                             "cohort_label": "finished the story", "impact": im})
-    r2_live_ts = next((b["live_ts"] for b in r2 if b["key"] == R2_CURRENT), None)
     print("  --- one cohort, three periods ---")
     tl = timeline(r2_cohorts.get(R2_CURRENT, set()), opens, earliest, r2_live_ts, now_ist)
+
+    print("  --- follow-through after finishing round 2 ---")
+    ft = followthrough(frm, to, r2_done_at.get(R2_CURRENT, {}), opens)
 
     print("  --- before/after, one row per campaign ---")
     for x in impacts:
@@ -635,6 +733,7 @@ def main():
         "triggers": triggers,
         "round2": r2,
         "timeline": tl,
+        "followthrough": ft,
         "impacts": impacts,
         "totals": {"funnel": [{"key": k, "label": lbl, "event": ev,
                                "users": len(union(k)),

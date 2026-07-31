@@ -143,6 +143,7 @@ section{margin-top:24px;}
     <div class="legend"><span class="updated" id="updated"></span></div>
   </header>
 
+  <div class="h2" style="margin-top:34px;color:var(--ink);font-size:13px;letter-spacing:.4px">ROUND 1 — the video</div>
   <section>
     <div class="h2">Headline</div>
     <div class="kpis" id="kpis"></div>
@@ -164,13 +165,6 @@ section{margin-top:24px;}
     <div class="tgrid" id="quiz"></div>
   </section>
 
-  <section id="impact-sec" style="display:none">
-    <div class="h2">Impact — help-screen opens, before vs after each campaign</div>
-    <div class="panel" id="timeline" style="display:none"></div>
-    <div class="tgrid" id="impact" style="margin-top:14px"></div>
-    <div class="note" id="impactnote"></div>
-  </section>
-
   <section>
     <div class="h2">Creative — what the CSP sees</div>
     <div class="panel">
@@ -183,6 +177,7 @@ section{margin-top:24px;}
     </div>
   </section>
 
+  <div class="h2" style="margin-top:34px;color:var(--ink);font-size:13px;letter-spacing:.4px">ROUND 2 — the Home story</div>
   <section id="r2-sec">
     <div class="h2">Round 2 — Home story (no video) <span class="r2tag">Bonus_Seva2_*</span></div>
     <div class="panel" id="r2"></div>
@@ -197,6 +192,20 @@ section{margin-top:24px;}
       <div class="caphint">Tap the strip to open it full size.</div>
       <div class="cap" id="r2cap"></div>
     </div>
+  </section>
+
+  <div class="h2" style="margin-top:34px;color:var(--ink);font-size:13px;letter-spacing:.4px">COMPARISON</div>
+  <section id="impact-sec" style="display:none">
+    <div class="h2">Impact — help-screen opens, before vs after each campaign</div>
+    <div class="panel" id="timeline" style="display:none"></div>
+    <div class="tgrid" id="impact" style="margin-top:14px"></div>
+    <div class="note" id="impactnote"></div>
+  </section>
+
+  <section id="ft-sec" style="display:none">
+    <div class="h2">After finishing round 2 — did they actually go and look?</div>
+    <div class="panel" id="ft"></div>
+    <div class="note" id="ftnote"></div>
   </section>
 
   <p class="foot" id="foot"></p>
@@ -329,6 +338,35 @@ function quizPanel(t,i){
 /* One cohort, three consecutive periods — the question "did round 2 add
    anything on top of round 1" only has an answer if the same people are counted
    in all three windows. */
+/* Completion is a claim; this is the receipt. Each step is timed from the step
+   before it, so everyone is held to the same elapsed clock. */
+function renderFollowthrough(ft){
+  var sec=document.getElementById('ft-sec');
+  if(!ft||!(ft.steps||[]).length||!ft.steps[0].users){ sec.style.display='none'; return; }
+  sec.style.display='';
+  var base=ft.steps[0].users;
+  document.getElementById('ft').innerHTML=ft.steps.map(function(st,i,arr){
+    var p=pct(st.users,base);
+    var prev=i>0?arr[i-1].users:st.users, drop=prev-st.users, dp=pct(drop,prev);
+    return `<div class="fnl-step">
+      <div class="lbl"><span class="nm">${esc(st.label)}</span><span class="vl">${nf(st.users)} <small>${p}%</small></span></div>
+      <div class="trk"><div class="br" style="width:${Math.min(p,100)}%"></div></div>
+      <div class="dp ${drop>0?'':'zero'}"><span>${i===0?'':(drop>0?'↓ '+drop+' did not ('+dp+'% of the step above)':'✓ all continued')}</span></div></div>`;
+  }).join('');
+  document.getElementById('ftnote').innerHTML=
+    `<b>Every step is timed from the one before it</b>, not from a fixed clock — a CSP who finishes at 09:00 and one `+
+    `who finishes at 17:00 are held to the same ${ft.chip_window_min} and ${ft.help_window_min} minutes. `+
+    `Step 2 counts <code>${esc(ft.chip_event)}</code> with <b>chip=${esc(ft.chip_value)}</b> only; other chips on the `+
+    `same strip do not qualify. Step 3 counts <code>${esc(ft.help_event)}</code> within `+
+    `${ft.help_window_min} minutes of that chip open.<br><br>`+
+    `<b>This is the receipt for the deep link.</b> The funnel above ends at "completed", which is a claim about `+
+    `intent; this is whether the CSP actually arrived and then went a level deeper of their own accord. `+
+    `Read step 3 as the strictest number on the page.<br><br>`+
+    `<b>It can only under-count.</b> A CSP who takes ${ft.chip_window_min} minutes and one second, or who opens the `+
+    `chip from somewhere other than the handoff, is not counted — the windows are deliberately tight so a hit means `+
+    `something.`;
+}
+
 function renderTimeline(tl){
   var el=document.getElementById('timeline');
   if(!tl||!tl.cohort_users||!(tl.windows||[]).length){ el.style.display='none'; return; }
@@ -589,6 +627,7 @@ function render(D0){
     `stamped on every event.`;
 
   renderRound2(D.round2);
+  renderFollowthrough(D.followthrough);
 
   document.querySelectorAll('.fnl-step').forEach(el=>{
     el.addEventListener('mousemove',e=>showTip(decodeURIComponent(el.dataset.tip),e.clientX,e.clientY));
