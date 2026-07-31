@@ -104,6 +104,9 @@ section{margin-top:24px;}
 .hero .hk{font-size:11.5px;font-weight:700;color:var(--muted);margin-top:5px}
 .hero .hd{font-size:11.5px;font-weight:700;color:var(--faint);margin-top:2px}
 .hero .hv.good{color:var(--good)}
+.testblock{margin-top:18px;padding:16px 18px;border-radius:14px;background:var(--soft);
+  border:1px dashed var(--alt);}
+.testblock code{background:var(--surface);padding:1px 6px;border-radius:5px;font-size:11px;}
 .tgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(360px,1fr));gap:14px;align-items:start;}
 @media(max-width:760px){.tgrid{grid-template-columns:1fr;}}
 .thead{display:flex;justify-content:space-between;align-items:baseline;gap:10px;
@@ -361,6 +364,54 @@ function round2Head(r2){
     <div class="tb alt">${nf(r2.shown||0)} shown</div></div>`;
 }
 
+/* The funnel body, shared by the real numbers and the internal-test block. */
+function round2Body(v,shown){
+  var steps=(v.funnel||[]).map(function(s,i,arr){
+    var p=pct(s.users,shown);
+    var prev=i>0?arr[i-1].users:s.users, drop=prev-s.users, dp=pct(drop,prev);
+    var dropTxt=i===0?'':(drop>0?'↓ '+drop+' dropped (−'+dp+'%)':'✓ all continued');
+    return `<div class="fnl-step">
+      <div class="lbl"><span class="nm">${esc(s.label)}<small>${esc(s.event||'')}</small></span><span class="vl">${nf(s.users)} <small>${p}%</small></span></div>
+      <div class="trk"><div class="br" style="width:${Math.min(p,100)}%"></div></div>
+      <div class="dp ${drop>0?'':'zero'}"><span>${dropTxt}</span>${s.events?`<span class="ev">fired ${nf(s.events)} times</span>`:''}</div></div>`;
+  }).join('');
+
+  var ex=v.exits||{}, done=(keyed(v.funnel).completed||{}).users||0, into=(v.goto||{}).users||0;
+  /* The two ways out of the last card, side by side — the whole redesign is
+     about moving people from the left one to the right one. */
+  var exitRow=`<div class="r2h" style="margin-top:16px">How they left the last card</div>`+
+    `<div class="stat"><span>Tapped <b>अपनी सेवा स्थिति देखें</b> → into the app</span><span><b>${nf(ex.deeplink||0)}</b><span class="ev">${pct(ex.deeplink||0,done)}% of completers</span></span></div>`+
+    `<div class="stat"><span>Tapped <b>ठीक है</b> → just closed</span><span><b>${nf(ex.acknowledge||0)}</b><span class="ev">${pct(ex.acknowledge||0,done)}% of completers</span></span></div>`+
+    `<div class="stat"><span><code>GoTo_SevaSthiti</code> (the deep-link tap itself)</span><span><b>${nf(into)}</b><span class="ev">fired ${nf((v.goto||{}).events)} times</span></span></div>`;
+
+  var maxQ=Math.max(1,...(v.quits||[]).map(function(q){return q.users;}));
+  var quits=(v.quits||[]).map(function(q){
+    return `<div class="qrow"><div class="ql"><span class="qt">${esc(q.label)}</span><b>${nf(q.users)}</b></div>
+      <div class="qbar"><span style="width:${pct(q.users,maxQ)}%"></span></div></div>`;
+  }).join('')||'<div class="caphint">No ✕ taps recorded yet.</div>';
+
+  var help=(v.help_metrics||[]).map(function(m){
+    return `<div class="stat"><span>${esc(m.label||m.metric)}</span><b>${nf(m.users)}</b></div>`;
+  }).join('')||'<div class="caphint">No (?) taps recorded yet.</div>';
+
+  return steps+exitRow+
+    `<div class="r2split">`+
+      `<div><div class="r2h">Where they tapped ✕</div>${quits}</div>`+
+      `<div><div class="r2h">Which (?) they opened</div>${help}</div>`+
+    `</div>`;
+}
+
+function round2Test(t){
+  if(!t) return '';
+  var shown=t.shown||0;
+  var done=(keyed(t.funnel).completed||{}).users||0;
+  return `<div class="testblock">`+
+    `<div class="r2h" style="margin:0 0 10px">Internal test traffic · CSP <code>a0a0b1</code></div>`+
+    `<div class="caphint" style="margin:0 0 12px">Excluded from every number above on purpose — this is your own device walking the story. `+
+    `<b>${nf(shown)}</b> started it, <b>${nf(done)}</b> finished.</div>`+
+    round2Body(t,shown||1)+`</div>`;
+}
+
 function round2Panel(r2){
   var shown=r2.shown||0;
   var F=keyed(r2.funnel);
@@ -385,28 +436,8 @@ function round2Panel(r2){
       (raw?`<div style="margin-top:13px">`+
         `<div class="r2h">Confirmed reaching CleverTap</div><div>${chips(ok,'var(--good-bg)')}</div>`+
         (no.length?`<div class="r2h" style="margin-top:12px">Not fired even in testing</div><div>${chips(no,'var(--warn-bg)')}</div>`:'')+
-      `</div>`:'')+`</div>`;
+      `</div>`:'')+round2Test(r2.test)+`</div>`;
   }
-
-  var steps=(r2.funnel||[]).map(function(s,i,arr){
-    var p=pct(s.users,shown);
-    var prev=i>0?arr[i-1].users:s.users, drop=prev-s.users, dp=pct(drop,prev);
-    var dropTxt=i===0?'':(drop>0?'↓ '+drop+' dropped (−'+dp+'%)':'✓ all continued');
-    return `<div class="fnl-step">
-      <div class="lbl"><span class="nm">${esc(s.label)}<small>${esc(s.event||'')}</small></span><span class="vl">${nf(s.users)} <small>${p}%</small></span></div>
-      <div class="trk"><div class="br" style="width:${Math.min(p,100)}%"></div></div>
-      <div class="dp ${drop>0?'':'zero'}"><span>${dropTxt}</span>${s.events?`<span class="ev">fired ${nf(s.events)} times</span>`:''}</div></div>`;
-  }).join('');
-
-  var maxQ=Math.max(1,...(r2.quits||[]).map(function(q){return q.users;}));
-  var quits=(r2.quits||[]).map(function(q){
-    return `<div class="qrow"><div class="ql"><span class="qt">${esc(q.label)}</span><b>${nf(q.users)}</b></div>
-      <div class="qbar"><span style="width:${pct(q.users,maxQ)}%"></span></div></div>`;
-  }).join('')||'<div class="caphint">No ✕ taps recorded yet.</div>';
-
-  var help=(r2.help_metrics||[]).map(function(m){
-    return `<div class="stat"><span>${esc(m.label||m.metric)}</span><b>${nf(m.users)}</b></div>`;
-  }).join('')||'<div class="caphint">No (?) taps recorded yet.</div>';
 
   return `<div class="panel">`+round2Head(r2)+
     `<div class="hero">`+
@@ -415,11 +446,7 @@ function round2Panel(r2){
       `<div><div class="hv">${nf(ex.acknowledge||0)}</div><div class="hk">Just tapped ठीक है</div><div class="hd">ended without opening the app</div></div>`+
       `<div><div class="hv">${nf((r2.toggled||{}).users)}</div><div class="hk">Replayed the quality pills</div><div class="hd">optional — pure curiosity</div></div>`+
     `</div>`+
-    steps+
-    `<div class="r2split">`+
-      `<div><div class="r2h">Where they tapped ✕</div>${quits}</div>`+
-      `<div><div class="r2h">Which (?) they opened</div>${help}</div>`+
-    `</div></div>`;
+    round2Body(r2,shown)+round2Test(r2.test)+`</div>`;
 }
 
 function round2Note(builds){

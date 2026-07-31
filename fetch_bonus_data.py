@@ -115,136 +115,157 @@ def _r2_blank():
             "metrics": {}, "first_ts": 0}
 
 
+def raw_identity(rec):
+    """Identity WITHOUT the internal-CSP exclusion F.identity_of applies.
+
+    The test shop is excluded from every real number on purpose, but that also
+    makes your own device testing invisible — you can walk the whole story and
+    the funnel still reads zero. This lets the test journey be counted into its
+    own clearly-labelled block instead of vanishing."""
+    p = rec.get("profile") or {}
+    return p.get("identity") or p.get("objectId") or p.get("email") or None
+
+
+def _r2_add(a, name, ident, props, rec):
+    """Fold one record into one accumulator (either the real or the test one)."""
+    a["n"][name] = a["n"].get(name, 0) + 1
+    cname = str(props.get("card_name", "") or "")
+    try:
+        ci = int(props.get("card_index", -1))
+    except (TypeError, ValueError):
+        ci = -1
+
+    if name == "Card_Viewed":
+        if ident and (cname or ci >= 0):
+            a["cards"].setdefault(cname or ("index_%d" % ci), {"idx": ci, "u": set()})["u"].add(ident)
+    elif name == "Dismissed":
+        q = a["quits"].setdefault(cname or ("index_%d" % ci), {"idx": ci, "u": set(), "n": 0})
+        q["n"] += 1
+        if ident:
+            q["u"].add(ident)
+    elif name == "Help_Tapped":
+        m = str(props.get("metric", "") or "")
+        if m and ident:
+            a["metrics"].setdefault(m, set()).add(ident)
+    elif name == "Flow_Completed":
+        x = str(props.get("exit", "") or "unknown")
+        if ident:
+            a["exits"].setdefault(x, set()).add(ident)
+    elif name == "Story_Viewed":
+        ts = ts_of(rec)
+        a["first_ts"] = min(a["first_ts"], ts) if a["first_ts"] and ts else (ts or a["first_ts"])
+
+    if ident:
+        a["u"].setdefault(name, set()).add(ident)
+
+
+def _r2_view(a, shape, is_test=False):
+    """Turn one accumulator into the funnel + splits the dashboard renders."""
+    def users_for(key, ev):
+        if ev == "Card_Viewed":
+            c = a["cards"].get(key)
+            return len(c["u"]) if c else 0
+        return len(a["u"].get(ev, set()))
+
+    cards = sorted(a["cards"].items(), key=lambda kv: kv[1]["idx"])
+    quits = sorted(a["quits"].items(), key=lambda kv: kv[1]["idx"])
+    exits = {k: len(v) for k, v in a["exits"].items()}
+    return {
+        "is_test": is_test,
+        "shown": len(a["u"].get("Story_Viewed", set())),
+        "funnel": [{"key": k, "label": lbl, "event": R2 + ev,
+                    "users": users_for(k, ev),
+                    "events": a["n"].get(ev, 0) if ev != "Card_Viewed" else None}
+                   for k, lbl, ev in shape],
+        "cards": [{"name": nm, "index": v["idx"],
+                   "label": CARD_NAME_LABEL.get(nm, nm), "users": len(v["u"])}
+                  for nm, v in cards],
+        "quits": [{"name": nm, "index": v["idx"],
+                   "label": CARD_NAME_LABEL.get(nm, nm), "users": len(v["u"]), "events": v["n"]}
+                  for nm, v in quits],
+        "exits": exits,
+        "goto": {"users": len(a["u"].get("GoTo_SevaSthiti", set())), "events": a["n"].get("GoTo_SevaSthiti", 0)},
+        "toggled": {"users": len(a["u"].get("Quality_Toggled", set())), "events": a["n"].get("Quality_Toggled", 0)},
+        "help_metrics": [{"metric": m, "label": METRIC_LABEL.get(m, m), "users": len(s)}
+                         for m, s in sorted(a["metrics"].items(), key=lambda kv: -len(kv[1]))],
+        "dismissed_total": {"users": len(a["u"].get("Dismissed", set())), "events": a["n"].get("Dismissed", 0)},
+    }
+
+
 def fetch_round2(frm, to):
-    """Bucket every Bonus_Seva2_* event by its trigger, one build per bucket."""
+    """Bucket every Bonus_Seva2_* event by trigger, and within that by whether it
+    came from a real CSP or the excluded internal test shop."""
     B = {}
-    # Why records get dropped. An event with no usable identity counts toward the
-    # raw total but toward no user, so a panel can sit at zero while events tick
-    # up. Distinguishing "excluded internal CSP" from "profile carries no
-    # identity at all" is the difference between working-as-intended and a
-    # funnel that will never populate.
-    drop = {"excluded_csp": 0, "no_identity": 0, "ok": 0}
+    drop = {"real": 0, "test": 0, "no_identity": 0}
     sample_keys = set()
 
     def acc(t):
-        return B.setdefault(t, _r2_blank())
+        return B.setdefault(t, {"real": _r2_blank(), "test": _r2_blank()})
 
     for name in R2_EVENTS:
         ev, seen = R2 + name, 0
         for rec in F.export_event(ev, frm, to):
             seen += 1
-            ident = F.identity_of(rec)
             props = F.props_of(rec)
+            pair = acc(trigger_of(props) if props.get("trigger") else "home_story_r2")
+            ident = F.identity_of(rec)
             if ident:
-                drop["ok"] += 1
-            elif F.cspid_of(rec) in F.EXCLUDE_CSP:
-                drop["excluded_csp"] += 1
+                drop["real"] += 1
+                _r2_add(pair["real"], name, ident, props, rec)
             else:
-                drop["no_identity"] += 1
-                if len(sample_keys) < 12:
-                    sample_keys |= set((rec.get("profile") or {}).keys())
-            a = acc(trigger_of(props) if props.get("trigger") else "home_story_r2")
-            a["n"][name] = a["n"].get(name, 0) + 1
-            cname = str(props.get("card_name", "") or "")
-            try:
-                ci = int(props.get("card_index", -1))
-            except (TypeError, ValueError):
-                ci = -1
+                any_id = raw_identity(rec)
+                if any_id:
+                    drop["test"] += 1
+                    _r2_add(pair["test"], name, any_id, props, rec)
+                else:
+                    drop["no_identity"] += 1
+                    if len(sample_keys) < 12:
+                        sample_keys |= set((rec.get("profile") or {}).keys())
+        print(f"  {ev:34s} -> {seen} events")
 
-            if name == "Card_Viewed":
-                if ident and (cname or ci >= 0):
-                    a["cards"].setdefault(cname or ("index_%d" % ci), {"idx": ci, "u": set()})["u"].add(ident)
-            elif name == "Dismissed":
-                q = a["quits"].setdefault(cname or ("index_%d" % ci), {"idx": ci, "u": set(), "n": 0})
-                q["n"] += 1
-                if ident:
-                    q["u"].add(ident)
-            elif name == "Help_Tapped":
-                m = str(props.get("metric", "") or "")
-                if m and ident:
-                    a["metrics"].setdefault(m, set()).add(ident)
-            elif name == "Flow_Completed":
-                x = str(props.get("exit", "") or "unknown")
-                if ident:
-                    a["exits"].setdefault(x, set()).add(ident)
-            elif name == "Story_Viewed":
-                ts = ts_of(rec)
-                a["first_ts"] = min(a["first_ts"], ts) if a["first_ts"] and ts else (ts or a["first_ts"])
-
-            if ident:
-                a["u"].setdefault(name, set()).add(ident)
-        if seen:
-            print(f"  {ev:34s} -> {seen} events")
-        else:
-            print(f"  {ev:34s} -> 0 events")
-
-    print(f"  attribution: {drop['ok']} counted, {drop['excluded_csp']} dropped as the excluded internal CSP, "
-          f"{drop['no_identity']} dropped with NO usable identity")
+    print(f"  attribution: {drop['real']} from real CSPs, {drop['test']} from the excluded internal shop "
+          f"(shown separately), {drop['no_identity']} with no usable identity")
     if drop["no_identity"]:
         print(f"  ::warning::{drop['no_identity']} Bonus_Seva2_* records carry no identity/objectId/email — "
-              f"those events can never reach a funnel. profile keys seen: {sorted(sample_keys)}")
+              f"those can never reach a funnel. profile keys seen: {sorted(sample_keys)}")
 
     if not B:
-        B["home_story_r2_5card"] = _r2_blank()
+        B[R2_CURRENT] = {"real": _r2_blank(), "test": _r2_blank()}
 
     builds = []
-    # newest build first: the one with the latest first-fire, unknown last
-    for t in sorted(B, key=lambda k: -(B[k]["first_ts"] or 0)):
-        a = B[t]
-        shape = R2_FUNNEL_5 if t == "home_story_r2_5card" else R2_FUNNEL_GENERIC
-
-        def users_for(key, ev):
-            if ev == "Card_Viewed":
-                c = a["cards"].get(key)
-                return len(c["u"]) if c else 0
-            return len(a["u"].get(ev, set()))
-
-        raw = sum(a["n"].values())
-        known = [e for e in R2_EVENTS if a["n"].get(e)]
-        shown = len(a["u"].get("Story_Viewed", set()))
-        cards = sorted(a["cards"].items(), key=lambda kv: kv[1]["idx"])
-        quits = sorted(a["quits"].items(), key=lambda kv: kv[1]["idx"])
-        builds.append({
+    for t in sorted(B, key=lambda k: -(B[k]["real"]["first_ts"] or B[k]["test"]["first_ts"] or 0)):
+        pair = B[t]
+        shape = R2_FUNNEL_5 if t == R2_CURRENT else R2_FUNNEL_GENERIC
+        real, test = _r2_view(pair["real"], shape), _r2_view(pair["test"], shape, True)
+        a = pair["real"]
+        first_ts = a["first_ts"] or pair["test"]["first_ts"]
+        raw = sum(a["n"].values()) + sum(pair["test"]["n"].values())
+        known = [e for e in R2_EVENTS if a["n"].get(e) or pair["test"]["n"].get(e)]
+        b = dict(real)
+        b.update({
             "key": t,
             "label": R2_BUILD_LABEL.get(t, t.replace("_", " ")),
-            "live_ts": a["first_ts"] or None,
-            "live_label": (datetime.datetime.strptime(str(a["first_ts"]), "%Y%m%d%H%M%S")
-                           .strftime("%d %b %Y, %H:%M IST") if a["first_ts"] else None),
-            "shown": shown,
-            "funnel": [{"key": k, "label": lbl, "event": R2 + ev,
-                        "users": users_for(k, ev),
-                        "events": a["n"].get(ev, 0) if ev != "Card_Viewed" else None}
-                       for k, lbl, ev in shape],
-            "cards": [{"name": nm, "index": v["idx"],
-                       "label": CARD_NAME_LABEL.get(nm, nm), "users": len(v["u"])}
-                      for nm, v in cards],
-            "quits": [{"name": nm, "index": v["idx"],
-                       "label": CARD_NAME_LABEL.get(nm, nm), "users": len(v["u"]), "events": v["n"]}
-                      for nm, v in quits],
-            "exits": {k: len(v) for k, v in a["exits"].items()},
-            "goto": {"users": len(a["u"].get("GoTo_SevaSthiti", set())), "events": a["n"].get("GoTo_SevaSthiti", 0)},
-            "toggled": {"users": len(a["u"].get("Quality_Toggled", set())), "events": a["n"].get("Quality_Toggled", 0)},
-            "help_metrics": [{"metric": m, "label": METRIC_LABEL.get(m, m), "users": len(s)}
-                             for m, s in sorted(a["metrics"].items(), key=lambda kv: -len(kv[1]))],
-            "dismissed_total": {"users": len(a["u"].get("Dismissed", set())), "events": a["n"].get("Dismissed", 0)},
-            # pre-launch instrumentation check, surfaced on the pending panel
+            "live_ts": first_ts or None,
+            "live_label": (datetime.datetime.strptime(str(first_ts), "%Y%m%d%H%M%S")
+                           .strftime("%d %b %Y, %H:%M IST") if first_ts else None),
+            "test": test if test["shown"] else None,
             "raw_events": raw,
             "events_confirmed": known,
-            "events_unseen": [e for e in R2_EVENTS if not a["n"].get(e)],
+            "events_unseen": [e for e in R2_EVENTS if e not in known],
         })
-        if not shown:
-            if raw:
-                print(f"  {t}: not live to real CSPs yet, but {raw} events fired from excluded/test "
-                      f"profiles — {len(known)}/{len(R2_EVENTS)} event names confirmed reaching CleverTap")
-            else:
-                print(f"  {t}: no events at all — pending")
+        builds.append(b)
+        rf = {x["key"]: x["users"] for x in real["funnel"]}
+        tf = {x["key"]: x["users"] for x in test["funnel"]}
+        print(f"  {t}: real shown={rf['shown']} completed={rf['completed']} into_app={real['goto']['users']} "
+              f"| test shown={tf['shown']} completed={tf['completed']} into_app={test['goto']['users']}")
 
-    # Drop superseded builds nobody real ever saw. Logged, never silent.
     keep = []
     for b in builds:
+        # A superseded build is only worth a panel if real CSPs reached it. Test
+        # traffic on a build nobody ships is not a reason to keep showing it.
         if b["key"] != R2_CURRENT and not b["shown"]:
-            print(f"  dropping panel for {b['key']}: superseded and no real CSPs "
-                  f"({b['raw_events']} test-only events)")
+            print(f"  dropping panel for {b['key']}: superseded, no real CSPs "
+                  f"({b['raw_events']} events, test-only)")
             continue
         keep.append(b)
     if not keep:
