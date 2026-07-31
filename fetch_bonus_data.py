@@ -68,6 +68,10 @@ R2 = "Bonus_Seva2_"
 R2_EVENTS = ["Story_Viewed", "Gift_Opened", "Card_Viewed", "Quality_Toggled",
              "Chip_Tapped", "Help_Tapped", "GoTo_SevaSthiti", "Flow_Completed", "Dismissed"]
 
+# The build actually in market. Older builds are only worth a panel if real CSPs
+# ever reached them — a superseded build whose only traffic was internal test
+# fires is noise, and showing it twice-over just makes the section look broken.
+R2_CURRENT = "home_story_r2_5card"
 R2_BUILD_LABEL = {
     "home_story_r2_5card": "Home story · 5 cards",
     "home_story_r2": "Home story · 6 cards (superseded)",
@@ -114,6 +118,13 @@ def _r2_blank():
 def fetch_round2(frm, to):
     """Bucket every Bonus_Seva2_* event by its trigger, one build per bucket."""
     B = {}
+    # Why records get dropped. An event with no usable identity counts toward the
+    # raw total but toward no user, so a panel can sit at zero while events tick
+    # up. Distinguishing "excluded internal CSP" from "profile carries no
+    # identity at all" is the difference between working-as-intended and a
+    # funnel that will never populate.
+    drop = {"excluded_csp": 0, "no_identity": 0, "ok": 0}
+    sample_keys = set()
 
     def acc(t):
         return B.setdefault(t, _r2_blank())
@@ -124,6 +135,14 @@ def fetch_round2(frm, to):
             seen += 1
             ident = F.identity_of(rec)
             props = F.props_of(rec)
+            if ident:
+                drop["ok"] += 1
+            elif F.cspid_of(rec) in F.EXCLUDE_CSP:
+                drop["excluded_csp"] += 1
+            else:
+                drop["no_identity"] += 1
+                if len(sample_keys) < 12:
+                    sample_keys |= set((rec.get("profile") or {}).keys())
             a = acc(trigger_of(props) if props.get("trigger") else "home_story_r2")
             a["n"][name] = a["n"].get(name, 0) + 1
             cname = str(props.get("card_name", "") or "")
@@ -158,6 +177,12 @@ def fetch_round2(frm, to):
             print(f"  {ev:34s} -> {seen} events")
         else:
             print(f"  {ev:34s} -> 0 events")
+
+    print(f"  attribution: {drop['ok']} counted, {drop['excluded_csp']} dropped as the excluded internal CSP, "
+          f"{drop['no_identity']} dropped with NO usable identity")
+    if drop["no_identity"]:
+        print(f"  ::warning::{drop['no_identity']} Bonus_Seva2_* records carry no identity/objectId/email — "
+              f"those events can never reach a funnel. profile keys seen: {sorted(sample_keys)}")
 
     if not B:
         B["home_story_r2_5card"] = _r2_blank()
@@ -213,7 +238,18 @@ def fetch_round2(frm, to):
                       f"profiles — {len(known)}/{len(R2_EVENTS)} event names confirmed reaching CleverTap")
             else:
                 print(f"  {t}: no events at all — pending")
-    return builds
+
+    # Drop superseded builds nobody real ever saw. Logged, never silent.
+    keep = []
+    for b in builds:
+        if b["key"] != R2_CURRENT and not b["shown"]:
+            print(f"  dropping panel for {b['key']}: superseded and no real CSPs "
+                  f"({b['raw_events']} test-only events)")
+            continue
+        keep.append(b)
+    if not keep:
+        keep = [b for b in builds if b["key"] == R2_CURRENT] or builds[:1]
+    return keep
 
 
 # ---------------------------------------------------------------- impact ----
