@@ -1,5 +1,5 @@
 {
-  "generated": "2026-07-31 08:08",
+  "generated": "2026-07-31 09:28",
   "sample": false,
   "region": "eu1",
   "start_date": "2026-07-16",
@@ -43,8 +43,8 @@
       ],
       "funnel": {
         "shown": 399,
-        "edu_ok": 379,
-        "completed": 331
+        "edu_ok": 380,
+        "completed": 332
       },
       "options": [
         {
@@ -55,7 +55,7 @@
         {
           "option": "2",
           "label": "2nd (middle)",
-          "users": 27
+          "users": 28
         },
         {
           "option": "3",
@@ -138,6 +138,11 @@
           "date": "2026-07-30",
           "shown": 0,
           "completed": 3
+        },
+        {
+          "date": "2026-07-31",
+          "shown": 0,
+          "completed": 1
         }
       ]
     },
@@ -403,13 +408,79 @@
         }
       ],
       "note": "Education screen + ठीक है only, no quiz. Capped once/day, 3 lifetime. Reach only — unique users the in-app was shown to."
+    },
+    {
+      "key": "csp_offerpage",
+      "label": "CSP App · offer page",
+      "color": "#A8006E",
+      "variant": "offer_page",
+      "attribution": "event",
+      "campaigns": [],
+      "campaigns_seen": [],
+      "shown_by_campaign": [],
+      "steps": [
+        [
+          "shown",
+          "Page shown",
+          "CSP_Offer_Page_Shown"
+        ],
+        [
+          "ok",
+          "Tapped ठीक है",
+          "CSP_Offer_Page_OK_Clicked"
+        ]
+      ],
+      "funnel": {
+        "shown": 0,
+        "ok": 0
+      },
+      "ok_outside_shown": 0,
+      "options": [],
+      "daily": [],
+      "note": "Full-page offer creative (round 2): one screen, one ठीक है, no quiz."
+    },
+    {
+      "key": "tech_offerpage",
+      "label": "Technician App · offer page",
+      "color": "#1D4ED8",
+      "variant": "offer_page",
+      "attribution": "event",
+      "campaigns": [],
+      "campaigns_seen": [],
+      "shown_by_campaign": [],
+      "steps": [
+        [
+          "shown",
+          "Page shown",
+          "TECH_Offer_Page_Shown"
+        ],
+        [
+          "ok",
+          "Tapped ठीक है",
+          "TECH_Offer_Page_OK_Clicked"
+        ]
+      ],
+      "funnel": {
+        "shown": 42,
+        "ok": 36
+      },
+      "ok_outside_shown": 0,
+      "options": [],
+      "daily": [
+        {
+          "date": "2026-07-31",
+          "shown": 42,
+          "ok": 36
+        }
+      ],
+      "note": "Full-page offer creative (round 2): one screen, one ठीक है, no quiz."
     }
   ],
   "unattributed": {
-    "edu_ok": 389,
-    "completed": 306,
+    "edu_ok": 390,
+    "completed": 310,
     "edu_ok_technician": 226,
-    "completed_technician": 183
+    "completed_technician": 186
   },
   "both_apps": 0
 }
