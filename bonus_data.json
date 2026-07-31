@@ -1,5 +1,5 @@
 {
-  "generated": "2026-07-31 15:49 IST",
+  "generated": "2026-07-31 15:50 IST",
   "region": "eu1",
   "start_date": "2026-07-27",
   "triggers": [
@@ -232,14 +232,14 @@
           "label": "Tapped the (?) button",
           "event": "Bonus_Seva2_Help_Tapped",
           "users": 296,
-          "events": 441
+          "events": 443
         },
         {
           "key": "completed",
           "label": "Completed the story",
           "event": "Bonus_Seva2_Flow_Completed",
           "users": 315,
-          "events": 350
+          "events": 351
         }
       ],
       "cards": [
@@ -307,7 +307,7 @@
       ],
       "exits": {
         "deeplink": 269,
-        "acknowledge": 53
+        "acknowledge": 54
       },
       "goto": {
         "users": 269,
@@ -337,7 +337,7 @@
       "label": "Home story · 5 cards",
       "live_ts": 20260731110019,
       "live_label": "31 Jul 2026, 11:00 IST",
-      "raw_events": 4503,
+      "raw_events": 4507,
       "events_confirmed": [
         "Story_Viewed",
         "Gift_Opened",
@@ -352,6 +352,28 @@
       "events_unseen": []
     }
   ],
+  "r1_vs_r2": {
+    "event": "service_status_help_opened",
+    "cohort_event": "Bonus_Seva2_Flow_Completed",
+    "cohort_users": 315,
+    "r1": {
+      "users": 76,
+      "events": 443,
+      "days": 3.48,
+      "reach_pct": 24,
+      "per_user_day": 0.404,
+      "label": "27 Jul 23:33 → 31 Jul 11:00"
+    },
+    "r2": {
+      "users": 30,
+      "events": 59,
+      "days": 0.2,
+      "reach_pct": 10,
+      "per_user_day": 0.929,
+      "label": "since 31 Jul 11:00"
+    },
+    "lift_pct": 130
+  },
   "totals": {
     "funnel": [
       {
