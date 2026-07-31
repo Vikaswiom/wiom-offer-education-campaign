@@ -270,7 +270,6 @@ def main():
     shown_day      = {c: {} for c in ALL_CAMPAIGNS}       # campaign -> day -> set(identity)
     edu_idents     = set()                                # identity
     comp_records   = []                                   # (identity, day, option)
-    raw_cmp_users  = {}                                   # raw campaign_id -> set(identity)
 
     # technician workaround: role-filtered collection, independent of campaign ids
     tech           = {"shown": set(), "edu_ok": set(), "completed": set()}
@@ -286,11 +285,6 @@ def main():
             if not ident:
                 continue
             if key == "shown":
-                # every campaign id seen on any inApp_Shown, tracked or not. Used only
-                # to tell us which campaign the offer-page creative is running under,
-                # since that variant needs no campaign id to be measured.
-                raw_cmp_users.setdefault(
-                    str(props_of(rec).get("campaign_id", "")) or "(none)", set()).add(ident)
                 if is_tech(rec):
                     tech["shown"].add(ident)
                     d = day_of(rec)
@@ -467,12 +461,11 @@ def main():
             note += (f" {outside} profile{'' if outside == 1 else 's'} tapped ठीक है without a "
                      f"recorded Page shown — {'that device was' if outside == 1 else 'those devices were'} "
                      "still injecting the bridge at page load, so treat Shown as a slight under-count.")
-        seen_ids = sorted(((cid, len(u & shown_i)) for cid, u in raw_cmp_users.items()
-                           if (u & shown_i) and cid not in ALL_CAMPAIGNS and cid != "(none)"),
-                          key=lambda kv: -kv[1])[:3]
-        if seen_ids:
-            note += (" Campaign id observed on this cohort's impressions: "
-                     + ", ".join(f"{c} ({n})" for c, n in seen_ids) + ".")
+        # No campaign id is inferred here, deliberately. Looking up these identities'
+        # inApp_Shown records returns whatever campaigns they saw in the window — the
+        # older education creatives included — so the "observed" id was really just
+        # "a campaign this person saw at some point", which reads as fact and is not.
+        # This variant does not need a campaign id, so guessing one buys nothing.
 
         apps_out.append({
             "key": o["key"], "label": o["label"], "color": o["color"],
@@ -484,7 +477,6 @@ def main():
                          for k in ("shown", "ok")},
             "attribution": "event",
             "campaigns": [],
-            "campaigns_seen": [{"id": c, "users": n} for c, n in seen_ids],
             "shown_by_campaign": [],
             "steps": [[k, lbl, o["shown_event"] if k == "shown" else o["ok_event"]]
                       for k, lbl in OFFERPAGE_STEP_LABELS],
