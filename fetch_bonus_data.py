@@ -115,6 +115,25 @@ def _r2_blank():
             "metrics": {}, "first_ts": 0}
 
 
+def csp_key(rec):
+    """One row per CSP SHOP, not per login.
+
+    Measured 2026-07-31 on live round-2 traffic: 312 distinct identities across
+    288 distinct cspids — 24 shops carry two logins, and no identity ever spans
+    two shops. Deduping on identity therefore counted those 24 shops twice, an
+    ~8% overstatement at the top of the funnel. cspid is the coarser and correct
+    unit for "how many CSPs saw this".
+
+    Returns None for the excluded internal shop and for records with nothing
+    usable, so both stay out of every count.
+    """
+    c = F.cspid_of(rec)
+    if c:
+        return None if c in F.EXCLUDE_CSP else "csp:" + c
+    i = F.identity_of(rec)          # already returns None for the excluded shop
+    return ("id:" + str(i)) if i else None
+
+
 def raw_identity(rec):
     """Identity WITHOUT the internal-CSP exclusion F.identity_of applies.
 
@@ -206,7 +225,7 @@ def fetch_round2(frm, to):
             seen += 1
             props = F.props_of(rec)
             pair = acc(trigger_of(props) if props.get("trigger") else "home_story_r2")
-            ident = F.identity_of(rec)
+            ident = csp_key(rec)
             if ident:
                 drop["real"] += 1
                 _r2_add(pair["real"], name, ident, props, rec)

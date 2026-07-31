@@ -464,7 +464,8 @@ function round2Panel(r2){
 
 function round2Note(builds){
   var multi=builds.length>1;
-  return (multi?`<b>Two card layouts, kept apart.</b> The story shipped as six cards and then as five, after the `+
+  return `<b>Every number here is unique CSPs</b>, deduped on <code>cspid</code> — one shop counts once even if two logins walked the story. That is a stricter basis than the round-1 funnels above, which dedupe on profile identity: measured on this traffic, 288 shops carried 312 identities, so identity-deduping overstated the top of this funnel by about 8%.<br><br>`+
+  (multi?`<b>Two card layouts, kept apart.</b> The story shipped as six cards and then as five, after the `+
       `"1–15 window" and "the rule" screens were merged into one. That shifted every later `+
       `<code>card_index</code> down by one, so index 2 names a different screen in each build. They are bucketed on `+
       `their <code>trigger</code> and never summed — blending them would produce a funnel that gains users at a step. `+
