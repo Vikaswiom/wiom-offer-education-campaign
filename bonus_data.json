@@ -1,5 +1,5 @@
 {
-  "generated": "2026-07-31 10:26 IST",
+  "generated": "2026-07-31 10:44 IST",
   "region": "eu1",
   "start_date": "2026-07-27",
   "triggers": [
@@ -13,8 +13,8 @@
           "key": "intro_viewed",
           "label": "Popup shown",
           "event": "Bonus_Seva_Intro_Viewed",
-          "users": 409,
-          "events": 549
+          "users": 412,
+          "events": 554
         },
         {
           "key": "learn_more",
@@ -47,8 +47,8 @@
       ],
       "dropoffs": {
         "intro_dismissed": {
-          "users": 117,
-          "events": 131
+          "users": 121,
+          "events": 135
         },
         "video_dismissed": {
           "users": 170,
@@ -150,12 +150,12 @@
         "post": {
           "users": 59,
           "events": 238,
-          "days": 3.45,
+          "days": 3.47,
           "reach_pct": 57,
-          "per_user_day": 0.663,
+          "per_user_day": 0.66,
           "label": "since 27 Jul 23:33 (after)"
         },
-        "lift_pct": 235,
+        "lift_pct": 233,
         "pre_overlaps": [],
         "cohort_shared": 0
       },
@@ -182,7 +182,7 @@
         },
         {
           "date": "2026-07-31",
-          "intro_viewed": 29,
+          "intro_viewed": 34,
           "completed": 3
         }
       ]
@@ -358,8 +358,8 @@
         "key": "intro_viewed",
         "label": "Popup shown",
         "event": "Bonus_Seva_Intro_Viewed",
-        "users": 409,
-        "events": 549
+        "users": 412,
+        "events": 554
       },
       {
         "key": "learn_more",
