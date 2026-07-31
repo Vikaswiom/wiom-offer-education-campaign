@@ -159,7 +159,7 @@ section{margin-top:24px;}
   </section>
 
   <section id="impact-sec" style="display:none">
-    <div class="h2">Impact — did the education change behaviour?</div>
+    <div class="h2">Impact — help-screen opens, before vs after each campaign</div>
     <div class="tgrid" id="impact"></div>
     <div class="note" id="impactnote"></div>
   </section>
@@ -190,12 +190,6 @@ section{margin-top:24px;}
       <div class="caphint">Tap the strip to open it full size.</div>
       <div class="cap" id="r2cap"></div>
     </div>
-  </section>
-
-  <section id="rvr-sec" style="display:none">
-    <div class="h2">Did round 2 move them? — round-1 period vs round-2 period</div>
-    <div class="panel" id="rvr"></div>
-    <div class="note" id="rvrnote"></div>
   </section>
 
   <p class="foot" id="foot"></p>
@@ -327,8 +321,11 @@ function quizPanel(t,i){
 
 function impactPanel(t,i){
   const im=t.impact;
+  /* round 1's cohorts answered a quiz, round 2's finished the story — the
+     fetcher says which, so one panel serves all three campaigns. */
+  const who=t.cohort_label||'took part';
   if(!im||!im.cohort_users) return `<div class="panel">${thead(t,i,'no cohort yet')}
-    <div class="pend">⏳ Nobody has answered the quiz through this trigger yet, so there is no cohort to measure.</div></div>`;
+    <div class="pend">⏳ Nobody has ${esc(who)} here yet, so there is no cohort to measure.</div></div>`;
   const L=im.lift_pct, cls=L==null?'flat':L>0?'up':L<0?'down':'flat';
   const win=(w,post)=>`<div class="win${post?' post':''}"><div class="wk">${post?'After':'Before'}</div>
     <div class="wd">${esc(w.label)}<br>${w.days} day${w.days===1?'':'s'} of data</div>
@@ -344,8 +341,8 @@ function impactPanel(t,i){
     `<b>${nf(im.cohort_shared)} of these ${nf(im.cohort_users)} CSPs also completed the flow through another trigger</b>, `+
     `so they appear in both columns and their behaviour is counted on both sides.`);
   return `<div class="panel">${thead(t,i,nf(im.cohort_users)+' in cohort')}`+
-    `<div class="cohort">The same <b>${nf(im.cohort_users)}</b> CSPs who answered the quiz <b>through this trigger</b>, `+
-    `measured on <code>${esc(im.event)}</code>.</div>`+
+    `<div class="cohort">The same <b>${nf(im.cohort_users)}</b> CSPs who <b>${esc(who)}</b> here, measured on `+
+    `<code>${esc(im.event)}</code>.</div>`+
     `<div class="cmp">${win(im.pre,false)}`+
     `<div class="lift ${cls}">${L==null?'—':(L>0?'+':'')+L+'%'}<small>per user per day</small></div>`+
     `${win(im.post,true)}</div>`+
@@ -362,54 +359,6 @@ function impactPanel(t,i){
    round-1 shape. It has shipped in two card layouts; each is bucketed on its own
    trigger, because card_index 2 means a different screen in each and blending
    them would produce a funnel that gains users at a step. */
-/* Round-1 period vs round-2 period, for the CSPs who finished round 2. Reuses
-   the same per-user-per-day machinery as the round-1 impact block above — the
-   windows are wildly different lengths, so only the rate is comparable. */
-function renderRvR(im){
-  var sec=document.getElementById('rvr-sec');
-  if(!im||!im.cohort_users){ sec.style.display='none'; return; }
-  sec.style.display='';
-  var L=im.lift_pct, cls=L==null?'flat':L>0?'up':L<0?'down':'flat';
-  var win=function(w,post,kicker){
-    return `<div class="win${post?' post':''}"><div class="wk">${kicker}</div>
-      <div class="wd">${esc(w.label)}<br>${w.days} day${w.days===1?'':'s'} of data</div>
-      <div class="wv">${w.per_user_day}</div><div class="wu">opens per CSP per day</div>
-      <div class="wx"><b>${nf(w.users)}</b> of ${nf(im.cohort_users)} opened it at least once <b>(${w.reach_pct}%)</b> · ${nf(w.events)} opens total</div></div>`;
-  };
-  document.getElementById('rvr').innerHTML=
-    `<div class="cohort">The same <b>${nf(im.cohort_users)}</b> CSPs who <b>finished round 2</b>, measured on `+
-    `<code>${esc(im.event)}</code> — the help screen the story teaches them to open.</div>`+
-    `<div class="cmp">${win(im.r1,false,'While round 1 was live')}`+
-    `<div class="lift ${cls}">${L==null?'—':(L>0?'+':'')+L+'%'}<small>per CSP per day</small></div>`+
-    `${win(im.r2,true,'Since round 2 went live')}</div>`+
-    `<div class="readout">${explainRvR(im)}</div>`;
-
-  document.getElementById('rvrnote').innerHTML=
-    `<b>Why these people.</b> Round 2 targets CSPs who never finished round 1, so the left-hand window is what their `+
-    `behaviour looked like while the video was the only education on offer to them — and they did not take it. The `+
-    `right-hand window is the same CSPs after the Home story landed. Same people on both sides, so CSP mix, tenure and `+
-    `region cancel out.<br><br>`+
-    `<b>Read the rate, not the totals.</b> The two windows are different lengths (${im.r1.days} days vs ${im.r2.days}), `+
-    `so raw opens and the "at least once" share both favour the longer one. Only opens-per-CSP-per-day is comparable.<br><br>`+
-    `<b>What it cannot rule out.</b> This cohort is <i>defined</i> by having completed round 2, so every one of them was `+
-    `demonstrably in the app after it launched — nothing guarantees they were as active during the round-1 window, and `+
-    `an inactive day still counts as a day in the denominator. A short right-hand window also swings hard on one busy `+
-    `evening. Treat an early number as a signal to keep watching, not a settled result.`;
-}
-
-function explainRvR(im){
-  var a=im.r1.per_user_day, b=im.r2.per_user_day, n=nf(im.cohort_users);
-  var how=`<b>Opens per CSP per day</b> = total opens ÷ ${n} CSPs ÷ days in the window. Dividing by both is what makes `+
-    `a ${im.r1.days}-day window comparable with a ${im.r2.days}-day one.`;
-  if(!a) return `<b>These ${n} CSPs never opened the help screen while round 1 was live</b>, so there is no percentage `+
-    `to compute — the rate went from zero to ${saySpeed(b)}.<br><br>${how}`;
-  var x=b/a, xs=x>=10?Math.round(x):x.toFixed(1);
-  return `<b>What ${(im.lift_pct>0?'+':'')+im.lift_pct}% means.</b> While round 1 was the only education live, these `+
-    `${n} CSPs opened the help screen ${saySpeed(a)}. Since round 2 went live they open it ${saySpeed(b)} — `+
-    `<b>${xs}× as often</b>. The percentage is only that ratio written as a change: (${b} − ${a}) ÷ ${a} × 100. `+
-    `It is a change in <i>rate</i>, not a claim that ${im.lift_pct}% more CSPs did something.<br><br>${how}`;
-}
-
 function renderRound2(data){
   var sec=document.getElementById('r2-sec');
   var builds=(!data?[]:(data.length!==undefined?data:[data])).filter(function(b){return b;});
@@ -570,17 +519,17 @@ function render(D0){
     `in-app — the education has already landed — so counting it would mark anyone who answered and then backgrounded `+
     `the app as a drop-out. For the record it fired <b>${nf(dt)}</b> times from <b>${nf(du)}</b> users.`;
 
-  if(TR.some(t=>t.impact&&t.impact.cohort_users)){
+  var IMPACTS=(D.impacts||[]).filter(x=>x&&x.impact&&x.impact.cohort_users);
+  if(IMPACTS.length){
     document.getElementById('impact-sec').style.display='';
-    document.getElementById('impact').innerHTML=TR.map(impactPanel).join('');
+    document.getElementById('impact').innerHTML=IMPACTS.map(impactPanel).join('');
     document.getElementById('impactnote').innerHTML=
       `<b>Read the per-user-per-day number, not the totals.</b> The before and after windows are very different `+
       `lengths, so raw opens and even the "opened at least once" share are biased toward the longer one — over `+
       `eleven days almost anyone eventually opens something. Only the rate is comparable.<br><br>`+
       `<b>Why this cohort.</b> Only people who answered the quiz are counted, and they appear on both sides — the `+
       `same CSPs before and after they saw the campaign. That cancels out differences in tenure, region and CSP mix `+
-      `that a "campaign users vs everyone else" split would leave in. Each trigger is measured against its own `+
-      `go-live date, so a trigger that launched later is compared with its own recent baseline.<br><br>`+
+      `that a "campaign users vs everyone else" split would leave in. <b>All three campaigns are measured the same way</b> — the same event, the same 11-day pre-window ending the day before that campaign went live, versus everything since — so the three lifts sit on the same footing and can be read against each other.<br><br>`+
       `<b>What it cannot rule out — read this before quoting a lift.</b> The cohort is <i>defined</i> by having `+
       `answered the quiz after go-live, so every one of them was demonstrably in the app then. Nothing guarantees `+
       `they were equally active across the before window, and an inactive day still counts as a day in the `+
@@ -604,7 +553,6 @@ function render(D0){
     `stamped on every event.`;
 
   renderRound2(D.round2);
-  renderRvR(D.r1_vs_r2);
 
   document.querySelectorAll('.fnl-step').forEach(el=>{
     el.addEventListener('mousemove',e=>showTip(decodeURIComponent(el.dataset.tip),e.clientX,e.clientY));

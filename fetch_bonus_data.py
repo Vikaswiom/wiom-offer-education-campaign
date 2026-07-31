@@ -377,50 +377,7 @@ def load_help_opens(frm, to):
     return opens
 
 
-def r1_vs_r2(cohort, opens, r1_live, r2_live, now_ist):
-    """For the CSPs who finished ROUND 2, how often did they open the help screen
-    while round 1 was the only education live, versus since round 2 went live?
-
-    Same people on both sides, so it isolates what round 2 added. These CSPs were
-    round-1 non-completers by construction — the round-1 window is what their
-    behaviour looked like while the video was the only thing on offer to them.
-    """
-    if not cohort or not r1_live or not r2_live or r2_live <= r1_live:
-        return None
-
-    def at(ts):
-        return datetime.datetime.strptime(str(ts), "%Y%m%d%H%M%S").replace(tzinfo=IST)
-
-    a, b = at(r1_live), at(r2_live)
-    days_a = max((b - a).total_seconds() / 86400, 1 / 24)
-    days_b = max((now_ist - b).total_seconds() / 86400, 1 / 24)
-
-    def window(lo, hi, days, label):
-        users, events = set(), 0
-        for _ident, csp, ts in opens:
-            if lo <= ts <= hi and csp and csp in cohort:
-                users.add(csp); events += 1
-        per = round(events / len(cohort) / days, 3) if days else 0
-        print(f"    {label:3s} {lo}->{hi}: {events} opens, {len(users)}/{len(cohort)} cohort, "
-              f"{per}/user/day over {days:.2f}d")
-        return {"users": len(users), "events": events, "days": round(days, 2),
-                "reach_pct": round(100 * len(users) / len(cohort)), "per_user_day": per}
-
-    wa = window(r1_live, r2_live - 1, days_a, "R1")
-    wb = window(r2_live, int(now_ist.strftime("%Y%m%d%H%M%S")), days_b, "R2")
-    lift = (round(100 * (wb["per_user_day"] - wa["per_user_day"]) / wa["per_user_day"])
-            if wa["per_user_day"] else None)
-    return {
-        "event": IMPACT_EVENT,
-        "cohort_event": "Bonus_Seva2_Flow_Completed",
-        "cohort_users": len(cohort),
-        "r1": dict(wa, label=f"{a.strftime('%d %b %H:%M')} → {b.strftime('%d %b %H:%M')}"),
-        "r2": dict(wb, label=f"since {b.strftime('%d %b %H:%M')}"),
-        "lift_pct": lift,
-    }
-
-
-def impact(cohort, opens, live_ts, now_ist):
+def impact(cohort, opens, live_ts, now_ist, key_idx=0):
     """Help-screen opens for this trigger's quiz cohort, before vs after ITS go-live.
 
     The before window is the PRE_DAYS days ending the day before go-live, so a
@@ -438,7 +395,8 @@ def impact(cohort, opens, live_ts, now_ist):
 
     def window(lo, hi, days, label):
         users, events = set(), 0
-        for ident, _csp, ts in opens:
+        for row in opens:
+            ident, ts = row[key_idx], row[2]
             if lo <= ts <= hi and ident and ident in cohort:
                 users.add(ident); events += 1
         per = round(events / len(cohort) / days, 3) if days else 0
@@ -581,9 +539,33 @@ def main():
 
     print("  --- round 2 (Home story) ---")
     r2, r2_cohorts = fetch_round2(frm, to)
-    r2_live = next((b["live_ts"] for b in r2 if b["key"] == R2_CURRENT), None)
-    print("  round 1 vs round 2, for the CSPs who finished round 2:")
-    r2_compare = r1_vs_r2(r2_cohorts.get(R2_CURRENT, set()), opens, earliest, r2_live, now_ist)
+    # One uniform before/after read per campaign, all on the same event and the
+    # same method (PRE_DAYS before its own go-live vs since), so the three can be
+    # laid side by side and actually compared.
+    impacts = [{"key": t["key"], "label": t["label"], "live_label": t["live_label"],
+                "cohort_label": "answered the quiz", "impact": t["impact"]}
+               for t in triggers if t.get("impact")]
+    for b in r2:
+        coh = r2_cohorts.get(b["key"], set())
+        im = impact(coh, opens, b["live_ts"], now_ist, key_idx=1)   # round 2 is cspid-keyed
+        if im:
+            im["cohort_event"] = "Bonus_Seva2_Flow_Completed"
+            # Round 2 launched last, so its 11-day baseline runs straight through
+            # the round-1 campaigns' live period — same contamination the later
+            # round-1 trigger carries, and it must be said here too.
+            if b["live_ts"]:
+                pre_to = day_add(str(b["live_ts"])[:8], -1)
+                lo = int(day_add(pre_to, -(PRE_DAYS - 1)) + "000000")
+                hi = int(pre_to + "235959")
+                im["pre_overlaps"] = [TRIGGER_LABEL.get(o, o) for o in keys
+                                      if live.get(o) and lo <= live[o] <= hi]
+            impacts.append({"key": b["key"], "label": b["label"], "live_label": b["live_label"],
+                            "cohort_label": "finished the story", "impact": im})
+    print("  --- before/after, one row per campaign ---")
+    for x in impacts:
+        i = x["impact"]
+        print(f"  {x['label'][:34]:36s} {i['pre']['per_user_day']} -> {i['post']['per_user_day']} "
+              f"/user/day  (lift {i['lift_pct']}%)  cohort {i['cohort_users']}")
 
     # headline totals: unique across triggers, so one CSP served by both is one person
     def union(k):
@@ -598,7 +580,7 @@ def main():
         "start_date": f"{frm[:4]}-{frm[4:6]}-{frm[6:8]}",
         "triggers": triggers,
         "round2": r2,
-        "r1_vs_r2": r2_compare,
+        "impacts": impacts,
         "totals": {"funnel": [{"key": k, "label": lbl, "event": ev,
                                "users": len(union(k)),
                                "events": sum(T[t]["counts"].get(k, 0) for t in keys)}
