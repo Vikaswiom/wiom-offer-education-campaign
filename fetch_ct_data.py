@@ -44,6 +44,15 @@ import os, sys, json, time, datetime, urllib.request, urllib.error
 # ---- config -----------------------------------------------------------------
 START_DATE = "20260716"                      # campaign launch (YYYYMMDD); override via argv[1]
 
+# CleverTap stamps this account's event `ts` in IST, and the CSPs are in IST, but a
+# GitHub runner's clock is UTC. Both places that ask "what day is it" must therefore
+# say IST explicitly:
+#   * the export's `to` date — between 00:00 and 05:30 IST, UTC is still on yesterday,
+#     so a UTC `to` silently drops everything that happened after midnight IST;
+#   * the `generated` stamp — a UTC stamp reads as 5h30m stale to anyone in India,
+#     which makes it impossible to tell a fresh snapshot from an old one.
+IST = datetime.timezone(datetime.timedelta(hours=5, minutes=30))
+
 APPS = [
     {"key": "csp",  "label": "CSP App",        "color": "#D9008D",
      "campaigns": ["1784201594", "1784207437"],
@@ -260,7 +269,7 @@ def is_tech(rec):
 # ---- pull -------------------------------------------------------------------
 def main():
     frm = sys.argv[1] if len(sys.argv) > 1 else START_DATE
-    to = datetime.date.today().strftime("%Y%m%d")
+    to = datetime.datetime.now(IST).strftime("%Y%m%d")   # IST, not the runner's UTC day
     print(f"CleverTap {REGION} · {frm} -> {to}")
     for a in APPS:
         print(f"  {a['label']:16s} campaigns {' + '.join(a['campaigns'])}")
@@ -559,7 +568,7 @@ def main():
     ) if len(APPS) == 2 else 0
 
     out = {
-        "generated": datetime.datetime.now().strftime("%Y-%m-%d %H:%M"),
+        "generated": datetime.datetime.now(IST).strftime("%Y-%m-%d %H:%M IST"),
         "sample": False,
         "region": REGION,
         "start_date": f"{frm[:4]}-{frm[4:6]}-{frm[6:8]}",

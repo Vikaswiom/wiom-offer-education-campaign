@@ -27,6 +27,11 @@ h1{font-size:24px;font-weight:900;letter-spacing:-.4px;margin:0;}
 .lg{display:flex;align-items:center;gap:7px;font-size:13px;font-weight:700;color:var(--ink);}
 .lg .sw{width:12px;height:12px;border-radius:4px;}
 .updated{margin-left:auto;font-size:12px;color:var(--faint);font-weight:500;}
+.updated b{color:var(--muted);font-weight:700;}
+.updated.isstale{color:var(--warn);}
+.updated.isstale b{color:var(--warn);}
+.staleflag{background:var(--warn-bg);border:1px solid #F2DCA8;color:#7A5200;border-radius:20px;
+  padding:2px 9px;font-size:11px;font-weight:800;margin-left:6px;white-space:nowrap;}
 
 section{margin-top:24px;}
 .h2{font-size:12px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;color:var(--faint);margin:0 0 12px;}
@@ -168,6 +173,26 @@ const FALLBACK={"generated":"(local preview — sample data)","sample":true,"reg
  {"key":"tech_offerpage","label":"Technician App · offer page","color":"#1D4ED8","variant":"offer_page","attribution":"event","campaigns":[],"campaigns_seen":[],"shown_by_campaign":[],"steps":[["shown","Page shown","TECH_Offer_Page_Shown"],["ok","Tapped ठीक है","TECH_Offer_Page_OK_Clicked"]],"funnel":{"shown":0,"ok":0},"ok_outside_shown":0,"options":[],"daily":[],"note":"Full-page offer creative (round 2), no quiz."}],
 "unattributed":{"edu_ok":4,"completed":2},"both_apps":0};
 
+// How old is this snapshot? The refresh is scheduled hourly, but GitHub's cron drops
+// most of the slots it is asked for, so "Updated: <time>" alone is not enough — a
+// four-hour-old number looks identical to a fresh one. Age is shown next to it.
+// `generated` now carries an explicit IST suffix; older snapshots were stamped in the
+// runner's UTC, so parse those as UTC rather than silently reading them 5h30m young.
+function ageMinutes(g){
+  const m=/^(\d{4})-(\d{2})-(\d{2})[ T](\d{2}):(\d{2})/.exec(g||'');
+  if(!m) return null;
+  const utc=Date.UTC(+m[1],+m[2]-1,+m[3],+m[4],+m[5]);
+  const epoch=/IST\s*$/.test(g)?utc-5.5*3600*1000:utc;
+  const mins=Math.round((Date.now()-epoch)/60000);
+  return mins>=0?mins:null;   // a clock-skewed future stamp tells us nothing
+}
+function ageText(mins){
+  if(mins===null) return '';
+  if(mins<2) return 'just now';
+  if(mins<60) return mins+' min ago';
+  const h=Math.floor(mins/60);
+  return h+'h '+(mins%60)+'m ago';
+}
 const tip=document.getElementById('tip');
 function showTip(html,x,y){tip.innerHTML=html;tip.style.opacity=1;const w=tip.offsetWidth;tip.style.left=Math.min(Math.max(x-w/2,8),innerWidth-w-8)+'px';tip.style.top=(y-tip.offsetHeight-12)+'px';}
 function hideTip(){tip.style.opacity=0;}
@@ -178,11 +203,13 @@ const esc=s=>(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&g
 function render(D){
   const steps=D.funnel_steps, A=D.apps||[];
   document.getElementById('banner').classList.toggle('show',!!D.sample);
-  document.getElementById('updated').textContent='Updated: '+(D.generated||'');
+  const age=ageMinutes(D.generated), stale=age!==null&&age>90;
+  const stamp='Updated: '+(D.generated||'')+(age===null?'':' · <b>'+ageText(age)+'</b>')+
+    (stale?' <span class="staleflag">stale — refresh has not run</span>':'');
 
   document.getElementById('legend').innerHTML=
     A.map(a=>`<span class="lg"><span class="sw" style="background:${a.color}"></span>${esc(a.label)}</span>`).join('')+
-    '<span class="updated">Updated: '+(D.generated||'')+'</span>';
+    '<span class="updated'+(stale?' isstale':'')+'">'+stamp+'</span>';
 
   // Three creatives run side by side: education+quiz, education-only, and the round-2
   // offer page. Keep their numbers apart — the headline is the quiz variant, the only
