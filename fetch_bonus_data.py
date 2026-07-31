@@ -252,11 +252,13 @@ def fetch_round2(frm, to):
         B[R2_CURRENT] = {"real": _r2_blank()}
 
     builds = []
+    cohorts = {}   # trigger -> set of cspids that COMPLETED, for the r1-vs-r2 read
     for t in sorted(B, key=lambda k: -(B[k]["real"]["first_ts"] or 0)):
         pair = B[t]
         shape = R2_FUNNEL_5 if t == R2_CURRENT else R2_FUNNEL_GENERIC
         real = _r2_view(pair["real"], shape)
         a = pair["real"]
+        cohorts[t] = set(a["u"].get("Flow_Completed", set()))
         first_ts = a["first_ts"]
         raw = sum(a["n"].values())
         known = [e for e in R2_EVENTS if a["n"].get(e)]
@@ -286,7 +288,7 @@ def fetch_round2(frm, to):
         keep.append(b)
     if not keep:
         keep = [b for b in builds if b["key"] == R2_CURRENT] or builds[:1]
-    return keep
+    return keep, cohorts
 
 
 # ---------------------------------------------------------------- impact ----
@@ -360,10 +362,62 @@ def load_help_opens(frm, to):
     opens = []
     for rec in F.export_event(IMPACT_EVENT, frm, to):
         ident = F.identity_of(rec)
-        if ident:
-            opens.append((ident, ts_of(rec)))
-    print(f"  {IMPACT_EVENT}: {len(opens)} records {frm}->{to} (fetched once, windowed per trigger)")
+        # cspid too: round 1's cohorts are identity-keyed, round 2's are cspid-keyed,
+        # and both read this same list.
+        opens.append((ident, csp_key(rec), ts_of(rec)))
+    withcsp = sum(1 for _i, c, _t in opens if c and c.startswith("csp:"))
+    print(f"  {IMPACT_EVENT}: {len(opens)} records {frm}->{to} (fetched once, windowed per trigger); "
+          f"{withcsp} carry a cspid")
+    if opens and not withcsp:
+        # The round-2 cohort is cspid-keyed. If these records only ever resolve to
+        # an identity, the two keyspaces never intersect and the round-1-vs-round-2
+        # panel reads a flat zero that looks like "no behaviour change".
+        print("  ::warning::no service_status_help_opened record carries a cspid — the "
+              "round-1-vs-round-2 comparison cannot match its cohort and will read zero")
     return opens
+
+
+def r1_vs_r2(cohort, opens, r1_live, r2_live, now_ist):
+    """For the CSPs who finished ROUND 2, how often did they open the help screen
+    while round 1 was the only education live, versus since round 2 went live?
+
+    Same people on both sides, so it isolates what round 2 added. These CSPs were
+    round-1 non-completers by construction — the round-1 window is what their
+    behaviour looked like while the video was the only thing on offer to them.
+    """
+    if not cohort or not r1_live or not r2_live or r2_live <= r1_live:
+        return None
+
+    def at(ts):
+        return datetime.datetime.strptime(str(ts), "%Y%m%d%H%M%S").replace(tzinfo=IST)
+
+    a, b = at(r1_live), at(r2_live)
+    days_a = max((b - a).total_seconds() / 86400, 1 / 24)
+    days_b = max((now_ist - b).total_seconds() / 86400, 1 / 24)
+
+    def window(lo, hi, days, label):
+        users, events = set(), 0
+        for _ident, csp, ts in opens:
+            if lo <= ts <= hi and csp and csp in cohort:
+                users.add(csp); events += 1
+        per = round(events / len(cohort) / days, 3) if days else 0
+        print(f"    {label:3s} {lo}->{hi}: {events} opens, {len(users)}/{len(cohort)} cohort, "
+              f"{per}/user/day over {days:.2f}d")
+        return {"users": len(users), "events": events, "days": round(days, 2),
+                "reach_pct": round(100 * len(users) / len(cohort)), "per_user_day": per}
+
+    wa = window(r1_live, r2_live - 1, days_a, "R1")
+    wb = window(r2_live, int(now_ist.strftime("%Y%m%d%H%M%S")), days_b, "R2")
+    lift = (round(100 * (wb["per_user_day"] - wa["per_user_day"]) / wa["per_user_day"])
+            if wa["per_user_day"] else None)
+    return {
+        "event": IMPACT_EVENT,
+        "cohort_event": "Bonus_Seva2_Flow_Completed",
+        "cohort_users": len(cohort),
+        "r1": dict(wa, label=f"{a.strftime('%d %b %H:%M')} → {b.strftime('%d %b %H:%M')}"),
+        "r2": dict(wb, label=f"since {b.strftime('%d %b %H:%M')}"),
+        "lift_pct": lift,
+    }
 
 
 def impact(cohort, opens, live_ts, now_ist):
@@ -384,8 +438,8 @@ def impact(cohort, opens, live_ts, now_ist):
 
     def window(lo, hi, days, label):
         users, events = set(), 0
-        for ident, ts in opens:
-            if lo <= ts <= hi and ident in cohort:
+        for ident, _csp, ts in opens:
+            if lo <= ts <= hi and ident and ident in cohort:
                 users.add(ident); events += 1
         per = round(events / len(cohort) / days, 3) if days else 0
         print(f"    {label:5s} {lo}->{hi}: {events} opens, {len(users)}/{len(cohort)} cohort, "
@@ -526,7 +580,10 @@ def main():
                   f"{im['cohort_shared']} CSPs shared with another trigger")
 
     print("  --- round 2 (Home story) ---")
-    r2 = fetch_round2(frm, to)
+    r2, r2_cohorts = fetch_round2(frm, to)
+    r2_live = next((b["live_ts"] for b in r2 if b["key"] == R2_CURRENT), None)
+    print("  round 1 vs round 2, for the CSPs who finished round 2:")
+    r2_compare = r1_vs_r2(r2_cohorts.get(R2_CURRENT, set()), opens, earliest, r2_live, now_ist)
 
     # headline totals: unique across triggers, so one CSP served by both is one person
     def union(k):
@@ -541,6 +598,7 @@ def main():
         "start_date": f"{frm[:4]}-{frm[4:6]}-{frm[6:8]}",
         "triggers": triggers,
         "round2": r2,
+        "r1_vs_r2": r2_compare,
         "totals": {"funnel": [{"key": k, "label": lbl, "event": ev,
                                "users": len(union(k)),
                                "events": sum(T[t]["counts"].get(k, 0) for t in keys)}

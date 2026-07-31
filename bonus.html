@@ -192,6 +192,12 @@ section{margin-top:24px;}
     </div>
   </section>
 
+  <section id="rvr-sec" style="display:none">
+    <div class="h2">Did round 2 move them? — round-1 period vs round-2 period</div>
+    <div class="panel" id="rvr"></div>
+    <div class="note" id="rvrnote"></div>
+  </section>
+
   <p class="foot" id="foot"></p>
 </div>
 <div class="tt" id="tip"></div>
@@ -356,6 +362,54 @@ function impactPanel(t,i){
    round-1 shape. It has shipped in two card layouts; each is bucketed on its own
    trigger, because card_index 2 means a different screen in each and blending
    them would produce a funnel that gains users at a step. */
+/* Round-1 period vs round-2 period, for the CSPs who finished round 2. Reuses
+   the same per-user-per-day machinery as the round-1 impact block above — the
+   windows are wildly different lengths, so only the rate is comparable. */
+function renderRvR(im){
+  var sec=document.getElementById('rvr-sec');
+  if(!im||!im.cohort_users){ sec.style.display='none'; return; }
+  sec.style.display='';
+  var L=im.lift_pct, cls=L==null?'flat':L>0?'up':L<0?'down':'flat';
+  var win=function(w,post,kicker){
+    return `<div class="win${post?' post':''}"><div class="wk">${kicker}</div>
+      <div class="wd">${esc(w.label)}<br>${w.days} day${w.days===1?'':'s'} of data</div>
+      <div class="wv">${w.per_user_day}</div><div class="wu">opens per CSP per day</div>
+      <div class="wx"><b>${nf(w.users)}</b> of ${nf(im.cohort_users)} opened it at least once <b>(${w.reach_pct}%)</b> · ${nf(w.events)} opens total</div></div>`;
+  };
+  document.getElementById('rvr').innerHTML=
+    `<div class="cohort">The same <b>${nf(im.cohort_users)}</b> CSPs who <b>finished round 2</b>, measured on `+
+    `<code>${esc(im.event)}</code> — the help screen the story teaches them to open.</div>`+
+    `<div class="cmp">${win(im.r1,false,'While round 1 was live')}`+
+    `<div class="lift ${cls}">${L==null?'—':(L>0?'+':'')+L+'%'}<small>per CSP per day</small></div>`+
+    `${win(im.r2,true,'Since round 2 went live')}</div>`+
+    `<div class="readout">${explainRvR(im)}</div>`;
+
+  document.getElementById('rvrnote').innerHTML=
+    `<b>Why these people.</b> Round 2 targets CSPs who never finished round 1, so the left-hand window is what their `+
+    `behaviour looked like while the video was the only education on offer to them — and they did not take it. The `+
+    `right-hand window is the same CSPs after the Home story landed. Same people on both sides, so CSP mix, tenure and `+
+    `region cancel out.<br><br>`+
+    `<b>Read the rate, not the totals.</b> The two windows are different lengths (${im.r1.days} days vs ${im.r2.days}), `+
+    `so raw opens and the "at least once" share both favour the longer one. Only opens-per-CSP-per-day is comparable.<br><br>`+
+    `<b>What it cannot rule out.</b> This cohort is <i>defined</i> by having completed round 2, so every one of them was `+
+    `demonstrably in the app after it launched — nothing guarantees they were as active during the round-1 window, and `+
+    `an inactive day still counts as a day in the denominator. A short right-hand window also swings hard on one busy `+
+    `evening. Treat an early number as a signal to keep watching, not a settled result.`;
+}
+
+function explainRvR(im){
+  var a=im.r1.per_user_day, b=im.r2.per_user_day, n=nf(im.cohort_users);
+  var how=`<b>Opens per CSP per day</b> = total opens ÷ ${n} CSPs ÷ days in the window. Dividing by both is what makes `+
+    `a ${im.r1.days}-day window comparable with a ${im.r2.days}-day one.`;
+  if(!a) return `<b>These ${n} CSPs never opened the help screen while round 1 was live</b>, so there is no percentage `+
+    `to compute — the rate went from zero to ${saySpeed(b)}.<br><br>${how}`;
+  var x=b/a, xs=x>=10?Math.round(x):x.toFixed(1);
+  return `<b>What ${(im.lift_pct>0?'+':'')+im.lift_pct}% means.</b> While round 1 was the only education live, these `+
+    `${n} CSPs opened the help screen ${saySpeed(a)}. Since round 2 went live they open it ${saySpeed(b)} — `+
+    `<b>${xs}× as often</b>. The percentage is only that ratio written as a change: (${b} − ${a}) ÷ ${a} × 100. `+
+    `It is a change in <i>rate</i>, not a claim that ${im.lift_pct}% more CSPs did something.<br><br>${how}`;
+}
+
 function renderRound2(data){
   var sec=document.getElementById('r2-sec');
   var builds=(!data?[]:(data.length!==undefined?data:[data])).filter(function(b){return b;});
@@ -420,14 +474,9 @@ function round2Body(v,shown){
       <div class="qbar"><span style="width:${pct(q.users,maxQ)}%"></span></div></div>`;
   }).join('')||'<div class="caphint">No ✕ taps recorded yet.</div>';
 
-  var help=(v.help_metrics||[]).map(function(m){
-    return `<div class="stat"><span>${esc(m.label||m.metric)}</span><b>${nf(m.users)}</b></div>`;
-  }).join('')||'<div class="caphint">No (?) taps recorded yet.</div>';
-
   return steps+exitRow+
-    `<div class="r2split">`+
+    `<div class="r2split" style="grid-template-columns:1fr">`+
       `<div><div class="r2h">Where they tapped ✕</div>${quits}</div>`+
-      `<div><div class="r2h">Which (?) they opened</div>${help}</div>`+
     `</div>`;
 }
 
@@ -555,6 +604,7 @@ function render(D0){
     `stamped on every event.`;
 
   renderRound2(D.round2);
+  renderRvR(D.r1_vs_r2);
 
   document.querySelectorAll('.fnl-step').forEach(el=>{
     el.addEventListener('mousemove',e=>showTip(decodeURIComponent(el.dataset.tip),e.clientX,e.clientY));
