@@ -180,6 +180,16 @@ section{margin-top:24px;}
     <div class="h2">Round 2 — Home story (no video) <span class="r2tag">Bonus_Seva2_*</span></div>
     <div class="panel" id="r2"></div>
     <div class="note" id="r2note"></div>
+
+    <div class="h2" style="margin-top:26px">Round 2 creative — the five cards</div>
+    <div class="panel">
+      <a class="shotwrap" href="bonus_screens_r2.png" target="_blank" rel="noopener">
+        <img class="shot" src="bonus_screens_r2.png"
+             alt="The five Home-story cards: the gift asking अगला बोनस कब, the 16 अगस्त reveal, the 1–15 window with the payday tile as a bonus meter, where सेवा स्थिति lives on Home, the (?) button answered, and the handoff into the real Sewa Sthiti">
+      </a>
+      <div class="caphint">Tap the strip to open it full size.</div>
+      <div class="cap" id="r2cap"></div>
+    </div>
   </section>
 
   <p class="foot" id="foot"></p>
@@ -353,6 +363,29 @@ function renderRound2(data){
   sec.style.display='';
   document.getElementById('r2').innerHTML=builds.map(round2Panel).join('');
   document.getElementById('r2note').innerHTML=round2Note(builds);
+  document.getElementById('r2cap').innerHTML=round2Cap(builds[0]);
+}
+
+/* Ties each screen in the strip to the event it fires and to where people
+   actually left, so the picture and the funnel are read together. */
+function round2Cap(b){
+  var q={}; (b.quits||[]).forEach(function(x){q[x.name]=x.users;});
+  var lost=function(n){return q[n]?` <b>${nf(q[n])} left here.</b>`:'';};
+  return `<b>0 · अगला बोनस कब?</b> — the gift carries a hang tag asking the question the card answers. `+
+    `Opening it fires <code>Bonus_Seva2_Gift_Opened</code> and reveals <b>16 अगस्त</b>; the CTA only appears after `+
+    `that, so the reveal is earned rather than skipped.${lost('hero_gift')}<br>`+
+    `<b>1 · the 15 days + the rule</b> — one screen does the work two used to. The calendar fills 1–15 on its own, `+
+    `then the green <b>16 अगस्त</b> payday tile doubles as the bonus meter: coins collect on it and it grows when the `+
+    `quality pill moves to बहुत अच्छी. Nothing is asked of the CSP — the pills unlock afterwards for an optional `+
+    `replay, logged as <code>Bonus_Seva2_Quality_Toggled</code>.${lost('window_rule')}<br>`+
+    `<b>2 · where सेवा स्थिति lives</b> — the real Home strip, other chips dimmed to <b>···</b> so no fake ₹ figure `+
+    `appears on "his" home page. The chip is the only way forward, which is what makes it a rehearsal rather than a `+
+    `caption.${lost('home_chip')}<br>`+
+    `<b>3 · the (?) button</b> — both (?) rows answer, matching the promise that every line has one. समझ गया unlocks `+
+    `by doing, not by a timer — the exact thing round 1's 45-second gate got wrong.${lost('help_icon')}<br>`+
+    `<b>4 · handoff</b> — <b>अपनी सेवा स्थिति देखें</b> deep-links into the real Quality Drilldown at `+
+    `<code>csp.wiom.in/assurance/quality</code> while curiosity is highest; ठीक है stays as a plain text exit.`+
+    `${lost('done')}`;
 }
 
 function round2Head(r2){
