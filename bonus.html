@@ -341,10 +341,27 @@ function impactPanel(t,i){
 /* Round 2 is a different creative with different event names and a different
    funnel shape, so it gets its own block rather than being bent into the
    round-1 shape. Renders a pending state until the campaign's first real fire. */
-function renderRound2(r2){
+/* Round 2 is a different creative with different event names and a different
+   funnel shape, so it gets its own block rather than being bent into the
+   round-1 shape. It has shipped in two card layouts; each is bucketed on its own
+   trigger, because card_index 2 means a different screen in each and blending
+   them would produce a funnel that gains users at a step. */
+function renderRound2(data){
   var sec=document.getElementById('r2-sec');
-  if(!r2){ sec.style.display='none'; return; }
+  var builds=(!data?[]:(data.length!==undefined?data:[data])).filter(function(b){return b;});
+  if(!builds.length){ sec.style.display='none'; return; }
   sec.style.display='';
+  document.getElementById('r2').innerHTML=builds.map(round2Panel).join('');
+  document.getElementById('r2note').innerHTML=round2Note(builds);
+}
+
+function round2Head(r2){
+  return `<div class="thead"><div><div class="tn">${esc(r2.label||'Home story')}</div>
+    <div class="tl">${r2.live_label?'live '+esc(r2.live_label):'&nbsp;'}</div></div>
+    <div class="tb alt">${nf(r2.shown||0)} shown</div></div>`;
+}
+
+function round2Panel(r2){
   var shown=r2.shown||0;
   var F=keyed(r2.funnel);
   var done=(F.completed||{}).users||0;
@@ -353,9 +370,9 @@ function renderRound2(r2){
 
   if(!shown){
     var raw=r2.raw_events||0, ok=r2.events_confirmed||[], no=r2.events_unseen||[];
-    var chips=function(list,cls){return list.map(function(e){
-      return `<code style="background:${cls};padding:1px 6px;border-radius:5px;margin:0 4px 4px 0;display:inline-block">Bonus_Seva2_${esc(e)}</code>`;}).join('');};
-    document.getElementById('r2').innerHTML=
+    var chips=function(list,bg){return list.map(function(e){
+      return `<code style="background:${bg};padding:1px 6px;border-radius:5px;margin:0 4px 4px 0;display:inline-block">Bonus_Seva2_${esc(e)}</code>`;}).join('');};
+    return `<div class="panel">`+round2Head(r2)+
       `<div class="pend">⏳ <b>Not live to real CSPs yet.</b> `+
       (raw
         ? `But <b>${nf(raw)} events have already fired</b> from test profiles — the internal test CSP is excluded from `+
@@ -368,14 +385,7 @@ function renderRound2(r2){
       (raw?`<div style="margin-top:13px">`+
         `<div class="r2h">Confirmed reaching CleverTap</div><div>${chips(ok,'var(--good-bg)')}</div>`+
         (no.length?`<div class="r2h" style="margin-top:12px">Not fired even in testing</div><div>${chips(no,'var(--warn-bg)')}</div>`:'')+
-      `</div>`:'');
-    document.getElementById('r2note').innerHTML=
-      `<b>What this will show.</b> The Home story replaces the 45s video for CSPs who never answered the round-1 quiz. `+
-      `Because every card advance is its own event, this block can show <b>which card loses people</b> — round 1 could `+
-      `only say "the video". The final CTA deep-links into Sewa Sthiti, so `+
-      `<code>Bonus_Seva2_Flow_Completed</code> carries an <b>exit</b> property splitting completion into `+
-      `"walked into the app" and "just acknowledged".`;
-    return;
+      `</div>`:'')+`</div>`;
   }
 
   var steps=(r2.funnel||[]).map(function(s,i,arr){
@@ -383,14 +393,14 @@ function renderRound2(r2){
     var prev=i>0?arr[i-1].users:s.users, drop=prev-s.users, dp=pct(drop,prev);
     var dropTxt=i===0?'':(drop>0?'↓ '+drop+' dropped (−'+dp+'%)':'✓ all continued');
     return `<div class="fnl-step">
-      <div class="lbl"><span class="nm">${esc(s.label)}</span><span class="vl">${nf(s.users)} <small>${p}%</small></span></div>
+      <div class="lbl"><span class="nm">${esc(s.label)}<small>${esc(s.event||'')}</small></span><span class="vl">${nf(s.users)} <small>${p}%</small></span></div>
       <div class="trk"><div class="br" style="width:${Math.min(p,100)}%"></div></div>
       <div class="dp ${drop>0?'':'zero'}"><span>${dropTxt}</span>${s.events?`<span class="ev">fired ${nf(s.events)} times</span>`:''}</div></div>`;
   }).join('');
 
   var maxQ=Math.max(1,...(r2.quits||[]).map(function(q){return q.users;}));
   var quits=(r2.quits||[]).map(function(q){
-    return `<div class="qrow"><div class="ql"><span class="qt">Card ${esc(q.label)}</span><b>${nf(q.users)}</b></div>
+    return `<div class="qrow"><div class="ql"><span class="qt">${esc(q.label)}</span><b>${nf(q.users)}</b></div>
       <div class="qbar"><span style="width:${pct(q.users,maxQ)}%"></span></div></div>`;
   }).join('')||'<div class="caphint">No ✕ taps recorded yet.</div>';
 
@@ -398,10 +408,7 @@ function renderRound2(r2){
     return `<div class="stat"><span>${esc(m.label||m.metric)}</span><b>${nf(m.users)}</b></div>`;
   }).join('')||'<div class="caphint">No (?) taps recorded yet.</div>';
 
-  document.getElementById('r2').innerHTML=
-    `<div class="thead"><div><div class="tn">Home story · six cards, no video</div>
-      <div class="tl">${r2.live_label?'live '+esc(r2.live_label):'&nbsp;'}</div></div>
-      <div class="tb alt">${nf(shown)} shown</div></div>`+
+  return `<div class="panel">`+round2Head(r2)+
     `<div class="hero">`+
       `<div><div class="hv">${nf(done)}</div><div class="hk">Completed the story</div><div class="hd">${pct(done,shown)}% of shown</div></div>`+
       `<div><div class="hv good">${nf(into)}</div><div class="hk">Walked into सेवा स्थिति</div><div class="hd">${pct(into,done)}% of completers · ${pct(into,shown)}% of shown</div></div>`+
@@ -412,12 +419,19 @@ function renderRound2(r2){
     `<div class="r2split">`+
       `<div><div class="r2h">Where they tapped ✕</div>${quits}</div>`+
       `<div><div class="r2h">Which (?) they opened</div>${help}</div>`+
-    `</div>`;
+    `</div></div>`;
+}
 
-  document.getElementById('r2note').innerHTML=
-    `<b>Cards 1–3 are counted from <code>Card_Viewed</code>'s <code>card_index</code></b>, so this funnel shows which `+
-    `card loses people — the thing round 1 could not answer. Cards 4 and 5 are reached by the chip tap and the `+
-    `(?) tap respectively, so those two steps stand in for them rather than being listed twice.<br><br>`+
+function round2Note(builds){
+  var multi=builds.length>1;
+  return (multi?`<b>Two card layouts, kept apart.</b> The story shipped as six cards and then as five, after the `+
+      `"1–15 window" and "the rule" screens were merged into one. That shifted every later `+
+      `<code>card_index</code> down by one, so index 2 names a different screen in each build. They are bucketed on `+
+      `their <code>trigger</code> and never summed — blending them would produce a funnel that gains users at a step. `+
+      `Screens are labelled from the creative's stable <code>card_name</code>, not the index.<br><br>`:'')+
+    `<b>The steps are the taps, not the arrivals.</b> Tapping the सेवा स्थिति chip is what carries the CSP to the `+
+    `(?) card, and tapping a (?) is what unlocks the handoff. Counting those card arrivals as separate steps as well `+
+    `would count the same people twice and put a step ahead of the tap that causes it.<br><br>`+
     `<b>"Walked into सेवा स्थिति" is the point of the whole redesign.</b> It counts `+
     `<code>Bonus_Seva2_GoTo_SevaSthiti</code> — CSPs who took the deep link into the real Quality Drilldown instead of `+
     `dismissing. Read it against completers, not against shown: everyone who got that far had already finished.<br><br>`+

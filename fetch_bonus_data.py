@@ -54,46 +54,69 @@ DROPOFFS = [
 ]
 
 # --------------------------------------------------------------- round 2 ----
-# The Home-story creative (bonus-seva-home-story.html) replaces the video for
-# CSPs who never answered the round-1 quiz. Entirely different event names, so it
-# cannot ride the trigger split above — the round-1 loop never sees these at all.
-# Reported as its own block instead of being forced into the round-1 funnel shape.
+# The Home-story creative replaces the video for CSPs who never answered the
+# round-1 quiz. Entirely different event names, so it cannot ride the trigger
+# split used for round 1 — the round-1 loop never sees these at all.
 #
-# Completion still means the education landed; the `exit` property then splits
-# that into "walked into the app" vs "just acknowledged", which round 1 had no
-# way to tell apart.
+# The creative has shipped in two shapes. The six-card build merged its "1–15
+# window" and "the rule" cards into one, which shifted every later card_index
+# down by one, so index 2 means a different screen in each. The creative marks
+# that with a different `trigger` value AND stamps a stable `card_name` on every
+# card event. We bucket on trigger and label from card_name, never from the
+# index, so the two builds can never blend into one nonsense funnel.
 R2 = "Bonus_Seva2_"
 R2_EVENTS = ["Story_Viewed", "Gift_Opened", "Card_Viewed", "Quality_Toggled",
              "Chip_Tapped", "Help_Tapped", "GoTo_SevaSthiti", "Flow_Completed", "Dismissed"]
-R2_FUNNEL = [
-    ("shown",     "Story shown",                    "Bonus_Seva2_Story_Viewed"),
-    ("gift",      "Opened the gift",                "Bonus_Seva2_Gift_Opened"),
-    ("card1",     "Card 1 · the 15 days",           "Bonus_Seva2_Card_Viewed"),
-    ("card2",     "Card 2 · quality → bonus",       "Bonus_Seva2_Card_Viewed"),
-    ("card3",     "Card 3 · find the chip",         "Bonus_Seva2_Card_Viewed"),
-    ("chip",      "Tapped the सेवा स्थिति chip",      "Bonus_Seva2_Chip_Tapped"),
-    ("help",      "Tapped the (?) button",          "Bonus_Seva2_Help_Tapped"),
-    ("completed", "Completed the story",            "Bonus_Seva2_Flow_Completed"),
-]
-CARD_LABEL = {0: "0 · hero / gift", 1: "1 · the 15 days", 2: "2 · quality → bonus",
-              3: "3 · find the chip", 4: "4 · the (?) button", 5: "5 · handoff"}
+
+R2_BUILD_LABEL = {
+    "home_story_r2_5card": "Home story · 5 cards",
+    "home_story_r2": "Home story · 6 cards (superseded)",
+}
+# Screens by their stable name. Index is deliberately absent — it moved.
+CARD_NAME_LABEL = {
+    "hero_gift":   "hero · the gift",
+    "window_rule": "1–15 अगस्त + the rule",
+    "home_chip":   "where सेवा स्थिति lives",
+    "help_icon":   "the (?) button",
+    "done":        "handoff",
+}
 # the two drilldown rows the (?) buttons sit next to, as the CSP reads them
 METRIC_LABEL = {"samay_par_kaam": "समय पर काम", "grahak_ki_santushti": "ग्राहक की संतुष्टि"}
 
+# Funnel for the shipping five-card build. Chip_Tapped is what CARRIES the CSP
+# to the help_icon card and Help_Tapped is what unlocks the handoff, so those
+# taps stand in for those two screens — listing the card arrivals as well would
+# count the same people twice and, worse, put a step before the tap that causes it.
+R2_FUNNEL_5 = [
+    ("shown",       "Story shown",                   "Story_Viewed"),
+    ("gift",        "Opened the gift",               "Gift_Opened"),
+    ("window_rule", "1–15 अगस्त + the rule",          "Card_Viewed"),
+    ("home_chip",   "Where सेवा स्थिति lives",         "Card_Viewed"),
+    ("chip",        "Tapped the सेवा स्थिति chip",     "Chip_Tapped"),
+    ("help",        "Tapped the (?) button",         "Help_Tapped"),
+    ("completed",   "Completed the story",           "Flow_Completed"),
+]
+# Any other build: index-agnostic, so it stays correct whatever the cards were.
+R2_FUNNEL_GENERIC = [
+    ("shown",     "Story shown",                "Story_Viewed"),
+    ("gift",      "Opened the gift",            "Gift_Opened"),
+    ("chip",      "Tapped the सेवा स्थिति chip",  "Chip_Tapped"),
+    ("help",      "Tapped the (?) button",      "Help_Tapped"),
+    ("completed", "Completed the story",        "Flow_Completed"),
+]
+
+
+def _r2_blank():
+    return {"u": {}, "n": {}, "cards": {}, "quits": {}, "exits": {},
+            "metrics": {}, "first_ts": 0}
+
 
 def fetch_round2(frm, to):
-    u = {}          # key -> set(identity)
-    n = {}          # key -> raw event count
-    cards = {}      # card_index -> set(identity)
-    quits = {}      # card_index -> [set(identity), count]  where the x was tapped
-    exits = {}      # exit value -> set(identity)
-    metrics = {}    # (?) metric -> set(identity)
-    first_ts = 0
+    """Bucket every Bonus_Seva2_* event by its trigger, one build per bucket."""
+    B = {}
 
-    def add(k, ident):
-        u.setdefault(k, set())
-        if ident:
-            u[k].add(ident)
+    def acc(t):
+        return B.setdefault(t, _r2_blank())
 
     for name in R2_EVENTS:
         ev, seen = R2 + name, 0
@@ -101,91 +124,96 @@ def fetch_round2(frm, to):
             seen += 1
             ident = F.identity_of(rec)
             props = F.props_of(rec)
-            if name == "Story_Viewed":
-                add("shown", ident)
-                ts = ts_of(rec)
-                first_ts = min(first_ts, ts) if first_ts and ts else (ts or first_ts)
-            elif name == "Gift_Opened":
-                add("gift", ident)
-            elif name == "Card_Viewed":
-                try:
-                    ci = int(props.get("card_index", -1))
-                except (TypeError, ValueError):
-                    ci = -1
-                if ci >= 0 and ident:
-                    cards.setdefault(ci, set()).add(ident)
-                if ci in (1, 2, 3):
-                    add("card%d" % ci, ident)
-            elif name == "Quality_Toggled":
-                add("toggled", ident)
-            elif name == "Chip_Tapped":
-                add("chip", ident)
+            a = acc(trigger_of(props) if props.get("trigger") else "home_story_r2")
+            a["n"][name] = a["n"].get(name, 0) + 1
+            cname = str(props.get("card_name", "") or "")
+            try:
+                ci = int(props.get("card_index", -1))
+            except (TypeError, ValueError):
+                ci = -1
+
+            if name == "Card_Viewed":
+                if ident and (cname or ci >= 0):
+                    a["cards"].setdefault(cname or ("index_%d" % ci), {"idx": ci, "u": set()})["u"].add(ident)
+            elif name == "Dismissed":
+                q = a["quits"].setdefault(cname or ("index_%d" % ci), {"idx": ci, "u": set(), "n": 0})
+                q["n"] += 1
+                if ident:
+                    q["u"].add(ident)
             elif name == "Help_Tapped":
-                add("help", ident)
                 m = str(props.get("metric", "") or "")
                 if m and ident:
-                    metrics.setdefault(m, set()).add(ident)
-            elif name == "GoTo_SevaSthiti":
-                add("goto", ident)
+                    a["metrics"].setdefault(m, set()).add(ident)
             elif name == "Flow_Completed":
-                add("completed", ident)
                 x = str(props.get("exit", "") or "unknown")
                 if ident:
-                    exits.setdefault(x, set()).add(ident)
-            elif name == "Dismissed":
-                add("dismissed", ident)
-                try:
-                    ci = int(props.get("card_index", -1))
-                except (TypeError, ValueError):
-                    ci = -1
-                if ci >= 0:
-                    q = quits.setdefault(ci, [set(), 0])
-                    q[1] += 1
-                    if ident:
-                        q[0].add(ident)
-        n[name] = seen
-        print(f"  {ev:34s} -> {seen} events")
+                    a["exits"].setdefault(x, set()).add(ident)
+            elif name == "Story_Viewed":
+                ts = ts_of(rec)
+                a["first_ts"] = min(a["first_ts"], ts) if a["first_ts"] and ts else (ts or a["first_ts"])
 
-    shown = len(u.get("shown", set()))
-    raw = sum(n.values())
-    known = [name for name in R2_EVENTS if n.get(name)]
-    unknown = [name for name in R2_EVENTS if not n.get(name)]
-    # Raw fires with nobody attributable means test traffic: identity_of() returns
-    # None for the excluded internal CSP, so those events count but no user does.
-    # Worth saying out loud — it is proof the instrumentation works before launch.
-    if not shown:
-        if raw:
-            print(f"  round 2 not live to real CSPs yet, but {raw} events have fired from excluded/test "
-                  f"profiles — {len(known)}/{len(R2_EVENTS)} event names confirmed reaching CleverTap")
+            if ident:
+                a["u"].setdefault(name, set()).add(ident)
+        if seen:
+            print(f"  {ev:34s} -> {seen} events")
         else:
-            print("  round 2 not live yet (no events at all) — reporting a pending block")
+            print(f"  {ev:34s} -> 0 events")
 
-    ev_of = {k: lbl_ev for k, _, lbl_ev in [(a, b, c) for a, b, c in R2_FUNNEL]}
-    return {
-        "live_ts": first_ts or None,
-        "live_label": (datetime.datetime.strptime(str(first_ts), "%Y%m%d%H%M%S")
-                       .strftime("%d %b %Y, %H:%M IST") if first_ts else None),
-        "shown": shown,
-        "funnel": [{"key": k, "label": lbl, "event": ev_of[k],
-                    "users": len(u.get(k, set())),
-                    "events": n.get(ev_of[k].replace(R2, ""), 0) if k in ("shown", "gift", "chip", "help", "completed") else None}
-                   for k, lbl, _ in R2_FUNNEL],
-        "cards": [{"index": i, "label": CARD_LABEL.get(i, str(i)), "users": len(cards.get(i, set()))}
-                  for i in sorted(cards)] or
-                 [{"index": i, "label": CARD_LABEL[i], "users": 0} for i in range(6)],
-        "quits": [{"index": i, "label": CARD_LABEL.get(i, str(i)),
-                   "users": len(quits[i][0]), "events": quits[i][1]} for i in sorted(quits)],
-        "exits": {k: len(v) for k, v in exits.items()},
-        "goto": {"users": len(u.get("goto", set())), "events": n.get("GoTo_SevaSthiti", 0)},
-        "toggled": {"users": len(u.get("toggled", set())), "events": n.get("Quality_Toggled", 0)},
-        "help_metrics": [{"metric": m, "label": METRIC_LABEL.get(m, m), "users": len(s)}
-                         for m, s in sorted(metrics.items(), key=lambda kv: -len(kv[1]))],
-        "dismissed_total": {"users": len(u.get("dismissed", set())), "events": n.get("Dismissed", 0)},
-        # pre-launch instrumentation check, surfaced on the pending panel
-        "raw_events": raw,
-        "events_confirmed": known,
-        "events_unseen": unknown,
-    }
+    if not B:
+        B["home_story_r2_5card"] = _r2_blank()
+
+    builds = []
+    # newest build first: the one with the latest first-fire, unknown last
+    for t in sorted(B, key=lambda k: -(B[k]["first_ts"] or 0)):
+        a = B[t]
+        shape = R2_FUNNEL_5 if t == "home_story_r2_5card" else R2_FUNNEL_GENERIC
+
+        def users_for(key, ev):
+            if ev == "Card_Viewed":
+                c = a["cards"].get(key)
+                return len(c["u"]) if c else 0
+            return len(a["u"].get(ev, set()))
+
+        raw = sum(a["n"].values())
+        known = [e for e in R2_EVENTS if a["n"].get(e)]
+        shown = len(a["u"].get("Story_Viewed", set()))
+        cards = sorted(a["cards"].items(), key=lambda kv: kv[1]["idx"])
+        quits = sorted(a["quits"].items(), key=lambda kv: kv[1]["idx"])
+        builds.append({
+            "key": t,
+            "label": R2_BUILD_LABEL.get(t, t.replace("_", " ")),
+            "live_ts": a["first_ts"] or None,
+            "live_label": (datetime.datetime.strptime(str(a["first_ts"]), "%Y%m%d%H%M%S")
+                           .strftime("%d %b %Y, %H:%M IST") if a["first_ts"] else None),
+            "shown": shown,
+            "funnel": [{"key": k, "label": lbl, "event": R2 + ev,
+                        "users": users_for(k, ev),
+                        "events": a["n"].get(ev, 0) if ev != "Card_Viewed" else None}
+                       for k, lbl, ev in shape],
+            "cards": [{"name": nm, "index": v["idx"],
+                       "label": CARD_NAME_LABEL.get(nm, nm), "users": len(v["u"])}
+                      for nm, v in cards],
+            "quits": [{"name": nm, "index": v["idx"],
+                       "label": CARD_NAME_LABEL.get(nm, nm), "users": len(v["u"]), "events": v["n"]}
+                      for nm, v in quits],
+            "exits": {k: len(v) for k, v in a["exits"].items()},
+            "goto": {"users": len(a["u"].get("GoTo_SevaSthiti", set())), "events": a["n"].get("GoTo_SevaSthiti", 0)},
+            "toggled": {"users": len(a["u"].get("Quality_Toggled", set())), "events": a["n"].get("Quality_Toggled", 0)},
+            "help_metrics": [{"metric": m, "label": METRIC_LABEL.get(m, m), "users": len(s)}
+                             for m, s in sorted(a["metrics"].items(), key=lambda kv: -len(kv[1]))],
+            "dismissed_total": {"users": len(a["u"].get("Dismissed", set())), "events": a["n"].get("Dismissed", 0)},
+            # pre-launch instrumentation check, surfaced on the pending panel
+            "raw_events": raw,
+            "events_confirmed": known,
+            "events_unseen": [e for e in R2_EVENTS if not a["n"].get(e)],
+        })
+        if not shown:
+            if raw:
+                print(f"  {t}: not live to real CSPs yet, but {raw} events fired from excluded/test "
+                      f"profiles — {len(known)}/{len(R2_EVENTS)} event names confirmed reaching CleverTap")
+            else:
+                print(f"  {t}: no events at all — pending")
+    return builds
 
 
 # ---------------------------------------------------------------- impact ----
@@ -459,10 +487,11 @@ def main():
         if im:
             line += f" | impact {im['pre']['per_user_day']}->{im['post']['per_user_day']} (lift {im['lift_pct']}%)"
         print(line)
-    rf = {x["key"]: x["users"] for x in r2["funnel"]}
-    print(f"  round2           shown={rf['shown']} gift={rf['gift']} chip={rf['chip']} "
-          f"help={rf['help']} completed={rf['completed']} ({p(rf['completed'], rf['shown'])}% of shown) "
-          f"| into app={r2['goto']['users']} exits={r2['exits']}")
+    for b in r2:
+        rf = {x["key"]: x["users"] for x in b["funnel"]}
+        print(f"  {b['key']:22s} shown={rf['shown']} gift={rf['gift']} chip={rf['chip']} "
+              f"help={rf['help']} completed={rf['completed']} ({p(rf['completed'], rf['shown'])}% of shown) "
+              f"| into app={b['goto']['users']} exits={b['exits']}")
 
 
 if __name__ == "__main__":
