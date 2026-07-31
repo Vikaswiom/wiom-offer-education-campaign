@@ -1,5 +1,5 @@
 {
-  "generated": "2026-07-31 10:44 IST",
+  "generated": "2026-07-31 10:46 IST",
   "region": "eu1",
   "start_date": "2026-07-27",
   "triggers": [
@@ -13,22 +13,22 @@
           "key": "intro_viewed",
           "label": "Popup shown",
           "event": "Bonus_Seva_Intro_Viewed",
-          "users": 412,
-          "events": 554
+          "users": 413,
+          "events": 555
         },
         {
           "key": "learn_more",
           "label": "Tapped और जानें",
           "event": "Bonus_Seva_LearnMore_Clicked",
-          "users": 307,
-          "events": 367
+          "users": 308,
+          "events": 368
         },
         {
           "key": "video_played",
           "label": "Video started",
           "event": "Bonus_Seva_Video_Played",
-          "users": 306,
-          "events": 366
+          "users": 307,
+          "events": 367
         },
         {
           "key": "understood",
@@ -47,8 +47,8 @@
       ],
       "dropoffs": {
         "intro_dismissed": {
-          "users": 121,
-          "events": 135
+          "users": 122,
+          "events": 136
         },
         "video_dismissed": {
           "users": 170,
@@ -182,7 +182,7 @@
         },
         {
           "date": "2026-07-31",
-          "intro_viewed": 34,
+          "intro_viewed": 35,
           "completed": 3
         }
       ]
@@ -276,80 +276,6 @@
       "events_unseen": [
         "Dismissed"
       ]
-    },
-    {
-      "key": "home_story_r2",
-      "label": "Home story · 6 cards (superseded)",
-      "live_ts": 20260730152358,
-      "live_label": "30 Jul 2026, 15:23 IST",
-      "shown": 0,
-      "funnel": [
-        {
-          "key": "shown",
-          "label": "Story shown",
-          "event": "Bonus_Seva2_Story_Viewed",
-          "users": 0,
-          "events": 2
-        },
-        {
-          "key": "gift",
-          "label": "Opened the gift",
-          "event": "Bonus_Seva2_Gift_Opened",
-          "users": 0,
-          "events": 2
-        },
-        {
-          "key": "chip",
-          "label": "Tapped the सेवा स्थिति chip",
-          "event": "Bonus_Seva2_Chip_Tapped",
-          "users": 0,
-          "events": 2
-        },
-        {
-          "key": "help",
-          "label": "Tapped the (?) button",
-          "event": "Bonus_Seva2_Help_Tapped",
-          "users": 0,
-          "events": 3
-        },
-        {
-          "key": "completed",
-          "label": "Completed the story",
-          "event": "Bonus_Seva2_Flow_Completed",
-          "users": 0,
-          "events": 2
-        }
-      ],
-      "cards": [],
-      "quits": [],
-      "exits": {},
-      "goto": {
-        "users": 0,
-        "events": 2
-      },
-      "toggled": {
-        "users": 0,
-        "events": 1
-      },
-      "help_metrics": [],
-      "dismissed_total": {
-        "users": 0,
-        "events": 0
-      },
-      "raw_events": 24,
-      "events_confirmed": [
-        "Story_Viewed",
-        "Gift_Opened",
-        "Card_Viewed",
-        "Quality_Toggled",
-        "Chip_Tapped",
-        "Help_Tapped",
-        "GoTo_SevaSthiti",
-        "Flow_Completed"
-      ],
-      "events_unseen": [
-        "Dismissed"
-      ]
     }
   ],
   "totals": {
@@ -358,22 +284,22 @@
         "key": "intro_viewed",
         "label": "Popup shown",
         "event": "Bonus_Seva_Intro_Viewed",
-        "users": 412,
-        "events": 554
+        "users": 413,
+        "events": 555
       },
       {
         "key": "learn_more",
         "label": "Tapped और जानें",
         "event": "Bonus_Seva_LearnMore_Clicked",
-        "users": 307,
-        "events": 367
+        "users": 308,
+        "events": 368
       },
       {
         "key": "video_played",
         "label": "Video started",
         "event": "Bonus_Seva_Video_Played",
-        "users": 306,
-        "events": 366
+        "users": 307,
+        "events": 367
       },
       {
         "key": "understood",
