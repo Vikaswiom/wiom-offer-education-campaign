@@ -208,7 +208,9 @@ function render(D){
     const rows=steps.map((s,i)=>{
       const v=f[s[0]], p=pct(v,base);
       const prev=i>0?f[steps[i-1][0]]:v, drop=prev-v, dp=pct(drop,prev);
-      const dropTxt=i===0?'':(drop>0?`↓ ${drop} dropped (−${dp}%)`:'✓ all continued');
+      // 0 → 0 is "nothing happened", not "everyone continued" — say nothing rather than
+      // congratulate a campaign that has not fired yet
+      const dropTxt=(i===0||(prev===0&&v===0))?'':(drop>0?`↓ ${drop} dropped (−${dp}%)`:'✓ all continued');
       const tipHtml=`<b>${esc(a.label)}</b><br>${esc(s[1])} <span class="m">(${s[2]})</span>: <b>${nf(v)}</b> <span class="m">· ${p}% of shown</span>`;
       return `<div class="fnl-step" data-tip="${encodeURIComponent(tipHtml)}"><div class="lbl"><span class="nm">${esc(s[1])}</span><span class="vl">${nf(v)} <small>${p}%</small></span></div>
         <div class="trk"><div class="br" style="width:${Math.min(p,100)}%;background:${a.color}"></div></div>
