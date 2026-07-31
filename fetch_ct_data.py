@@ -120,6 +120,23 @@ OFFERPAGE = [
 ]
 OFFERPAGE_STEP_LABELS = [("shown", "Page shown"), ("ok", "Tapped ठीक है")]
 
+# Repeat exposure. A CSP who saw the page four times is a different person, for our
+# purposes, from one who saw it once — the message is a script they are meant to
+# absorb, and the frequency cap set in CleverTap is the lever. This is counted from
+# raw event volume per identity, so it is the one number on this page that is NOT
+# unique users. Anything above the configured lifetime cap means the cap is not
+# being applied to that app.
+FREQ_BUCKETS = [(1, 1, "1 time only"), (2, 2, "2 times"), (3, 3, "3 times"),
+                (4, 4, "4 times"), (5, None, "5 or more times")]
+
+def freq_buckets(counts):
+    """counts = {identity: how many times the event fired} -> bucketed user counts."""
+    out = []
+    for lo, hi, label in FREQ_BUCKETS:
+        n = sum(1 for c in counts.values() if c >= lo and (hi is None or c <= hi))
+        out.append({"label": label, "min": lo, "max": hi, "users": n})
+    return out
+
 def _configured(app):
     return [c for c in app["campaigns"] if c and not c.startswith("PASTE_")]
 
@@ -422,6 +439,7 @@ def main():
     for o in OFFERPAGE:
         shown_i, ok_i = set(), set()
         o_daily = {}
+        times = {"shown": {}, "ok": {}}      # identity -> how many times it fired
         for ev, bucket, dkey in ((o["shown_event"], shown_i, "shown"),
                                  (o["ok_event"], ok_i, "ok")):
             n = 0
@@ -431,6 +449,7 @@ def main():
                 if not ident:
                     continue
                 bucket.add(ident)
+                times[dkey][ident] = times[dkey].get(ident, 0) + 1
                 d = day_of(rec)
                 if d:
                     o_daily.setdefault(d, {"shown": set(), "ok": set()})[dkey].add(ident)
@@ -458,6 +477,11 @@ def main():
         apps_out.append({
             "key": o["key"], "label": o["label"], "color": o["color"],
             "variant": "offer_page",
+            "freq": {k: freq_buckets(times[k]) for k in ("shown", "ok")},
+            "freq_avg": {k: (round(sum(times[k].values()) / len(times[k]), 2)
+                             if times[k] else 0) for k in ("shown", "ok")},
+            "freq_max": {k: (max(times[k].values()) if times[k] else 0)
+                         for k in ("shown", "ok")},
             "attribution": "event",
             "campaigns": [],
             "campaigns_seen": [{"id": c, "users": n} for c, n in seen_ids],
@@ -572,6 +596,9 @@ def main():
                   f"({p(f['ok'], f['shown'])}%)"
                   + (f"  [{a['ok_outside_shown']} tapped without a Shown]"
                      if a.get("ok_outside_shown") else ""))
+            print("      seen: " + " · ".join(f"{b['label']} {b['users']}"
+                                              for b in a["freq"]["shown"])
+                  + f"  (avg {a['freq_avg']['shown']}, max {a['freq_max']['shown']})")
             continue
         print(f"  {a['label'] + tag:26s} shown={f['shown']:4d}  edu_ok={f['edu_ok']:4d} ({p(f['edu_ok'],f['shown'])}%)  "
               f"completed={f['completed']:4d} ({p(f['completed'],f['shown'])}%)")

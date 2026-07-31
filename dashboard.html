@@ -112,9 +112,26 @@ section{margin-top:24px;}
     <div class="note" id="eduonlynote"></div>
   </section>
 
+  <section>
+    <div class="h2">Creative — what they see</div>
+    <div class="panel">
+      <img class="shot" src="screens.png" alt="The three in-app screens: education, quiz, and the सही confirmation">
+      <div class="cap">
+        <b>1 · Education</b> — chat card showing what to tell a customer who asks the price, plus the
+        <b>₹300 per new connection</b> guarantee. &nbsp;<b>2 · Quiz</b> — one question, three options.
+        &nbsp;<b>3 · सही</b> — green confirmation, auto-dismisses after 3s.<br><br>
+        <b>All three quiz options are deliberately identical.</b> Different wordings would make people compare them
+        and wonder what detail they were missing — the opposite of the goal. Whichever they tap, they read the same
+        sentence, so there is nothing to get wrong and no load on them.
+      </div>
+      <div class="chips" id="chips"></div>
+    </div>
+  </section>
+
   <section id="offerpage-sec" style="display:none">
-    <div class="h2">Round 2 — full-page offer education (no quiz)</div>
+    <div class="h2">Round 2 — full-page offer education · went live 31 July 2026</div>
     <div class="funnels" id="funnels3"></div>
+    <div class="two" id="freq3" style="margin-top:14px"></div>
     <div class="note" id="offerpagenote"></div>
     <div class="panel" style="margin-top:14px">
       <div class="two" style="align-items:start">
@@ -133,22 +150,6 @@ section{margin-top:24px;}
           exactly what makes the two funnels above trustworthy without any attribution.
         </div>
       </div>
-    </div>
-  </section>
-
-  <section>
-    <div class="h2">Creative — what they see</div>
-    <div class="panel">
-      <img class="shot" src="screens.png" alt="The three in-app screens: education, quiz, and the सही confirmation">
-      <div class="cap">
-        <b>1 · Education</b> — chat card showing what to tell a customer who asks the price, plus the
-        <b>₹300 per new connection</b> guarantee. &nbsp;<b>2 · Quiz</b> — one question, three options.
-        &nbsp;<b>3 · सही</b> — green confirmation, auto-dismisses after 3s.<br><br>
-        <b>All three quiz options are deliberately identical.</b> Different wordings would make people compare them
-        and wonder what detail they were missing — the opposite of the goal. Whichever they tap, they read the same
-        sentence, so there is nothing to get wrong and no load on them.
-      </div>
-      <div class="chips" id="chips"></div>
     </div>
   </section>
 
@@ -249,6 +250,21 @@ function render(D){
   if(P.length){
     document.getElementById('offerpage-sec').style.display='';
     document.getElementById('funnels3').innerHTML=P.map(funnelCard).join('');
+
+    // How many times each person saw it. This is the one block on the page counted from
+    // raw event volume rather than unique users — repeat exposure is the whole question.
+    document.getElementById('freq3').innerHTML=P.map(a=>{
+      const F=(a.freq||{}).shown||[], tot=F.reduce((t,b)=>t+b.users,0), top=Math.max(1,...F.map(b=>b.users));
+      if(!tot) return `<div class="fpanel" style="--c:${a.color}"><div class="ftitle"><span class="sw"></span>${esc(a.label)} — how many times seen</div>
+        <div class="fsub">Nothing shown yet, so there is nothing to count.</div></div>`;
+      const rows=F.map(b=>`<div class="qrow"><div class="ql"><span class="qt">${esc(b.label)}</span><b>${nf(b.users)} <small style="color:var(--faint)">${pct(b.users,tot)}%</small></b></div>
+        <div class="qbar"><span style="width:${Math.round(b.users/top*100)}%;background:${a.color}"></span></div></div>`).join('');
+      const once=(F[0]||{}).users||0, rep=tot-once;
+      return `<div class="fpanel" style="--c:${a.color}"><div class="ftitle"><span class="sw"></span>${esc(a.label)} — how many times seen</div>
+        <div class="fsub">Of the <b>${nf(tot)}</b> people shown the page: <b>${nf(once)}</b> saw it once and <b>${nf(rep)}</b> saw it again
+        (<b>${pct(rep,tot)}%</b> repeat). Average <b>${(a.freq_avg||{}).shown||0}×</b>, highest <b>${(a.freq_max||{}).shown||0}×</b>.</div>
+        <div class="qgrid">${rows}</div></div>`;
+    }).join('');
     const ps=P.reduce((t,a)=>t+(a.funnel.shown||0),0), pk=P.reduce((t,a)=>t+(a.funnel.ok||0),0);
     const stray=P.reduce((t,a)=>t+(a.ok_outside_shown||0),0);
     let pn=`<b>The variant that needs no attribution.</b> Every other funnel on this page is reconstructed — `+
@@ -261,6 +277,10 @@ function render(D){
       `not from the app's <code>inApp_Shown</code> — which is what finally makes the Technician funnel measurable directly, `+
       `instead of via the <code>Notification Viewed</code> workaround used above.`;
     if(ps) pn+=`<br><br>Across both apps: <b>${nf(ps)}</b> shown → <b>${nf(pk)}</b> tapped ठीक है (<b>${pct(pk,ps)}%</b>).`;
+    pn+=`<br><br><b>“How many times seen” is the only count here that is not unique users.</b> It is raw event volume per person, `+
+      `which is what makes it useful: this creative is a script the CSP is meant to absorb, so a person who saw it four times `+
+      `has had four chances to take it in, and the repeat rate is the lever you actually control — through the frequency cap set `+
+      `in CleverTap, not in the HTML. If the top bucket runs past the lifetime cap you configured, the cap is not being applied to that app.`;
     if(stray) pn+=`<br><br>⚠️ <b>${nf(stray)} profile(s) tapped ठीक है with no recorded Page shown.</b> `+
       `Because the load-time event is fired by the page rather than the app, a device whose CleverTap bridge was still `+
       `injecting when the page painted can miss it and still record the tap. So this funnel is <b>not</b> a locked cohort, `+
