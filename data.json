@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-01 20:21 IST",
+  "generated": "2026-08-01 21:19 IST",
   "sample": false,
   "region": "eu1",
   "start_date": "2026-07-16",
@@ -43,14 +43,14 @@
       ],
       "funnel": {
         "shown": 399,
-        "edu_ok": 383,
-        "completed": 338
+        "edu_ok": 384,
+        "completed": 339
       },
       "options": [
         {
           "option": "1",
           "label": "1st (top)",
-          "users": 267
+          "users": 268
         },
         {
           "option": "2",
@@ -147,7 +147,7 @@
         {
           "date": "2026-08-01",
           "shown": 0,
-          "completed": 4
+          "completed": 5
         }
       ]
     },
@@ -544,13 +544,13 @@
             "label": "1 time only",
             "min": 1,
             "max": 1,
-            "users": 45
+            "users": 46
           },
           {
             "label": "2 times",
             "min": 2,
             "max": 2,
-            "users": 35
+            "users": 34
           },
           {
             "label": "3 times",
@@ -562,7 +562,7 @@
             "label": "4 times",
             "min": 4,
             "max": 4,
-            "users": 26
+            "users": 27
           },
           {
             "label": "5 or more times",
@@ -576,7 +576,7 @@
             "label": "1 time only",
             "min": 1,
             "max": 1,
-            "users": 50
+            "users": 49
           },
           {
             "label": "2 times",
@@ -594,7 +594,7 @@
             "label": "4 times",
             "min": 4,
             "max": 4,
-            "users": 21
+            "users": 22
           },
           {
             "label": "5 or more times",
@@ -605,12 +605,12 @@
         ]
       },
       "freq_avg": {
-        "shown": 3.88,
-        "ok": 3.31
+        "shown": 3.92,
+        "ok": 3.36
       },
       "freq_max": {
         "shown": 15,
-        "ok": 13
+        "ok": 14
       },
       "attribution": "event",
       "campaigns": [],
@@ -628,7 +628,7 @@
         ]
       ],
       "funnel": {
-        "shown": 185,
+        "shown": 186,
         "ok": 177
       },
       "ok_outside_shown": 0,
@@ -641,7 +641,7 @@
         },
         {
           "date": "2026-08-01",
-          "shown": 144,
+          "shown": 145,
           "ok": 132
         }
       ],
