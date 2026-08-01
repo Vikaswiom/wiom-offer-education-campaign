@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-02 03:39 IST",
+  "generated": "2026-08-02 04:40 IST",
   "region": "eu1",
   "start_date": "2026-07-27",
   "triggers": [
@@ -196,14 +196,14 @@
           "label": "Story shown",
           "event": "Bonus_Seva2_Story_Viewed",
           "users": 776,
-          "events": 1189
+          "events": 1199
         },
         {
           "key": "gift",
           "label": "Opened the gift",
           "event": "Bonus_Seva2_Gift_Opened",
           "users": 670,
-          "events": 923
+          "events": 933
         },
         {
           "key": "window_rule",
@@ -224,21 +224,21 @@
           "label": "Tapped the सेवा स्थिति chip",
           "event": "Bonus_Seva2_Chip_Tapped",
           "users": 549,
-          "events": 705
+          "events": 712
         },
         {
           "key": "help",
           "label": "Tapped the (?) button",
           "event": "Bonus_Seva2_Help_Tapped",
-          "users": 455,
-          "events": 780
+          "users": 456,
+          "events": 786
         },
         {
           "key": "completed",
           "label": "Completed the story",
           "event": "Bonus_Seva2_Flow_Completed",
-          "users": 485,
-          "events": 615
+          "users": 486,
+          "events": 622
         }
       ],
       "cards": [
@@ -273,7 +273,7 @@
           "index": 0,
           "label": "hero · the gift",
           "users": 164,
-          "events": 180
+          "events": 181
         },
         {
           "name": "window_rule",
@@ -305,38 +305,38 @@
         }
       ],
       "exits": {
-        "deeplink": 420,
+        "deeplink": 421,
         "acknowledge": 92
       },
       "goto": {
-        "users": 420,
-        "events": 515
+        "users": 421,
+        "events": 522
       },
       "toggled": {
-        "users": 65,
-        "events": 117
+        "users": 66,
+        "events": 118
       },
       "help_metrics": [
         {
           "metric": "samay_par_kaam",
           "label": "समय पर काम",
-          "users": 393
+          "users": 394
         },
         {
           "metric": "grahak_ki_santushti",
           "label": "ग्राहक की संतुष्टि",
-          "users": 250
+          "users": 251
         }
       ],
       "dismissed_total": {
         "users": 300,
-        "events": 349
+        "events": 350
       },
       "key": "home_story_r2_5card",
       "label": "Home story · 5 cards",
       "live_ts": 20260731110019,
       "live_label": "31 Jul 2026, 11:00 IST",
-      "raw_events": 8120,
+      "raw_events": 8195,
       "events_confirmed": [
         "Story_Viewed",
         "Gift_Opened",
@@ -354,15 +354,15 @@
   "timeline": {
     "event": "service_status_help_opened",
     "cohort_event": "Bonus_Seva2_Flow_Completed",
-    "cohort_users": 485,
+    "cohort_users": 486,
     "windows": [
       {
         "key": "before",
         "label": "16 Jul–26 Jul",
-        "users": 99,
-        "events": 452,
+        "users": 100,
+        "events": 455,
         "days": 11.0,
-        "reach_pct": 20,
+        "reach_pct": 21,
         "per_user_day": 0.085
       },
       {
@@ -372,21 +372,21 @@
         "events": 583,
         "days": 3.48,
         "reach_pct": 22,
-        "per_user_day": 0.346
+        "per_user_day": 0.345
       },
       {
         "key": "round2",
         "label": "since 31 Jul 11:00",
         "users": 86,
         "events": 256,
-        "days": 1.69,
+        "days": 1.74,
         "reach_pct": 18,
-        "per_user_day": 0.312
+        "per_user_day": 0.303
       }
     ],
-    "lift_r1": 307,
-    "lift_r2": -10,
-    "lift_total": 267
+    "lift_r1": 306,
+    "lift_r2": -12,
+    "lift_total": 256
   },
   "followthrough": {
     "chip_event": "strip_chip_opened",
@@ -398,7 +398,7 @@
       {
         "key": "completed",
         "label": "Finished the story",
-        "users": 485
+        "users": 486
       },
       {
         "key": "chip",
@@ -450,10 +450,10 @@
       "impact": {
         "event": "service_status_help_opened",
         "cohort_event": "Bonus_Seva2_Flow_Completed",
-        "cohort_users": 485,
+        "cohort_users": 486,
         "pre": {
-          "users": 140,
-          "events": 919,
+          "users": 141,
+          "events": 922,
           "days": 11.0,
           "reach_pct": 29,
           "per_user_day": 0.172,
@@ -462,13 +462,13 @@
         "post": {
           "users": 86,
           "events": 256,
-          "days": 1.69,
+          "days": 1.74,
           "reach_pct": 18,
-          "per_user_day": 0.312,
+          "per_user_day": 0.303,
           "label": "since 31 Jul 11:00 (after)"
         },
         "stopped": false,
-        "lift_pct": 81,
+        "lift_pct": 76,
         "pre_overlaps": [
           "Quality-of-work section"
         ]
