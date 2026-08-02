@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-02 18:15 IST",
+  "generated": "2026-08-02 19:49 IST",
   "sample": false,
   "region": "eu1",
   "start_date": "2026-07-16",
@@ -43,7 +43,7 @@
       ],
       "funnel": {
         "shown": 399,
-        "edu_ok": 384,
+        "edu_ok": 385,
         "completed": 340
       },
       "options": [
@@ -435,7 +435,7 @@
             "label": "1 time only",
             "min": 1,
             "max": 1,
-            "users": 41
+            "users": 42
           },
           {
             "label": "2 times",
@@ -467,7 +467,7 @@
             "label": "1 time only",
             "min": 1,
             "max": 1,
-            "users": 35
+            "users": 36
           },
           {
             "label": "2 times",
@@ -519,8 +519,8 @@
         ]
       ],
       "funnel": {
-        "shown": 43,
-        "ok": 37
+        "shown": 44,
+        "ok": 38
       },
       "ok_outside_shown": 0,
       "options": [],
@@ -537,8 +537,8 @@
         },
         {
           "date": "2026-08-02",
-          "shown": 12,
-          "ok": 11
+          "shown": 13,
+          "ok": 12
         }
       ],
       "note": "Full-page offer creative (round 2): one screen, one ठीक है, no quiz."
@@ -560,25 +560,25 @@
             "label": "2 times",
             "min": 2,
             "max": 2,
-            "users": 42
+            "users": 40
           },
           {
             "label": "3 times",
             "min": 3,
             "max": 3,
-            "users": 30
+            "users": 33
           },
           {
             "label": "4 times",
             "min": 4,
             "max": 4,
-            "users": 24
+            "users": 20
           },
           {
             "label": "5 or more times",
             "min": 5,
             "max": null,
-            "users": 89
+            "users": 96
           }
         ],
         "ok": [
@@ -586,7 +586,7 @@
             "label": "1 time only",
             "min": 1,
             "max": 1,
-            "users": 56
+            "users": 54
           },
           {
             "label": "2 times",
@@ -604,19 +604,19 @@
             "label": "4 times",
             "min": 4,
             "max": 4,
-            "users": 19
+            "users": 17
           },
           {
             "label": "5 or more times",
             "min": 5,
             "max": null,
-            "users": 71
+            "users": 78
           }
         ]
       },
       "freq_avg": {
-        "shown": 4.71,
-        "ok": 3.95
+        "shown": 4.87,
+        "ok": 4.13
       },
       "freq_max": {
         "shown": 23,
@@ -638,8 +638,8 @@
         ]
       ],
       "funnel": {
-        "shown": 230,
-        "ok": 222
+        "shown": 234,
+        "ok": 225
       },
       "ok_outside_shown": 0,
       "options": [],
@@ -656,16 +656,16 @@
         },
         {
           "date": "2026-08-02",
-          "shown": 124,
-          "ok": 109
+          "shown": 133,
+          "ok": 117
         }
       ],
       "note": "Full-page offer creative (round 2): one screen, one ठीक है, no quiz."
     }
   ],
   "unattributed": {
-    "edu_ok": 471,
-    "completed": 376,
+    "edu_ok": 472,
+    "completed": 377,
     "edu_ok_technician": 261,
     "completed_technician": 214
   },
