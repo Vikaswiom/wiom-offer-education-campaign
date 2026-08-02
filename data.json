@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-02 19:49 IST",
+  "generated": "2026-08-02 21:03 IST",
   "sample": false,
   "region": "eu1",
   "start_date": "2026-07-16",
@@ -160,7 +160,7 @@
       "key": "tech",
       "label": "Technician App",
       "color": "#2563EB",
-      "note": "Technician app — Shown comes from CleverTap's own impression event (Notification Viewed, wzrk_id 1784203536) because this app does not fire the custom inApp_Shown; education/quiz are locked to that cohort by identity. 261 role = technician profile(s) acted without a recorded impression.",
+      "note": "Technician app — Shown comes from CleverTap's own impression event (Notification Viewed, wzrk_id 1784203536) because this app does not fire the custom inApp_Shown; education/quiz are locked to that cohort by identity. 262 role = technician profile(s) acted without a recorded impression.",
       "campaigns": [
         "1784203536"
       ],
@@ -435,7 +435,7 @@
             "label": "1 time only",
             "min": 1,
             "max": 1,
-            "users": 42
+            "users": 44
           },
           {
             "label": "2 times",
@@ -467,7 +467,7 @@
             "label": "1 time only",
             "min": 1,
             "max": 1,
-            "users": 36
+            "users": 38
           },
           {
             "label": "2 times",
@@ -496,7 +496,7 @@
         ]
       },
       "freq_avg": {
-        "shown": 1.05,
+        "shown": 1.04,
         "ok": 1.05
       },
       "freq_max": {
@@ -519,8 +519,8 @@
         ]
       ],
       "funnel": {
-        "shown": 44,
-        "ok": 38
+        "shown": 46,
+        "ok": 40
       },
       "ok_outside_shown": 0,
       "options": [],
@@ -537,8 +537,8 @@
         },
         {
           "date": "2026-08-02",
-          "shown": 13,
-          "ok": 12
+          "shown": 15,
+          "ok": 14
         }
       ],
       "note": "Full-page offer creative (round 2): one screen, one ठीक है, no quiz."
@@ -554,31 +554,31 @@
             "label": "1 time only",
             "min": 1,
             "max": 1,
-            "users": 45
+            "users": 44
           },
           {
             "label": "2 times",
             "min": 2,
             "max": 2,
-            "users": 40
+            "users": 43
           },
           {
             "label": "3 times",
             "min": 3,
             "max": 3,
-            "users": 33
+            "users": 30
           },
           {
             "label": "4 times",
             "min": 4,
             "max": 4,
-            "users": 20
+            "users": 22
           },
           {
             "label": "5 or more times",
             "min": 5,
             "max": null,
-            "users": 96
+            "users": 97
           }
         ],
         "ok": [
@@ -592,31 +592,31 @@
             "label": "2 times",
             "min": 2,
             "max": 2,
-            "users": 42
+            "users": 43
           },
           {
             "label": "3 times",
             "min": 3,
             "max": 3,
-            "users": 34
+            "users": 32
           },
           {
             "label": "4 times",
             "min": 4,
             "max": 4,
-            "users": 17
+            "users": 18
           },
           {
             "label": "5 or more times",
             "min": 5,
             "max": null,
-            "users": 78
+            "users": 80
           }
         ]
       },
       "freq_avg": {
-        "shown": 4.87,
-        "ok": 4.13
+        "shown": 4.94,
+        "ok": 4.2
       },
       "freq_max": {
         "shown": 23,
@@ -638,8 +638,8 @@
         ]
       ],
       "funnel": {
-        "shown": 234,
-        "ok": 225
+        "shown": 236,
+        "ok": 227
       },
       "ok_outside_shown": 0,
       "options": [],
@@ -656,18 +656,18 @@
         },
         {
           "date": "2026-08-02",
-          "shown": 133,
-          "ok": 117
+          "shown": 139,
+          "ok": 122
         }
       ],
       "note": "Full-page offer creative (round 2): one screen, one ठीक है, no quiz."
     }
   ],
   "unattributed": {
-    "edu_ok": 472,
-    "completed": 377,
-    "edu_ok_technician": 261,
-    "completed_technician": 214
+    "edu_ok": 474,
+    "completed": 379,
+    "edu_ok_technician": 262,
+    "completed_technician": 215
   },
   "both_apps": 0
 }
