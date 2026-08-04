@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-04 15:34 IST",
+  "generated": "2026-08-04 17:47 IST",
   "region": "eu1",
   "start_date": "2026-07-27",
   "triggers": [
@@ -196,14 +196,14 @@
           "label": "Story shown",
           "event": "Bonus_Seva2_Story_Viewed",
           "users": 838,
-          "events": 2797
+          "events": 2832
         },
         {
           "key": "gift",
           "label": "Opened the gift",
           "event": "Bonus_Seva2_Gift_Opened",
           "users": 786,
-          "events": 2040
+          "events": 2064
         },
         {
           "key": "window_rule",
@@ -216,29 +216,29 @@
           "key": "home_chip",
           "label": "Where सेवा स्थिति lives",
           "event": "Bonus_Seva2_Card_Viewed",
-          "users": 692,
+          "users": 693,
           "events": null
         },
         {
           "key": "chip",
           "label": "Tapped the सेवा स्थिति chip",
           "event": "Bonus_Seva2_Chip_Tapped",
-          "users": 686,
-          "events": 1452
+          "users": 688,
+          "events": 1463
         },
         {
           "key": "help",
           "label": "Tapped the (?) button",
           "event": "Bonus_Seva2_Help_Tapped",
-          "users": 592,
-          "events": 1535
+          "users": 596,
+          "events": 1548
         },
         {
           "key": "completed",
           "label": "Completed the story",
           "event": "Bonus_Seva2_Flow_Completed",
-          "users": 618,
-          "events": 1243
+          "users": 621,
+          "events": 1255
         }
       ],
       "cards": [
@@ -252,7 +252,7 @@
           "name": "home_chip",
           "index": 2,
           "label": "where सेवा स्थिति lives",
-          "users": 692
+          "users": 693
         },
         {
           "name": "help_icon",
@@ -264,7 +264,7 @@
           "name": "done",
           "index": 4,
           "label": "handoff",
-          "users": 538
+          "users": 539
         }
       ],
       "quits": [
@@ -272,22 +272,22 @@
           "name": "hero_gift",
           "index": 0,
           "label": "hero · the gift",
-          "users": 375,
-          "events": 599
+          "users": 378,
+          "events": 606
         },
         {
           "name": "window_rule",
           "index": 1,
           "label": "1–15 अगस्त + the rule",
-          "users": 95,
-          "events": 106
+          "users": 96,
+          "events": 109
         },
         {
           "name": "home_chip",
           "index": 2,
           "label": "where सेवा स्थिति lives",
-          "users": 104,
-          "events": 116
+          "users": 105,
+          "events": 118
         },
         {
           "name": "help_icon",
@@ -305,38 +305,38 @@
         }
       ],
       "exits": {
-        "deeplink": 549,
-        "acknowledge": 166
+        "deeplink": 551,
+        "acknowledge": 167
       },
       "goto": {
-        "users": 549,
-        "events": 1020
+        "users": 551,
+        "events": 1030
       },
       "toggled": {
-        "users": 105,
-        "events": 189
+        "users": 106,
+        "events": 190
       },
       "help_metrics": [
         {
           "metric": "samay_par_kaam",
           "label": "समय पर काम",
-          "users": 526
+          "users": 529
         },
         {
           "metric": "grahak_ki_santushti",
           "label": "ग्राहक की संतुष्टि",
-          "users": 372
+          "users": 374
         }
       ],
       "dismissed_total": {
-        "users": 560,
-        "events": 1009
+        "users": 562,
+        "events": 1021
       },
       "key": "home_story_r2_5card",
       "label": "Home story · 5 cards",
       "live_ts": 20260731110019,
       "live_label": "31 Jul 2026, 11:00 IST",
-      "raw_events": 16194,
+      "raw_events": 16326,
       "events_confirmed": [
         "Story_Viewed",
         "Gift_Opened",
@@ -354,7 +354,7 @@
   "timeline": {
     "event": "service_status_help_opened",
     "cohort_event": "Bonus_Seva2_Flow_Completed",
-    "cohort_users": 618,
+    "cohort_users": 621,
     "windows": [
       {
         "key": "before",
@@ -363,7 +363,7 @@
         "events": 500,
         "days": 11.0,
         "reach_pct": 19,
-        "per_user_day": 0.074
+        "per_user_day": 0.073
       },
       {
         "key": "round1",
@@ -372,21 +372,21 @@
         "events": 620,
         "days": 3.48,
         "reach_pct": 19,
-        "per_user_day": 0.289
+        "per_user_day": 0.287
       },
       {
         "key": "round2",
         "label": "since 31 Jul 11:00",
-        "users": 135,
-        "events": 455,
-        "days": 4.19,
+        "users": 138,
+        "events": 460,
+        "days": 4.28,
         "reach_pct": 22,
-        "per_user_day": 0.176
+        "per_user_day": 0.173
       }
     ],
-    "lift_r1": 291,
-    "lift_r2": -39,
-    "lift_total": 138
+    "lift_r1": 293,
+    "lift_r2": -40,
+    "lift_total": 137
   },
   "followthrough": {
     "chip_event": "strip_chip_opened",
@@ -398,7 +398,7 @@
       {
         "key": "completed",
         "label": "Finished the story",
-        "users": 618
+        "users": 621
       },
       {
         "key": "chip",
@@ -450,25 +450,25 @@
       "impact": {
         "event": "service_status_help_opened",
         "cohort_event": "Bonus_Seva2_Flow_Completed",
-        "cohort_users": 618,
+        "cohort_users": 621,
         "pre": {
           "users": 161,
           "events": 983,
           "days": 11.0,
           "reach_pct": 26,
-          "per_user_day": 0.145,
+          "per_user_day": 0.144,
           "label": "20 Jul–30 Jul (before)"
         },
         "post": {
-          "users": 135,
-          "events": 455,
-          "days": 4.19,
+          "users": 138,
+          "events": 460,
+          "days": 4.28,
           "reach_pct": 22,
-          "per_user_day": 0.176,
+          "per_user_day": 0.173,
           "label": "since 31 Jul 11:00 (after)"
         },
         "stopped": false,
-        "lift_pct": 21,
+        "lift_pct": 20,
         "pre_overlaps": [
           "Quality-of-work section"
         ]
