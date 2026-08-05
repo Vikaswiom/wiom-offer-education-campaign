@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-05 17:37 IST",
+  "generated": "2026-08-05 20:01 IST",
   "region": "eu1",
   "start_date": "2026-07-27",
   "triggers": [
@@ -196,14 +196,14 @@
           "label": "Story shown",
           "event": "Bonus_Seva2_Story_Viewed",
           "users": 851,
-          "events": 3082
+          "events": 3109
         },
         {
           "key": "gift",
           "label": "Opened the gift",
           "event": "Bonus_Seva2_Gift_Opened",
           "users": 802,
-          "events": 2212
+          "events": 2228
         },
         {
           "key": "window_rule",
@@ -224,21 +224,21 @@
           "label": "Tapped the सेवा स्थिति chip",
           "event": "Bonus_Seva2_Chip_Tapped",
           "users": 706,
-          "events": 1559
+          "events": 1567
         },
         {
           "key": "help",
           "label": "Tapped the (?) button",
           "event": "Bonus_Seva2_Help_Tapped",
           "users": 612,
-          "events": 1634
+          "events": 1641
         },
         {
           "key": "completed",
           "label": "Completed the story",
           "event": "Bonus_Seva2_Flow_Completed",
           "users": 637,
-          "events": 1329
+          "events": 1336
         }
       ],
       "cards": [
@@ -272,8 +272,8 @@
           "name": "hero_gift",
           "index": 0,
           "label": "hero · the gift",
-          "users": 406,
-          "events": 687
+          "users": 408,
+          "events": 697
         },
         {
           "name": "window_rule",
@@ -287,14 +287,14 @@
           "index": 2,
           "label": "where सेवा स्थिति lives",
           "users": 111,
-          "events": 124
+          "events": 126
         },
         {
           "name": "help_icon",
           "index": 3,
           "label": "the (?) button",
-          "users": 174,
-          "events": 205
+          "users": 175,
+          "events": 206
         },
         {
           "name": "done",
@@ -306,21 +306,21 @@
       ],
       "exits": {
         "deeplink": 567,
-        "acknowledge": 173
+        "acknowledge": 174
       },
       "goto": {
         "users": 567,
-        "events": 1090
+        "events": 1096
       },
       "toggled": {
-        "users": 110,
-        "events": 196
+        "users": 111,
+        "events": 198
       },
       "help_metrics": [
         {
           "metric": "samay_par_kaam",
           "label": "समय पर काम",
-          "users": 542
+          "users": 543
         },
         {
           "metric": "grahak_ki_santushti",
@@ -329,14 +329,14 @@
         }
       ],
       "dismissed_total": {
-        "users": 590,
-        "events": 1132
+        "users": 592,
+        "events": 1145
       },
       "key": "home_story_r2_5card",
       "label": "Home story · 5 cards",
       "live_ts": 20260731110019,
       "live_label": "31 Jul 2026, 11:00 IST",
-      "raw_events": 17189,
+      "raw_events": 17275,
       "events_confirmed": [
         "Story_Viewed",
         "Gift_Opened",
@@ -377,16 +377,16 @@
       {
         "key": "round2",
         "label": "since 31 Jul 11:00",
-        "users": 148,
-        "events": 549,
-        "days": 5.28,
-        "reach_pct": 23,
-        "per_user_day": 0.163
+        "users": 152,
+        "events": 567,
+        "days": 5.38,
+        "reach_pct": 24,
+        "per_user_day": 0.166
       }
     ],
     "lift_r1": 290,
-    "lift_r2": -42,
-    "lift_total": 126
+    "lift_r2": -41,
+    "lift_total": 131
   },
   "followthrough": {
     "chip_event": "strip_chip_opened",
@@ -460,15 +460,15 @@
           "label": "20 Jul–30 Jul (before)"
         },
         "post": {
-          "users": 148,
-          "events": 549,
-          "days": 5.28,
-          "reach_pct": 23,
-          "per_user_day": 0.163,
+          "users": 152,
+          "events": 567,
+          "days": 5.38,
+          "reach_pct": 24,
+          "per_user_day": 0.166,
           "label": "since 31 Jul 11:00 (after)"
         },
         "stopped": false,
-        "lift_pct": 16,
+        "lift_pct": 18,
         "pre_overlaps": [
           "Quality-of-work section"
         ]
