@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-05 09:59 IST",
+  "generated": "2026-08-05 12:48 IST",
   "sample": false,
   "region": "eu1",
   "start_date": "2026-07-16",
@@ -170,7 +170,7 @@
       "key": "tech",
       "label": "Technician App",
       "color": "#2563EB",
-      "note": "Technician app — Shown comes from CleverTap's own impression event (Notification Viewed, wzrk_id 1784203536) because this app does not fire the custom inApp_Shown; education/quiz are locked to that cohort by identity. 293 role = technician profile(s) acted without a recorded impression.",
+      "note": "Technician app — Shown comes from CleverTap's own impression event (Notification Viewed, wzrk_id 1784203536) because this app does not fire the custom inApp_Shown; education/quiz are locked to that cohort by identity. 298 role = technician profile(s) acted without a recorded impression.",
       "campaigns": [
         "1784203536"
       ],
@@ -589,19 +589,51 @@
             "label": "1 time only",
             "min": 1,
             "max": 1,
-            "users": 48
+            "users": 49
           },
           {
             "label": "2 times",
             "min": 2,
             "max": 2,
-            "users": 44
+            "users": 40
           },
           {
             "label": "3 times",
             "min": 3,
             "max": 3,
-            "users": 32
+            "users": 31
+          },
+          {
+            "label": "4 times",
+            "min": 4,
+            "max": 4,
+            "users": 38
+          },
+          {
+            "label": "5 or more times",
+            "min": 5,
+            "max": null,
+            "users": 164
+          }
+        ],
+        "ok": [
+          {
+            "label": "1 time only",
+            "min": 1,
+            "max": 1,
+            "users": 59
+          },
+          {
+            "label": "2 times",
+            "min": 2,
+            "max": 2,
+            "users": 46
+          },
+          {
+            "label": "3 times",
+            "min": 3,
+            "max": 3,
+            "users": 31
           },
           {
             "label": "4 times",
@@ -613,49 +645,17 @@
             "label": "5 or more times",
             "min": 5,
             "max": null,
-            "users": 157
-          }
-        ],
-        "ok": [
-          {
-            "label": "1 time only",
-            "min": 1,
-            "max": 1,
-            "users": 60
-          },
-          {
-            "label": "2 times",
-            "min": 2,
-            "max": 2,
-            "users": 45
-          },
-          {
-            "label": "3 times",
-            "min": 3,
-            "max": 3,
-            "users": 35
-          },
-          {
-            "label": "4 times",
-            "min": 4,
-            "max": 4,
-            "users": 35
-          },
-          {
-            "label": "5 or more times",
-            "min": 5,
-            "max": null,
-            "users": 134
+            "users": 141
           }
         ]
       },
       "freq_avg": {
-        "shown": 6.44,
-        "ok": 5.41
+        "shown": 6.6,
+        "ok": 5.54
       },
       "freq_max": {
-        "shown": 43,
-        "ok": 34
+        "shown": 44,
+        "ok": 35
       },
       "attribution": "event",
       "campaigns": [],
@@ -673,8 +673,8 @@
         ]
       ],
       "funnel": {
-        "shown": 317,
-        "ok": 309
+        "shown": 322,
+        "ok": 313
       },
       "ok_outside_shown": 0,
       "options": [],
@@ -706,18 +706,18 @@
         },
         {
           "date": "2026-08-05",
-          "shown": 10,
-          "ok": 7
+          "shown": 60,
+          "ok": 44
         }
       ],
       "note": "Full-page offer creative (round 2): one screen, one ठीक है, no quiz."
     }
   ],
   "unattributed": {
-    "edu_ok": 542,
-    "completed": 442,
-    "edu_ok_technician": 293,
-    "completed_technician": 246
+    "edu_ok": 551,
+    "completed": 448,
+    "edu_ok_technician": 298,
+    "completed_technician": 248
   },
   "both_apps": 0
 }
