@@ -143,6 +143,15 @@ section{margin-top:24px;}
     <div class="legend"><span class="updated" id="updated"></span></div>
   </header>
 
+  <!-- ============ IS THE EDUCATION WORKING?  (R1 + R2 combined → bonus status) ============ -->
+  <section id="qi-sec" style="margin-top:26px;display:none">
+    <div class="h2" style="color:var(--brand);font-size:13px;letter-spacing:.4px">क्या education काम कर रहा है? · Bonus-status shift · Round 1 + Round 2 combined</div>
+    <div id="qi-verdict" class="readout" style="border-left-color:var(--brand);margin:0 0 16px;font-size:13.5px"></div>
+    <div class="kpis" id="qi-kpis"></div>
+    <div class="panel" id="qi-cmp" style="margin-top:16px"></div>
+    <div class="note" id="qi-note"></div>
+  </section>
+
   <div class="h2" style="margin-top:34px;color:var(--ink);font-size:13px;letter-spacing:.4px">ROUND 1 — the video</div>
   <section>
     <div class="h2">Headline</div>
@@ -645,6 +654,54 @@ function render(D0){
 }
 
 fetch('bonus_data.json',{cache:'no-store'}).then(r=>{if(!r.ok)throw 0;return r.json();}).then(render).catch(()=>render(FALLBACK));
+
+/* ---- Is the education working? — quality_impact.json (R1+R2 cohort vs their bonus status) ---- */
+function qk(k,v,d,tone){return `<div class="kpi"><div class="k">${k}</div><div class="v"${tone?` style="color:var(--${tone})"`:''}>${v}</div><div class="d">${d||''}</div></div>`;}
+function fmtDate(s){const m={ '01':'जन','02':'फ़र','03':'मार्च','04':'अप्रैल','05':'मई','06':'जून','07':'जुलाई','08':'अगस्त','09':'सित','10':'अक्टू','11':'नव','12':'दिस'};const p=(s||'').split('-');return p.length===3?(+p[2])+' '+(m[p[1]]||p[1]):s;}
+function renderQI(q){
+  if(!q||!q.cohort_pre||!q.cohort_post)return;
+  const c=q.cohort,pre=q.cohort_pre,post=q.cohort_post,t=q.transitions,cp=q.control_pre,cq=q.control_post;
+  document.getElementById('qi-sec').style.display='';
+  const dpp=+(post.pct-pre.pct).toFixed(1);
+  const netnew=t.newly-t.slipped;
+  document.getElementById('qi-kpis').innerHTML=[
+    qk('Education पूरा किया (R1 या R2)', c.combined, `R1 quiz ${c.r1} · R2 story ${c.r2} · overlap हटाकर`),
+    qk('अभी Compliant', `${post.compliant}<small style="font-size:16px;color:var(--faint);font-weight:800"> / ${post.scored}</small>`, `<b>${post.pct}%</b> educated CSPs bonus-eligible`),
+    qk('Newly Compliant', `+${t.newly}`, `${t.slipped} slipped · <b>net +${netnew}</b>`, 'good'),
+    qk('Avg service rating', post.rating.toFixed(2), `था ${pre.rating.toFixed(2)} → अब ${post.rating.toFixed(2)}`),
+  ].join('');
+  const liftcls=dpp>0.5?'up':(dpp<-0.5?'down':'flat'),liftsign=dpp>0?'+':'';
+  document.getElementById('qi-cmp').innerHTML=
+    `<div class="r2h">Educated CSPs — bonus status: पहले vs अब</div>`+
+    `<div class="cmp">`+
+      `<div class="win"><div class="wk">Education से पहले</div><div class="wd">${fmtDate(q.pre_date)}</div>`+
+        `<div class="wv">${pre.pct}%</div><div class="wu">${pre.compliant} / ${pre.scored} compliant</div></div>`+
+      `<div class="lift ${liftcls}">${liftsign}${dpp}pp<small>compliant</small></div>`+
+      `<div class="win post"><div class="wk">अभी</div><div class="wd">${fmtDate(q.post_date)}</div>`+
+        `<div class="wv">${post.pct}%</div><div class="wu">${post.compliant} / ${post.scored} compliant</div></div>`+
+    `</div>`+
+    `<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:16px;padding-top:14px;border-top:1px dashed var(--line);text-align:center">`+
+      `<div><div style="font-size:26px;font-weight:900;color:var(--good)">+${t.newly}</div><div style="font-size:11.5px;font-weight:700;color:var(--muted);margin-top:3px">खराब से → Compliant</div></div>`+
+      `<div><div style="font-size:26px;font-weight:900;color:var(--ink)">${t.stayed}</div><div style="font-size:11.5px;font-weight:700;color:var(--muted);margin-top:3px">Compliant ही रहे</div></div>`+
+      `<div><div style="font-size:26px;font-weight:900;color:var(--bad)">−${t.slipped}</div><div style="font-size:11.5px;font-weight:700;color:var(--muted);margin-top:3px">Compliant से फिसले</div></div>`+
+    `</div>`;
+  // honest one-line verdict
+  const ctlLift=cp&&cq?+(cq.pct-cp.pct).toFixed(1):null;
+  document.getElementById('qi-verdict').innerHTML=
+    `<b>छोटा जवाब — Engagement हाँ, लेकिन "education ने सुधारा" यह अभी साबित नहीं।</b> `+
+    `${c.combined} CSPs ने education पूरा किया और group के तौर पर उनकी bonus-eligibility <b>${pre.pct}% → ${post.pct}%</b> हुई `+
+    `(<b>${t.newly}</b> नए compliant बने, सिर्फ़ ${t.slipped} फिसले; rating ${pre.rating.toFixed(2)}→${post.rating.toFixed(2)})। `+
+    `<b>पर सावधानी:</b> जिन्होंने education लिया वो पहले से ही बेहतर थे (${pre.pct}% vs जिन्होंने नहीं लिया उनके ${cp?cp.pct:'—'}%), `+
+    `और जिन्होंने education नहीं लिया वो और तेज़ सुधरे (${cp?cp.pct:'—'}% → ${cq?cq.pct:'—'}%${ctlLift!=null?`, ${ctlLift>0?'+':''}${ctlLift}pp`:''})। `+
+    `इसलिए यह snapshot इस सुधार का श्रेय education को नहीं दे सकता। पढ़ें ऐसे: <b>सही CSPs engage हो रहे हैं और ऊपर जा रहे हैं</b> — causal असर के लिए 16 अगस्त की binding scoring का इंतज़ार करें।`;
+  document.getElementById('qi-note').innerHTML=
+    `<b>कैसे निकाला:</b> Cohort = हर वो CSP जिसने Round 1 (<code>Bonus_Seva_Quiz_Answered</code>) या Round 2 (<code>Bonus_Seva2_Flow_Completed</code>) पूरा किया, CleverTap se; `+
+    `bonus status = <code>QUALITY_DAILY_METRIC_SNAPSHOTS.COMPOSITE_STATE</code> (Compliant = चारों M1–M4 pass, bonus-eligible)। `+
+    `<b>“पहले”</b> = ${fmtDate(q.pre_date)} snapshot (education से पहले), <b>“अब”</b> = ${fmtDate(q.post_date)}। `+
+    `Control = बाकी सब scored CSPs जो cohort में नहीं (${cp?cp.scored:'—'} CSPs)। `+
+    `<b>⚠️ Provisional:</b> यह preview है, live payout नहीं — नए quality bonus की पहली binding scoring <b>16 अगस्त 2026</b> है। रोज़ अपने-आप refresh (<code>edu-quality</code> action)।`;
+}
+fetch('quality_impact.json',{cache:'no-store'}).then(r=>{if(!r.ok)throw 0;return r.json();}).then(renderQI).catch(()=>{});
 </script>
 </body>
 </html>
