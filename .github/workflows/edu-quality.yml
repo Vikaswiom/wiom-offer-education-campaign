@@ -1,0 +1,45 @@
+# "Is the education working?" — combine R1+R2 completers (CleverTap) with each
+# CSP's quality-bonus status (Metabase/Snowflake) → quality_impact.json for bonus.html.
+# Daily (quality snapshots update daily) + manual.
+name: edu-quality
+
+on:
+  schedule:
+    - cron: "17 7 * * *" # ~12:47 IST daily
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: edu-quality
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: build quality_impact.json + push if changed
+        env:
+          CLEVERTAP_ACCOUNT: ${{ secrets.CLEVERTAP_ACCOUNT }}
+          CLEVERTAP_PASSCODE: ${{ secrets.CLEVERTAP_PASSCODE }}
+          METABASE_API_KEY: ${{ secrets.METABASE_API_KEY }}
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          python3 edu_cohort.py
+          git add quality_impact.json education_cohort.json
+          if git diff --cached --quiet; then
+            echo "no change"
+          else
+            git pull --rebase --quiet origin main || true
+            git commit -q -m "data: refresh education→quality impact"
+            git push -q origin HEAD:main
+          fi
