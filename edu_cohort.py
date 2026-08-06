@@ -17,7 +17,7 @@ import fetch_ct_data as ct          # export_event(), identity_of(), creds/plumb
 IST = timezone(timedelta(hours=5, minutes=30))
 R1_EVENT = "Bonus_Seva_Quiz_Answered"      # completed round 1 (answered the quiz)
 R2_EVENT = "Bonus_Seva2_Flow_Completed"    # completed round 2 (finished the story)
-FROM = 20260716000000                       # education started 16 Jul
+FROM = "20260716"                           # education started 16 Jul (events.json wants YYYYMMDD)
 PRE_DATE = "2026-07-15"                      # status just before the education
 
 
@@ -26,7 +26,7 @@ def here(f): return os.path.join(os.path.dirname(os.path.abspath(__file__)), f)
 
 def completer_identities(event):
     ids, csps, n, sample = set(), set(), 0, None
-    now = int(datetime.now(IST).strftime("%Y%m%d%H%M%S"))
+    now = datetime.now(IST).strftime("%Y%m%d")   # events.json wants YYYYMMDD
     for rec in ct.export_event(event, FROM, now):
         n += 1
         if sample is None:
