@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-07 19:58 IST",
+  "generated": "2026-08-07 20:58 IST",
   "sample": false,
   "region": "eu1",
   "start_date": "2026-07-16",
@@ -675,7 +675,7 @@
         ]
       },
       "freq_avg": {
-        "shown": 8.15,
+        "shown": 8.16,
         "ok": 6.78
       },
       "freq_max": {
