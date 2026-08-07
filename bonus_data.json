@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-08 03:15 IST",
+  "generated": "2026-08-08 03:53 IST",
   "region": "eu1",
   "start_date": "2026-07-27",
   "triggers": [
@@ -196,14 +196,14 @@
           "label": "Story shown",
           "event": "Bonus_Seva2_Story_Viewed",
           "users": 864,
-          "events": 4198
+          "events": 4200
         },
         {
           "key": "gift",
           "label": "Opened the gift",
           "event": "Bonus_Seva2_Gift_Opened",
           "users": 829,
-          "events": 2939
+          "events": 2940
         },
         {
           "key": "window_rule",
@@ -279,8 +279,8 @@
           "name": "window_rule",
           "index": 1,
           "label": "1–15 अगस्त + the rule",
-          "users": 136,
-          "events": 160
+          "users": 137,
+          "events": 161
         },
         {
           "name": "home_chip",
@@ -330,13 +330,13 @@
       ],
       "dismissed_total": {
         "users": 652,
-        "events": 1647
+        "events": 1648
       },
       "key": "home_story_r2_5card",
       "label": "Home story · 5 cards",
       "live_ts": 20260731110019,
       "live_label": "31 Jul 2026, 11:00 IST",
-      "raw_events": 21243,
+      "raw_events": 21247,
       "events_confirmed": [
         "Story_Viewed",
         "Gift_Opened",
@@ -379,7 +379,7 @@
         "label": "since 31 Jul 11:00",
         "users": 168,
         "events": 714,
-        "days": 7.68,
+        "days": 7.7,
         "reach_pct": 25,
         "per_user_day": 0.139
       }
@@ -462,7 +462,7 @@
         "post": {
           "users": 168,
           "events": 714,
-          "days": 7.68,
+          "days": 7.7,
           "reach_pct": 25,
           "per_user_day": 0.139,
           "label": "since 31 Jul 11:00 (after)"
