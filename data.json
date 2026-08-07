@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-07 06:05 IST",
+  "generated": "2026-08-07 09:09 IST",
   "sample": false,
   "region": "eu1",
   "start_date": "2026-07-16",
@@ -180,7 +180,7 @@
       "key": "tech",
       "label": "Technician App",
       "color": "#2563EB",
-      "note": "Technician app — Shown comes from CleverTap's own impression event (Notification Viewed, wzrk_id 1784203536) because this app does not fire the custom inApp_Shown; education/quiz are locked to that cohort by identity. 314 role = technician profile(s) acted without a recorded impression.",
+      "note": "Technician app — Shown comes from CleverTap's own impression event (Notification Viewed, wzrk_id 1784203536) because this app does not fire the custom inApp_Shown; education/quiz are locked to that cohort by identity. 313 role = technician profile(s) acted without a recorded impression.",
       "campaigns": [
         "1784203536"
       ],
@@ -609,13 +609,13 @@
             "label": "1 time only",
             "min": 1,
             "max": 1,
-            "users": 51
+            "users": 50
           },
           {
             "label": "2 times",
             "min": 2,
             "max": 2,
-            "users": 38
+            "users": 39
           },
           {
             "label": "3 times",
@@ -641,13 +641,13 @@
             "label": "1 time only",
             "min": 1,
             "max": 1,
-            "users": 59
+            "users": 58
           },
           {
             "label": "2 times",
             "min": 2,
             "max": 2,
-            "users": 46
+            "users": 47
           },
           {
             "label": "3 times",
@@ -670,7 +670,7 @@
         ]
       },
       "freq_avg": {
-        "shown": 7.83,
+        "shown": 7.84,
         "ok": 6.5
       },
       "freq_max": {
@@ -726,8 +726,8 @@
         },
         {
           "date": "2026-08-05",
-          "shown": 134,
-          "ok": 118
+          "shown": 135,
+          "ok": 119
         },
         {
           "date": "2026-08-06",
@@ -741,8 +741,8 @@
   "unattributed": {
     "edu_ok": 579,
     "completed": 472,
-    "edu_ok_technician": 314,
-    "completed_technician": 261
+    "edu_ok_technician": 313,
+    "completed_technician": 260
   },
   "both_apps": 0
 }
