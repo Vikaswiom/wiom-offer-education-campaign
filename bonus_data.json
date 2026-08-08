@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-09 02:46 IST",
+  "generated": "2026-08-09 03:21 IST",
   "region": "eu1",
   "start_date": "2026-07-27",
   "triggers": [
@@ -196,14 +196,14 @@
           "label": "Story shown",
           "event": "Bonus_Seva2_Story_Viewed",
           "users": 865,
-          "events": 4618
+          "events": 4619
         },
         {
           "key": "gift",
           "label": "Opened the gift",
           "event": "Bonus_Seva2_Gift_Opened",
           "users": 833,
-          "events": 3246
+          "events": 3248
         },
         {
           "key": "window_rule",
@@ -287,7 +287,7 @@
           "index": 2,
           "label": "where सेवा स्थिति lives",
           "users": 156,
-          "events": 188
+          "events": 189
         },
         {
           "name": "help_icon",
@@ -330,13 +330,13 @@
       ],
       "dismissed_total": {
         "users": 669,
-        "events": 1982
+        "events": 1983
       },
       "key": "home_story_r2_5card",
       "label": "Home story · 5 cards",
       "live_ts": 20260731110019,
       "live_label": "31 Jul 2026, 11:00 IST",
-      "raw_events": 23007,
+      "raw_events": 23011,
       "events_confirmed": [
         "Story_Viewed",
         "Gift_Opened",
@@ -379,7 +379,7 @@
         "label": "since 31 Jul 11:00",
         "users": 178,
         "events": 810,
-        "days": 8.66,
+        "days": 8.68,
         "reach_pct": 26,
         "per_user_day": 0.138
       }
@@ -462,7 +462,7 @@
         "post": {
           "users": 178,
           "events": 810,
-          "days": 8.66,
+          "days": 8.68,
           "reach_pct": 26,
           "per_user_day": 0.138,
           "label": "since 31 Jul 11:00 (after)"
