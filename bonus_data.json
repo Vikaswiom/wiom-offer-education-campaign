@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-08 20:35 IST",
+  "generated": "2026-08-08 21:15 IST",
   "region": "eu1",
   "start_date": "2026-07-27",
   "triggers": [
@@ -196,14 +196,14 @@
           "label": "Story shown",
           "event": "Bonus_Seva2_Story_Viewed",
           "users": 865,
-          "events": 4602
+          "events": 4603
         },
         {
           "key": "gift",
           "label": "Opened the gift",
           "event": "Bonus_Seva2_Gift_Opened",
           "users": 832,
-          "events": 3230
+          "events": 3231
         },
         {
           "key": "window_rule",
@@ -309,8 +309,8 @@
         "acknowledge": 223
       },
       "goto": {
-        "users": 613,
-        "events": 1542
+        "users": 597,
+        "events": 1491
       },
       "toggled": {
         "users": 121,
@@ -336,7 +336,7 @@
       "label": "Home story · 5 cards",
       "live_ts": 20260731110019,
       "live_label": "31 Jul 2026, 11:00 IST",
-      "raw_events": 22931,
+      "raw_events": 22882,
       "events_confirmed": [
         "Story_Viewed",
         "Gift_Opened",
@@ -378,15 +378,15 @@
         "key": "round2",
         "label": "since 31 Jul 11:00",
         "users": 178,
-        "events": 798,
-        "days": 8.4,
+        "events": 809,
+        "days": 8.43,
         "reach_pct": 26,
-        "per_user_day": 0.141
+        "per_user_day": 0.142
       }
     ],
     "lift_r1": 268,
-    "lift_r2": -48,
-    "lift_total": 93
+    "lift_r2": -47,
+    "lift_total": 95
   },
   "followthrough": {
     "chip_event": "strip_chip_opened",
@@ -461,14 +461,14 @@
         },
         "post": {
           "users": 178,
-          "events": 798,
-          "days": 8.4,
+          "events": 809,
+          "days": 8.43,
           "reach_pct": 26,
-          "per_user_day": 0.141,
+          "per_user_day": 0.142,
           "label": "since 31 Jul 11:00 (after)"
         },
         "stopped": false,
-        "lift_pct": 2,
+        "lift_pct": 3,
         "pre_overlaps": [
           "Quality-of-work section"
         ]
