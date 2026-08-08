@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-09 04:22 IST",
+  "generated": "2026-08-09 04:46 IST",
   "region": "eu1",
   "start_date": "2026-07-27",
   "triggers": [
@@ -379,7 +379,7 @@
         "label": "since 31 Jul 11:00",
         "users": 178,
         "events": 810,
-        "days": 8.72,
+        "days": 8.74,
         "reach_pct": 26,
         "per_user_day": 0.137
       }
@@ -462,7 +462,7 @@
         "post": {
           "users": 178,
           "events": 810,
-          "days": 8.72,
+          "days": 8.74,
           "reach_pct": 26,
           "per_user_day": 0.137,
           "label": "since 31 Jul 11:00 (after)"
