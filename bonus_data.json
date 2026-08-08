@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-08 05:12 IST",
+  "generated": "2026-08-08 05:36 IST",
   "region": "eu1",
   "start_date": "2026-07-27",
   "triggers": [
@@ -196,14 +196,14 @@
           "label": "Story shown",
           "event": "Bonus_Seva2_Story_Viewed",
           "users": 864,
-          "events": 4207
+          "events": 4213
         },
         {
           "key": "gift",
           "label": "Opened the gift",
           "event": "Bonus_Seva2_Gift_Opened",
           "users": 829,
-          "events": 2944
+          "events": 2946
         },
         {
           "key": "window_rule",
@@ -224,7 +224,7 @@
           "label": "Tapped the सेवा स्थिति chip",
           "event": "Bonus_Seva2_Chip_Tapped",
           "users": 734,
-          "events": 2016
+          "events": 2017
         },
         {
           "key": "help",
@@ -238,7 +238,7 @@
           "label": "Completed the story",
           "event": "Bonus_Seva2_Flow_Completed",
           "users": 667,
-          "events": 1741
+          "events": 1742
         }
       ],
       "cards": [
@@ -273,7 +273,7 @@
           "index": 0,
           "label": "hero · the gift",
           "users": 506,
-          "events": 1059
+          "events": 1060
         },
         {
           "name": "window_rule",
@@ -310,7 +310,7 @@
       },
       "goto": {
         "users": 601,
-        "events": 1423
+        "events": 1424
       },
       "toggled": {
         "users": 120,
@@ -330,13 +330,13 @@
       ],
       "dismissed_total": {
         "users": 653,
-        "events": 1652
+        "events": 1653
       },
       "key": "home_story_r2_5card",
       "label": "Home story · 5 cards",
       "live_ts": 20260731110019,
       "live_label": "31 Jul 2026, 11:00 IST",
-      "raw_events": 21274,
+      "raw_events": 21286,
       "events_confirmed": [
         "Story_Viewed",
         "Gift_Opened",
@@ -379,7 +379,7 @@
         "label": "since 31 Jul 11:00",
         "users": 168,
         "events": 715,
-        "days": 7.76,
+        "days": 7.78,
         "reach_pct": 25,
         "per_user_day": 0.138
       }
@@ -462,7 +462,7 @@
         "post": {
           "users": 168,
           "events": 715,
-          "days": 7.76,
+          "days": 7.78,
           "reach_pct": 25,
           "per_user_day": 0.138,
           "label": "since 31 Jul 11:00 (after)"
