@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-09 03:21 IST",
+  "generated": "2026-08-09 03:43 IST",
   "region": "eu1",
   "start_date": "2026-07-27",
   "triggers": [
@@ -203,7 +203,7 @@
           "label": "Opened the gift",
           "event": "Bonus_Seva2_Gift_Opened",
           "users": 833,
-          "events": 3248
+          "events": 3249
         },
         {
           "key": "window_rule",
@@ -224,21 +224,21 @@
           "label": "Tapped the सेवा स्थिति chip",
           "event": "Bonus_Seva2_Chip_Tapped",
           "users": 738,
-          "events": 2214
+          "events": 2215
         },
         {
           "key": "help",
           "label": "Tapped the (?) button",
           "event": "Bonus_Seva2_Help_Tapped",
           "users": 652,
-          "events": 2301
+          "events": 2302
         },
         {
           "key": "completed",
           "label": "Completed the story",
           "event": "Bonus_Seva2_Flow_Completed",
           "users": 676,
-          "events": 1909
+          "events": 1910
         }
       ],
       "cards": [
@@ -310,7 +310,7 @@
       },
       "goto": {
         "users": 614,
-        "events": 1548
+        "events": 1549
       },
       "toggled": {
         "users": 121,
@@ -336,7 +336,7 @@
       "label": "Home story · 5 cards",
       "live_ts": 20260731110019,
       "live_label": "31 Jul 2026, 11:00 IST",
-      "raw_events": 23011,
+      "raw_events": 23016,
       "events_confirmed": [
         "Story_Viewed",
         "Gift_Opened",
@@ -379,7 +379,7 @@
         "label": "since 31 Jul 11:00",
         "users": 178,
         "events": 810,
-        "days": 8.68,
+        "days": 8.7,
         "reach_pct": 26,
         "per_user_day": 0.138
       }
@@ -462,7 +462,7 @@
         "post": {
           "users": 178,
           "events": 810,
-          "days": 8.68,
+          "days": 8.7,
           "reach_pct": 26,
           "per_user_day": 0.138,
           "label": "since 31 Jul 11:00 (after)"
