@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-08 10:13 IST",
+  "generated": "2026-08-08 10:59 IST",
   "sample": false,
   "region": "eu1",
   "start_date": "2026-07-16",
@@ -632,13 +632,13 @@
             "label": "4 times",
             "min": 4,
             "max": 4,
-            "users": 35
+            "users": 34
           },
           {
             "label": "5 or more times",
             "min": 5,
             "max": null,
-            "users": 211
+            "users": 213
           }
         ],
         "ok": [
@@ -646,41 +646,41 @@
             "label": "1 time only",
             "min": 1,
             "max": 1,
-            "users": 58
+            "users": 56
           },
           {
             "label": "2 times",
             "min": 2,
             "max": 2,
-            "users": 47
+            "users": 48
           },
           {
             "label": "3 times",
             "min": 3,
             "max": 3,
-            "users": 35
+            "users": 36
           },
           {
             "label": "4 times",
             "min": 4,
             "max": 4,
-            "users": 34
+            "users": 32
           },
           {
             "label": "5 or more times",
             "min": 5,
             "max": null,
-            "users": 187
+            "users": 189
           }
         ]
       },
       "freq_avg": {
-        "shown": 8.17,
-        "ok": 6.79
+        "shown": 8.25,
+        "ok": 6.87
       },
       "freq_max": {
-        "shown": 61,
-        "ok": 55
+        "shown": 63,
+        "ok": 57
       },
       "attribution": "event",
       "campaigns": [],
@@ -698,7 +698,7 @@
         ]
       ],
       "funnel": {
-        "shown": 372,
+        "shown": 373,
         "ok": 361
       },
       "ok_outside_shown": 0,
@@ -746,8 +746,8 @@
         },
         {
           "date": "2026-08-08",
-          "shown": 8,
-          "ok": 6
+          "shown": 30,
+          "ok": 20
         }
       ],
       "note": "Full-page offer creative (round 2): one screen, one ठीक है, no quiz."
