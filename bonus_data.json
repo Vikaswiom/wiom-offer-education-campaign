@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-08 19:32 IST",
+  "generated": "2026-08-08 20:12 IST",
   "region": "eu1",
   "start_date": "2026-07-27",
   "triggers": [
@@ -196,14 +196,14 @@
           "label": "Story shown",
           "event": "Bonus_Seva2_Story_Viewed",
           "users": 865,
-          "events": 4596
+          "events": 4600
         },
         {
           "key": "gift",
           "label": "Opened the gift",
           "event": "Bonus_Seva2_Gift_Opened",
           "users": 832,
-          "events": 3224
+          "events": 3230
         },
         {
           "key": "window_rule",
@@ -224,21 +224,21 @@
           "label": "Tapped the सेवा स्थिति chip",
           "event": "Bonus_Seva2_Chip_Tapped",
           "users": 738,
-          "events": 2202
+          "events": 2205
         },
         {
           "key": "help",
           "label": "Tapped the (?) button",
           "event": "Bonus_Seva2_Help_Tapped",
           "users": 652,
-          "events": 2292
+          "events": 2295
         },
         {
           "key": "completed",
           "label": "Completed the story",
           "event": "Bonus_Seva2_Flow_Completed",
           "users": 675,
-          "events": 1900
+          "events": 1902
         }
       ],
       "cards": [
@@ -272,8 +272,8 @@
           "name": "hero_gift",
           "index": 0,
           "label": "hero · the gift",
-          "users": 536,
-          "events": 1314
+          "users": 538,
+          "events": 1318
         },
         {
           "name": "window_rule",
@@ -294,7 +294,7 @@
           "index": 3,
           "label": "the (?) button",
           "users": 221,
-          "events": 282
+          "events": 283
         },
         {
           "name": "done",
@@ -310,7 +310,7 @@
       },
       "goto": {
         "users": 613,
-        "events": 1540
+        "events": 1542
       },
       "toggled": {
         "users": 121,
@@ -320,7 +320,7 @@
         {
           "metric": "samay_par_kaam",
           "label": "समय पर काम",
-          "users": 584
+          "users": 585
         },
         {
           "metric": "grahak_ki_santushti",
@@ -330,13 +330,13 @@
       ],
       "dismissed_total": {
         "users": 666,
-        "events": 1958
+        "events": 1963
       },
       "key": "home_story_r2_5card",
       "label": "Home story · 5 cards",
       "live_ts": 20260731110019,
       "live_label": "31 Jul 2026, 11:00 IST",
-      "raw_events": 22901,
+      "raw_events": 22926,
       "events_confirmed": [
         "Story_Viewed",
         "Gift_Opened",
@@ -378,15 +378,15 @@
         "key": "round2",
         "label": "since 31 Jul 11:00",
         "users": 177,
-        "events": 790,
-        "days": 8.36,
+        "events": 796,
+        "days": 8.38,
         "reach_pct": 26,
-        "per_user_day": 0.14
+        "per_user_day": 0.141
       }
     ],
     "lift_r1": 268,
     "lift_r2": -48,
-    "lift_total": 92
+    "lift_total": 93
   },
   "followthrough": {
     "chip_event": "strip_chip_opened",
@@ -461,14 +461,14 @@
         },
         "post": {
           "users": 177,
-          "events": 790,
-          "days": 8.36,
+          "events": 796,
+          "days": 8.38,
           "reach_pct": 26,
-          "per_user_day": 0.14,
+          "per_user_day": 0.141,
           "label": "since 31 Jul 11:00 (after)"
         },
         "stopped": false,
-        "lift_pct": 1,
+        "lift_pct": 2,
         "pre_overlaps": [
           "Quality-of-work section"
         ]
