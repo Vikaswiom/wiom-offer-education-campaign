@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-09 01:44 IST",
+  "generated": "2026-08-09 02:20 IST",
   "region": "eu1",
   "start_date": "2026-07-27",
   "triggers": [
@@ -231,14 +231,14 @@
           "label": "Tapped the (?) button",
           "event": "Bonus_Seva2_Help_Tapped",
           "users": 652,
-          "events": 2299
+          "events": 2300
         },
         {
           "key": "completed",
           "label": "Completed the story",
           "event": "Bonus_Seva2_Flow_Completed",
           "users": 676,
-          "events": 1907
+          "events": 1908
         }
       ],
       "cards": [
@@ -306,7 +306,7 @@
       ],
       "exits": {
         "deeplink": 614,
-        "acknowledge": 223
+        "acknowledge": 224
       },
       "goto": {
         "users": 614,
@@ -336,7 +336,7 @@
       "label": "Home story · 5 cards",
       "live_ts": 20260731110019,
       "live_label": "31 Jul 2026, 11:00 IST",
-      "raw_events": 22999,
+      "raw_events": 23001,
       "events_confirmed": [
         "Story_Viewed",
         "Gift_Opened",
@@ -379,7 +379,7 @@
         "label": "since 31 Jul 11:00",
         "users": 178,
         "events": 810,
-        "days": 8.61,
+        "days": 8.64,
         "reach_pct": 26,
         "per_user_day": 0.139
       }
@@ -462,7 +462,7 @@
         "post": {
           "users": 178,
           "events": 810,
-          "days": 8.61,
+          "days": 8.64,
           "reach_pct": 26,
           "per_user_day": 0.139,
           "label": "since 31 Jul 11:00 (after)"
