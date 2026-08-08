@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-08 14:23 IST",
+  "generated": "2026-08-08 14:58 IST",
   "sample": false,
   "region": "eu1",
   "start_date": "2026-07-16",
@@ -630,25 +630,25 @@
             "label": "2 times",
             "min": 2,
             "max": 2,
-            "users": 37
+            "users": 35
           },
           {
             "label": "3 times",
             "min": 3,
             "max": 3,
-            "users": 34
+            "users": 36
           },
           {
             "label": "4 times",
             "min": 4,
             "max": 4,
-            "users": 35
+            "users": 34
           },
           {
             "label": "5 or more times",
             "min": 5,
             "max": null,
-            "users": 225
+            "users": 227
           }
         ],
         "ok": [
@@ -656,41 +656,41 @@
             "label": "1 time only",
             "min": 1,
             "max": 1,
-            "users": 49
+            "users": 48
           },
           {
             "label": "2 times",
             "min": 2,
             "max": 2,
-            "users": 53
+            "users": 54
           },
           {
             "label": "3 times",
             "min": 3,
             "max": 3,
-            "users": 34
+            "users": 35
           },
           {
             "label": "4 times",
             "min": 4,
             "max": 4,
-            "users": 35
+            "users": 33
           },
           {
             "label": "5 or more times",
             "min": 5,
             "max": null,
-            "users": 197
+            "users": 199
           }
         ]
       },
       "freq_avg": {
-        "shown": 8.6,
-        "ok": 7.14
+        "shown": 8.66,
+        "ok": 7.2
       },
       "freq_max": {
-        "shown": 66,
-        "ok": 60
+        "shown": 67,
+        "ok": 61
       },
       "attribution": "event",
       "campaigns": [],
@@ -708,8 +708,8 @@
         ]
       ],
       "funnel": {
-        "shown": 379,
-        "ok": 368
+        "shown": 380,
+        "ok": 369
       },
       "ok_outside_shown": 0,
       "options": [],
@@ -756,8 +756,8 @@
         },
         {
           "date": "2026-08-08",
-          "shown": 104,
-          "ok": 90
+          "shown": 108,
+          "ok": 96
         }
       ],
       "note": "Full-page offer creative (round 2): one screen, one ठीक है, no quiz."
@@ -765,7 +765,7 @@
   ],
   "unattributed": {
     "edu_ok": 602,
-    "completed": 495,
+    "completed": 496,
     "edu_ok_technician": 323,
     "completed_technician": 270
   },
