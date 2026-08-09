@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-09 21:15 IST",
+  "generated": "2026-08-09 21:46 IST",
   "region": "eu1",
   "start_date": "2026-07-27",
   "triggers": [
@@ -34,8 +34,8 @@
           "key": "understood",
           "label": "Tapped समझ गया",
           "event": "Bonus_Seva_Understood_Clicked",
-          "users": 108,
-          "events": 113
+          "users": 113,
+          "events": 118
         },
         {
           "key": "quiz_answered",
@@ -87,7 +87,7 @@
         "events": 110
       },
       "understood_watched": {
-        "users": 108,
+        "users": 113,
         "avg": 52.8,
         "median": 55,
         "buckets": [
@@ -109,7 +109,7 @@
           },
           {
             "label": "45s+",
-            "users": 108
+            "users": 113
           }
         ]
       },
@@ -196,14 +196,14 @@
           "label": "Story shown",
           "event": "Bonus_Seva2_Story_Viewed",
           "users": 866,
-          "events": 4723
+          "events": 4724
         },
         {
           "key": "gift",
           "label": "Opened the gift",
           "event": "Bonus_Seva2_Gift_Opened",
           "users": 834,
-          "events": 3338
+          "events": 3340
         },
         {
           "key": "window_rule",
@@ -224,21 +224,21 @@
           "label": "Tapped the सेवा स्थिति chip",
           "event": "Bonus_Seva2_Chip_Tapped",
           "users": 741,
-          "events": 2255
+          "events": 2256
         },
         {
           "key": "help",
           "label": "Tapped the (?) button",
           "event": "Bonus_Seva2_Help_Tapped",
-          "users": 653,
-          "events": 2343
+          "users": 654,
+          "events": 2344
         },
         {
           "key": "completed",
           "label": "Completed the story",
           "event": "Bonus_Seva2_Flow_Completed",
-          "users": 679,
-          "events": 1949
+          "users": 680,
+          "events": 1951
         }
       ],
       "cards": [
@@ -305,12 +305,12 @@
         }
       ],
       "exits": {
-        "deeplink": 617,
+        "deeplink": 618,
         "acknowledge": 227
       },
       "goto": {
-        "users": 617,
-        "events": 1584
+        "users": 618,
+        "events": 1586
       },
       "toggled": {
         "users": 123,
@@ -320,7 +320,7 @@
         {
           "metric": "samay_par_kaam",
           "label": "समय पर काम",
-          "users": 588
+          "users": 589
         },
         {
           "metric": "grahak_ki_santushti",
@@ -336,7 +336,7 @@
       "label": "Home story · 5 cards",
       "live_ts": 20260731110019,
       "live_label": "31 Jul 2026, 11:00 IST",
-      "raw_events": 23494,
+      "raw_events": 23503,
       "events_confirmed": [
         "Story_Viewed",
         "Gift_Opened",
@@ -354,7 +354,7 @@
   "timeline": {
     "event": "service_status_help_opened",
     "cohort_event": "Bonus_Seva2_Flow_Completed",
-    "cohort_users": 679,
+    "cohort_users": 680,
     "windows": [
       {
         "key": "before",
@@ -377,9 +377,9 @@
       {
         "key": "round2",
         "label": "since 31 Jul 11:00",
-        "users": 179,
-        "events": 840,
-        "days": 9.43,
+        "users": 180,
+        "events": 842,
+        "days": 9.45,
         "reach_pct": 26,
         "per_user_day": 0.131
       }
@@ -398,7 +398,7 @@
       {
         "key": "completed",
         "label": "Finished the story",
-        "users": 679
+        "users": 680
       },
       {
         "key": "chip",
@@ -450,7 +450,7 @@
       "impact": {
         "event": "service_status_help_opened",
         "cohort_event": "Bonus_Seva2_Flow_Completed",
-        "cohort_users": 679,
+        "cohort_users": 680,
         "pre": {
           "users": 167,
           "events": 1024,
@@ -460,9 +460,9 @@
           "label": "20 Jul–30 Jul (before)"
         },
         "post": {
-          "users": 179,
-          "events": 840,
-          "days": 9.43,
+          "users": 180,
+          "events": 842,
+          "days": 9.45,
           "reach_pct": 26,
           "per_user_day": 0.131,
           "label": "since 31 Jul 11:00 (after)"
@@ -502,8 +502,8 @@
         "key": "understood",
         "label": "Tapped समझ गया",
         "event": "Bonus_Seva_Understood_Clicked",
-        "users": 108,
-        "events": 113
+        "users": 113,
+        "events": 118
       },
       {
         "key": "quiz_answered",
