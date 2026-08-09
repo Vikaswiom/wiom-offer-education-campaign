@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-09 20:11 IST",
+  "generated": "2026-08-09 20:36 IST",
   "sample": false,
   "region": "eu1",
   "start_date": "2026-07-16",
@@ -485,7 +485,7 @@
             "label": "1 time only",
             "min": 1,
             "max": 1,
-            "users": 83
+            "users": 84
           },
           {
             "label": "2 times",
@@ -517,7 +517,7 @@
             "label": "1 time only",
             "min": 1,
             "max": 1,
-            "users": 73
+            "users": 74
           },
           {
             "label": "2 times",
@@ -569,8 +569,8 @@
         ]
       ],
       "funnel": {
-        "shown": 98,
-        "ok": 87
+        "shown": 99,
+        "ok": 88
       },
       "ok_outside_shown": 0,
       "options": [],
@@ -622,8 +622,8 @@
         },
         {
           "date": "2026-08-09",
-          "shown": 9,
-          "ok": 8
+          "shown": 10,
+          "ok": 9
         }
       ],
       "note": "Full-page offer creative (round 2): one screen, one ठीक है, no quiz."
@@ -639,13 +639,13 @@
             "label": "1 time only",
             "min": 1,
             "max": 1,
-            "users": 50
+            "users": 49
           },
           {
             "label": "2 times",
             "min": 2,
             "max": 2,
-            "users": 39
+            "users": 40
           },
           {
             "label": "3 times",
@@ -671,13 +671,13 @@
             "label": "1 time only",
             "min": 1,
             "max": 1,
-            "users": 51
+            "users": 50
           },
           {
             "label": "2 times",
             "min": 2,
             "max": 2,
-            "users": 48
+            "users": 49
           },
           {
             "label": "3 times",
@@ -700,12 +700,12 @@
         ]
       },
       "freq_avg": {
-        "shown": 9.47,
-        "ok": 8.11
+        "shown": 9.48,
+        "ok": 8.12
       },
       "freq_max": {
-        "shown": 70,
-        "ok": 64
+        "shown": 71,
+        "ok": 65
       },
       "attribution": "event",
       "campaigns": [],
@@ -776,7 +776,7 @@
         },
         {
           "date": "2026-08-09",
-          "shown": 119,
+          "shown": 120,
           "ok": 119
         }
       ],
