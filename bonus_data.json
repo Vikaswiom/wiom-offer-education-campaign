@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-09 23:09 IST",
+  "generated": "2026-08-09 23:35 IST",
   "region": "eu1",
   "start_date": "2026-07-27",
   "triggers": [
@@ -196,14 +196,14 @@
           "label": "Story shown",
           "event": "Bonus_Seva2_Story_Viewed",
           "users": 866,
-          "events": 4725
+          "events": 4726
         },
         {
           "key": "gift",
           "label": "Opened the gift",
           "event": "Bonus_Seva2_Gift_Opened",
           "users": 836,
-          "events": 3349
+          "events": 3350
         },
         {
           "key": "window_rule",
@@ -238,7 +238,7 @@
           "label": "Completed the story",
           "event": "Bonus_Seva2_Flow_Completed",
           "users": 680,
-          "events": 1954
+          "events": 1955
         }
       ],
       "cards": [
@@ -310,7 +310,7 @@
       },
       "goto": {
         "users": 618,
-        "events": 1589
+        "events": 1590
       },
       "toggled": {
         "users": 123,
@@ -336,7 +336,7 @@
       "label": "Home story · 5 cards",
       "live_ts": 20260731110019,
       "live_label": "31 Jul 2026, 11:00 IST",
-      "raw_events": 23534,
+      "raw_events": 23538,
       "events_confirmed": [
         "Story_Viewed",
         "Gift_Opened",
@@ -379,7 +379,7 @@
         "label": "since 31 Jul 11:00",
         "users": 181,
         "events": 848,
-        "days": 9.51,
+        "days": 9.52,
         "reach_pct": 27,
         "per_user_day": 0.131
       }
@@ -462,7 +462,7 @@
         "post": {
           "users": 181,
           "events": 848,
-          "days": 9.51,
+          "days": 9.52,
           "reach_pct": 27,
           "per_user_day": 0.131,
           "label": "since 31 Jul 11:00 (after)"
