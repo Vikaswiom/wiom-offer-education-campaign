@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-10 00:29 IST",
+  "generated": "2026-08-10 01:11 IST",
   "region": "eu1",
   "start_date": "2026-07-27",
   "triggers": [
@@ -196,14 +196,14 @@
           "label": "Story shown",
           "event": "Bonus_Seva2_Story_Viewed",
           "users": 866,
-          "events": 4739
+          "events": 4752
         },
         {
           "key": "gift",
           "label": "Opened the gift",
           "event": "Bonus_Seva2_Gift_Opened",
           "users": 836,
-          "events": 3371
+          "events": 3386
         },
         {
           "key": "window_rule",
@@ -224,21 +224,21 @@
           "label": "Tapped the सेवा स्थिति chip",
           "event": "Bonus_Seva2_Chip_Tapped",
           "users": 742,
-          "events": 2273
+          "events": 2287
         },
         {
           "key": "help",
           "label": "Tapped the (?) button",
           "event": "Bonus_Seva2_Help_Tapped",
-          "users": 655,
-          "events": 2361
+          "users": 656,
+          "events": 2379
         },
         {
           "key": "completed",
           "label": "Completed the story",
           "event": "Bonus_Seva2_Flow_Completed",
-          "users": 681,
-          "events": 1965
+          "users": 682,
+          "events": 1979
         }
       ],
       "cards": [
@@ -272,8 +272,8 @@
           "name": "hero_gift",
           "index": 0,
           "label": "hero · the gift",
-          "users": 566,
-          "events": 1463
+          "users": 568,
+          "events": 1474
         },
         {
           "name": "window_rule",
@@ -287,7 +287,7 @@
           "index": 2,
           "label": "where सेवा स्थिति lives",
           "users": 159,
-          "events": 193
+          "events": 194
         },
         {
           "name": "help_icon",
@@ -305,38 +305,38 @@
         }
       ],
       "exits": {
-        "deeplink": 619,
-        "acknowledge": 228
+        "deeplink": 620,
+        "acknowledge": 229
       },
       "goto": {
-        "users": 619,
-        "events": 1598
+        "users": 620,
+        "events": 1608
       },
       "toggled": {
         "users": 123,
-        "events": 232
+        "events": 234
       },
       "help_metrics": [
         {
           "metric": "samay_par_kaam",
           "label": "समय पर काम",
-          "users": 590
+          "users": 592
         },
         {
           "metric": "grahak_ki_santushti",
           "label": "ग्राहक की संतुष्टि",
-          "users": 445
+          "users": 446
         }
       ],
       "dismissed_total": {
-        "users": 683,
-        "events": 2132
+        "users": 685,
+        "events": 2144
       },
       "key": "home_story_r2_5card",
       "label": "Home story · 5 cards",
       "live_ts": 20260731110019,
       "live_label": "31 Jul 2026, 11:00 IST",
-      "raw_events": 23632,
+      "raw_events": 23730,
       "events_confirmed": [
         "Story_Viewed",
         "Gift_Opened",
@@ -354,7 +354,7 @@
   "timeline": {
     "event": "service_status_help_opened",
     "cohort_event": "Bonus_Seva2_Flow_Completed",
-    "cohort_users": 681,
+    "cohort_users": 682,
     "windows": [
       {
         "key": "before",
@@ -377,9 +377,9 @@
       {
         "key": "round2",
         "label": "since 31 Jul 11:00",
-        "users": 181,
-        "events": 848,
-        "days": 9.56,
+        "users": 182,
+        "events": 849,
+        "days": 9.59,
         "reach_pct": 27,
         "per_user_day": 0.13
       }
@@ -398,7 +398,7 @@
       {
         "key": "completed",
         "label": "Finished the story",
-        "users": 681
+        "users": 682
       },
       {
         "key": "chip",
@@ -450,25 +450,25 @@
       "impact": {
         "event": "service_status_help_opened",
         "cohort_event": "Bonus_Seva2_Flow_Completed",
-        "cohort_users": 681,
+        "cohort_users": 682,
         "pre": {
           "users": 167,
           "events": 1024,
           "days": 11.0,
-          "reach_pct": 25,
-          "per_user_day": 0.137,
+          "reach_pct": 24,
+          "per_user_day": 0.136,
           "label": "20 Jul–30 Jul (before)"
         },
         "post": {
-          "users": 181,
-          "events": 848,
-          "days": 9.56,
+          "users": 182,
+          "events": 849,
+          "days": 9.59,
           "reach_pct": 27,
           "per_user_day": 0.13,
           "label": "since 31 Jul 11:00 (after)"
         },
         "stopped": false,
-        "lift_pct": -5,
+        "lift_pct": -4,
         "pre_overlaps": [
           "Quality-of-work section"
         ]
