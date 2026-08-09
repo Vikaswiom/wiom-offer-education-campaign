@@ -1,41 +1,41 @@
 {
-  "generated": "2026-08-08 13:29 IST",
+  "generated": "2026-08-09 13:30 IST",
   "pre_date": "2026-07-15",
-  "post_date": "2026-08-08",
+  "post_date": "2026-08-09",
   "cohort": {
     "r1": 105,
-    "r2": 673,
-    "combined": 744
+    "r2": 677,
+    "combined": 748
   },
   "cohort_pre": {
-    "scored": 741,
+    "scored": 745,
     "compliant": 207,
-    "pct": 27.9,
+    "pct": 27.8,
     "rating": 4.42
   },
   "cohort_post": {
-    "scored": 738,
-    "compliant": 294,
-    "pct": 39.8,
+    "scored": 742,
+    "compliant": 292,
+    "pct": 39.4,
     "rating": 4.61
   },
   "control_pre": {
-    "scored": 312,
+    "scored": 308,
     "compliant": 52,
-    "pct": 16.7,
+    "pct": 16.9,
     "rating": 4.27
   },
   "control_post": {
-    "scored": 298,
-    "compliant": 148,
+    "scored": 294,
+    "compliant": 146,
     "pct": 49.7,
-    "rating": 4.38
+    "rating": 4.37
   },
   "transitions": {
-    "newly": 146,
-    "slipped": 59,
-    "stayed": 148,
-    "compliant_now": 294,
-    "matched_post": 738
+    "newly": 145,
+    "slipped": 60,
+    "stayed": 147,
+    "compliant_now": 292,
+    "matched_post": 742
   }
 }
