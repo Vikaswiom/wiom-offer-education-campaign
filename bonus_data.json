@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-10 01:11 IST",
+  "generated": "2026-08-10 01:34 IST",
   "region": "eu1",
   "start_date": "2026-07-27",
   "triggers": [
@@ -196,14 +196,14 @@
           "label": "Story shown",
           "event": "Bonus_Seva2_Story_Viewed",
           "users": 866,
-          "events": 4752
+          "events": 4756
         },
         {
           "key": "gift",
           "label": "Opened the gift",
           "event": "Bonus_Seva2_Gift_Opened",
           "users": 836,
-          "events": 3386
+          "events": 3389
         },
         {
           "key": "window_rule",
@@ -224,21 +224,21 @@
           "label": "Tapped the सेवा स्थिति chip",
           "event": "Bonus_Seva2_Chip_Tapped",
           "users": 742,
-          "events": 2287
+          "events": 2290
         },
         {
           "key": "help",
           "label": "Tapped the (?) button",
           "event": "Bonus_Seva2_Help_Tapped",
           "users": 656,
-          "events": 2379
+          "events": 2385
         },
         {
           "key": "completed",
           "label": "Completed the story",
           "event": "Bonus_Seva2_Flow_Completed",
           "users": 682,
-          "events": 1979
+          "events": 1983
         }
       ],
       "cards": [
@@ -272,8 +272,8 @@
           "name": "hero_gift",
           "index": 0,
           "label": "hero · the gift",
-          "users": 568,
-          "events": 1474
+          "users": 569,
+          "events": 1476
         },
         {
           "name": "window_rule",
@@ -310,7 +310,7 @@
       },
       "goto": {
         "users": 620,
-        "events": 1608
+        "events": 1612
       },
       "toggled": {
         "users": 123,
@@ -329,14 +329,14 @@
         }
       ],
       "dismissed_total": {
-        "users": 685,
-        "events": 2144
+        "users": 686,
+        "events": 2146
       },
       "key": "home_story_r2_5card",
       "label": "Home story · 5 cards",
       "live_ts": 20260731110019,
       "live_label": "31 Jul 2026, 11:00 IST",
-      "raw_events": 23730,
+      "raw_events": 23756,
       "events_confirmed": [
         "Story_Viewed",
         "Gift_Opened",
@@ -378,8 +378,8 @@
         "key": "round2",
         "label": "since 31 Jul 11:00",
         "users": 182,
-        "events": 849,
-        "days": 9.59,
+        "events": 855,
+        "days": 9.61,
         "reach_pct": 27,
         "per_user_day": 0.13
       }
@@ -461,8 +461,8 @@
         },
         "post": {
           "users": 182,
-          "events": 849,
-          "days": 9.59,
+          "events": 855,
+          "days": 9.61,
           "reach_pct": 27,
           "per_user_day": 0.13,
           "label": "since 31 Jul 11:00 (after)"
