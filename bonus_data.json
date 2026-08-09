@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-10 01:34 IST",
+  "generated": "2026-08-10 02:21 IST",
   "region": "eu1",
   "start_date": "2026-07-27",
   "triggers": [
@@ -196,14 +196,14 @@
           "label": "Story shown",
           "event": "Bonus_Seva2_Story_Viewed",
           "users": 866,
-          "events": 4756
+          "events": 4761
         },
         {
           "key": "gift",
           "label": "Opened the gift",
           "event": "Bonus_Seva2_Gift_Opened",
           "users": 836,
-          "events": 3389
+          "events": 3397
         },
         {
           "key": "window_rule",
@@ -224,21 +224,21 @@
           "label": "Tapped the सेवा स्थिति chip",
           "event": "Bonus_Seva2_Chip_Tapped",
           "users": 742,
-          "events": 2290
+          "events": 2294
         },
         {
           "key": "help",
           "label": "Tapped the (?) button",
           "event": "Bonus_Seva2_Help_Tapped",
           "users": 656,
-          "events": 2385
+          "events": 2389
         },
         {
           "key": "completed",
           "label": "Completed the story",
           "event": "Bonus_Seva2_Flow_Completed",
           "users": 682,
-          "events": 1983
+          "events": 1986
         }
       ],
       "cards": [
@@ -273,14 +273,14 @@
           "index": 0,
           "label": "hero · the gift",
           "users": 569,
-          "events": 1476
+          "events": 1480
         },
         {
           "name": "window_rule",
           "index": 1,
           "label": "1–15 अगस्त + the rule",
-          "users": 152,
-          "events": 185
+          "users": 153,
+          "events": 186
         },
         {
           "name": "home_chip",
@@ -294,7 +294,7 @@
           "index": 3,
           "label": "the (?) button",
           "users": 226,
-          "events": 289
+          "events": 290
         },
         {
           "name": "done",
@@ -306,11 +306,11 @@
       ],
       "exits": {
         "deeplink": 620,
-        "acknowledge": 229
+        "acknowledge": 230
       },
       "goto": {
         "users": 620,
-        "events": 1612
+        "events": 1613
       },
       "toggled": {
         "users": 123,
@@ -329,14 +329,14 @@
         }
       ],
       "dismissed_total": {
-        "users": 686,
-        "events": 2146
+        "users": 687,
+        "events": 2152
       },
       "key": "home_story_r2_5card",
       "label": "Home story · 5 cards",
       "live_ts": 20260731110019,
       "live_label": "31 Jul 2026, 11:00 IST",
-      "raw_events": 23756,
+      "raw_events": 23787,
       "events_confirmed": [
         "Story_Viewed",
         "Gift_Opened",
@@ -379,7 +379,7 @@
         "label": "since 31 Jul 11:00",
         "users": 182,
         "events": 855,
-        "days": 9.61,
+        "days": 9.64,
         "reach_pct": 27,
         "per_user_day": 0.13
       }
@@ -462,7 +462,7 @@
         "post": {
           "users": 182,
           "events": 855,
-          "days": 9.61,
+          "days": 9.64,
           "reach_pct": 27,
           "per_user_day": 0.13,
           "label": "since 31 Jul 11:00 (after)"
