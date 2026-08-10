@@ -1,11 +1,16 @@
 # Deploy the site via GitHub Actions (Pages "legacy" Jekyll build erroring on the
 # auto-refreshed data files — this bypasses Jekyll and serves everything static).
-# Fires on every push to main (data-refresh commits included) so the site tracks data.
+# NOTE: the data-refresh workflow commits with the Actions bot token, and bot-token
+# pushes do NOT trigger other workflows — so `on: push` alone leaves the site frozen.
+# The `schedule` below redeploys on a cron so committed data.json/bonus_data.json/
+# quality_impact.json actually go live. `push` still covers human commits.
 name: pages
 on:
   push:
     branches: [main]
   workflow_dispatch: {}
+  schedule:
+    - cron: "8,38 * * * *" # twice hourly, a few min after the :03/:33 data refresh
 
 permissions:
   contents: read
