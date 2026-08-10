@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-10 15:35 IST",
+  "generated": "2026-08-10 16:51 IST",
   "sample": false,
   "region": "eu1",
   "start_date": "2026-07-16",
@@ -195,7 +195,7 @@
       "key": "tech",
       "label": "Technician App",
       "color": "#2563EB",
-      "note": "Technician app — Shown comes from CleverTap's own impression event (Notification Viewed, wzrk_id 1784203536) because this app does not fire the custom inApp_Shown; education/quiz are locked to that cohort by identity. 344 role = technician profile(s) acted without a recorded impression.",
+      "note": "Technician app — Shown comes from CleverTap's own impression event (Notification Viewed, wzrk_id 1784203536) because this app does not fire the custom inApp_Shown; education/quiz are locked to that cohort by identity. 346 role = technician profile(s) acted without a recorded impression.",
       "campaigns": [
         "1784203536"
       ],
@@ -490,13 +490,13 @@
             "label": "1 time only",
             "min": 1,
             "max": 1,
-            "users": 87
+            "users": 86
           },
           {
             "label": "2 times",
             "min": 2,
             "max": 2,
-            "users": 11
+            "users": 12
           },
           {
             "label": "3 times",
@@ -522,13 +522,13 @@
             "label": "1 time only",
             "min": 1,
             "max": 1,
-            "users": 77
+            "users": 76
           },
           {
             "label": "2 times",
             "min": 2,
             "max": 2,
-            "users": 10
+            "users": 11
           },
           {
             "label": "3 times",
@@ -551,8 +551,8 @@
         ]
       },
       "freq_avg": {
-        "shown": 1.21,
-        "ok": 1.22
+        "shown": 1.22,
+        "ok": 1.23
       },
       "freq_max": {
         "shown": 5,
@@ -632,8 +632,8 @@
         },
         {
           "date": "2026-08-10",
-          "shown": 4,
-          "ok": 4
+          "shown": 5,
+          "ok": 5
         }
       ],
       "note": "Full-page offer creative (round 2): one screen, one ठीक है, no quiz."
@@ -655,25 +655,25 @@
             "label": "2 times",
             "min": 2,
             "max": 2,
-            "users": 39
+            "users": 38
           },
           {
             "label": "3 times",
             "min": 3,
             "max": 3,
-            "users": 34
+            "users": 32
           },
           {
             "label": "4 times",
             "min": 4,
             "max": 4,
-            "users": 31
+            "users": 32
           },
           {
             "label": "5 or more times",
             "min": 5,
             "max": null,
-            "users": 258
+            "users": 260
           }
         ],
         "ok": [
@@ -687,19 +687,19 @@
             "label": "2 times",
             "min": 2,
             "max": 2,
-            "users": 46
+            "users": 45
           },
           {
             "label": "3 times",
             "min": 3,
             "max": 3,
-            "users": 36
+            "users": 33
           },
           {
             "label": "4 times",
             "min": 4,
             "max": 4,
-            "users": 28
+            "users": 32
           },
           {
             "label": "5 or more times",
@@ -710,8 +710,8 @@
         ]
       },
       "freq_avg": {
-        "shown": 9.82,
-        "ok": 8.45
+        "shown": 9.9,
+        "ok": 8.54
       },
       "freq_max": {
         "shown": 72,
@@ -791,18 +791,18 @@
         },
         {
           "date": "2026-08-10",
-          "shown": 70,
-          "ok": 68
+          "shown": 76,
+          "ok": 77
         }
       ],
       "note": "Full-page offer creative (round 2): one screen, one ठीक है, no quiz. 1 profile tapped ठीक है without a recorded Page shown — that device was still injecting the bridge at page load, so treat Shown as a slight under-count."
     }
   ],
   "unattributed": {
-    "edu_ok": 641,
-    "completed": 529,
-    "edu_ok_technician": 344,
-    "completed_technician": 291
+    "edu_ok": 643,
+    "completed": 530,
+    "edu_ok_technician": 346,
+    "completed_technician": 292
   },
   "both_apps": 0
 }
