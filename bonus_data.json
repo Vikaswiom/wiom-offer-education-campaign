@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-10 08:02 IST",
+  "generated": "2026-08-10 09:47 IST",
   "region": "eu1",
   "start_date": "2026-07-27",
   "triggers": [
@@ -189,21 +189,21 @@
   ],
   "round2": [
     {
-      "shown": 866,
+      "shown": 867,
       "funnel": [
         {
           "key": "shown",
           "label": "Story shown",
           "event": "Bonus_Seva2_Story_Viewed",
-          "users": 866,
-          "events": 4802
+          "users": 867,
+          "events": 4842
         },
         {
           "key": "gift",
           "label": "Opened the gift",
           "event": "Bonus_Seva2_Gift_Opened",
-          "users": 837,
-          "events": 3478
+          "users": 838,
+          "events": 3535
         },
         {
           "key": "window_rule",
@@ -224,21 +224,21 @@
           "label": "Tapped the सेवा स्थिति chip",
           "event": "Bonus_Seva2_Chip_Tapped",
           "users": 743,
-          "events": 2356
+          "events": 2390
         },
         {
           "key": "help",
           "label": "Tapped the (?) button",
           "event": "Bonus_Seva2_Help_Tapped",
           "users": 658,
-          "events": 2459
+          "events": 2499
         },
         {
           "key": "completed",
           "label": "Completed the story",
           "event": "Bonus_Seva2_Flow_Completed",
           "users": 684,
-          "events": 2042
+          "events": 2076
         }
       ],
       "cards": [
@@ -272,29 +272,29 @@
           "name": "hero_gift",
           "index": 0,
           "label": "hero · the gift",
-          "users": 573,
-          "events": 1530
+          "users": 583,
+          "events": 1586
         },
         {
           "name": "window_rule",
           "index": 1,
           "label": "1–15 अगस्त + the rule",
-          "users": 155,
-          "events": 188
+          "users": 157,
+          "events": 190
         },
         {
           "name": "home_chip",
           "index": 2,
           "label": "where सेवा स्थिति lives",
-          "users": 162,
-          "events": 197
+          "users": 163,
+          "events": 200
         },
         {
           "name": "help_icon",
           "index": 3,
           "label": "the (?) button",
           "users": 227,
-          "events": 295
+          "events": 297
         },
         {
           "name": "done",
@@ -305,22 +305,22 @@
         }
       ],
       "exits": {
-        "deeplink": 624,
-        "acknowledge": 230
+        "deeplink": 625,
+        "acknowledge": 232
       },
       "goto": {
-        "users": 624,
-        "events": 1660
+        "users": 625,
+        "events": 1684
       },
       "toggled": {
-        "users": 124,
-        "events": 235
+        "users": 125,
+        "events": 237
       },
       "help_metrics": [
         {
           "metric": "samay_par_kaam",
           "label": "समय पर काम",
-          "users": 595
+          "users": 596
         },
         {
           "metric": "grahak_ki_santushti",
@@ -329,14 +329,14 @@
         }
       ],
       "dismissed_total": {
-        "users": 689,
-        "events": 2212
+        "users": 697,
+        "events": 2275
       },
       "key": "home_story_r2_5card",
       "label": "Home story · 5 cards",
       "live_ts": 20260731110019,
       "live_label": "31 Jul 2026, 11:00 IST",
-      "raw_events": 24205,
+      "raw_events": 24499,
       "events_confirmed": [
         "Story_Viewed",
         "Gift_Opened",
@@ -378,8 +378,8 @@
         "key": "round2",
         "label": "since 31 Jul 11:00",
         "users": 182,
-        "events": 861,
-        "days": 9.88,
+        "events": 866,
+        "days": 9.95,
         "reach_pct": 27,
         "per_user_day": 0.127
       }
@@ -461,8 +461,8 @@
         },
         "post": {
           "users": 182,
-          "events": 861,
-          "days": 9.88,
+          "events": 866,
+          "days": 9.95,
           "reach_pct": 27,
           "per_user_day": 0.127,
           "label": "since 31 Jul 11:00 (after)"
