@@ -138,14 +138,14 @@ section{margin-top:24px;}
 <div class="wrap">
   <header>
     <h1>Bonus Seva Video — Campaign Tracking</h1>
-    <p class="sub">नए सिस्टम में बोनस कैसे मिलेगा · education popup → portrait video (45s समझ गया gate) → quiz, from CleverTap <code style="font-size:12px">Bonus_Seva_*</code> events.</p>
+    <p class="sub">How the bonus works in the new system · education popup → portrait video (45s Understood gate) → quiz, from CleverTap <code style="font-size:12px">Bonus_Seva_*</code> events.</p>
     <div class="banner" id="banner">⚠️ Showing <b>sample data</b> — run <code>fetch_bonus_data.py</code> to load live CleverTap numbers.</div>
     <div class="legend"><span class="updated" id="updated"></span></div>
   </header>
 
   <!-- ============ IS THE EDUCATION WORKING?  (R1 + R2 combined → bonus status) ============ -->
   <section id="qi-sec" style="margin-top:26px;display:none">
-    <div class="h2" style="color:var(--brand);font-size:13px;letter-spacing:.4px">क्या education काम कर रहा है? · Bonus-status shift · Round 1 + Round 2 combined</div>
+    <div class="h2" style="color:var(--brand);font-size:13px;letter-spacing:.4px">Is the education working? · Bonus-status shift · Round 1 + Round 2 combined</div>
     <div id="qi-verdict" class="readout" style="border-left-color:var(--brand);margin:0 0 16px;font-size:13.5px"></div>
     <div class="kpis" id="qi-kpis"></div>
     <div class="panel" id="qi-cmp" style="margin-top:16px"></div>
@@ -179,7 +179,7 @@ section{margin-top:24px;}
     <div class="panel">
       <a class="shotwrap" href="bonus_screens.png" target="_blank" rel="noopener">
         <img class="shot" src="bonus_screens.png"
-             alt="The five in-app screens: education popup, portrait video with the locked समझ गया gate, the quiz, the सही confirmation, and the गलत correction">
+             alt="The five in-app screens: education popup, portrait video with the locked Understood gate, the quiz, the correct confirmation, and the wrong correction">
       </a>
       <div class="caphint">Tap the strip to open it full size.</div>
       <div class="cap" id="creativecap"></div>
@@ -196,7 +196,7 @@ section{margin-top:24px;}
     <div class="panel">
       <a class="shotwrap" href="bonus_screens_r2.png" target="_blank" rel="noopener">
         <img class="shot" src="bonus_screens_r2.png"
-             alt="The five Home-story cards: the gift asking अगला बोनस कब, the 16 अगस्त reveal, the 1–15 window with the payday tile as a bonus meter, where सेवा स्थिति lives on Home, the (?) button answered, and the handoff into the real Sewa Sthiti">
+             alt="The five Home-story cards: the gift asking when's the next bonus, the 16 Aug reveal, the 1–15 window with the payday tile as a bonus meter, where Seva Sthiti lives on Home, the (?) button answered, and the handoff into the real Sewa Sthiti">
       </a>
       <div class="caphint">Tap the strip to open it full size.</div>
       <div class="cap" id="r2cap"></div>
@@ -226,9 +226,9 @@ const FALLBACK={"generated":"(local preview — sample data)","sample":true,"reg
 "triggers":[{"key":"quality_section","label":"Quality-of-work section","live_label":"27 Jul 2026, 23:33 IST",
  "funnel":[
   {"key":"intro_viewed","label":"Popup shown","event":"Bonus_Seva_Intro_Viewed","users":40,"events":44},
-  {"key":"learn_more","label":"Tapped और जानें","event":"Bonus_Seva_LearnMore_Clicked","users":31,"events":31},
+  {"key":"learn_more","label":"Tapped Learn more","event":"Bonus_Seva_LearnMore_Clicked","users":31,"events":31},
   {"key":"video_played","label":"Video started","event":"Bonus_Seva_Video_Played","users":30,"events":30},
-  {"key":"understood","label":"Tapped समझ गया","event":"Bonus_Seva_Understood_Clicked","users":22,"events":22},
+  {"key":"understood","label":"Tapped Understood","event":"Bonus_Seva_Understood_Clicked","users":22,"events":22},
   {"key":"quiz_answered","label":"Completed — answered the quiz","event":"Bonus_Seva_Quiz_Answered","users":21,"events":21}],
  "dropoffs":{"intro_dismissed":{"users":6,"events":6},
   "video_dismissed":{"users":5,"events":5,"watched":{"users":5,"avg":14.2,"median":9,
@@ -237,13 +237,13 @@ const FALLBACK={"generated":"(local preview — sample data)","sample":true,"reg
  "understood_watched":{"users":22,"avg":41.5,"median":45,
   "buckets":[{"label":"0–5s","users":1},{"label":"6–15s","users":1},{"label":"16–30s","users":2},{"label":"31–44s","users":4},{"label":"45s+","users":14}]},
  "quiz":{"answered":21,"correct":15,"wrong":6,
-  "choices":[{"choice":"help_icon","label":"(?) आइकन (सही)","users":15},{"choice":"luck","label":"किस्मत","users":4},{"choice":"rotate_phone","label":"फोन घुमाना","users":2}]},
+  "choices":[{"choice":"help_icon","label":"(?) icon (correct)","users":15},{"choice":"luck","label":"Luck","users":4},{"choice":"rotate_phone","label":"Rotate phone","users":2}]},
  "impact":null,"daily":[]}],
 "totals":{"funnel":[
   {"key":"intro_viewed","label":"Popup shown","users":40,"events":44},
-  {"key":"learn_more","label":"Tapped और जानें","users":31,"events":31},
+  {"key":"learn_more","label":"Tapped Learn more","users":31,"events":31},
   {"key":"video_played","label":"Video started","users":30,"events":30},
-  {"key":"understood","label":"Tapped समझ गया","users":22,"events":22},
+  {"key":"understood","label":"Tapped Understood","users":22,"events":22},
   {"key":"quiz_answered","label":"Completed","users":21,"events":21}]}};
 
 const tip=document.getElementById('tip');
@@ -337,10 +337,10 @@ function quizPanel(t,i){
   const maxC=Math.max(1,...(q.choices||[]).map(c=>c.users));
   return `<div class="panel">${thead(t,i,nf(q.answered)+' answered')}`+
     `<div class="stat"><span>Quiz answered</span><span><b>${nf(q.answered)}</b><span class="ev">fired ${nf(ev)} times</span></span></div>`+
-    `<div class="stat"><span>First answer</span><span><span class="pill ok">✓ सही ${nf(q.correct)} (${pct(q.correct,q.answered)}%)</span>&nbsp;<span class="pill no">✗ गलत ${nf(q.wrong)}</span></span></div>`+
+    `<div class="stat"><span>First answer</span><span><span class="pill ok">✓ correct ${nf(q.correct)} (${pct(q.correct,q.answered)}%)</span>&nbsp;<span class="pill no">✗ wrong ${nf(q.wrong)}</span></span></div>`+
     (q.choices||[]).map(c=>`<div class="qrow"><div class="ql"><span class="qt">${esc(c.label)}</span><b>${nf(c.users)}</b></div>
       <div class="qbar"><span style="width:${pct(c.users,maxC)}%"></span></div></div>`).join('')+
-    `<div class="stat" style="margin-top:8px"><span>Watch time at समझ गया tap</span><b>${uw.avg||0}s</b> <span style="font-size:11px">median ${uw.median||0}s</span></div>`+
+    `<div class="stat" style="margin-top:8px"><span>Watch time at Understood tap</span><b>${uw.avg||0}s</b> <span style="font-size:11px">median ${uw.median||0}s</span></div>`+
     `</div>`;
 }
 
@@ -456,20 +456,20 @@ function renderRound2(data){
 function round2Cap(b){
   var q={}; (b.quits||[]).forEach(function(x){q[x.name]=x.users;});
   var lost=function(n){return q[n]?` <b>${nf(q[n])} left here.</b>`:'';};
-  return `<b>0 · अगला बोनस कब?</b> — the gift carries a hang tag asking the question the card answers. `+
-    `Opening it fires <code>Bonus_Seva2_Gift_Opened</code> and reveals <b>16 अगस्त</b>; the CTA only appears after `+
+  return `<b>0 · When's the next bonus?</b> — the gift carries a hang tag asking the question the card answers. `+
+    `Opening it fires <code>Bonus_Seva2_Gift_Opened</code> and reveals <b>16 Aug</b>; the CTA only appears after `+
     `that, so the reveal is earned rather than skipped.${lost('hero_gift')}<br>`+
     `<b>1 · the 15 days + the rule</b> — one screen does the work two used to. The calendar fills 1–15 on its own, `+
-    `then the green <b>16 अगस्त</b> payday tile doubles as the bonus meter: coins collect on it and it grows when the `+
-    `quality pill moves to बहुत अच्छी. Nothing is asked of the CSP — the pills unlock afterwards for an optional `+
+    `then the green <b>16 Aug</b> payday tile doubles as the bonus meter: coins collect on it and it grows when the `+
+    `quality pill moves to Very good. Nothing is asked of the CSP — the pills unlock afterwards for an optional `+
     `replay, logged as <code>Bonus_Seva2_Quality_Toggled</code>.${lost('window_rule')}<br>`+
-    `<b>2 · where सेवा स्थिति lives</b> — the real Home strip, other chips dimmed to <b>···</b> so no fake ₹ figure `+
+    `<b>2 · where Seva Sthiti lives</b> — the real Home strip, other chips dimmed to <b>···</b> so no fake ₹ figure `+
     `appears on "his" home page. The chip is the only way forward, which is what makes it a rehearsal rather than a `+
     `caption.${lost('home_chip')}<br>`+
-    `<b>3 · the (?) button</b> — both (?) rows answer, matching the promise that every line has one. समझ गया unlocks `+
+    `<b>3 · the (?) button</b> — both (?) rows answer, matching the promise that every line has one. Understood unlocks `+
     `by doing, not by a timer — the exact thing round 1's 45-second gate got wrong.${lost('help_icon')}<br>`+
-    `<b>4 · handoff</b> — <b>अपनी सेवा स्थिति देखें</b> deep-links into the real Quality Drilldown at `+
-    `<code>csp.wiom.in/assurance/quality</code> while curiosity is highest; ठीक है stays as a plain text exit.`+
+    `<b>4 · handoff</b> — <b>See your Seva Sthiti</b> deep-links into the real Quality Drilldown at `+
+    `<code>csp.wiom.in/assurance/quality</code> while curiosity is highest; OK stays as a plain text exit.`+
     `${lost('done')}`;
 }
 
@@ -495,8 +495,8 @@ function round2Body(v,shown){
   /* The two ways out of the last card, side by side — the whole redesign is
      about moving people from the left one to the right one. */
   var exitRow=`<div class="r2h" style="margin-top:16px">How they left the last card</div>`+
-    `<div class="stat"><span>Tapped <b>अपनी सेवा स्थिति देखें</b> → into the app</span><span><b>${nf(ex.deeplink||0)}</b><span class="ev">${pct(ex.deeplink||0,done)}% of completers</span></span></div>`+
-    `<div class="stat"><span>Tapped <b>ठीक है</b> → just closed</span><span><b>${nf(ex.acknowledge||0)}</b><span class="ev">${pct(ex.acknowledge||0,done)}% of completers</span></span></div>`+
+    `<div class="stat"><span>Tapped <b>See your Seva Sthiti</b> → into the app</span><span><b>${nf(ex.deeplink||0)}</b><span class="ev">${pct(ex.deeplink||0,done)}% of completers</span></span></div>`+
+    `<div class="stat"><span>Tapped <b>OK</b> → just closed</span><span><b>${nf(ex.acknowledge||0)}</b><span class="ev">${pct(ex.acknowledge||0,done)}% of completers</span></span></div>`+
     `<div class="stat"><span><code>GoTo_SevaSthiti</code> (the deep-link tap itself)</span><span><b>${nf(into)}</b><span class="ev">fired ${nf((v.goto||{}).events)} times</span></span></div>`;
 
   var maxQ=Math.max(1,...(v.quits||[]).map(function(q){return q.users;}));
@@ -536,8 +536,8 @@ function round2Panel(r2){
   return `<div class="panel">`+round2Head(r2)+
     `<div class="hero">`+
       `<div><div class="hv">${nf(done)}</div><div class="hk">Completed the story</div><div class="hd">${pct(done,shown)}% of shown</div></div>`+
-      `<div><div class="hv good">${nf(into)}</div><div class="hk">Walked into सेवा स्थिति</div><div class="hd">${pct(into,done)}% of completers · ${pct(into,shown)}% of shown</div></div>`+
-      `<div><div class="hv">${nf(ex.acknowledge||0)}</div><div class="hk">Just tapped ठीक है</div><div class="hd">ended without opening the app</div></div>`+
+      `<div><div class="hv good">${nf(into)}</div><div class="hk">Walked into Seva Sthiti</div><div class="hd">${pct(into,done)}% of completers · ${pct(into,shown)}% of shown</div></div>`+
+      `<div><div class="hv">${nf(ex.acknowledge||0)}</div><div class="hk">Just tapped OK</div><div class="hd">ended without opening the app</div></div>`+
     `</div>`+
     round2Body(r2,shown)+`</div>`;
 }
@@ -550,10 +550,10 @@ function round2Note(builds){
       `<code>card_index</code> down by one, so index 2 names a different screen in each build. They are bucketed on `+
       `their <code>trigger</code> and never summed — blending them would produce a funnel that gains users at a step. `+
       `Screens are labelled from the creative's stable <code>card_name</code>, not the index.<br><br>`:'')+
-    `<b>The steps are the taps, not the arrivals.</b> Tapping the सेवा स्थिति chip is what carries the CSP to the `+
+    `<b>The steps are the taps, not the arrivals.</b> Tapping the Seva Sthiti chip is what carries the CSP to the `+
     `(?) card, and tapping a (?) is what unlocks the handoff. Counting those card arrivals as separate steps as well `+
     `would count the same people twice and put a step ahead of the tap that causes it.<br><br>`+
-    `<b>"Walked into सेवा स्थिति" is the point of the whole redesign.</b> It counts `+
+    `<b>"Walked into Seva Sthiti" is the point of the whole redesign.</b> It counts `+
     `<code>Bonus_Seva2_GoTo_SevaSthiti</code> — CSPs who took the deep link into the real Quality Drilldown instead of `+
     `dismissing. Read it against completers, not against shown: everyone who got that far had already finished.<br><br>`+
     `<b>Treat it as a floor, not an exact count.</b> Tapping that CTA navigates away, which destroys the WebView along `+
@@ -576,7 +576,7 @@ function render(D0){
   document.getElementById('kpis').innerHTML=[
     ['Popup shown (unique)', nf(shown), 'since '+(D.start_date||'—'), fired('intro_viewed')],
     ['Watched video', nf(U('video_played')), '<b>'+pct(U('video_played'),shown)+'%</b> of shown', fired('video_played')],
-    ['Tapped समझ गया', nf(U('understood')), '<b>'+pct(U('understood'),shown)+'%</b> of shown', ''],
+    ['Tapped Understood', nf(U('understood')), '<b>'+pct(U('understood'),shown)+'%</b> of shown', ''],
     ['Completed flow', nf(U('quiz_answered')), '<b>'+pct(U('quiz_answered'),shown)+'%</b> of shown', '']
   ].map(k=>`<div class="kpi"><div class="k">${k[0]}</div><div class="v">${k[1]}</div><div class="d">${k[2]}</div>${k[3]?`<div class="e">${k[3]}</div>`:''}</div>`).join('');
 
@@ -597,7 +597,7 @@ function render(D0){
       `The headline tiles above count each CSP once even if both triggers reached them.<br><br>`:'')+
     `<b>"fired N times" is the raw event count</b> — every fire, including repeats by the same person. It runs ahead `+
     `of the user count when someone is served the in-app again on a later session.<br><br>`+
-    `<b>Completing the flow means answering the quiz</b>, not the ठीक है tap after it. That tap only dismisses the `+
+    `<b>Completing the flow means answering the quiz</b>, not the OK tap after it. That tap only dismisses the `+
     `in-app — the education has already landed — so counting it would mark anyone who answered and then backgrounded `+
     `the app as a drop-out. For the record it fired <b>${nf(dt)}</b> times from <b>${nf(du)}</b> users.`;
 
@@ -622,15 +622,15 @@ function render(D0){
   }
 
   document.getElementById('creativecap').innerHTML=
-    `<b>1 · Education popup</b> — "1 अगस्त से आपके बोनस पर असर पड़ सकता है", one CTA (और जानें) and a ✕. `+
+    `<b>1 · Education popup</b> — "From 1 Aug your bonus could be affected", one CTA (Learn more) and a ✕. `+
     `Opening it fires <code>Bonus_Seva_Intro_Viewed</code>; the ✕ fires <code>Bonus_Seva_Intro_Dismissed</code>.<br>`+
-    `<b>2 · Portrait video (0:55) with the समझ गया gate</b> — the button is <b>disabled and counts down from 45</b>, `+
+    `<b>2 · Portrait video (0:55) with the Understood gate</b> — the button is <b>disabled and counts down from 45</b>, `+
     `and the countdown starts on first play, not when the popup opened. It also unlocks early if the video ends or `+
     `fails to load, so a broken CDN can never trap anyone.<br>`+
     `<b>3 · Quiz</b> — a single question, three options; the tap fires <code>Bonus_Seva_Quiz_Answered</code> `+
     `with <b>choice</b> and <b>correct</b>.<br>`+
-    `<b>4 · सही</b> and <b>5 · गलत</b> — the wrong answer is never just marked wrong: the screen shows the `+
-    `chosen option in red, the right one in green, and spells out the answer. Both end on ठीक है, which fires `+
+    `<b>4 · correct</b> and <b>5 · wrong</b> — the wrong answer is never just marked wrong: the screen shows the `+
+    `chosen option in red, the right one in green, and spells out the answer. Both end on OK, which fires `+
     `<code>Bonus_Seva_Flow_Completed</code> and closes the in-app.<br><br>`+
     `Both triggers serve <b>the same creative</b>; the copies differ by one line, the <code>trigger</code> value `+
     `stamped on every event.`;
@@ -657,7 +657,7 @@ fetch('bonus_data.json',{cache:'no-store'}).then(r=>{if(!r.ok)throw 0;return r.j
 
 /* ---- Is the education working? — quality_impact.json (R1+R2 cohort vs their bonus status) ---- */
 function qk(k,v,d,tone){return `<div class="kpi"><div class="k">${k}</div><div class="v"${tone?` style="color:var(--${tone})"`:''}>${v}</div><div class="d">${d||''}</div></div>`;}
-function fmtDate(s){const m={ '01':'जन','02':'फ़र','03':'मार्च','04':'अप्रैल','05':'मई','06':'जून','07':'जुलाई','08':'अगस्त','09':'सित','10':'अक्टू','11':'नव','12':'दिस'};const p=(s||'').split('-');return p.length===3?(+p[2])+' '+(m[p[1]]||p[1]):s;}
+function fmtDate(s){const m=['','Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];const p=(s||'').split('-');return p.length===3?(+p[2])+' '+(m[+p[1]]||p[1]):s;}
 function renderQI(q){
   if(!q||!q.cohort_pre||!q.cohort_post)return;
   const c=q.cohort,pre=q.cohort_pre,post=q.cohort_post,t=q.transitions,cp=q.control_pre,cq=q.control_post;
@@ -665,25 +665,25 @@ function renderQI(q){
   const dpp=+(post.pct-pre.pct).toFixed(1);
   const netnew=t.newly-t.slipped;
   document.getElementById('qi-kpis').innerHTML=[
-    qk('Education पूरा किया (R1 या R2)', c.combined, `R1 quiz ${c.r1} · R2 story ${c.r2} · overlap हटाकर`),
-    qk('अभी Compliant', `${post.compliant}<small style="font-size:16px;color:var(--faint);font-weight:800"> / ${post.scored}</small>`, `<b>${post.pct}%</b> educated CSPs bonus-eligible`),
+    qk('Completed education (R1 or R2)', c.combined, `R1 quiz ${c.r1} · R2 story ${c.r2} · overlap removed`),
+    qk('Compliant now', `${post.compliant}<small style="font-size:16px;color:var(--faint);font-weight:800"> / ${post.scored}</small>`, `<b>${post.pct}%</b> educated CSPs bonus-eligible`),
     qk('Newly Compliant', `+${t.newly}`, `${t.slipped} slipped · <b>net +${netnew}</b>`, 'good'),
-    qk('Avg service rating', post.rating.toFixed(2), `था ${pre.rating.toFixed(2)} → अब ${post.rating.toFixed(2)}`),
+    qk('Avg service rating', post.rating.toFixed(2), `was ${pre.rating.toFixed(2)} → now ${post.rating.toFixed(2)}`),
   ].join('');
   const liftcls=dpp>0.5?'up':(dpp<-0.5?'down':'flat'),liftsign=dpp>0?'+':'';
   document.getElementById('qi-cmp').innerHTML=
-    `<div class="r2h">Educated CSPs — bonus status: पहले vs अब</div>`+
+    `<div class="r2h">Educated CSPs — bonus status: before vs now</div>`+
     `<div class="cmp">`+
-      `<div class="win"><div class="wk">Education से पहले</div><div class="wd">${fmtDate(q.pre_date)}</div>`+
+      `<div class="win"><div class="wk">Before education</div><div class="wd">${fmtDate(q.pre_date)}</div>`+
         `<div class="wv">${pre.pct}%</div><div class="wu">${pre.compliant} / ${pre.scored} compliant</div></div>`+
       `<div class="lift ${liftcls}">${liftsign}${dpp}pp<small>compliant</small></div>`+
-      `<div class="win post"><div class="wk">अभी</div><div class="wd">${fmtDate(q.post_date)}</div>`+
+      `<div class="win post"><div class="wk">Now</div><div class="wd">${fmtDate(q.post_date)}</div>`+
         `<div class="wv">${post.pct}%</div><div class="wu">${post.compliant} / ${post.scored} compliant</div></div>`+
     `</div>`+
     `<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:16px;padding-top:14px;border-top:1px dashed var(--line);text-align:center">`+
-      `<div><div style="font-size:26px;font-weight:900;color:var(--good)">+${t.newly}</div><div style="font-size:11.5px;font-weight:700;color:var(--muted);margin-top:3px">खराब से → Compliant</div></div>`+
-      `<div><div style="font-size:26px;font-weight:900;color:var(--ink)">${t.stayed}</div><div style="font-size:11.5px;font-weight:700;color:var(--muted);margin-top:3px">Compliant ही रहे</div></div>`+
-      `<div><div style="font-size:26px;font-weight:900;color:var(--bad)">−${t.slipped}</div><div style="font-size:11.5px;font-weight:700;color:var(--muted);margin-top:3px">Compliant से फिसले</div></div>`+
+      `<div><div style="font-size:26px;font-weight:900;color:var(--good)">+${t.newly}</div><div style="font-size:11.5px;font-weight:700;color:var(--muted);margin-top:3px">Non-compliant → Compliant</div></div>`+
+      `<div><div style="font-size:26px;font-weight:900;color:var(--ink)">${t.stayed}</div><div style="font-size:11.5px;font-weight:700;color:var(--muted);margin-top:3px">Stayed Compliant</div></div>`+
+      `<div><div style="font-size:26px;font-weight:900;color:var(--bad)">−${t.slipped}</div><div style="font-size:11.5px;font-weight:700;color:var(--muted);margin-top:3px">Slipped from Compliant</div></div>`+
     `</div>`;
   // honest one-line verdict
   const ctlLift=cp&&cq?+(cq.pct-cp.pct).toFixed(1):null;
@@ -695,11 +695,11 @@ function renderQI(q){
     `and those who didn't take it improved even faster (${cp?cp.pct:'—'}% → ${cq?cq.pct:'—'}%${ctlLift!=null?`, ${ctlLift>0?'+':''}${ctlLift}pp`:''}). `+
     `So this snapshot can't credit the improvement to the education. Read it this way: <b>the right CSPs are engaging and trending up</b> — wait for the 16 Aug binding scoring for causal proof.`;
   document.getElementById('qi-note').innerHTML=
-    `<b>कैसे निकाला:</b> Cohort = हर वो CSP जिसने Round 1 (<code>Bonus_Seva_Quiz_Answered</code>) या Round 2 (<code>Bonus_Seva2_Flow_Completed</code>) पूरा किया, CleverTap se; `+
-    `bonus status = <code>QUALITY_DAILY_METRIC_SNAPSHOTS.COMPOSITE_STATE</code> (Compliant = चारों M1–M4 pass, bonus-eligible)। `+
-    `<b>“पहले”</b> = ${fmtDate(q.pre_date)} snapshot (education से पहले), <b>“अब”</b> = ${fmtDate(q.post_date)}। `+
-    `Control = बाकी सब scored CSPs जो cohort में नहीं (${cp?cp.scored:'—'} CSPs)। `+
-    `<b>⚠️ Provisional:</b> यह preview है, live payout नहीं — नए quality bonus की पहली binding scoring <b>16 अगस्त 2026</b> है। रोज़ अपने-आप refresh (<code>edu-quality</code> action)।`;
+    `<b>How it's derived:</b> Cohort = every CSP who completed Round 1 (<code>Bonus_Seva_Quiz_Answered</code>) or Round 2 (<code>Bonus_Seva2_Flow_Completed</code>) , from CleverTap; `+
+    `bonus status = <code>QUALITY_DAILY_METRIC_SNAPSHOTS.COMPOSITE_STATE</code> (Compliant = all four M1–M4 pass, bonus-eligible). `+
+    `<b>“Before”</b> = ${fmtDate(q.pre_date)} snapshot (before education), <b>“Now”</b> = ${fmtDate(q.post_date)}. `+
+    `Control = all other scored CSPs not in the cohort (${cp?cp.scored:'—'} CSPs). `+
+    `<b>⚠️ Provisional:</b> this is a preview, not a live payout — the first binding scoring for the new quality bonus is <b>16 Aug 2026</b>. Auto-refreshes daily (<code>edu-quality</code> action).`;
 }
 fetch('quality_impact.json',{cache:'no-store'}).then(r=>{if(!r.ok)throw 0;return r.json();}).then(renderQI).catch(()=>{});
 </script>

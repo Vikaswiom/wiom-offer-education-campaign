@@ -3,14 +3,14 @@
 write bonus_data.json for bonus.html.
 
 The campaign is a single flow (education popup -> portrait video with a 45s
-'समझ गया' gate -> one quiz -> done), instrumented with the Bonus_Seva_* events:
+'Understood' gate -> one quiz -> done), instrumented with the Bonus_Seva_* events:
 
     Bonus_Seva_Intro_Viewed          in-app rendered (funnel base)
-    Bonus_Seva_LearnMore_Clicked     'और जानें' tapped
+    Bonus_Seva_LearnMore_Clicked     'Learn more' tapped
     Bonus_Seva_Video_Played          video actually started
-    Bonus_Seva_Understood_Clicked    'समझ गया' tapped        {watched_seconds}
+    Bonus_Seva_Understood_Clicked    'Understood' tapped        {watched_seconds}
     Bonus_Seva_Quiz_Answered         quiz option tapped      {choice, correct}
-    Bonus_Seva_Flow_Completed        final 'ठीक है'
+    Bonus_Seva_Flow_Completed        final 'OK'
     Bonus_Seva_Intro_Dismissed       x on the popup
     Bonus_Seva_Video_Dismissed       x on the player         {watched_seconds}
 
@@ -35,16 +35,16 @@ START_DATE = "20260727"     # bonus seva campaign launch
 # 5h30m of an Indian day, when the UTC date is still yesterday.
 IST = datetime.timezone(datetime.timedelta(hours=5, minutes=30))
 
-# Completion is ANSWERING THE QUIZ, not the ठीक है tap that follows it. The tap
+# Completion is ANSWERING THE QUIZ, not the OK tap that follows it. The tap
 # only dismisses the in-app; the education has already landed by the time the
 # quiz is answered, and anyone who answers and then backgrounds the app would
 # otherwise be counted as a drop-out. Bonus_Seva_Flow_Completed is still
 # fetched, reported separately as the dismiss tap, and no longer gates the funnel.
 FUNNEL = [
     ("Bonus_Seva_Intro_Viewed",       "intro_viewed",  "Popup shown"),
-    ("Bonus_Seva_LearnMore_Clicked",  "learn_more",    "Tapped और जानें"),
+    ("Bonus_Seva_LearnMore_Clicked",  "learn_more",    "Tapped Learn more"),
     ("Bonus_Seva_Video_Played",       "video_played",  "Video started"),
-    ("Bonus_Seva_Understood_Clicked", "understood",    "Tapped समझ गया"),
+    ("Bonus_Seva_Understood_Clicked", "understood",    "Tapped Understood"),
     ("Bonus_Seva_Quiz_Answered",      "quiz_answered", "Completed — answered the quiz"),
 ]
 DROPOFFS = [
@@ -79,13 +79,13 @@ R2_BUILD_LABEL = {
 # Screens by their stable name. Index is deliberately absent — it moved.
 CARD_NAME_LABEL = {
     "hero_gift":   "hero · the gift",
-    "window_rule": "1–15 अगस्त + the rule",
-    "home_chip":   "where सेवा स्थिति lives",
+    "window_rule": "1–15 Aug + the rule",
+    "home_chip":   "where Seva Sthiti lives",
     "help_icon":   "the (?) button",
     "done":        "handoff",
 }
 # the two drilldown rows the (?) buttons sit next to, as the CSP reads them
-METRIC_LABEL = {"samay_par_kaam": "समय पर काम", "grahak_ki_santushti": "ग्राहक की संतुष्टि"}
+METRIC_LABEL = {"samay_par_kaam": "On-time work", "grahak_ki_santushti": "Customer satisfaction"}
 
 # Funnel for the shipping five-card build. Chip_Tapped is what CARRIES the CSP
 # to the help_icon card and Help_Tapped is what unlocks the handoff, so those
@@ -94,9 +94,9 @@ METRIC_LABEL = {"samay_par_kaam": "समय पर काम", "grahak_ki_santu
 R2_FUNNEL_5 = [
     ("shown",       "Story shown",                   "Story_Viewed"),
     ("gift",        "Opened the gift",               "Gift_Opened"),
-    ("window_rule", "1–15 अगस्त + the rule",          "Card_Viewed"),
-    ("home_chip",   "Where सेवा स्थिति lives",         "Card_Viewed"),
-    ("chip",        "Tapped the सेवा स्थिति chip",     "Chip_Tapped"),
+    ("window_rule", "1–15 Aug + the rule",          "Card_Viewed"),
+    ("home_chip",   "Where Seva Sthiti lives",         "Card_Viewed"),
+    ("chip",        "Tapped the Seva Sthiti chip",     "Chip_Tapped"),
     ("help",        "Tapped the (?) button",         "Help_Tapped"),
     ("completed",   "Completed the story",           "Flow_Completed"),
 ]
@@ -104,7 +104,7 @@ R2_FUNNEL_5 = [
 R2_FUNNEL_GENERIC = [
     ("shown",     "Story shown",                "Story_Viewed"),
     ("gift",      "Opened the gift",            "Gift_Opened"),
-    ("chip",      "Tapped the सेवा स्थिति chip",  "Chip_Tapped"),
+    ("chip",      "Tapped the Seva Sthiti chip",  "Chip_Tapped"),
     ("help",      "Tapped the (?) button",      "Help_Tapped"),
     ("completed", "Completed the story",        "Flow_Completed"),
 ]
@@ -327,7 +327,7 @@ TRIGGER_ORDER = ["quality_section", "app_launch"]
 def trigger_of(props):
     t = str(props.get("trigger", "") or "").strip()
     return t if t else LEGACY_TRIGGER
-CHOICE_LABEL = {"help_icon": "(?) आइकन (सही)", "luck": "किस्मत", "rotate_phone": "फोन घुमाना"}
+CHOICE_LABEL = {"help_icon": "(?) icon (correct)", "luck": "Luck", "rotate_phone": "Rotate phone"}
 BUCKETS = [(0, 5, "0–5s"), (6, 15, "6–15s"), (16, 30, "16–30s"), (31, 44, "31–44s"), (45, 10**9, "45s+")]
 
 
@@ -386,7 +386,7 @@ def load_help_opens(frm, to):
 
 CHIP_EVENT = "strip_chip_opened"
 CHIP_VALUE = "quality"
-CHIP_WINDOW_MIN = 30      # completing the story -> opening the सेवा स्थिति chip
+CHIP_WINDOW_MIN = 30      # completing the story -> opening the Seva Sthiti chip
 HELP_WINDOW_MIN = 3       # opening the chip -> opening the (?) help screen
 
 
@@ -405,7 +405,7 @@ def followthrough(frm, to, completed_at, opens):
     to the same standard:
 
         finished the story
-          -> opened the सेवा स्थिति chip   within CHIP_WINDOW_MIN of finishing
+          -> opened the Seva Sthiti chip   within CHIP_WINDOW_MIN of finishing
           -> opened the (?) help screen    within HELP_WINDOW_MIN of that chip
 
     completed_at maps cspid -> datetime of that CSP's FIRST round-2 completion.
@@ -446,7 +446,7 @@ def followthrough(frm, to, completed_at, opens):
         "chip_window_min": CHIP_WINDOW_MIN, "help_window_min": HELP_WINDOW_MIN,
         "steps": [
             {"key": "completed", "label": "Finished the story", "users": n},
-            {"key": "chip", "label": f"Opened the सेवा स्थिति chip · within {CHIP_WINDOW_MIN} min",
+            {"key": "chip", "label": f"Opened the Seva Sthiti chip · within {CHIP_WINDOW_MIN} min",
              "users": len(chip_at)},
             {"key": "help", "label": f"Opened the (?) help screen · within {HELP_WINDOW_MIN} min of that",
              "users": len(helped)},
