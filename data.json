@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-10 12:31 IST",
+  "generated": "2026-08-10 14:17 IST",
   "sample": false,
   "region": "eu1",
   "start_date": "2026-07-16",
@@ -508,13 +508,13 @@
             "label": "4 times",
             "min": 4,
             "max": 4,
-            "users": 1
+            "users": 0
           },
           {
             "label": "5 or more times",
             "min": 5,
             "max": null,
-            "users": 0
+            "users": 1
           }
         ],
         "ok": [
@@ -540,23 +540,23 @@
             "label": "4 times",
             "min": 4,
             "max": 4,
-            "users": 1
+            "users": 0
           },
           {
             "label": "5 or more times",
             "min": 5,
             "max": null,
-            "users": 0
+            "users": 1
           }
         ]
       },
       "freq_avg": {
-        "shown": 1.2,
-        "ok": 1.21
+        "shown": 1.21,
+        "ok": 1.22
       },
       "freq_max": {
-        "shown": 4,
-        "ok": 4
+        "shown": 5,
+        "ok": 5
       },
       "attribution": "event",
       "campaigns": [],
@@ -632,8 +632,8 @@
         },
         {
           "date": "2026-08-10",
-          "shown": 3,
-          "ok": 3
+          "shown": 4,
+          "ok": 4
         }
       ],
       "note": "Full-page offer creative (round 2): one screen, one ठीक है, no quiz."
@@ -649,31 +649,31 @@
             "label": "1 time only",
             "min": 1,
             "max": 1,
-            "users": 49
+            "users": 50
           },
           {
             "label": "2 times",
             "min": 2,
             "max": 2,
-            "users": 38
+            "users": 39
           },
           {
             "label": "3 times",
             "min": 3,
             "max": 3,
-            "users": 34
+            "users": 32
           },
           {
             "label": "4 times",
             "min": 4,
             "max": 4,
-            "users": 34
+            "users": 32
           },
           {
             "label": "5 or more times",
             "min": 5,
             "max": null,
-            "users": 253
+            "users": 257
           }
         ],
         "ok": [
@@ -681,37 +681,37 @@
             "label": "1 time only",
             "min": 1,
             "max": 1,
-            "users": 50
+            "users": 51
           },
           {
             "label": "2 times",
             "min": 2,
             "max": 2,
-            "users": 46
+            "users": 45
           },
           {
             "label": "3 times",
             "min": 3,
             "max": 3,
-            "users": 36
+            "users": 35
           },
           {
             "label": "4 times",
             "min": 4,
             "max": 4,
-            "users": 35
+            "users": 32
           },
           {
             "label": "5 or more times",
             "min": 5,
             "max": null,
-            "users": 230
+            "users": 235
           }
         ]
       },
       "freq_avg": {
-        "shown": 9.67,
-        "ok": 8.27
+        "shown": 9.73,
+        "ok": 8.36
       },
       "freq_max": {
         "shown": 71,
@@ -733,8 +733,8 @@
         ]
       ],
       "funnel": {
-        "shown": 408,
-        "ok": 397
+        "shown": 410,
+        "ok": 398
       },
       "ok_outside_shown": 1,
       "options": [],
@@ -791,18 +791,18 @@
         },
         {
           "date": "2026-08-10",
-          "shown": 50,
-          "ok": 45
+          "shown": 64,
+          "ok": 60
         }
       ],
       "note": "Full-page offer creative (round 2): one screen, one ठीक है, no quiz. 1 profile tapped ठीक है without a recorded Page shown — that device was still injecting the bridge at page load, so treat Shown as a slight under-count."
     }
   ],
   "unattributed": {
-    "edu_ok": 639,
-    "completed": 527,
+    "edu_ok": 640,
+    "completed": 528,
     "edu_ok_technician": 343,
-    "completed_technician": 289
+    "completed_technician": 290
   },
   "both_apps": 0
 }
