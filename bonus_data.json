@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-10 11:20 IST",
+  "generated": "2026-08-10 11:47 IST",
   "region": "eu1",
   "start_date": "2026-07-27",
   "triggers": [
@@ -18,7 +18,7 @@
         },
         {
           "key": "learn_more",
-          "label": "Tapped और जानें",
+          "label": "Tapped Learn more",
           "event": "Bonus_Seva_LearnMore_Clicked",
           "users": 310,
           "events": 373
@@ -32,7 +32,7 @@
         },
         {
           "key": "understood",
-          "label": "Tapped समझ गया",
+          "label": "Tapped Understood",
           "event": "Bonus_Seva_Understood_Clicked",
           "users": 113,
           "events": 118
@@ -120,17 +120,17 @@
         "choices": [
           {
             "choice": "help_icon",
-            "label": "(?) आइकन (सही)",
+            "label": "(?) icon (correct)",
             "users": 91
           },
           {
             "choice": "luck",
-            "label": "किस्मत",
+            "label": "Luck",
             "users": 11
           },
           {
             "choice": "rotate_phone",
-            "label": "फोन घुमाना",
+            "label": "Rotate phone",
             "users": 4
           }
         ]
@@ -196,62 +196,62 @@
           "label": "Story shown",
           "event": "Bonus_Seva2_Story_Viewed",
           "users": 867,
-          "events": 4872
+          "events": 4877
         },
         {
           "key": "gift",
           "label": "Opened the gift",
           "event": "Bonus_Seva2_Gift_Opened",
           "users": 838,
-          "events": 3586
+          "events": 3599
         },
         {
           "key": "window_rule",
-          "label": "1–15 अगस्त + the rule",
+          "label": "1–15 Aug + the rule",
           "event": "Bonus_Seva2_Card_Viewed",
           "users": 744,
           "events": null
         },
         {
           "key": "home_chip",
-          "label": "Where सेवा स्थिति lives",
+          "label": "Where Seva Sthiti lives",
           "event": "Bonus_Seva2_Card_Viewed",
           "users": 695,
           "events": null
         },
         {
           "key": "chip",
-          "label": "Tapped the सेवा स्थिति chip",
+          "label": "Tapped the Seva Sthiti chip",
           "event": "Bonus_Seva2_Chip_Tapped",
           "users": 743,
-          "events": 2420
+          "events": 2428
         },
         {
           "key": "help",
           "label": "Tapped the (?) button",
           "event": "Bonus_Seva2_Help_Tapped",
           "users": 658,
-          "events": 2533
+          "events": 2540
         },
         {
           "key": "completed",
           "label": "Completed the story",
           "event": "Bonus_Seva2_Flow_Completed",
           "users": 684,
-          "events": 2103
+          "events": 2109
         }
       ],
       "cards": [
         {
           "name": "window_rule",
           "index": 1,
-          "label": "1–15 अगस्त + the rule",
+          "label": "1–15 Aug + the rule",
           "users": 744
         },
         {
           "name": "home_chip",
           "index": 2,
-          "label": "where सेवा स्थिति lives",
+          "label": "where Seva Sthiti lives",
           "users": 695
         },
         {
@@ -273,19 +273,19 @@
           "index": 0,
           "label": "hero · the gift",
           "users": 593,
-          "events": 1660
+          "events": 1679
         },
         {
           "name": "window_rule",
           "index": 1,
-          "label": "1–15 अगस्त + the rule",
+          "label": "1–15 Aug + the rule",
           "users": 158,
           "events": 192
         },
         {
           "name": "home_chip",
           "index": 2,
-          "label": "where सेवा स्थिति lives",
+          "label": "where Seva Sthiti lives",
           "users": 163,
           "events": 203
         },
@@ -293,8 +293,8 @@
           "name": "help_icon",
           "index": 3,
           "label": "the (?) button",
-          "users": 229,
-          "events": 300
+          "users": 230,
+          "events": 301
         },
         {
           "name": "done",
@@ -310,7 +310,7 @@
       },
       "goto": {
         "users": 625,
-        "events": 1705
+        "events": 1710
       },
       "toggled": {
         "users": 125,
@@ -319,24 +319,24 @@
       "help_metrics": [
         {
           "metric": "samay_par_kaam",
-          "label": "समय पर काम",
+          "label": "On-time work",
           "users": 596
         },
         {
           "metric": "grahak_ki_santushti",
-          "label": "ग्राहक की संतुष्टि",
+          "label": "Customer satisfaction",
           "users": 449
         }
       ],
       "dismissed_total": {
         "users": 701,
-        "events": 2357
+        "events": 2377
       },
       "key": "home_story_r2_5card",
       "label": "Home story · 5 cards",
       "live_ts": 20260731110019,
       "live_label": "31 Jul 2026, 11:00 IST",
-      "raw_events": 24774,
+      "raw_events": 24838,
       "events_confirmed": [
         "Story_Viewed",
         "Gift_Opened",
@@ -378,15 +378,15 @@
         "key": "round2",
         "label": "since 31 Jul 11:00",
         "users": 183,
-        "events": 873,
-        "days": 10.01,
+        "events": 875,
+        "days": 10.03,
         "reach_pct": 27,
-        "per_user_day": 0.127
+        "per_user_day": 0.128
       }
     ],
     "lift_r1": 268,
     "lift_r2": -52,
-    "lift_total": 76
+    "lift_total": 78
   },
   "followthrough": {
     "chip_event": "strip_chip_opened",
@@ -402,7 +402,7 @@
       },
       {
         "key": "chip",
-        "label": "Opened the सेवा स्थिति chip · within 30 min",
+        "label": "Opened the Seva Sthiti chip · within 30 min",
         "users": 8
       },
       {
@@ -461,14 +461,14 @@
         },
         "post": {
           "users": 183,
-          "events": 873,
-          "days": 10.01,
+          "events": 875,
+          "days": 10.03,
           "reach_pct": 27,
-          "per_user_day": 0.127,
+          "per_user_day": 0.128,
           "label": "since 31 Jul 11:00 (after)"
         },
         "stopped": false,
-        "lift_pct": -7,
+        "lift_pct": -6,
         "pre_overlaps": [
           "Quality-of-work section"
         ]
@@ -486,7 +486,7 @@
       },
       {
         "key": "learn_more",
-        "label": "Tapped और जानें",
+        "label": "Tapped Learn more",
         "event": "Bonus_Seva_LearnMore_Clicked",
         "users": 310,
         "events": 373
@@ -500,7 +500,7 @@
       },
       {
         "key": "understood",
-        "label": "Tapped समझ गया",
+        "label": "Tapped Understood",
         "event": "Bonus_Seva_Understood_Clicked",
         "users": 113,
         "events": 118
