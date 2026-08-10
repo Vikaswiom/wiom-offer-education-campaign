@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-10 21:16 IST",
+  "generated": "2026-08-10 22:09 IST",
   "region": "eu1",
   "start_date": "2026-07-27",
   "triggers": [
@@ -196,49 +196,49 @@
           "label": "Story shown",
           "event": "Bonus_Seva2_Story_Viewed",
           "users": 867,
-          "events": 4909
+          "events": 4910
         },
         {
           "key": "gift",
           "label": "Opened the gift",
           "event": "Bonus_Seva2_Gift_Opened",
-          "users": 838,
-          "events": 3694
+          "users": 839,
+          "events": 3703
         },
         {
           "key": "window_rule",
           "label": "1–15 Aug + the rule",
           "event": "Bonus_Seva2_Card_Viewed",
-          "users": 712,
+          "users": 744,
           "events": null
         },
         {
           "key": "home_chip",
           "label": "Where Seva Sthiti lives",
           "event": "Bonus_Seva2_Card_Viewed",
-          "users": 665,
+          "users": 695,
           "events": null
         },
         {
           "key": "chip",
           "label": "Tapped the Seva Sthiti chip",
           "event": "Bonus_Seva2_Chip_Tapped",
-          "users": 744,
-          "events": 2482
+          "users": 745,
+          "events": 2488
         },
         {
           "key": "help",
           "label": "Tapped the (?) button",
           "event": "Bonus_Seva2_Help_Tapped",
-          "users": 658,
-          "events": 2588
+          "users": 659,
+          "events": 2593
         },
         {
           "key": "completed",
           "label": "Completed the story",
           "event": "Bonus_Seva2_Flow_Completed",
-          "users": 684,
-          "events": 2154
+          "users": 685,
+          "events": 2160
         }
       ],
       "cards": [
@@ -246,25 +246,25 @@
           "name": "window_rule",
           "index": 1,
           "label": "1–15 Aug + the rule",
-          "users": 712
+          "users": 744
         },
         {
           "name": "home_chip",
           "index": 2,
           "label": "where Seva Sthiti lives",
-          "users": 665
+          "users": 695
         },
         {
           "name": "help_icon",
           "index": 3,
           "label": "the (?) button",
-          "users": 619
+          "users": 649
         },
         {
           "name": "done",
           "index": 4,
           "label": "handoff",
-          "users": 519
+          "users": 542
         }
       ],
       "quits": [
@@ -272,15 +272,15 @@
           "name": "hero_gift",
           "index": 0,
           "label": "hero · the gift",
-          "users": 608,
-          "events": 1770
+          "users": 610,
+          "events": 1772
         },
         {
           "name": "window_rule",
           "index": 1,
           "label": "1–15 Aug + the rule",
-          "users": 160,
-          "events": 195
+          "users": 161,
+          "events": 196
         },
         {
           "name": "home_chip",
@@ -294,7 +294,7 @@
           "index": 3,
           "label": "the (?) button",
           "users": 234,
-          "events": 311
+          "events": 312
         },
         {
           "name": "done",
@@ -305,12 +305,12 @@
         }
       ],
       "exits": {
-        "deeplink": 625,
+        "deeplink": 627,
         "acknowledge": 236
       },
       "goto": {
-        "users": 625,
-        "events": 1748
+        "users": 627,
+        "events": 1753
       },
       "toggled": {
         "users": 128,
@@ -320,7 +320,7 @@
         {
           "metric": "samay_par_kaam",
           "label": "On-time work",
-          "users": 596
+          "users": 597
         },
         {
           "metric": "grahak_ki_santushti",
@@ -329,14 +329,14 @@
         }
       ],
       "dismissed_total": {
-        "users": 708,
-        "events": 2485
+        "users": 709,
+        "events": 2489
       },
       "key": "home_story_r2_5card",
       "label": "Home story · 5 cards",
       "live_ts": 20260731110019,
       "live_label": "31 Jul 2026, 11:00 IST",
-      "raw_events": 25047,
+      "raw_events": 25300,
       "events_confirmed": [
         "Story_Viewed",
         "Gift_Opened",
@@ -354,7 +354,7 @@
   "timeline": {
     "event": "service_status_help_opened",
     "cohort_event": "Bonus_Seva2_Flow_Completed",
-    "cohort_users": 684,
+    "cohort_users": 685,
     "windows": [
       {
         "key": "before",
@@ -378,8 +378,8 @@
         "key": "round2",
         "label": "since 31 Jul 11:00",
         "users": 189,
-        "events": 915,
-        "days": 10.43,
+        "events": 917,
+        "days": 10.46,
         "reach_pct": 28,
         "per_user_day": 0.128
       }
@@ -398,7 +398,7 @@
       {
         "key": "completed",
         "label": "Finished the story",
-        "users": 684
+        "users": 685
       },
       {
         "key": "chip",
@@ -450,7 +450,7 @@
       "impact": {
         "event": "service_status_help_opened",
         "cohort_event": "Bonus_Seva2_Flow_Completed",
-        "cohort_users": 684,
+        "cohort_users": 685,
         "pre": {
           "users": 167,
           "events": 1024,
@@ -461,8 +461,8 @@
         },
         "post": {
           "users": 189,
-          "events": 915,
-          "days": 10.43,
+          "events": 917,
+          "days": 10.46,
           "reach_pct": 28,
           "per_user_day": 0.128,
           "label": "since 31 Jul 11:00 (after)"
