@@ -688,12 +688,12 @@ function renderQI(q){
   // honest one-line verdict
   const ctlLift=cp&&cq?+(cq.pct-cp.pct).toFixed(1):null;
   document.getElementById('qi-verdict').innerHTML=
-    `<b>छोटा जवाब — Engagement हाँ, लेकिन "education ने सुधारा" यह अभी साबित नहीं।</b> `+
-    `${c.combined} CSPs ने education पूरा किया और group के तौर पर उनकी bonus-eligibility <b>${pre.pct}% → ${post.pct}%</b> हुई `+
-    `(<b>${t.newly}</b> नए compliant बने, सिर्फ़ ${t.slipped} फिसले; rating ${pre.rating.toFixed(2)}→${post.rating.toFixed(2)})। `+
-    `<b>पर सावधानी:</b> जिन्होंने education लिया वो पहले से ही बेहतर थे (${pre.pct}% vs जिन्होंने नहीं लिया उनके ${cp?cp.pct:'—'}%), `+
-    `और जिन्होंने education नहीं लिया वो और तेज़ सुधरे (${cp?cp.pct:'—'}% → ${cq?cq.pct:'—'}%${ctlLift!=null?`, ${ctlLift>0?'+':''}${ctlLift}pp`:''})। `+
-    `इसलिए यह snapshot इस सुधार का श्रेय education को नहीं दे सकता। पढ़ें ऐसे: <b>सही CSPs engage हो रहे हैं और ऊपर जा रहे हैं</b> — causal असर के लिए 16 अगस्त की binding scoring का इंतज़ार करें।`;
+    `<b>Short answer — engagement yes, but "education improved quality" is not proven yet.</b> `+
+    `${c.combined} CSPs completed the education, and as a group their bonus-eligibility went <b>${pre.pct}% → ${post.pct}%</b> `+
+    `(<b>${t.newly}</b> newly compliant, only ${t.slipped} slipped; rating ${pre.rating.toFixed(2)}→${post.rating.toFixed(2)}). `+
+    `<b>But a caveat:</b> the CSPs who took the education were already better to begin with (${pre.pct}% vs ${cp?cp.pct:'—'}% for those who didn't), `+
+    `and those who didn't take it improved even faster (${cp?cp.pct:'—'}% → ${cq?cq.pct:'—'}%${ctlLift!=null?`, ${ctlLift>0?'+':''}${ctlLift}pp`:''}). `+
+    `So this snapshot can't credit the improvement to the education. Read it this way: <b>the right CSPs are engaging and trending up</b> — wait for the 16 Aug binding scoring for causal proof.`;
   document.getElementById('qi-note').innerHTML=
     `<b>कैसे निकाला:</b> Cohort = हर वो CSP जिसने Round 1 (<code>Bonus_Seva_Quiz_Answered</code>) या Round 2 (<code>Bonus_Seva2_Flow_Completed</code>) पूरा किया, CleverTap se; `+
     `bonus status = <code>QUALITY_DAILY_METRIC_SNAPSHOTS.COMPOSITE_STATE</code> (Compliant = चारों M1–M4 pass, bonus-eligible)। `+
