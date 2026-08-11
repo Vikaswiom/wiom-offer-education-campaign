@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-11 20:17 IST",
+  "generated": "2026-08-11 21:15 IST",
   "sample": false,
   "region": "eu1",
   "start_date": "2026-07-16",
@@ -665,7 +665,7 @@
             "label": "2 times",
             "min": 2,
             "max": 2,
-            "users": 39
+            "users": 40
           },
           {
             "label": "3 times",
@@ -691,13 +691,13 @@
             "label": "1 time only",
             "min": 1,
             "max": 1,
-            "users": 52
+            "users": 53
           },
           {
             "label": "2 times",
             "min": 2,
             "max": 2,
-            "users": 42
+            "users": 43
           },
           {
             "label": "3 times",
@@ -720,8 +720,8 @@
         ]
       },
       "freq_avg": {
-        "shown": 10.31,
-        "ok": 9.03
+        "shown": 10.29,
+        "ok": 9.01
       },
       "freq_max": {
         "shown": 82,
@@ -743,10 +743,10 @@
         ]
       ],
       "funnel": {
-        "shown": 421,
-        "ok": 414
+        "shown": 422,
+        "ok": 416
       },
-      "ok_outside_shown": 7,
+      "ok_outside_shown": 8,
       "options": [],
       "daily": [
         {
@@ -806,18 +806,18 @@
         },
         {
           "date": "2026-08-11",
-          "shown": 73,
-          "ok": 90
+          "shown": 75,
+          "ok": 92
         }
       ],
-      "note": "Full-page offer creative (round 2): one screen, one ठीक है, no quiz. 7 profiles tapped ठीक है without a recorded Page shown — those devices were still injecting the bridge at page load, so treat Shown as a slight under-count."
+      "note": "Full-page offer creative (round 2): one screen, one ठीक है, no quiz. 8 profiles tapped ठीक है without a recorded Page shown — those devices were still injecting the bridge at page load, so treat Shown as a slight under-count."
     }
   ],
   "unattributed": {
     "edu_ok": 672,
-    "completed": 548,
+    "completed": 549,
     "edu_ok_technician": 360,
-    "completed_technician": 300
+    "completed_technician": 301
   },
   "both_apps": 0
 }
