@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-11 19:14 IST",
+  "generated": "2026-08-11 20:17 IST",
   "sample": false,
   "region": "eu1",
   "start_date": "2026-07-16",
@@ -665,7 +665,7 @@
             "label": "2 times",
             "min": 2,
             "max": 2,
-            "users": 40
+            "users": 39
           },
           {
             "label": "3 times",
@@ -683,7 +683,7 @@
             "label": "5 or more times",
             "min": 5,
             "max": null,
-            "users": 268
+            "users": 269
           }
         ],
         "ok": [
@@ -691,7 +691,7 @@
             "label": "1 time only",
             "min": 1,
             "max": 1,
-            "users": 53
+            "users": 52
           },
           {
             "label": "2 times",
@@ -709,19 +709,19 @@
             "label": "4 times",
             "min": 4,
             "max": 4,
-            "users": 28
+            "users": 27
           },
           {
             "label": "5 or more times",
             "min": 5,
             "max": null,
-            "users": 253
+            "users": 255
           }
         ]
       },
       "freq_avg": {
-        "shown": 10.26,
-        "ok": 8.99
+        "shown": 10.31,
+        "ok": 9.03
       },
       "freq_max": {
         "shown": 82,
@@ -806,8 +806,8 @@
         },
         {
           "date": "2026-08-11",
-          "shown": 70,
-          "ok": 88
+          "shown": 73,
+          "ok": 90
         }
       ],
       "note": "Full-page offer creative (round 2): one screen, one ठीक है, no quiz. 7 profiles tapped ठीक है without a recorded Page shown — those devices were still injecting the bridge at page load, so treat Shown as a slight under-count."
