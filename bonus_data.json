@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-12 14:22 IST",
+  "generated": "2026-08-12 15:23 IST",
   "region": "eu1",
   "start_date": "2026-07-27",
   "triggers": [
@@ -202,8 +202,8 @@
           "key": "gift",
           "label": "Opened the gift",
           "event": "Bonus_Seva2_Gift_Opened",
-          "users": 841,
-          "events": 4112
+          "users": 842,
+          "events": 4118
         },
         {
           "key": "window_rule",
@@ -223,22 +223,22 @@
           "key": "chip",
           "label": "Tapped the Seva Sthiti chip",
           "event": "Bonus_Seva2_Chip_Tapped",
-          "users": 751,
-          "events": 2752
+          "users": 752,
+          "events": 2758
         },
         {
           "key": "help",
           "label": "Tapped the (?) button",
           "event": "Bonus_Seva2_Help_Tapped",
-          "users": 670,
-          "events": 2883
+          "users": 671,
+          "events": 2890
         },
         {
           "key": "completed",
           "label": "Completed the story",
           "event": "Bonus_Seva2_Flow_Completed",
-          "users": 699,
-          "events": 2407
+          "users": 700,
+          "events": 2413
         }
       ],
       "cards": [
@@ -272,8 +272,8 @@
           "name": "hero_gift",
           "index": 0,
           "label": "hero · the gift",
-          "users": 641,
-          "events": 2192
+          "users": 643,
+          "events": 2200
         },
         {
           "name": "window_rule",
@@ -305,12 +305,12 @@
         }
       ],
       "exits": {
-        "deeplink": 646,
-        "acknowledge": 247
+        "deeplink": 647,
+        "acknowledge": 248
       },
       "goto": {
-        "users": 646,
-        "events": 1951
+        "users": 647,
+        "events": 1955
       },
       "toggled": {
         "users": 131,
@@ -320,7 +320,7 @@
         {
           "metric": "samay_par_kaam",
           "label": "On-time work",
-          "users": 607
+          "users": 608
         },
         {
           "metric": "grahak_ki_santushti",
@@ -329,14 +329,14 @@
         }
       ],
       "dismissed_total": {
-        "users": 731,
-        "events": 2989
+        "users": 733,
+        "events": 2997
       },
       "key": "home_story_r2_5card",
       "label": "Home story · 5 cards",
       "live_ts": 20260731110019,
       "live_label": "31 Jul 2026, 11:00 IST",
-      "raw_events": 27284,
+      "raw_events": 27321,
       "events_confirmed": [
         "Story_Viewed",
         "Gift_Opened",
@@ -354,7 +354,7 @@
   "timeline": {
     "event": "service_status_help_opened",
     "cohort_event": "Bonus_Seva2_Flow_Completed",
-    "cohort_users": 699,
+    "cohort_users": 700,
     "windows": [
       {
         "key": "before",
@@ -372,20 +372,20 @@
         "events": 631,
         "days": 3.48,
         "reach_pct": 17,
-        "per_user_day": 0.26
+        "per_user_day": 0.259
       },
       {
         "key": "round2",
         "label": "since 31 Jul 11:00",
         "users": 195,
-        "events": 1071,
-        "days": 12.14,
+        "events": 1074,
+        "days": 12.18,
         "reach_pct": 28,
         "per_user_day": 0.126
       }
     ],
-    "lift_r1": 266,
-    "lift_r2": -52,
+    "lift_r1": 265,
+    "lift_r2": -51,
     "lift_total": 77
   },
   "followthrough": {
@@ -398,7 +398,7 @@
       {
         "key": "completed",
         "label": "Finished the story",
-        "users": 699
+        "users": 700
       },
       {
         "key": "chip",
@@ -450,7 +450,7 @@
       "impact": {
         "event": "service_status_help_opened",
         "cohort_event": "Bonus_Seva2_Flow_Completed",
-        "cohort_users": 699,
+        "cohort_users": 700,
         "pre": {
           "users": 168,
           "events": 1025,
@@ -461,8 +461,8 @@
         },
         "post": {
           "users": 195,
-          "events": 1071,
-          "days": 12.14,
+          "events": 1074,
+          "days": 12.18,
           "reach_pct": 28,
           "per_user_day": 0.126,
           "label": "since 31 Jul 11:00 (after)"
