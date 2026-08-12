@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-12 15:23 IST",
+  "generated": "2026-08-12 16:21 IST",
   "sample": false,
   "region": "eu1",
   "start_date": "2026-07-16",
@@ -200,7 +200,7 @@
       "key": "tech",
       "label": "Technician App",
       "color": "#2563EB",
-      "note": "Technician app — Shown comes from CleverTap's own impression event (Notification Viewed, wzrk_id 1784203536) because this app does not fire the custom inApp_Shown; education/quiz are locked to that cohort by identity. 365 role = technician profile(s) acted without a recorded impression.",
+      "note": "Technician app — Shown comes from CleverTap's own impression event (Notification Viewed, wzrk_id 1784203536) because this app does not fire the custom inApp_Shown; education/quiz are locked to that cohort by identity. 367 role = technician profile(s) acted without a recorded impression.",
       "campaigns": [
         "1784203536"
       ],
@@ -495,7 +495,7 @@
             "label": "1 time only",
             "min": 1,
             "max": 1,
-            "users": 92
+            "users": 93
           },
           {
             "label": "2 times",
@@ -527,7 +527,7 @@
             "label": "1 time only",
             "min": 1,
             "max": 1,
-            "users": 82
+            "users": 83
           },
           {
             "label": "2 times",
@@ -579,8 +579,8 @@
         ]
       ],
       "funnel": {
-        "shown": 111,
-        "ok": 99
+        "shown": 112,
+        "ok": 100
       },
       "ok_outside_shown": 0,
       "options": [],
@@ -647,8 +647,8 @@
         },
         {
           "date": "2026-08-12",
-          "shown": 5,
-          "ok": 4
+          "shown": 6,
+          "ok": 5
         }
       ],
       "note": "Full-page offer creative (round 2): one screen, one ठीक है, no quiz."
@@ -682,7 +682,7 @@
             "label": "4 times",
             "min": 4,
             "max": 4,
-            "users": 30
+            "users": 31
           },
           {
             "label": "5 or more times",
@@ -696,7 +696,7 @@
             "label": "1 time only",
             "min": 1,
             "max": 1,
-            "users": 52
+            "users": 53
           },
           {
             "label": "2 times",
@@ -714,7 +714,7 @@
             "label": "4 times",
             "min": 4,
             "max": 4,
-            "users": 28
+            "users": 29
           },
           {
             "label": "5 or more times",
@@ -725,12 +725,12 @@
         ]
       },
       "freq_avg": {
-        "shown": 10.52,
-        "ok": 9.21
+        "shown": 10.55,
+        "ok": 9.22
       },
       "freq_max": {
-        "shown": 87,
-        "ok": 79
+        "shown": 88,
+        "ok": 80
       },
       "attribution": "event",
       "campaigns": [],
@@ -748,10 +748,10 @@
         ]
       ],
       "funnel": {
-        "shown": 425,
-        "ok": 421
+        "shown": 426,
+        "ok": 423
       },
-      "ok_outside_shown": 9,
+      "ok_outside_shown": 10,
       "options": [],
       "daily": [
         {
@@ -816,18 +816,18 @@
         },
         {
           "date": "2026-08-12",
-          "shown": 51,
-          "ok": 58
+          "shown": 54,
+          "ok": 63
         }
       ],
-      "note": "Full-page offer creative (round 2): one screen, one ठीक है, no quiz. 9 profiles tapped ठीक है without a recorded Page shown — those devices were still injecting the bridge at page load, so treat Shown as a slight under-count."
+      "note": "Full-page offer creative (round 2): one screen, one ठीक है, no quiz. 10 profiles tapped ठीक है without a recorded Page shown — those devices were still injecting the bridge at page load, so treat Shown as a slight under-count."
     }
   ],
   "unattributed": {
-    "edu_ok": 679,
-    "completed": 554,
-    "edu_ok_technician": 364,
-    "completed_technician": 306
+    "edu_ok": 682,
+    "completed": 556,
+    "edu_ok_technician": 366,
+    "completed_technician": 307
   },
   "both_apps": 0
 }
