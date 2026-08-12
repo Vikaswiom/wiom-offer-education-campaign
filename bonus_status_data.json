@@ -1,5 +1,5 @@
 {
- "generated": "2026-08-12 13:32 IST",
+ "generated": "2026-08-12 14:50 IST",
  "start_date": "20260812",
  "cycle_end": "2026-08-31",
  "credit_on": "2026-09-01",
@@ -9,44 +9,44 @@
    "label": "4 में से 3",
    "sub": "One check short",
    "size": 111,
-   "reached": 79,
-   "not_reached": 32,
+   "reached": 88,
+   "not_reached": 23,
    "orphans": [],
    "funnel": [
     {
      "key": "viewed",
      "label": "Screen shown",
      "event": "Bonus_Status_Comm_Viewed",
-     "users": 79,
-     "raw": 144
+     "users": 88,
+     "raw": 171
     },
     {
      "key": "next",
      "label": "Tapped आगे",
      "event": "Bonus_Status_Next_Tapped",
-     "users": 72,
-     "raw": 106
+     "users": 82,
+     "raw": 128
     },
     {
      "key": "help",
      "label": "Reached the help question",
      "event": "Bonus_Status_Help_Viewed",
-     "users": 72,
-     "raw": 106
+     "users": 82,
+     "raw": 128
     },
     {
      "key": "finale",
      "label": "Reached the ending",
      "event": "Bonus_Status_Finale_Viewed",
-     "users": 63,
-     "raw": 86
+     "users": 74,
+     "raw": 106
     },
     {
      "key": "goto",
      "label": "Tapped through to सेवा स्थिति",
      "event": "Bonus_Status_GoTo_SevaSthiti",
-     "users": 49,
-     "raw": 66
+     "users": 60,
+     "raw": 82
     }
    ],
    "help": [
@@ -54,88 +54,88 @@
      "key": "understood",
      "label": "नहीं, सब समझ गया",
      "event": "Bonus_Status_Help_Understood",
-     "users": 25
+     "users": 31
     },
     {
      "key": "some_questions",
      "label": "हाँ, कुछ सवाल हैं",
      "event": "Bonus_Status_Help_Questions",
-     "users": 14
+     "users": 17
     },
     {
      "key": "need_help",
      "label": "हाँ, बात करनी है",
      "event": "Bonus_Status_Help_NeedCall",
-     "users": 8
+     "users": 10
     },
     {
      "key": "skipped",
      "label": "छोड़ें",
      "event": "Bonus_Status_Help_Skipped",
-     "users": 28
+     "users": 32
     }
    ],
-   "help_answered": 47,
+   "help_answered": 58,
    "clicks": [
     {
      "event": "Bonus_Status_Next_Tapped",
      "label": "आगे (page 1)",
-     "users": 72,
-     "raw": 106
+     "users": 82,
+     "raw": 128
     },
     {
      "event": "Bonus_Status_Ring_Tapped",
      "label": "The pulsing check",
-     "users": 3,
-     "raw": 4
+     "users": 5,
+     "raw": 6
     },
     {
      "event": "Bonus_Status_Help_Understood",
      "label": "समझ गया",
-     "users": 25,
-     "raw": 33
+     "users": 31,
+     "raw": 43
     },
     {
      "event": "Bonus_Status_Help_Questions",
      "label": "कुछ सवाल हैं",
-     "users": 14,
-     "raw": 14
+     "users": 17,
+     "raw": 17
     },
     {
      "event": "Bonus_Status_Help_NeedCall",
      "label": "बात करनी है",
-     "users": 8,
-     "raw": 9
+     "users": 10,
+     "raw": 11
     },
     {
      "event": "Bonus_Status_Help_Skipped",
      "label": "छोड़ें",
-     "users": 28,
-     "raw": 30
+     "users": 32,
+     "raw": 35
     },
     {
      "event": "Bonus_Status_SevaSthiti_Primary_Tapped",
      "label": "सेवा स्थिति — primary button",
-     "users": 43,
-     "raw": 54
+     "users": 51,
+     "raw": 66
     },
     {
      "event": "Bonus_Status_SevaSthiti_Link_Tapped",
      "label": "सेवा स्थिति — text link",
-     "users": 3,
-     "raw": 3
+     "users": 4,
+     "raw": 4
     },
     {
      "event": "Bonus_Status_SevaSthiti_After_Callback_Tapped",
      "label": "सेवा स्थिति — after callback",
-     "users": 5,
-     "raw": 5
+     "users": 6,
+     "raw": 6
     },
     {
      "event": "Bonus_Status_Callback_Primary_Tapped",
      "label": "कॉल बैक — primary button",
-     "users": 5,
-     "raw": 5
+     "users": 6,
+     "raw": 6
     },
     {
      "event": "Bonus_Status_Callback_Link_Tapped",
@@ -146,19 +146,20 @@
     {
      "event": "Bonus_Status_OK_Tapped",
      "label": "ठीक है",
-     "users": 18,
-     "raw": 20
+     "users": 23,
+     "raw": 25
     },
     {
      "event": "Bonus_Status_Close_Tapped",
      "label": "✕ closed",
-     "users": 30,
-     "raw": 40
+     "users": 33,
+     "raw": 45
     }
    ],
-   "callbacks": 7,
+   "callbacks": 8,
    "callback_ids": [
     "a0a7g7",
+    "a0b5x8",
     "a0b6g1",
     "a0b6x8",
     "a0b6y6",
@@ -167,12 +168,12 @@
     "a0b9n2"
    ],
    "deeplink_mechanism": {
-    "location_href": 66
+    "location_href": 82
    },
    "dismiss_by_page": {
-    "2": 14,
-    "1": 22,
-    "3": 4
+    "2": 16,
+    "1": 24,
+    "3": 5
    }
   },
   {
@@ -180,44 +181,44 @@
    "label": "4 में से 2",
    "sub": "Two checks short",
    "size": 152,
-   "reached": 71,
-   "not_reached": 81,
+   "reached": 82,
+   "not_reached": 70,
    "orphans": [],
    "funnel": [
     {
      "key": "viewed",
      "label": "Screen shown",
      "event": "Bonus_Status_Comm_Viewed",
-     "users": 71,
-     "raw": 101
+     "users": 82,
+     "raw": 122
     },
     {
      "key": "next",
      "label": "Tapped आगे",
      "event": "Bonus_Status_Next_Tapped",
-     "users": 62,
-     "raw": 82
+     "users": 69,
+     "raw": 96
     },
     {
      "key": "help",
      "label": "Reached the help question",
      "event": "Bonus_Status_Help_Viewed",
-     "users": 62,
-     "raw": 82
+     "users": 69,
+     "raw": 96
     },
     {
      "key": "finale",
      "label": "Reached the ending",
      "event": "Bonus_Status_Finale_Viewed",
-     "users": 50,
-     "raw": 67
+     "users": 57,
+     "raw": 79
     },
     {
      "key": "goto",
      "label": "Tapped through to सेवा स्थिति",
      "event": "Bonus_Status_GoTo_SevaSthiti",
-     "users": 39,
-     "raw": 51
+     "users": 46,
+     "raw": 60
     }
    ],
    "help": [
@@ -225,7 +226,7 @@
      "key": "understood",
      "label": "नहीं, सब समझ गया",
      "event": "Bonus_Status_Help_Understood",
-     "users": 25
+     "users": 32
     },
     {
      "key": "some_questions",
@@ -237,34 +238,34 @@
      "key": "need_help",
      "label": "हाँ, बात करनी है",
      "event": "Bonus_Status_Help_NeedCall",
-     "users": 5
+     "users": 6
     },
     {
      "key": "skipped",
      "label": "छोड़ें",
      "event": "Bonus_Status_Help_Skipped",
-     "users": 18
+     "users": 20
     }
    ],
-   "help_answered": 44,
+   "help_answered": 52,
    "clicks": [
     {
      "event": "Bonus_Status_Next_Tapped",
      "label": "आगे (page 1)",
-     "users": 62,
-     "raw": 82
+     "users": 69,
+     "raw": 96
     },
     {
      "event": "Bonus_Status_Ring_Tapped",
      "label": "The pulsing check",
-     "users": 0,
-     "raw": 0
+     "users": 1,
+     "raw": 1
     },
     {
      "event": "Bonus_Status_Help_Understood",
      "label": "समझ गया",
-     "users": 25,
-     "raw": 28
+     "users": 32,
+     "raw": 37
     },
     {
      "event": "Bonus_Status_Help_Questions",
@@ -275,26 +276,26 @@
     {
      "event": "Bonus_Status_Help_NeedCall",
      "label": "बात करनी है",
-     "users": 5,
-     "raw": 5
+     "users": 6,
+     "raw": 6
     },
     {
      "event": "Bonus_Status_Help_Skipped",
      "label": "छोड़ें",
-     "users": 18,
-     "raw": 20
+     "users": 20,
+     "raw": 22
     },
     {
      "event": "Bonus_Status_SevaSthiti_Primary_Tapped",
      "label": "सेवा स्थिति — primary button",
-     "users": 39,
-     "raw": 47
+     "users": 45,
+     "raw": 54
     },
     {
      "event": "Bonus_Status_SevaSthiti_Link_Tapped",
      "label": "सेवा स्थिति — text link",
-     "users": 2,
-     "raw": 2
+     "users": 3,
+     "raw": 3
     },
     {
      "event": "Bonus_Status_SevaSthiti_After_Callback_Tapped",
@@ -317,14 +318,14 @@
     {
      "event": "Bonus_Status_OK_Tapped",
      "label": "ठीक है",
-     "users": 12,
-     "raw": 14
+     "users": 16,
+     "raw": 18
     },
     {
      "event": "Bonus_Status_Close_Tapped",
      "label": "✕ closed",
-     "users": 22,
-     "raw": 24
+     "users": 24,
+     "raw": 29
     }
    ],
    "callbacks": 3,
@@ -334,24 +335,25 @@
     "a0b9k4"
    ],
    "deeplink_mechanism": {
-    "location_href": 51
+    "location_href": 60
    },
    "dismiss_by_page": {
-    "2": 13,
-    "1": 11
+    "2": 15,
+    "1": 14
    }
   }
  ],
  "totals": {
-  "reached": 150,
+  "reached": 170,
   "audience": 263,
-  "callbacks": 10,
-  "goto": 88,
-  "need_help": 13
+  "callbacks": 11,
+  "goto": 106,
+  "need_help": 16
  },
  "all_callback_ids": [
   "a0a7g7",
   "a0b5n4",
+  "a0b5x8",
   "a0b6g1",
   "a0b6q3",
   "a0b6x8",
