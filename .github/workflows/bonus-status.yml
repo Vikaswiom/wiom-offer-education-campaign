@@ -5,7 +5,7 @@ name: bonus-status
 
 on:
   schedule:
-    - cron: "9 * * * *"
+    - cron: "4,34 * * * *" # a few min BEFORE the pages deploy at :08/:38
   workflow_dispatch: {}
 
 permissions:
