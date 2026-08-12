@@ -1,0 +1,332 @@
+{
+ "generated": "2026-08-12 11:41 IST",
+ "start_date": "20260812",
+ "cycle_end": "2026-08-31",
+ "credit_on": "2026-09-01",
+ "segments": [
+  {
+   "key": "S3_char_me_se_3",
+   "label": "4 में से 3",
+   "sub": "One check short",
+   "size": 111,
+   "reached": 2,
+   "not_reached": 109,
+   "orphans": [],
+   "funnel": [
+    {
+     "key": "viewed",
+     "label": "Screen shown",
+     "event": "Bonus_Status_Comm_Viewed",
+     "users": 2,
+     "raw": 2
+    },
+    {
+     "key": "next",
+     "label": "Tapped आगे",
+     "event": "Bonus_Status_Next_Tapped",
+     "users": 0,
+     "raw": 0
+    },
+    {
+     "key": "help",
+     "label": "Reached the help question",
+     "event": "Bonus_Status_Help_Viewed",
+     "users": 0,
+     "raw": 0
+    },
+    {
+     "key": "finale",
+     "label": "Reached the ending",
+     "event": "Bonus_Status_Finale_Viewed",
+     "users": 0,
+     "raw": 0
+    },
+    {
+     "key": "goto",
+     "label": "Tapped through to सेवा स्थिति",
+     "event": "Bonus_Status_GoTo_SevaSthiti",
+     "users": 0,
+     "raw": 0
+    }
+   ],
+   "help": [
+    {
+     "key": "understood",
+     "label": "नहीं, सब समझ गया",
+     "event": "Bonus_Status_Help_Understood",
+     "users": 0
+    },
+    {
+     "key": "some_questions",
+     "label": "हाँ, कुछ सवाल हैं",
+     "event": "Bonus_Status_Help_Questions",
+     "users": 0
+    },
+    {
+     "key": "need_help",
+     "label": "हाँ, बात करनी है",
+     "event": "Bonus_Status_Help_NeedCall",
+     "users": 0
+    },
+    {
+     "key": "skipped",
+     "label": "छोड़ें",
+     "event": "Bonus_Status_Help_Skipped",
+     "users": 0
+    }
+   ],
+   "help_answered": 0,
+   "clicks": [
+    {
+     "event": "Bonus_Status_Next_Tapped",
+     "label": "आगे (page 1)",
+     "users": 0,
+     "raw": 0
+    },
+    {
+     "event": "Bonus_Status_Ring_Tapped",
+     "label": "The pulsing check",
+     "users": 0,
+     "raw": 0
+    },
+    {
+     "event": "Bonus_Status_Help_Understood",
+     "label": "समझ गया",
+     "users": 0,
+     "raw": 0
+    },
+    {
+     "event": "Bonus_Status_Help_Questions",
+     "label": "कुछ सवाल हैं",
+     "users": 0,
+     "raw": 0
+    },
+    {
+     "event": "Bonus_Status_Help_NeedCall",
+     "label": "बात करनी है",
+     "users": 0,
+     "raw": 0
+    },
+    {
+     "event": "Bonus_Status_Help_Skipped",
+     "label": "छोड़ें",
+     "users": 0,
+     "raw": 0
+    },
+    {
+     "event": "Bonus_Status_SevaSthiti_Primary_Tapped",
+     "label": "सेवा स्थिति — primary button",
+     "users": 0,
+     "raw": 0
+    },
+    {
+     "event": "Bonus_Status_SevaSthiti_Link_Tapped",
+     "label": "सेवा स्थिति — text link",
+     "users": 0,
+     "raw": 0
+    },
+    {
+     "event": "Bonus_Status_SevaSthiti_After_Callback_Tapped",
+     "label": "सेवा स्थिति — after callback",
+     "users": 0,
+     "raw": 0
+    },
+    {
+     "event": "Bonus_Status_Callback_Primary_Tapped",
+     "label": "कॉल बैक — primary button",
+     "users": 0,
+     "raw": 0
+    },
+    {
+     "event": "Bonus_Status_Callback_Link_Tapped",
+     "label": "कॉल बैक — text link",
+     "users": 0,
+     "raw": 0
+    },
+    {
+     "event": "Bonus_Status_OK_Tapped",
+     "label": "ठीक है",
+     "users": 0,
+     "raw": 0
+    },
+    {
+     "event": "Bonus_Status_Close_Tapped",
+     "label": "✕ closed",
+     "users": 0,
+     "raw": 0
+    }
+   ],
+   "callbacks": 0,
+   "callback_ids": [],
+   "deeplink_mechanism": {},
+   "dismiss_by_page": {}
+  },
+  {
+   "key": "S4_char_me_se_2",
+   "label": "4 में से 2",
+   "sub": "Two checks short",
+   "size": 152,
+   "reached": 4,
+   "not_reached": 148,
+   "orphans": [],
+   "funnel": [
+    {
+     "key": "viewed",
+     "label": "Screen shown",
+     "event": "Bonus_Status_Comm_Viewed",
+     "users": 4,
+     "raw": 4
+    },
+    {
+     "key": "next",
+     "label": "Tapped आगे",
+     "event": "Bonus_Status_Next_Tapped",
+     "users": 4,
+     "raw": 4
+    },
+    {
+     "key": "help",
+     "label": "Reached the help question",
+     "event": "Bonus_Status_Help_Viewed",
+     "users": 4,
+     "raw": 4
+    },
+    {
+     "key": "finale",
+     "label": "Reached the ending",
+     "event": "Bonus_Status_Finale_Viewed",
+     "users": 4,
+     "raw": 4
+    },
+    {
+     "key": "goto",
+     "label": "Tapped through to सेवा स्थिति",
+     "event": "Bonus_Status_GoTo_SevaSthiti",
+     "users": 4,
+     "raw": 4
+    }
+   ],
+   "help": [
+    {
+     "key": "understood",
+     "label": "नहीं, सब समझ गया",
+     "event": "Bonus_Status_Help_Understood",
+     "users": 0
+    },
+    {
+     "key": "some_questions",
+     "label": "हाँ, कुछ सवाल हैं",
+     "event": "Bonus_Status_Help_Questions",
+     "users": 0
+    },
+    {
+     "key": "need_help",
+     "label": "हाँ, बात करनी है",
+     "event": "Bonus_Status_Help_NeedCall",
+     "users": 0
+    },
+    {
+     "key": "skipped",
+     "label": "छोड़ें",
+     "event": "Bonus_Status_Help_Skipped",
+     "users": 1
+    }
+   ],
+   "help_answered": 0,
+   "clicks": [
+    {
+     "event": "Bonus_Status_Next_Tapped",
+     "label": "आगे (page 1)",
+     "users": 4,
+     "raw": 4
+    },
+    {
+     "event": "Bonus_Status_Ring_Tapped",
+     "label": "The pulsing check",
+     "users": 0,
+     "raw": 0
+    },
+    {
+     "event": "Bonus_Status_Help_Understood",
+     "label": "समझ गया",
+     "users": 0,
+     "raw": 0
+    },
+    {
+     "event": "Bonus_Status_Help_Questions",
+     "label": "कुछ सवाल हैं",
+     "users": 0,
+     "raw": 0
+    },
+    {
+     "event": "Bonus_Status_Help_NeedCall",
+     "label": "बात करनी है",
+     "users": 0,
+     "raw": 0
+    },
+    {
+     "event": "Bonus_Status_Help_Skipped",
+     "label": "छोड़ें",
+     "users": 1,
+     "raw": 1
+    },
+    {
+     "event": "Bonus_Status_SevaSthiti_Primary_Tapped",
+     "label": "सेवा स्थिति — primary button",
+     "users": 4,
+     "raw": 4
+    },
+    {
+     "event": "Bonus_Status_SevaSthiti_Link_Tapped",
+     "label": "सेवा स्थिति — text link",
+     "users": 0,
+     "raw": 0
+    },
+    {
+     "event": "Bonus_Status_SevaSthiti_After_Callback_Tapped",
+     "label": "सेवा स्थिति — after callback",
+     "users": 0,
+     "raw": 0
+    },
+    {
+     "event": "Bonus_Status_Callback_Primary_Tapped",
+     "label": "कॉल बैक — primary button",
+     "users": 0,
+     "raw": 0
+    },
+    {
+     "event": "Bonus_Status_Callback_Link_Tapped",
+     "label": "कॉल बैक — text link",
+     "users": 0,
+     "raw": 0
+    },
+    {
+     "event": "Bonus_Status_OK_Tapped",
+     "label": "ठीक है",
+     "users": 0,
+     "raw": 0
+    },
+    {
+     "event": "Bonus_Status_Close_Tapped",
+     "label": "✕ closed",
+     "users": 0,
+     "raw": 0
+    }
+   ],
+   "callbacks": 0,
+   "callback_ids": [],
+   "deeplink_mechanism": {
+    "location_href": 4
+   },
+   "dismiss_by_page": {}
+  }
+ ],
+ "totals": {
+  "reached": 6,
+  "audience": 263,
+  "callbacks": 0,
+  "goto": 4,
+  "need_help": 0
+ },
+ "all_callback_ids": []
+}
