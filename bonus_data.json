@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-13 01:38 IST",
+  "generated": "2026-08-13 02:31 IST",
   "region": "eu1",
   "start_date": "2026-07-27",
   "triggers": [
@@ -203,7 +203,7 @@
           "label": "Opened the gift",
           "event": "Bonus_Seva2_Gift_Opened",
           "users": 842,
-          "events": 4150
+          "events": 4151
         },
         {
           "key": "window_rule",
@@ -238,7 +238,7 @@
           "label": "Completed the story",
           "event": "Bonus_Seva2_Flow_Completed",
           "users": 701,
-          "events": 2432
+          "events": 2433
         }
       ],
       "cards": [
@@ -310,7 +310,7 @@
       },
       "goto": {
         "users": 648,
-        "events": 1972
+        "events": 1973
       },
       "toggled": {
         "users": 133,
@@ -336,7 +336,7 @@
       "label": "Home story · 5 cards",
       "live_ts": 20260731110019,
       "live_label": "31 Jul 2026, 11:00 IST",
-      "raw_events": 27476,
+      "raw_events": 27479,
       "events_confirmed": [
         "Story_Viewed",
         "Gift_Opened",
@@ -377,16 +377,16 @@
       {
         "key": "round2",
         "label": "since 31 Jul 11:00",
-        "users": 199,
-        "events": 1119,
-        "days": 12.61,
-        "reach_pct": 28,
-        "per_user_day": 0.127
+        "users": 200,
+        "events": 1121,
+        "days": 12.65,
+        "reach_pct": 29,
+        "per_user_day": 0.126
       }
     ],
     "lift_r1": 265,
     "lift_r2": -51,
-    "lift_total": 79
+    "lift_total": 77
   },
   "followthrough": {
     "chip_event": "strip_chip_opened",
@@ -460,11 +460,11 @@
           "label": "20 Jul–30 Jul (before)"
         },
         "post": {
-          "users": 199,
-          "events": 1119,
-          "days": 12.61,
-          "reach_pct": 28,
-          "per_user_day": 0.127,
+          "users": 200,
+          "events": 1121,
+          "days": 12.65,
+          "reach_pct": 29,
+          "per_user_day": 0.126,
           "label": "since 31 Jul 11:00 (after)"
         },
         "stopped": false,
