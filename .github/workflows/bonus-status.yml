@@ -1,0 +1,44 @@
+# बोनस स्थिति in-app tracking — pull the Bonus_Status_* events and write
+# bonus_status_data.json for bonus_status.html. Hourly while the August cycle
+# runs (callback requests need working the same day), plus manual.
+name: bonus-status
+
+on:
+  schedule:
+    - cron: "9 * * * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: bonus-status
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: build bonus_status_data.json + push if changed
+        env:
+          CLEVERTAP_ACCOUNT: ${{ secrets.CLEVERTAP_ACCOUNT }}
+          CLEVERTAP_PASSCODE: ${{ secrets.CLEVERTAP_PASSCODE }}
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          python3 fetch_bonus_status.py
+          git add bonus_status_data.json
+          if git diff --cached --quiet; then
+            echo "no change"
+          else
+            git commit -m "data: refresh bonus status snapshot"
+            git pull --rebase --autostash origin main
+            git push origin HEAD:main
+          fi
