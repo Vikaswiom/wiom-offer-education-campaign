@@ -103,6 +103,11 @@ h2{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
 .bar:hover .fill{filter:saturate(1.15)}
 
 /* ---- help mix ---- */
+/* scoped to #who: a bare .k would leak into .tile .k in the hero row, which does
+   not override text-transform or letter-spacing and would go uppercase */
+#who .k{font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;
+  color:var(--faint);margin-bottom:6px}
+#who .pills{display:flex;flex-wrap:wrap;gap:5px}
 .mix{display:flex;flex-direction:column;gap:9px;margin-top:6px}
 .mixrow{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;font-size:13px}
 .mixbar{height:8px;border-radius:4px;background:var(--track);overflow:hidden;margin-top:4px}
@@ -158,6 +163,63 @@ footer{border-top:1px solid var(--line);padding-top:20px;color:var(--faint);font
   </header>
 
   <section id="hero"></section>
+
+  <!-- Static: the cohort is a fixed list, cut once from the 11 Aug snapshot. It does
+       not move with the hourly refresh, so it lives in the markup rather than the JSON. -->
+  <section id="who">
+    <h2>Who we are targeting</h2>
+    <p class="lede" style="margin:0 0 16px">Start with the <b>761 CSPs who finished the bonus
+    education</b> (round-1 quiz or round-2 story). Of those, <b>463</b> are not yet Compliant, and
+    <b>263</b> of them are close enough that a nudge can still change the outcome — one or two
+    checks short. Those 263 are the audience. Nobody already Compliant is targeted: they have
+    earned the bonus, and telling them they are
+    <span class="dev">1 कदम दूर</span> from it would be false.</p>
+    <div class="segs">
+      <div class="panel">
+        <div class="phead"><div class="pname"><span class="swatch" style="background:var(--s1)"></span>
+          <span class="dev">4 में से 3</span></div><span class="pn">111 CSPs</span></div>
+        <p style="margin:0 0 14px;font-size:14px;color:var(--muted)"><b style="color:var(--ink)">One
+        check short.</b> Passing 3 of the 4 quality checks and not yet Compliant. The screen shows
+        a ring at 3 of 4 with the fourth arc pulsing.</p>
+        <div class="k">Current status</div>
+        <div class="pills"><span class="pill"><b>at risk</b> 105</span><span class="pill"><b>non-compliant</b> 6</span></div>
+        <div class="k" style="margin-top:13px">Which check is failing</div>
+        <div class="pills"><span class="pill"><b>complaint ratio</b> 107</span><span class="pill"><b>on-time work</b> 4</span></div>
+        <div class="k" style="margin-top:13px">Were Compliant in July, then slipped</div>
+        <div class="pills"><span class="pill"><b>50</b> of 111</span></div>
+        <div class="k" style="margin-top:13px">Where they are</div>
+        <div class="pills"><span class="pill"><b>Delhi</b> 102</span><span class="pill"><b>Mumbai</b> 3</span><span class="pill"><b>Agra</b> 2</span></div>
+      </div>
+      <div class="panel">
+        <div class="phead"><div class="pname"><span class="swatch" style="background:var(--s2)"></span>
+          <span class="dev">4 में से 2</span></div><span class="pn">152 CSPs</span></div>
+        <p style="margin:0 0 14px;font-size:14px;color:var(--muted)"><b style="color:var(--ink)">Two
+        checks short.</b> Passing 2 of the 4 and not yet Compliant. Two green arcs for what is
+        already right, two grey for the task, and the gift stays grey — nothing is building yet.</p>
+        <div class="k">Current status</div>
+        <div class="pills"><span class="pill"><b>at risk</b> 120</span><span class="pill"><b>non-compliant</b> 32</span></div>
+        <div class="k" style="margin-top:13px">Which check is failing</div>
+        <div class="pills"><span class="pill"><b>more than one</b> 152</span></div>
+        <div class="k" style="margin-top:13px">Were Compliant in July, then slipped</div>
+        <div class="pills"><span class="pill"><b>12</b> of 152</span></div>
+        <div class="k" style="margin-top:13px">Where they are</div>
+        <div class="pills"><span class="pill"><b>Delhi</b> 115</span><span class="pill"><b>Mumbai</b> 20</span><span class="pill"><b>Prayagraj</b> 3</span></div>
+      </div>
+    </div>
+    <div class="note" style="margin-top:14px"><b>What “4 में से …” counts.</b> Four quality checks:
+    on-time work, unresolved complaints, customer rating and complaint ratio. A check counts as
+    passed when it is not failing — insufficient data is given the benefit of the doubt. Two further
+    metrics exist but carry insufficient data for every scored CSP, so they pass for everyone and
+    are left out of the count entirely.<br><br>
+    <b>The count and the status are separate things.</b> A CSP can pass 3 of 4 and still be
+    Compliant, or pass 2 and be At Risk — so this audience is cut on <em>both</em>, never on status
+    alone. <b>Complaint ratio is the single biggest lever:</b> 107 of the 111 partners who are one
+    check away are failing only that one.<br><br>
+    <b>The window.</b> The bonus is scored on the calendar month, 1–31 August, and credits on
+    1 September. Audience cut from the 11 August quality snapshot; a CSP whose status has since
+    changed still sees the screen they were segmented into.</div>
+  </section>
+
   <section id="segments"></section>
   <section id="queue"></section>
   <section id="clicks"></section>
