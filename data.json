@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-13 17:34 IST",
+  "generated": "2026-08-13 19:15 IST",
   "sample": false,
   "region": "eu1",
   "start_date": "2026-07-16",
@@ -698,7 +698,7 @@
             "label": "5 or more times",
             "min": 5,
             "max": null,
-            "users": 275
+            "users": 276
           }
         ],
         "ok": [
@@ -712,31 +712,31 @@
             "label": "2 times",
             "min": 2,
             "max": 2,
-            "users": 45
+            "users": 43
           },
           {
             "label": "3 times",
             "min": 3,
             "max": 3,
-            "users": 34
+            "users": 35
           },
           {
             "label": "4 times",
             "min": 4,
             "max": 4,
-            "users": 34
+            "users": 33
           },
           {
             "label": "5 or more times",
             "min": 5,
             "max": null,
-            "users": 264
+            "users": 267
           }
         ]
       },
       "freq_avg": {
-        "shown": 10.8,
-        "ok": 9.51
+        "shown": 10.87,
+        "ok": 9.61
       },
       "freq_max": {
         "shown": 91,
@@ -758,8 +758,8 @@
         ]
       ],
       "funnel": {
-        "shown": 430,
-        "ok": 433
+        "shown": 431,
+        "ok": 434
       },
       "ok_outside_shown": 13,
       "options": [],
@@ -831,8 +831,8 @@
         },
         {
           "date": "2026-08-13",
-          "shown": 38,
-          "ok": 49
+          "shown": 48,
+          "ok": 61
         }
       ],
       "note": "Full-page offer creative (round 2): one screen, one ठीक है, no quiz. 13 profiles tapped ठीक है without a recorded Page shown — those devices were still injecting the bridge at page load, so treat Shown as a slight under-count."

@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-13 17:34 IST",
+  "generated": "2026-08-13 19:15 IST",
   "region": "eu1",
   "start_date": "2026-07-27",
   "triggers": [
@@ -203,7 +203,7 @@
           "label": "Opened the gift",
           "event": "Bonus_Seva2_Gift_Opened",
           "users": 844,
-          "events": 4221
+          "events": 4226
         },
         {
           "key": "window_rule",
@@ -224,21 +224,21 @@
           "label": "Tapped the Seva Sthiti chip",
           "event": "Bonus_Seva2_Chip_Tapped",
           "users": 754,
-          "events": 2826
+          "events": 2828
         },
         {
           "key": "help",
           "label": "Tapped the (?) button",
           "event": "Bonus_Seva2_Help_Tapped",
           "users": 673,
-          "events": 2956
+          "events": 2959
         },
         {
           "key": "completed",
           "label": "Completed the story",
           "event": "Bonus_Seva2_Flow_Completed",
           "users": 703,
-          "events": 2471
+          "events": 2473
         }
       ],
       "cards": [
@@ -273,14 +273,14 @@
           "index": 0,
           "label": "hero · the gift",
           "users": 650,
-          "events": 2332
+          "events": 2341
         },
         {
           "name": "window_rule",
           "index": 1,
           "label": "1–15 Aug + the rule",
-          "users": 181,
-          "events": 227
+          "users": 182,
+          "events": 228
         },
         {
           "name": "home_chip",
@@ -306,11 +306,11 @@
       ],
       "exits": {
         "deeplink": 649,
-        "acknowledge": 252
+        "acknowledge": 253
       },
       "goto": {
         "users": 649,
-        "events": 2002
+        "events": 2003
       },
       "toggled": {
         "users": 135,
@@ -330,13 +330,13 @@
       ],
       "dismissed_total": {
         "users": 738,
-        "events": 3153
+        "events": 3163
       },
       "key": "home_story_r2_5card",
       "label": "Home story · 5 cards",
       "live_ts": 20260731110019,
       "live_label": "31 Jul 2026, 11:00 IST",
-      "raw_events": 27824,
+      "raw_events": 27847,
       "events_confirmed": [
         "Story_Viewed",
         "Gift_Opened",
@@ -378,15 +378,15 @@
         "key": "round2",
         "label": "since 31 Jul 11:00",
         "users": 205,
-        "events": 1183,
-        "days": 13.27,
+        "events": 1206,
+        "days": 13.34,
         "reach_pct": 29,
-        "per_user_day": 0.127
+        "per_user_day": 0.129
       }
     ],
     "lift_r1": 269,
-    "lift_r2": -51,
-    "lift_total": 81
+    "lift_r2": -50,
+    "lift_total": 84
   },
   "followthrough": {
     "chip_event": "service_status_opened",
@@ -462,14 +462,14 @@
         },
         "post": {
           "users": 205,
-          "events": 1183,
-          "days": 13.27,
+          "events": 1206,
+          "days": 13.34,
           "reach_pct": 29,
-          "per_user_day": 0.127,
+          "per_user_day": 0.129,
           "label": "since 31 Jul 11:00 (after)"
         },
         "stopped": false,
-        "lift_pct": -5,
+        "lift_pct": -3,
         "pre_overlaps": [
           "Quality-of-work section"
         ]
