@@ -384,8 +384,9 @@ def load_help_opens(frm, to):
     return opens
 
 
-CHIP_EVENT = "strip_chip_opened"
-CHIP_VALUE = "quality"
+CHIP_EVENT = "service_status_opened"
+CHIP_PROP  = "screen"
+CHIP_VALUE = "service_status"
 CHIP_WINDOW_MIN = 30      # completing the story -> opening the Seva Sthiti chip
 HELP_WINDOW_MIN = 3       # opening the chip -> opening the (?) help screen
 
@@ -416,7 +417,7 @@ def followthrough(frm, to, completed_at, opens):
     chip_at, seen_values = {}, Counter()
     for rec in F.export_event(CHIP_EVENT, frm, to):
         k, t = csp_key(rec), _dt(ts_of(rec))
-        v = str(F.props_of(rec).get("chip", "") or "")
+        v = str(F.props_of(rec).get(CHIP_PROP, "") or "")
         seen_values[v or "(none)"] += 1
         if not k or not t or v != CHIP_VALUE or k not in completed_at:
             continue
@@ -424,9 +425,9 @@ def followthrough(frm, to, completed_at, opens):
         if done <= t <= done + datetime.timedelta(minutes=CHIP_WINDOW_MIN):
             if k not in chip_at or t < chip_at[k]:
                 chip_at[k] = t
-    print(f"  {CHIP_EVENT}: chip values seen {dict(seen_values.most_common(8))}")
+    print(f"  {CHIP_EVENT}: {CHIP_PROP} values seen {dict(seen_values.most_common(8))}")
     if seen_values and CHIP_VALUE not in seen_values:
-        print(f"  ::warning::no {CHIP_EVENT} record carries chip='{CHIP_VALUE}' — the "
+        print(f"  ::warning::no {CHIP_EVENT} record carries {CHIP_PROP}='{CHIP_VALUE}' — the "
               f"follow-through funnel will read zero at step 2")
 
     helped = set()
@@ -441,7 +442,7 @@ def followthrough(frm, to, completed_at, opens):
     print(f"  follow-through: {n} completed -> {len(chip_at)} opened the quality chip "
           f"within {CHIP_WINDOW_MIN}m -> {len(helped)} opened help within {HELP_WINDOW_MIN}m")
     return {
-        "chip_event": CHIP_EVENT, "chip_value": CHIP_VALUE,
+        "chip_event": CHIP_EVENT, "chip_prop": CHIP_PROP, "chip_value": CHIP_VALUE,
         "help_event": IMPACT_EVENT,
         "chip_window_min": CHIP_WINDOW_MIN, "help_window_min": HELP_WINDOW_MIN,
         "steps": [

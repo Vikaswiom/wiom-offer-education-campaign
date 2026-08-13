@@ -365,7 +365,8 @@ function renderFollowthrough(ft){
   document.getElementById('ftnote').innerHTML=
     `<b>Every step is timed from the one before it</b>, not from a fixed clock — a CSP who finishes at 09:00 and one `+
     `who finishes at 17:00 are held to the same ${ft.chip_window_min} and ${ft.help_window_min} minutes. `+
-    `Step 2 counts <code>${esc(ft.chip_event)}</code> with <b>chip=${esc(ft.chip_value)}</b> only; other chips on the `+
+    `Step 2 counts <code>${esc(ft.chip_event)}</code> with `+
+    `<b>${esc(ft.chip_prop||'chip')}=${esc(ft.chip_value)}</b> only; other chips on the `+
     `same strip do not qualify. Step 3 counts <code>${esc(ft.help_event)}</code> within `+
     `${ft.help_window_min} minutes of that chip open.<br><br>`+
     `<b>This is the receipt for the deep link.</b> The funnel above ends at "completed", which is a claim about `+
