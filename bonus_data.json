@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-13 04:56 IST",
+  "generated": "2026-08-13 05:39 IST",
   "region": "eu1",
   "start_date": "2026-07-27",
   "triggers": [
@@ -203,7 +203,7 @@
           "label": "Opened the gift",
           "event": "Bonus_Seva2_Gift_Opened",
           "users": 842,
-          "events": 4151
+          "events": 4152
         },
         {
           "key": "window_rule",
@@ -224,21 +224,21 @@
           "label": "Tapped the Seva Sthiti chip",
           "event": "Bonus_Seva2_Chip_Tapped",
           "users": 752,
-          "events": 2779
+          "events": 2780
         },
         {
           "key": "help",
           "label": "Tapped the (?) button",
           "event": "Bonus_Seva2_Help_Tapped",
           "users": 673,
-          "events": 2918
+          "events": 2919
         },
         {
           "key": "completed",
           "label": "Completed the story",
           "event": "Bonus_Seva2_Flow_Completed",
           "users": 701,
-          "events": 2433
+          "events": 2434
         }
       ],
       "cards": [
@@ -310,7 +310,7 @@
       },
       "goto": {
         "users": 648,
-        "events": 1973
+        "events": 1974
       },
       "toggled": {
         "users": 133,
@@ -336,7 +336,7 @@
       "label": "Home story · 5 cards",
       "live_ts": 20260731110019,
       "live_label": "31 Jul 2026, 11:00 IST",
-      "raw_events": 27479,
+      "raw_events": 27484,
       "events_confirmed": [
         "Story_Viewed",
         "Gift_Opened",
@@ -379,14 +379,14 @@
         "label": "since 31 Jul 11:00",
         "users": 200,
         "events": 1124,
-        "days": 12.75,
+        "days": 12.78,
         "reach_pct": 29,
-        "per_user_day": 0.126
+        "per_user_day": 0.125
       }
     ],
     "lift_r1": 265,
-    "lift_r2": -51,
-    "lift_total": 77
+    "lift_r2": -52,
+    "lift_total": 76
   },
   "followthrough": {
     "chip_event": "strip_chip_opened",
@@ -462,13 +462,13 @@
         "post": {
           "users": 200,
           "events": 1124,
-          "days": 12.75,
+          "days": 12.78,
           "reach_pct": 29,
-          "per_user_day": 0.126,
+          "per_user_day": 0.125,
           "label": "since 31 Jul 11:00 (after)"
         },
         "stopped": false,
-        "lift_pct": -5,
+        "lift_pct": -6,
         "pre_overlaps": [
           "Quality-of-work section"
         ]
