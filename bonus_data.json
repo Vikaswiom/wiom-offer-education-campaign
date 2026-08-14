@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-15 04:02 IST",
+  "generated": "2026-08-15 04:25 IST",
   "region": "eu1",
   "start_date": "2026-07-27",
   "triggers": [
@@ -279,8 +279,8 @@
           "name": "window_rule",
           "index": 1,
           "label": "1–15 Aug + the rule",
-          "users": 193,
-          "events": 244
+          "users": 194,
+          "events": 245
         },
         {
           "name": "home_chip",
@@ -330,13 +330,13 @@
       ],
       "dismissed_total": {
         "users": 754,
-        "events": 3562
+        "events": 3563
       },
       "key": "home_story_r2_5card",
       "label": "Home story · 5 cards",
       "live_ts": 20260731110019,
       "live_label": "31 Jul 2026, 11:00 IST",
-      "raw_events": 29305,
+      "raw_events": 29306,
       "events_confirmed": [
         "Story_Viewed",
         "Gift_Opened",
@@ -379,7 +379,7 @@
         "label": "since 31 Jul 11:00",
         "users": 207,
         "events": 1316,
-        "days": 14.71,
+        "days": 14.73,
         "reach_pct": 29,
         "per_user_day": 0.127
       }
@@ -463,7 +463,7 @@
         "post": {
           "users": 207,
           "events": 1316,
-          "days": 14.71,
+          "days": 14.73,
           "reach_pct": 29,
           "per_user_day": 0.127,
           "label": "since 31 Jul 11:00 (after)"
