@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-14 14:47 IST",
+  "generated": "2026-08-14 15:59 IST",
   "sample": false,
   "region": "eu1",
   "start_date": "2026-07-16",
@@ -200,7 +200,7 @@
       "key": "tech",
       "label": "Technician App",
       "color": "#2563EB",
-      "note": "Technician app — Shown comes from CleverTap's own impression event (Notification Viewed, wzrk_id 1784203536) because this app does not fire the custom inApp_Shown; education/quiz are locked to that cohort by identity. 389 role = technician profile(s) acted without a recorded impression.",
+      "note": "Technician app — Shown comes from CleverTap's own impression event (Notification Viewed, wzrk_id 1784203536) because this app does not fire the custom inApp_Shown; education/quiz are locked to that cohort by identity. 390 role = technician profile(s) acted without a recorded impression.",
       "campaigns": [
         "1784203536"
       ],
@@ -505,7 +505,7 @@
             "label": "1 time only",
             "min": 1,
             "max": 1,
-            "users": 100
+            "users": 101
           },
           {
             "label": "2 times",
@@ -537,7 +537,7 @@
             "label": "1 time only",
             "min": 1,
             "max": 1,
-            "users": 91
+            "users": 92
           },
           {
             "label": "2 times",
@@ -566,8 +566,8 @@
         ]
       },
       "freq_avg": {
-        "shown": 1.26,
-        "ok": 1.26
+        "shown": 1.25,
+        "ok": 1.25
       },
       "freq_max": {
         "shown": 8,
@@ -589,8 +589,8 @@
         ]
       ],
       "funnel": {
-        "shown": 121,
-        "ok": 109
+        "shown": 122,
+        "ok": 110
       },
       "ok_outside_shown": 0,
       "options": [],
@@ -664,6 +664,11 @@
           "date": "2026-08-13",
           "shown": 9,
           "ok": 9
+        },
+        {
+          "date": "2026-08-14",
+          "shown": 1,
+          "ok": 1
         }
       ],
       "note": "Full-page offer creative (round 2): one screen, one ठीक है, no quiz."
@@ -740,12 +745,12 @@
         ]
       },
       "freq_avg": {
-        "shown": 10.98,
-        "ok": 9.78
+        "shown": 11.02,
+        "ok": 9.83
       },
       "freq_max": {
-        "shown": 91,
-        "ok": 83
+        "shown": 93,
+        "ok": 84
       },
       "attribution": "event",
       "campaigns": [],
@@ -841,17 +846,17 @@
         },
         {
           "date": "2026-08-14",
-          "shown": 40,
-          "ok": 61
+          "shown": 45,
+          "ok": 69
         }
       ],
       "note": "Full-page offer creative (round 2): one screen, one ठीक है, no quiz. 14 profiles tapped ठीक है without a recorded Page shown — those devices were still injecting the bridge at page load, so treat Shown as a slight under-count."
     }
   ],
   "unattributed": {
-    "edu_ok": 716,
-    "completed": 583,
-    "edu_ok_technician": 389,
+    "edu_ok": 718,
+    "completed": 585,
+    "edu_ok_technician": 390,
     "completed_technician": 326
   },
   "both_apps": 0
