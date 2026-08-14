@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-14 21:01 IST",
+  "generated": "2026-08-14 21:57 IST",
   "sample": false,
   "region": "eu1",
   "start_date": "2026-07-16",
@@ -702,13 +702,13 @@
             "label": "4 times",
             "min": 4,
             "max": 4,
-            "users": 35
+            "users": 34
           },
           {
             "label": "5 or more times",
             "min": 5,
             "max": null,
-            "users": 281
+            "users": 282
           }
         ],
         "ok": [
@@ -846,7 +846,7 @@
         },
         {
           "date": "2026-08-14",
-          "shown": 49,
+          "shown": 48,
           "ok": 83
         }
       ],
