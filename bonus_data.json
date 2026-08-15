@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-16 02:24 IST",
+  "generated": "2026-08-16 02:57 IST",
   "region": "eu1",
   "start_date": "2026-07-27",
   "triggers": [
@@ -203,7 +203,7 @@
           "label": "Opened the gift",
           "event": "Bonus_Seva2_Gift_Opened",
           "users": 844,
-          "events": 4565
+          "events": 4569
         },
         {
           "key": "window_rule",
@@ -224,21 +224,21 @@
           "label": "Tapped the Seva Sthiti chip",
           "event": "Bonus_Seva2_Chip_Tapped",
           "users": 762,
-          "events": 3158
+          "events": 3162
         },
         {
           "key": "help",
           "label": "Tapped the (?) button",
           "event": "Bonus_Seva2_Help_Tapped",
           "users": 683,
-          "events": 3314
+          "events": 3317
         },
         {
           "key": "completed",
           "label": "Completed the story",
           "event": "Bonus_Seva2_Flow_Completed",
           "users": 709,
-          "events": 2784
+          "events": 2787
         }
       ],
       "cards": [
@@ -273,7 +273,7 @@
           "index": 0,
           "label": "hero · the gift",
           "users": 676,
-          "events": 2809
+          "events": 2811
         },
         {
           "name": "window_rule",
@@ -287,14 +287,14 @@
           "index": 2,
           "label": "where Seva Sthiti lives",
           "users": 190,
-          "events": 265
+          "events": 266
         },
         {
           "name": "help_icon",
           "index": 3,
           "label": "the (?) button",
-          "users": 263,
-          "events": 373
+          "users": 264,
+          "events": 374
         },
         {
           "name": "done",
@@ -310,7 +310,7 @@
       },
       "goto": {
         "users": 660,
-        "events": 2234
+        "events": 2236
       },
       "toggled": {
         "users": 141,
@@ -330,13 +330,13 @@
       ],
       "dismissed_total": {
         "users": 756,
-        "events": 3705
+        "events": 3709
       },
       "key": "home_story_r2_5card",
       "label": "Home story · 5 cards",
       "live_ts": 20260731110019,
       "live_label": "31 Jul 2026, 11:00 IST",
-      "raw_events": 29970,
+      "raw_events": 29990,
       "events_confirmed": [
         "Story_Viewed",
         "Gift_Opened",
@@ -379,7 +379,7 @@
         "label": "since 31 Jul 11:00",
         "users": 217,
         "events": 1378,
-        "days": 15.64,
+        "days": 15.66,
         "reach_pct": 31,
         "per_user_day": 0.124
       }
@@ -463,7 +463,7 @@
         "post": {
           "users": 217,
           "events": 1378,
-          "days": 15.64,
+          "days": 15.66,
           "reach_pct": 31,
           "per_user_day": 0.124,
           "label": "since 31 Jul 11:00 (after)"
