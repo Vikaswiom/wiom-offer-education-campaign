@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-15 14:32 IST",
+  "generated": "2026-08-15 15:06 IST",
   "sample": false,
   "region": "eu1",
   "start_date": "2026-07-16",
@@ -505,7 +505,7 @@
             "label": "1 time only",
             "min": 1,
             "max": 1,
-            "users": 98
+            "users": 99
           },
           {
             "label": "2 times",
@@ -537,7 +537,7 @@
             "label": "1 time only",
             "min": 1,
             "max": 1,
-            "users": 91
+            "users": 92
           },
           {
             "label": "2 times",
@@ -567,7 +567,7 @@
       },
       "freq_avg": {
         "shown": 1.28,
-        "ok": 1.28
+        "ok": 1.27
       },
       "freq_max": {
         "shown": 8,
@@ -589,8 +589,8 @@
         ]
       ],
       "funnel": {
-        "shown": 123,
-        "ok": 112
+        "shown": 124,
+        "ok": 113
       },
       "ok_outside_shown": 0,
       "options": [],
@@ -672,8 +672,8 @@
         },
         {
           "date": "2026-08-15",
-          "shown": 5,
-          "ok": 5
+          "shown": 6,
+          "ok": 6
         }
       ],
       "note": "Full-page offer creative (round 2): one screen, one ठीक है, no quiz."
@@ -750,8 +750,8 @@
         ]
       },
       "freq_avg": {
-        "shown": 11.1,
-        "ok": 10.11
+        "shown": 11.11,
+        "ok": 10.12
       },
       "freq_max": {
         "shown": 98,
@@ -857,7 +857,7 @@
         {
           "date": "2026-08-15",
           "shown": 9,
-          "ok": 36
+          "ok": 37
         }
       ],
       "note": "Full-page offer creative (round 2): one screen, one ठीक है, no quiz. 15 profiles tapped ठीक है without a recorded Page shown — those devices were still injecting the bridge at page load, so treat Shown as a slight under-count."
