@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-15 16:35 IST",
+  "generated": "2026-08-15 17:04 IST",
   "sample": false,
   "region": "eu1",
   "start_date": "2026-07-16",
@@ -505,13 +505,13 @@
             "label": "1 time only",
             "min": 1,
             "max": 1,
-            "users": 99
+            "users": 98
           },
           {
             "label": "2 times",
             "min": 2,
             "max": 2,
-            "users": 20
+            "users": 21
           },
           {
             "label": "3 times",
@@ -566,7 +566,7 @@
         ]
       },
       "freq_avg": {
-        "shown": 1.28,
+        "shown": 1.29,
         "ok": 1.27
       },
       "freq_max": {
@@ -672,7 +672,7 @@
         },
         {
           "date": "2026-08-15",
-          "shown": 6,
+          "shown": 7,
           "ok": 6
         }
       ],
@@ -721,7 +721,7 @@
             "label": "1 time only",
             "min": 1,
             "max": 1,
-            "users": 51
+            "users": 52
           },
           {
             "label": "2 times",
@@ -774,9 +774,9 @@
       ],
       "funnel": {
         "shown": 439,
-        "ok": 444
+        "ok": 445
       },
-      "ok_outside_shown": 15,
+      "ok_outside_shown": 16,
       "options": [],
       "daily": [
         {
@@ -857,14 +857,14 @@
         {
           "date": "2026-08-15",
           "shown": 9,
-          "ok": 37
+          "ok": 40
         }
       ],
-      "note": "Full-page offer creative (round 2): one screen, one ठीक है, no quiz. 15 profiles tapped ठीक है without a recorded Page shown — those devices were still injecting the bridge at page load, so treat Shown as a slight under-count."
+      "note": "Full-page offer creative (round 2): one screen, one ठीक है, no quiz. 16 profiles tapped ठीक है without a recorded Page shown — those devices were still injecting the bridge at page load, so treat Shown as a slight under-count."
     }
   ],
   "unattributed": {
-    "edu_ok": 730,
+    "edu_ok": 731,
     "completed": 597,
     "edu_ok_technician": 397,
     "completed_technician": 334

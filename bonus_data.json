@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-15 16:35 IST",
+  "generated": "2026-08-15 17:04 IST",
   "region": "eu1",
   "start_date": "2026-07-27",
   "triggers": [
@@ -203,7 +203,7 @@
           "label": "Opened the gift",
           "event": "Bonus_Seva2_Gift_Opened",
           "users": 844,
-          "events": 4526
+          "events": 4528
         },
         {
           "key": "window_rule",
@@ -223,8 +223,8 @@
           "key": "chip",
           "label": "Tapped the Seva Sthiti chip",
           "event": "Bonus_Seva2_Chip_Tapped",
-          "users": 760,
-          "events": 3096
+          "users": 761,
+          "events": 3098
         },
         {
           "key": "help",
@@ -293,8 +293,8 @@
           "name": "help_icon",
           "index": 3,
           "label": "the (?) button",
-          "users": 259,
-          "events": 366
+          "users": 261,
+          "events": 368
         },
         {
           "name": "done",
@@ -310,7 +310,7 @@
       },
       "goto": {
         "users": 658,
-        "events": 2193
+        "events": 2194
       },
       "toggled": {
         "users": 139,
@@ -330,13 +330,13 @@
       ],
       "dismissed_total": {
         "users": 755,
-        "events": 3651
+        "events": 3653
       },
       "key": "home_story_r2_5card",
       "label": "Home story · 5 cards",
       "live_ts": 20260731110019,
       "live_label": "31 Jul 2026, 11:00 IST",
-      "raw_events": 29649,
+      "raw_events": 29656,
       "events_confirmed": [
         "Story_Viewed",
         "Gift_Opened",
@@ -377,16 +377,16 @@
       {
         "key": "round2",
         "label": "since 31 Jul 11:00",
-        "users": 212,
-        "events": 1350,
-        "days": 15.23,
+        "users": 214,
+        "events": 1357,
+        "days": 15.25,
         "reach_pct": 30,
-        "per_user_day": 0.125
+        "per_user_day": 0.126
       }
     ],
     "lift_r1": 267,
     "lift_r2": -51,
-    "lift_total": 79
+    "lift_total": 80
   },
   "followthrough": {
     "chip_event": "service_status_opened",
@@ -461,11 +461,11 @@
           "label": "20 Jul–30 Jul (before)"
         },
         "post": {
-          "users": 212,
-          "events": 1350,
-          "days": 15.23,
+          "users": 214,
+          "events": 1357,
+          "days": 15.25,
           "reach_pct": 30,
-          "per_user_day": 0.125,
+          "per_user_day": 0.126,
           "label": "since 31 Jul 11:00 (after)"
         },
         "stopped": false,
