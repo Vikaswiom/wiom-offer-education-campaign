@@ -1,5 +1,5 @@
 {
- "generated": "2026-08-15 17:20 IST",
+ "generated": "2026-08-15 18:23 IST",
  "start_date": "20260812",
  "cycle_end": "2026-08-31",
  "credit_on": "2026-09-01",
@@ -185,16 +185,16 @@
    "label": "4 में से 2",
    "sub": "Two checks short",
    "size": 152,
-   "reached": 135,
-   "not_reached": 17,
+   "reached": 136,
+   "not_reached": 16,
    "orphans": [],
    "funnel": [
     {
      "key": "viewed",
      "label": "Screen shown",
      "event": "Bonus_Status_Comm_Viewed",
-     "users": 135,
-     "raw": 296
+     "users": 136,
+     "raw": 297
     },
     {
      "key": "next",
@@ -328,8 +328,8 @@
     {
      "event": "Bonus_Status_Close_Tapped",
      "label": "✕ closed",
-     "users": 59,
-     "raw": 87
+     "users": 60,
+     "raw": 88
     }
    ],
    "callbacks": 8,
@@ -348,13 +348,13 @@
    },
    "dismiss_by_page": {
     "2": 34,
-    "1": 48,
+    "1": 49,
     "3": 5
    }
   }
  ],
  "totals": {
-  "reached": 246,
+  "reached": 247,
   "audience": 263,
   "callbacks": 20,
   "goto": 172,
