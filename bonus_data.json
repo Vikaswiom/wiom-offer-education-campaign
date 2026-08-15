@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-15 23:19 IST",
+  "generated": "2026-08-15 23:31 IST",
   "region": "eu1",
   "start_date": "2026-07-27",
   "triggers": [
@@ -273,7 +273,7 @@
           "index": 0,
           "label": "hero · the gift",
           "users": 676,
-          "events": 2783
+          "events": 2784
         },
         {
           "name": "window_rule",
@@ -330,13 +330,13 @@
       ],
       "dismissed_total": {
         "users": 756,
-        "events": 3674
+        "events": 3675
       },
       "key": "home_story_r2_5card",
       "label": "Home story · 5 cards",
       "live_ts": 20260731110019,
       "live_label": "31 Jul 2026, 11:00 IST",
-      "raw_events": 29731,
+      "raw_events": 29732,
       "events_confirmed": [
         "Story_Viewed",
         "Gift_Opened",
@@ -379,7 +379,7 @@
         "label": "since 31 Jul 11:00",
         "users": 214,
         "events": 1367,
-        "days": 15.51,
+        "days": 15.52,
         "reach_pct": 30,
         "per_user_day": 0.124
       }
@@ -463,7 +463,7 @@
         "post": {
           "users": 214,
           "events": 1367,
-          "days": 15.51,
+          "days": 15.52,
           "reach_pct": 30,
           "per_user_day": 0.124,
           "label": "since 31 Jul 11:00 (after)"
