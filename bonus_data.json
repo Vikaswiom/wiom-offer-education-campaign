@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-15 15:28 IST",
+  "generated": "2026-08-15 15:59 IST",
   "region": "eu1",
   "start_date": "2026-07-27",
   "triggers": [
@@ -280,7 +280,7 @@
           "index": 1,
           "label": "1–15 Aug + the rule",
           "users": 197,
-          "events": 252
+          "events": 253
         },
         {
           "name": "home_chip",
@@ -330,13 +330,13 @@
       ],
       "dismissed_total": {
         "users": 755,
-        "events": 3648
+        "events": 3649
       },
       "key": "home_story_r2_5card",
       "label": "Home story · 5 cards",
       "live_ts": 20260731110019,
       "live_label": "31 Jul 2026, 11:00 IST",
-      "raw_events": 29626,
+      "raw_events": 29627,
       "events_confirmed": [
         "Story_Viewed",
         "Gift_Opened",
@@ -378,15 +378,15 @@
         "key": "round2",
         "label": "since 31 Jul 11:00",
         "users": 212,
-        "events": 1348,
-        "days": 15.19,
+        "events": 1349,
+        "days": 15.21,
         "reach_pct": 30,
-        "per_user_day": 0.126
+        "per_user_day": 0.125
       }
     ],
     "lift_r1": 267,
     "lift_r2": -51,
-    "lift_total": 80
+    "lift_total": 79
   },
   "followthrough": {
     "chip_event": "service_status_opened",
@@ -462,10 +462,10 @@
         },
         "post": {
           "users": 212,
-          "events": 1348,
-          "days": 15.19,
+          "events": 1349,
+          "days": 15.21,
           "reach_pct": 30,
-          "per_user_day": 0.126,
+          "per_user_day": 0.125,
           "label": "since 31 Jul 11:00 (after)"
         },
         "stopped": false,
