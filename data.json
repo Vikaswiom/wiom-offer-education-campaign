@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-15 09:16 IST",
+  "generated": "2026-08-15 09:47 IST",
   "sample": false,
   "region": "eu1",
   "start_date": "2026-07-16",
@@ -505,13 +505,13 @@
             "label": "1 time only",
             "min": 1,
             "max": 1,
-            "users": 101
+            "users": 99
           },
           {
             "label": "2 times",
             "min": 2,
             "max": 2,
-            "users": 16
+            "users": 18
           },
           {
             "label": "3 times",
@@ -537,13 +537,13 @@
             "label": "1 time only",
             "min": 1,
             "max": 1,
-            "users": 92
+            "users": 90
           },
           {
             "label": "2 times",
             "min": 2,
             "max": 2,
-            "users": 13
+            "users": 15
           },
           {
             "label": "3 times",
@@ -566,8 +566,8 @@
         ]
       },
       "freq_avg": {
-        "shown": 1.25,
-        "ok": 1.25
+        "shown": 1.27,
+        "ok": 1.27
       },
       "freq_max": {
         "shown": 8,
@@ -669,6 +669,11 @@
           "date": "2026-08-14",
           "shown": 1,
           "ok": 1
+        },
+        {
+          "date": "2026-08-15",
+          "shown": 2,
+          "ok": 2
         }
       ],
       "note": "Full-page offer creative (round 2): one screen, one ठीक है, no quiz."
@@ -734,19 +739,19 @@
             "label": "4 times",
             "min": 4,
             "max": 4,
-            "users": 37
+            "users": 36
           },
           {
             "label": "5 or more times",
             "min": 5,
             "max": null,
-            "users": 275
+            "users": 276
           }
         ]
       },
       "freq_avg": {
         "shown": 11.11,
-        "ok": 10.01
+        "ok": 10.02
       },
       "freq_max": {
         "shown": 94,
@@ -848,14 +853,19 @@
           "date": "2026-08-14",
           "shown": 48,
           "ok": 83
+        },
+        {
+          "date": "2026-08-15",
+          "shown": 1,
+          "ok": 4
         }
       ],
       "note": "Full-page offer creative (round 2): one screen, one ठीक है, no quiz. 14 profiles tapped ठीक है without a recorded Page shown — those devices were still injecting the bridge at page load, so treat Shown as a slight under-count."
     }
   ],
   "unattributed": {
-    "edu_ok": 721,
-    "completed": 586,
+    "edu_ok": 723,
+    "completed": 587,
     "edu_ok_technician": 394,
     "completed_technician": 328
   },
