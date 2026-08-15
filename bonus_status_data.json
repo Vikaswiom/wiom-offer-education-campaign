@@ -1,5 +1,5 @@
 {
- "generated": "2026-08-15 12:22 IST",
+ "generated": "2026-08-15 13:08 IST",
  "start_date": "20260812",
  "cycle_end": "2026-08-31",
  "credit_on": "2026-09-01",
@@ -18,28 +18,28 @@
      "label": "Screen shown",
      "event": "Bonus_Status_Comm_Viewed",
      "users": 111,
-     "raw": 324
+     "raw": 325
     },
     {
      "key": "next",
      "label": "Tapped आगे",
      "event": "Bonus_Status_Next_Tapped",
-     "users": 107,
-     "raw": 237
+     "users": 108,
+     "raw": 238
     },
     {
      "key": "help",
      "label": "Reached the help question",
      "event": "Bonus_Status_Help_Viewed",
-     "users": 107,
-     "raw": 237
+     "users": 108,
+     "raw": 238
     },
     {
      "key": "finale",
      "label": "Reached the ending",
      "event": "Bonus_Status_Finale_Viewed",
-     "users": 97,
-     "raw": 198
+     "users": 98,
+     "raw": 199
     },
     {
      "key": "goto",
@@ -54,7 +54,7 @@
      "key": "understood",
      "label": "नहीं, सब समझ गया",
      "event": "Bonus_Status_Help_Understood",
-     "users": 56
+     "users": 57
     },
     {
      "key": "some_questions",
@@ -75,13 +75,13 @@
      "users": 55
     }
    ],
-   "help_answered": 98,
+   "help_answered": 99,
    "clicks": [
     {
      "event": "Bonus_Status_Next_Tapped",
      "label": "आगे (page 1)",
-     "users": 107,
-     "raw": 237
+     "users": 108,
+     "raw": 238
     },
     {
      "event": "Bonus_Status_Ring_Tapped",
@@ -92,8 +92,8 @@
     {
      "event": "Bonus_Status_Help_Understood",
      "label": "समझ गया",
-     "users": 56,
-     "raw": 85
+     "users": 57,
+     "raw": 86
     },
     {
      "event": "Bonus_Status_Help_Questions",
@@ -146,8 +146,8 @@
     {
      "event": "Bonus_Status_OK_Tapped",
      "label": "ठीक है",
-     "users": 41,
-     "raw": 51
+     "users": 42,
+     "raw": 52
     },
     {
      "event": "Bonus_Status_Close_Tapped",
@@ -185,37 +185,37 @@
    "label": "4 में से 2",
    "sub": "Two checks short",
    "size": 152,
-   "reached": 133,
-   "not_reached": 19,
+   "reached": 134,
+   "not_reached": 18,
    "orphans": [],
    "funnel": [
     {
      "key": "viewed",
      "label": "Screen shown",
      "event": "Bonus_Status_Comm_Viewed",
-     "users": 133,
-     "raw": 290
+     "users": 134,
+     "raw": 293
     },
     {
      "key": "next",
      "label": "Tapped आगे",
      "event": "Bonus_Status_Next_Tapped",
-     "users": 118,
-     "raw": 213
+     "users": 119,
+     "raw": 214
     },
     {
      "key": "help",
      "label": "Reached the help question",
      "event": "Bonus_Status_Help_Viewed",
-     "users": 118,
-     "raw": 213
+     "users": 119,
+     "raw": 214
     },
     {
      "key": "finale",
      "label": "Reached the ending",
      "event": "Bonus_Status_Finale_Viewed",
-     "users": 105,
-     "raw": 174
+     "users": 106,
+     "raw": 175
     },
     {
      "key": "goto",
@@ -248,7 +248,7 @@
      "key": "skipped",
      "label": "छोड़ें",
      "event": "Bonus_Status_Help_Skipped",
-     "users": 43
+     "users": 44
     }
    ],
    "help_answered": 105,
@@ -256,8 +256,8 @@
     {
      "event": "Bonus_Status_Next_Tapped",
      "label": "आगे (page 1)",
-     "users": 118,
-     "raw": 213
+     "users": 119,
+     "raw": 214
     },
     {
      "event": "Bonus_Status_Ring_Tapped",
@@ -286,8 +286,8 @@
     {
      "event": "Bonus_Status_Help_Skipped",
      "label": "छोड़ें",
-     "users": 43,
-     "raw": 50
+     "users": 44,
+     "raw": 51
     },
     {
      "event": "Bonus_Status_SevaSthiti_Primary_Tapped",
@@ -322,14 +322,14 @@
     {
      "event": "Bonus_Status_OK_Tapped",
      "label": "ठीक है",
-     "users": 33,
-     "raw": 41
+     "users": 34,
+     "raw": 42
     },
     {
      "event": "Bonus_Status_Close_Tapped",
      "label": "✕ closed",
      "users": 59,
-     "raw": 86
+     "raw": 87
     }
    ],
    "callbacks": 8,
@@ -348,13 +348,13 @@
    },
    "dismiss_by_page": {
     "2": 34,
-    "1": 47,
+    "1": 48,
     "3": 5
    }
   }
  ],
  "totals": {
-  "reached": 244,
+  "reached": 245,
   "audience": 263,
   "callbacks": 20,
   "goto": 171,
