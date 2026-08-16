@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-16 14:08 IST",
+  "generated": "2026-08-16 14:32 IST",
   "sample": false,
   "region": "eu1",
   "start_date": "2026-07-16",
@@ -706,13 +706,13 @@
             "label": "3 times",
             "min": 3,
             "max": 3,
-            "users": 35
+            "users": 33
           },
           {
             "label": "4 times",
             "min": 4,
             "max": 4,
-            "users": 33
+            "users": 35
           },
           {
             "label": "5 or more times",
@@ -726,37 +726,37 @@
             "label": "1 time only",
             "min": 1,
             "max": 1,
-            "users": 55
+            "users": 54
           },
           {
             "label": "2 times",
             "min": 2,
             "max": 2,
-            "users": 38
+            "users": 39
           },
           {
             "label": "3 times",
             "min": 3,
             "max": 3,
-            "users": 39
+            "users": 37
           },
           {
             "label": "4 times",
             "min": 4,
             "max": 4,
-            "users": 35
+            "users": 36
           },
           {
             "label": "5 or more times",
             "min": 5,
             "max": null,
-            "users": 284
+            "users": 285
           }
         ]
       },
       "freq_avg": {
-        "shown": 11.14,
-        "ok": 10.2
+        "shown": 11.15,
+        "ok": 10.21
       },
       "freq_max": {
         "shown": 98,
@@ -866,16 +866,16 @@
         },
         {
           "date": "2026-08-16",
-          "shown": 13,
-          "ok": 43
+          "shown": 14,
+          "ok": 45
         }
       ],
       "note": "Full-page offer creative (round 2): one screen, one ठीक है, no quiz. 21 profiles tapped ठीक है without a recorded Page shown — those devices were still injecting the bridge at page load, so treat Shown as a slight under-count."
     }
   ],
   "unattributed": {
-    "edu_ok": 744,
-    "completed": 610,
+    "edu_ok": 746,
+    "completed": 611,
     "edu_ok_technician": 401,
     "completed_technician": 341
   },
