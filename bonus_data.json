@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-16 11:04 IST",
+  "generated": "2026-08-16 11:31 IST",
   "region": "eu1",
   "start_date": "2026-07-27",
   "triggers": [
@@ -203,7 +203,7 @@
           "label": "Opened the gift",
           "event": "Bonus_Seva2_Gift_Opened",
           "users": 844,
-          "events": 4649
+          "events": 4656
         },
         {
           "key": "window_rule",
@@ -224,21 +224,21 @@
           "label": "Tapped the Seva Sthiti chip",
           "event": "Bonus_Seva2_Chip_Tapped",
           "users": 766,
-          "events": 3300
+          "events": 3308
         },
         {
           "key": "help",
           "label": "Tapped the (?) button",
           "event": "Bonus_Seva2_Help_Tapped",
-          "users": 689,
-          "events": 3435
+          "users": 690,
+          "events": 3443
         },
         {
           "key": "completed",
           "label": "Completed the story",
           "event": "Bonus_Seva2_Flow_Completed",
           "users": 714,
-          "events": 2902
+          "events": 2911
         }
       ],
       "cards": [
@@ -272,29 +272,29 @@
           "name": "hero_gift",
           "index": 0,
           "label": "hero · the gift",
-          "users": 677,
-          "events": 2914
+          "users": 678,
+          "events": 2920
         },
         {
           "name": "window_rule",
           "index": 1,
           "label": "1–15 Aug + the rule",
-          "users": 199,
-          "events": 257
+          "users": 201,
+          "events": 259
         },
         {
           "name": "home_chip",
           "index": 2,
           "label": "where Seva Sthiti lives",
           "users": 196,
-          "events": 275
+          "events": 277
         },
         {
           "name": "help_icon",
           "index": 3,
           "label": "the (?) button",
-          "users": 269,
-          "events": 392
+          "users": 270,
+          "events": 393
         },
         {
           "name": "done",
@@ -306,37 +306,37 @@
       ],
       "exits": {
         "deeplink": 669,
-        "acknowledge": 273
+        "acknowledge": 274
       },
       "goto": {
         "users": 669,
-        "events": 2334
+        "events": 2340
       },
       "toggled": {
-        "users": 142,
-        "events": 272
+        "users": 143,
+        "events": 273
       },
       "help_metrics": [
         {
           "metric": "samay_par_kaam",
           "label": "On-time work",
-          "users": 630
+          "users": 631
         },
         {
           "metric": "grahak_ki_santushti",
           "label": "Customer satisfaction",
-          "users": 479
+          "users": 480
         }
       ],
       "dismissed_total": {
         "users": 756,
-        "events": 3842
+        "events": 3853
       },
       "key": "home_story_r2_5card",
       "label": "Home story · 5 cards",
       "live_ts": 20260731110019,
       "live_label": "31 Jul 2026, 11:00 IST",
-      "raw_events": 30674,
+      "raw_events": 30724,
       "events_confirmed": [
         "Story_Viewed",
         "Gift_Opened",
@@ -377,9 +377,9 @@
       {
         "key": "round2",
         "label": "since 31 Jul 11:00",
-        "users": 220,
-        "events": 1409,
-        "days": 16.0,
+        "users": 222,
+        "events": 1411,
+        "days": 16.02,
         "reach_pct": 31,
         "per_user_day": 0.123
       }
@@ -461,9 +461,9 @@
           "label": "20 Jul–30 Jul (before)"
         },
         "post": {
-          "users": 220,
-          "events": 1409,
-          "days": 16.0,
+          "users": 222,
+          "events": 1411,
+          "days": 16.02,
           "reach_pct": 31,
           "per_user_day": 0.123,
           "label": "since 31 Jul 11:00 (after)"
