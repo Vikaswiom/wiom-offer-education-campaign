@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-16 23:18 IST",
+  "generated": "2026-08-16 23:31 IST",
   "region": "eu1",
   "start_date": "2026-07-27",
   "triggers": [
@@ -202,8 +202,8 @@
           "key": "gift",
           "label": "Opened the gift",
           "event": "Bonus_Seva2_Gift_Opened",
-          "users": 845,
-          "events": 4705
+          "users": 846,
+          "events": 4706
         },
         {
           "key": "window_rule",
@@ -336,7 +336,7 @@
       "label": "Home story · 5 cards",
       "live_ts": 20260731110019,
       "live_label": "31 Jul 2026, 11:00 IST",
-      "raw_events": 31175,
+      "raw_events": 31176,
       "events_confirmed": [
         "Story_Viewed",
         "Gift_Opened",
@@ -379,7 +379,7 @@
         "label": "since 31 Jul 11:00",
         "users": 230,
         "events": 1486,
-        "days": 16.51,
+        "days": 16.52,
         "reach_pct": 32,
         "per_user_day": 0.125
       }
@@ -463,7 +463,7 @@
         "post": {
           "users": 230,
           "events": 1486,
-          "days": 16.51,
+          "days": 16.52,
           "reach_pct": 32,
           "per_user_day": 0.125,
           "label": "since 31 Jul 11:00 (after)"
