@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-16 17:22 IST",
+  "generated": "2026-08-16 17:43 IST",
   "sample": false,
   "region": "eu1",
   "start_date": "2026-07-16",
@@ -200,7 +200,7 @@
       "key": "tech",
       "label": "Technician App",
       "color": "#2563EB",
-      "note": "Technician app — Shown comes from CleverTap's own impression event (Notification Viewed, wzrk_id 1784203536) because this app does not fire the custom inApp_Shown; education/quiz are locked to that cohort by identity. 403 role = technician profile(s) acted without a recorded impression.",
+      "note": "Technician app — Shown comes from CleverTap's own impression event (Notification Viewed, wzrk_id 1784203536) because this app does not fire the custom inApp_Shown; education/quiz are locked to that cohort by identity. 402 role = technician profile(s) acted without a recorded impression.",
       "campaigns": [
         "1784203536"
       ],
@@ -738,13 +738,13 @@
             "label": "3 times",
             "min": 3,
             "max": 3,
-            "users": 37
+            "users": 36
           },
           {
             "label": "4 times",
             "min": 4,
             "max": 4,
-            "users": 37
+            "users": 38
           },
           {
             "label": "5 or more times",
@@ -756,7 +756,7 @@
       },
       "freq_avg": {
         "shown": 11.18,
-        "ok": 10.25
+        "ok": 10.26
       },
       "freq_max": {
         "shown": 98,
@@ -867,7 +867,7 @@
         {
           "date": "2026-08-16",
           "shown": 12,
-          "ok": 54
+          "ok": 55
         }
       ],
       "note": "Full-page offer creative (round 2): one screen, one ठीक है, no quiz. 24 profiles tapped ठीक है without a recorded Page shown — those devices were still injecting the bridge at page load, so treat Shown as a slight under-count."
@@ -876,7 +876,7 @@
   "unattributed": {
     "edu_ok": 750,
     "completed": 614,
-    "edu_ok_technician": 403,
+    "edu_ok_technician": 402,
     "completed_technician": 344
   },
   "both_apps": 0
