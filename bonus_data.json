@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-16 21:06 IST",
+  "generated": "2026-08-16 21:26 IST",
   "region": "eu1",
   "start_date": "2026-07-27",
   "triggers": [
@@ -202,8 +202,8 @@
           "key": "gift",
           "label": "Opened the gift",
           "event": "Bonus_Seva2_Gift_Opened",
-          "users": 844,
-          "events": 4702
+          "users": 845,
+          "events": 4703
         },
         {
           "key": "window_rule",
@@ -223,22 +223,22 @@
           "key": "chip",
           "label": "Tapped the Seva Sthiti chip",
           "event": "Bonus_Seva2_Chip_Tapped",
-          "users": 768,
-          "events": 3389
+          "users": 769,
+          "events": 3391
         },
         {
           "key": "help",
           "label": "Tapped the (?) button",
           "event": "Bonus_Seva2_Help_Tapped",
-          "users": 692,
-          "events": 3510
+          "users": 693,
+          "events": 3513
         },
         {
           "key": "completed",
           "label": "Completed the story",
           "event": "Bonus_Seva2_Flow_Completed",
-          "users": 716,
-          "events": 2976
+          "users": 717,
+          "events": 2978
         }
       ],
       "cards": [
@@ -305,12 +305,12 @@
         }
       ],
       "exits": {
-        "deeplink": 675,
+        "deeplink": 676,
         "acknowledge": 279
       },
       "goto": {
-        "users": 675,
-        "events": 2391
+        "users": 676,
+        "events": 2393
       },
       "toggled": {
         "users": 146,
@@ -320,12 +320,12 @@
         {
           "metric": "samay_par_kaam",
           "label": "On-time work",
-          "users": 634
+          "users": 635
         },
         {
           "metric": "grahak_ki_santushti",
           "label": "Customer satisfaction",
-          "users": 483
+          "users": 484
         }
       ],
       "dismissed_total": {
@@ -336,7 +336,7 @@
       "label": "Home story · 5 cards",
       "live_ts": 20260731110019,
       "live_label": "31 Jul 2026, 11:00 IST",
-      "raw_events": 31139,
+      "raw_events": 31149,
       "events_confirmed": [
         "Story_Viewed",
         "Gift_Opened",
@@ -354,7 +354,7 @@
   "timeline": {
     "event": "service_status_help_opened",
     "cohort_event": "Bonus_Seva2_Flow_Completed",
-    "cohort_users": 716,
+    "cohort_users": 717,
     "windows": [
       {
         "key": "before",
@@ -372,21 +372,21 @@
         "events": 632,
         "days": 3.48,
         "reach_pct": 17,
-        "per_user_day": 0.254
+        "per_user_day": 0.253
       },
       {
         "key": "round2",
         "label": "since 31 Jul 11:00",
-        "users": 228,
-        "events": 1476,
-        "days": 16.42,
+        "users": 229,
+        "events": 1478,
+        "days": 16.44,
         "reach_pct": 32,
-        "per_user_day": 0.126
+        "per_user_day": 0.125
       }
     ],
-    "lift_r1": 268,
-    "lift_r2": -50,
-    "lift_total": 83
+    "lift_r1": 267,
+    "lift_r2": -51,
+    "lift_total": 81
   },
   "followthrough": {
     "chip_event": "service_status_opened",
@@ -399,7 +399,7 @@
       {
         "key": "completed",
         "label": "Finished the story",
-        "users": 716
+        "users": 717
       },
       {
         "key": "chip",
@@ -451,7 +451,7 @@
       "impact": {
         "event": "service_status_help_opened",
         "cohort_event": "Bonus_Seva2_Flow_Completed",
-        "cohort_users": 716,
+        "cohort_users": 717,
         "pre": {
           "users": 169,
           "events": 1026,
@@ -461,15 +461,15 @@
           "label": "20 Jul–30 Jul (before)"
         },
         "post": {
-          "users": 228,
-          "events": 1476,
-          "days": 16.42,
+          "users": 229,
+          "events": 1478,
+          "days": 16.44,
           "reach_pct": 32,
-          "per_user_day": 0.126,
+          "per_user_day": 0.125,
           "label": "since 31 Jul 11:00 (after)"
         },
         "stopped": false,
-        "lift_pct": -3,
+        "lift_pct": -4,
         "pre_overlaps": [
           "Quality-of-work section"
         ]
