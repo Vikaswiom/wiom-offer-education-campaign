@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-16 14:32 IST",
+  "generated": "2026-08-16 15:07 IST",
   "sample": false,
   "region": "eu1",
   "start_date": "2026-07-16",
@@ -200,7 +200,7 @@
       "key": "tech",
       "label": "Technician App",
       "color": "#2563EB",
-      "note": "Technician app — Shown comes from CleverTap's own impression event (Notification Viewed, wzrk_id 1784203536) because this app does not fire the custom inApp_Shown; education/quiz are locked to that cohort by identity. 401 role = technician profile(s) acted without a recorded impression.",
+      "note": "Technician app — Shown comes from CleverTap's own impression event (Notification Viewed, wzrk_id 1784203536) because this app does not fire the custom inApp_Shown; education/quiz are locked to that cohort by identity. 402 role = technician profile(s) acted without a recorded impression.",
       "campaigns": [
         "1784203536"
       ],
@@ -726,7 +726,7 @@
             "label": "1 time only",
             "min": 1,
             "max": 1,
-            "users": 54
+            "users": 55
           },
           {
             "label": "2 times",
@@ -756,7 +756,7 @@
       },
       "freq_avg": {
         "shown": 11.15,
-        "ok": 10.21
+        "ok": 10.2
       },
       "freq_max": {
         "shown": 98,
@@ -779,9 +779,9 @@
       ],
       "funnel": {
         "shown": 440,
-        "ok": 451
+        "ok": 452
       },
-      "ok_outside_shown": 21,
+      "ok_outside_shown": 22,
       "options": [],
       "daily": [
         {
@@ -867,17 +867,17 @@
         {
           "date": "2026-08-16",
           "shown": 14,
-          "ok": 45
+          "ok": 47
         }
       ],
-      "note": "Full-page offer creative (round 2): one screen, one ठीक है, no quiz. 21 profiles tapped ठीक है without a recorded Page shown — those devices were still injecting the bridge at page load, so treat Shown as a slight under-count."
+      "note": "Full-page offer creative (round 2): one screen, one ठीक है, no quiz. 22 profiles tapped ठीक है without a recorded Page shown — those devices were still injecting the bridge at page load, so treat Shown as a slight under-count."
     }
   ],
   "unattributed": {
-    "edu_ok": 746,
-    "completed": 611,
-    "edu_ok_technician": 401,
-    "completed_technician": 341
+    "edu_ok": 749,
+    "completed": 612,
+    "edu_ok_technician": 402,
+    "completed_technician": 342
   },
   "both_apps": 0
 }
