@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-16 17:43 IST",
+  "generated": "2026-08-16 18:32 IST",
   "sample": false,
   "region": "eu1",
   "start_date": "2026-07-16",
@@ -726,13 +726,13 @@
             "label": "1 time only",
             "min": 1,
             "max": 1,
-            "users": 53
+            "users": 52
           },
           {
             "label": "2 times",
             "min": 2,
             "max": 2,
-            "users": 39
+            "users": 40
           },
           {
             "label": "3 times",
@@ -744,19 +744,19 @@
             "label": "4 times",
             "min": 4,
             "max": 4,
-            "users": 38
+            "users": 37
           },
           {
             "label": "5 or more times",
             "min": 5,
             "max": null,
-            "users": 287
+            "users": 288
           }
         ]
       },
       "freq_avg": {
         "shown": 11.18,
-        "ok": 10.26
+        "ok": 10.28
       },
       "freq_max": {
         "shown": 98,
