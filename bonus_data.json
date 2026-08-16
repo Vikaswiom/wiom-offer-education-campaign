@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-16 08:18 IST",
+  "generated": "2026-08-16 09:08 IST",
   "region": "eu1",
   "start_date": "2026-07-27",
   "triggers": [
@@ -140,23 +140,23 @@
         "cohort_event": "Bonus_Seva_Quiz_Answered",
         "cohort_users": 106,
         "pre": {
-          "users": 49,
-          "events": 230,
+          "users": 44,
+          "events": 211,
           "days": 11.0,
-          "reach_pct": 46,
-          "per_user_day": 0.197,
+          "reach_pct": 42,
+          "per_user_day": 0.181,
           "label": "16 Jul–26 Jul (before)"
         },
         "post": {
-          "users": 62,
-          "events": 260,
+          "users": 55,
+          "events": 230,
           "days": 3.48,
-          "reach_pct": 58,
-          "per_user_day": 0.705,
+          "reach_pct": 52,
+          "per_user_day": 0.624,
           "label": "27 Jul 23:33 → 31 Jul 11:00 (while live)"
         },
         "stopped": true,
-        "lift_pct": 258
+        "lift_pct": 245
       },
       "daily": [
         {
@@ -203,7 +203,7 @@
           "label": "Opened the gift",
           "event": "Bonus_Seva2_Gift_Opened",
           "users": 845,
-          "events": 4609
+          "events": 4628
         },
         {
           "key": "window_rule",
@@ -224,21 +224,21 @@
           "label": "Tapped the Seva Sthiti chip",
           "event": "Bonus_Seva2_Chip_Tapped",
           "users": 764,
-          "events": 3222
+          "events": 3251
         },
         {
           "key": "help",
           "label": "Tapped the (?) button",
           "event": "Bonus_Seva2_Help_Tapped",
-          "users": 686,
-          "events": 3365
+          "users": 663,
+          "events": 3231
         },
         {
           "key": "completed",
           "label": "Completed the story",
           "event": "Bonus_Seva2_Flow_Completed",
           "users": 712,
-          "events": 2833
+          "events": 2862
         }
       ],
       "cards": [
@@ -272,29 +272,29 @@
           "name": "hero_gift",
           "index": 0,
           "label": "hero · the gift",
-          "users": 676,
-          "events": 2858
+          "users": 677,
+          "events": 2882
         },
         {
           "name": "window_rule",
           "index": 1,
           "label": "1–15 Aug + the rule",
-          "users": 198,
-          "events": 256
+          "users": 199,
+          "events": 257
         },
         {
           "name": "home_chip",
           "index": 2,
           "label": "where Seva Sthiti lives",
-          "users": 193,
-          "events": 271
+          "users": 195,
+          "events": 273
         },
         {
           "name": "help_icon",
           "index": 3,
           "label": "the (?) button",
-          "users": 266,
-          "events": 383
+          "users": 267,
+          "events": 385
         },
         {
           "name": "done",
@@ -306,11 +306,11 @@
       ],
       "exits": {
         "deeplink": 664,
-        "acknowledge": 270
+        "acknowledge": 272
       },
       "goto": {
         "users": 664,
-        "events": 2279
+        "events": 2301
       },
       "toggled": {
         "users": 141,
@@ -320,23 +320,23 @@
         {
           "metric": "samay_par_kaam",
           "label": "On-time work",
-          "users": 625
+          "users": 605
         },
         {
           "metric": "grahak_ki_santushti",
           "label": "Customer satisfaction",
-          "users": 478
+          "users": 457
         }
       ],
       "dismissed_total": {
         "users": 756,
-        "events": 3772
+        "events": 3801
       },
       "key": "home_story_r2_5card",
       "label": "Home story · 5 cards",
       "live_ts": 20260731110019,
       "live_label": "31 Jul 2026, 11:00 IST",
-      "raw_events": 30290,
+      "raw_events": 30284,
       "events_confirmed": [
         "Story_Viewed",
         "Gift_Opened",
@@ -359,34 +359,34 @@
       {
         "key": "before",
         "label": "16 Jul–26 Jul",
-        "users": 124,
-        "events": 544,
+        "users": 112,
+        "events": 462,
         "days": 11.0,
-        "reach_pct": 17,
-        "per_user_day": 0.069
+        "reach_pct": 16,
+        "per_user_day": 0.059
       },
       {
         "key": "round1",
         "label": "27 Jul 23:33 → 31 Jul 11:00",
-        "users": 122,
-        "events": 631,
+        "users": 112,
+        "events": 440,
         "days": 3.48,
-        "reach_pct": 17,
-        "per_user_day": 0.255
+        "reach_pct": 16,
+        "per_user_day": 0.178
       },
       {
         "key": "round2",
         "label": "since 31 Jul 11:00",
-        "users": 218,
-        "events": 1390,
-        "days": 15.89,
-        "reach_pct": 31,
-        "per_user_day": 0.123
+        "users": 203,
+        "events": 1232,
+        "days": 15.92,
+        "reach_pct": 29,
+        "per_user_day": 0.109
       }
     ],
-    "lift_r1": 270,
-    "lift_r2": -52,
-    "lift_total": 78
+    "lift_r1": 202,
+    "lift_r2": -39,
+    "lift_total": 85
   },
   "followthrough": {
     "chip_event": "service_status_opened",
@@ -409,7 +409,7 @@
       {
         "key": "help",
         "label": "Opened the (?) help screen · within 3 min of that",
-        "users": 24
+        "users": 22
       }
     ]
   },
@@ -424,23 +424,23 @@
         "cohort_event": "Bonus_Seva_Quiz_Answered",
         "cohort_users": 106,
         "pre": {
-          "users": 49,
-          "events": 230,
+          "users": 44,
+          "events": 211,
           "days": 11.0,
-          "reach_pct": 46,
-          "per_user_day": 0.197,
+          "reach_pct": 42,
+          "per_user_day": 0.181,
           "label": "16 Jul–26 Jul (before)"
         },
         "post": {
-          "users": 62,
-          "events": 260,
+          "users": 55,
+          "events": 230,
           "days": 3.48,
-          "reach_pct": 58,
-          "per_user_day": 0.705,
+          "reach_pct": 52,
+          "per_user_day": 0.624,
           "label": "27 Jul 23:33 → 31 Jul 11:00 (while live)"
         },
         "stopped": true,
-        "lift_pct": 258
+        "lift_pct": 245
       }
     },
     {
@@ -453,23 +453,23 @@
         "cohort_event": "Bonus_Seva2_Flow_Completed",
         "cohort_users": 712,
         "pre": {
-          "users": 168,
-          "events": 1025,
+          "users": 153,
+          "events": 772,
           "days": 11.0,
-          "reach_pct": 24,
-          "per_user_day": 0.131,
+          "reach_pct": 21,
+          "per_user_day": 0.099,
           "label": "20 Jul–30 Jul (before)"
         },
         "post": {
-          "users": 218,
-          "events": 1390,
-          "days": 15.89,
-          "reach_pct": 31,
-          "per_user_day": 0.123,
+          "users": 203,
+          "events": 1232,
+          "days": 15.92,
+          "reach_pct": 29,
+          "per_user_day": 0.109,
           "label": "since 31 Jul 11:00 (after)"
         },
         "stopped": false,
-        "lift_pct": -6,
+        "lift_pct": 10,
         "pre_overlaps": [
           "Quality-of-work section"
         ]
