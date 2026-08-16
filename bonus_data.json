@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-16 19:10 IST",
+  "generated": "2026-08-16 19:29 IST",
   "region": "eu1",
   "start_date": "2026-07-27",
   "triggers": [
@@ -203,7 +203,7 @@
           "label": "Opened the gift",
           "event": "Bonus_Seva2_Gift_Opened",
           "users": 844,
-          "events": 4698
+          "events": 4699
         },
         {
           "key": "window_rule",
@@ -224,21 +224,21 @@
           "label": "Tapped the Seva Sthiti chip",
           "event": "Bonus_Seva2_Chip_Tapped",
           "users": 768,
-          "events": 3385
+          "events": 3388
         },
         {
           "key": "help",
           "label": "Tapped the (?) button",
           "event": "Bonus_Seva2_Help_Tapped",
           "users": 692,
-          "events": 3504
+          "events": 3508
         },
         {
           "key": "completed",
           "label": "Completed the story",
           "event": "Bonus_Seva2_Flow_Completed",
           "users": 716,
-          "events": 2972
+          "events": 2974
         }
       ],
       "cards": [
@@ -273,7 +273,7 @@
           "index": 0,
           "label": "hero · the gift",
           "users": 683,
-          "events": 2989
+          "events": 2990
         },
         {
           "name": "window_rule",
@@ -293,8 +293,8 @@
           "name": "help_icon",
           "index": 3,
           "label": "the (?) button",
-          "users": 274,
-          "events": 406
+          "users": 275,
+          "events": 407
         },
         {
           "name": "done",
@@ -310,11 +310,11 @@
       },
       "goto": {
         "users": 674,
-        "events": 2387
+        "events": 2389
       },
       "toggled": {
-        "users": 145,
-        "events": 276
+        "users": 146,
+        "events": 278
       },
       "help_metrics": [
         {
@@ -330,13 +330,13 @@
       ],
       "dismissed_total": {
         "users": 760,
-        "events": 3946
+        "events": 3948
       },
       "key": "home_story_r2_5card",
       "label": "Home story · 5 cards",
       "live_ts": 20260731110019,
       "live_label": "31 Jul 2026, 11:00 IST",
-      "raw_events": 31108,
+      "raw_events": 31124,
       "events_confirmed": [
         "Story_Viewed",
         "Gift_Opened",
@@ -378,15 +378,15 @@
         "key": "round2",
         "label": "since 31 Jul 11:00",
         "users": 229,
-        "events": 1467,
-        "days": 16.34,
+        "events": 1472,
+        "days": 16.35,
         "reach_pct": 32,
-        "per_user_day": 0.125
+        "per_user_day": 0.126
       }
     ],
     "lift_r1": 268,
-    "lift_r2": -51,
-    "lift_total": 81
+    "lift_r2": -50,
+    "lift_total": 83
   },
   "followthrough": {
     "chip_event": "service_status_opened",
@@ -462,14 +462,14 @@
         },
         "post": {
           "users": 229,
-          "events": 1467,
-          "days": 16.34,
+          "events": 1472,
+          "days": 16.35,
           "reach_pct": 32,
-          "per_user_day": 0.125,
+          "per_user_day": 0.126,
           "label": "since 31 Jul 11:00 (after)"
         },
         "stopped": false,
-        "lift_pct": -4,
+        "lift_pct": -3,
         "pre_overlaps": [
           "Quality-of-work section"
         ]
