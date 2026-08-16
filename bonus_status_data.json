@@ -1,5 +1,5 @@
 {
- "generated": "2026-08-16 19:08 IST",
+ "generated": "2026-08-16 20:01 IST",
  "start_date": "20260812",
  "cycle_end": "2026-08-31",
  "credit_on": "2026-09-01",
@@ -186,44 +186,44 @@
    "label": "4 में से 2",
    "sub": "Two checks short",
    "size": 152,
-   "reached": 141,
-   "not_reached": 11,
+   "reached": 142,
+   "not_reached": 10,
    "orphans": [],
    "funnel": [
     {
      "key": "viewed",
      "label": "Screen shown",
      "event": "Bonus_Status_Comm_Viewed",
-     "users": 141,
-     "raw": 326
+     "users": 142,
+     "raw": 327
     },
     {
      "key": "next",
      "label": "Tapped आगे",
      "event": "Bonus_Status_Next_Tapped",
-     "users": 124,
-     "raw": 237
+     "users": 125,
+     "raw": 238
     },
     {
      "key": "help",
      "label": "Reached the help question",
      "event": "Bonus_Status_Help_Viewed",
-     "users": 124,
-     "raw": 237
+     "users": 125,
+     "raw": 238
     },
     {
      "key": "finale",
      "label": "Reached the ending",
      "event": "Bonus_Status_Finale_Viewed",
-     "users": 109,
-     "raw": 192
+     "users": 110,
+     "raw": 194
     },
     {
      "key": "goto",
      "label": "Tapped through to सेवा स्थिति",
      "event": "Bonus_Status_GoTo_SevaSthiti",
-     "users": 89,
-     "raw": 142
+     "users": 90,
+     "raw": 144
     }
    ],
    "help": [
@@ -257,8 +257,8 @@
     {
      "event": "Bonus_Status_Next_Tapped",
      "label": "आगे (page 1)",
-     "users": 124,
-     "raw": 237
+     "users": 125,
+     "raw": 238
     },
     {
      "event": "Bonus_Status_Ring_Tapped",
@@ -270,7 +270,7 @@
      "event": "Bonus_Status_Help_Understood",
      "label": "समझ गया",
      "users": 67,
-     "raw": 88
+     "raw": 89
     },
     {
      "event": "Bonus_Status_Help_Questions",
@@ -293,8 +293,8 @@
     {
      "event": "Bonus_Status_SevaSthiti_Primary_Tapped",
      "label": "सेवा स्थिति — primary button",
-     "users": 84,
-     "raw": 124
+     "users": 85,
+     "raw": 126
     },
     {
      "event": "Bonus_Status_SevaSthiti_Link_Tapped",
@@ -345,7 +345,7 @@
     "a0b9k4"
    ],
    "deeplink_mechanism": {
-    "location_href": 142
+    "location_href": 144
    },
    "dismiss_by_page": {
     "2": 37,
@@ -355,10 +355,10 @@
   }
  ],
  "totals": {
-  "reached": 252,
+  "reached": 253,
   "audience": 263,
   "callbacks": 21,
-  "goto": 176,
+  "goto": 177,
   "need_help": 32
  },
  "all_callback_ids": [
