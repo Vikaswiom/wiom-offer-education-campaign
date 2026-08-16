@@ -1,5 +1,5 @@
 {
- "generated": "2026-08-16 16:58 IST",
+ "generated": "2026-08-16 17:20 IST",
  "start_date": "20260812",
  "cycle_end": "2026-08-31",
  "credit_on": "2026-09-01",
@@ -18,35 +18,35 @@
      "label": "Screen shown",
      "event": "Bonus_Status_Comm_Viewed",
      "users": 111,
-     "raw": 339
+     "raw": 341
     },
     {
      "key": "next",
      "label": "Tapped आगे",
      "event": "Bonus_Status_Next_Tapped",
      "users": 108,
-     "raw": 250
+     "raw": 252
     },
     {
      "key": "help",
      "label": "Reached the help question",
      "event": "Bonus_Status_Help_Viewed",
      "users": 108,
-     "raw": 250
+     "raw": 252
     },
     {
      "key": "finale",
      "label": "Reached the ending",
      "event": "Bonus_Status_Finale_Viewed",
      "users": 99,
-     "raw": 210
+     "raw": 211
     },
     {
      "key": "goto",
      "label": "Tapped through to सेवा स्थिति",
      "event": "Bonus_Status_GoTo_SevaSthiti",
-     "users": 85,
-     "raw": 157
+     "users": 86,
+     "raw": 158
     }
    ],
    "help": [
@@ -81,7 +81,7 @@
      "event": "Bonus_Status_Next_Tapped",
      "label": "आगे (page 1)",
      "users": 108,
-     "raw": 250
+     "raw": 252
     },
     {
      "event": "Bonus_Status_Ring_Tapped",
@@ -111,13 +111,13 @@
      "event": "Bonus_Status_Help_Skipped",
      "label": "छोड़ें",
      "users": 57,
-     "raw": 71
+     "raw": 72
     },
     {
      "event": "Bonus_Status_SevaSthiti_Primary_Tapped",
      "label": "सेवा स्थिति — primary button",
-     "users": 74,
-     "raw": 128
+     "users": 75,
+     "raw": 129
     },
     {
      "event": "Bonus_Status_SevaSthiti_Link_Tapped",
@@ -173,7 +173,7 @@
     "a0b9n2"
    ],
    "deeplink_mechanism": {
-    "location_href": 157
+    "location_href": 158
    },
    "dismiss_by_page": {
     "2": 29,
@@ -195,35 +195,35 @@
      "label": "Screen shown",
      "event": "Bonus_Status_Comm_Viewed",
      "users": 141,
-     "raw": 321
+     "raw": 323
     },
     {
      "key": "next",
      "label": "Tapped आगे",
      "event": "Bonus_Status_Next_Tapped",
      "users": 124,
-     "raw": 233
+     "raw": 235
     },
     {
      "key": "help",
      "label": "Reached the help question",
      "event": "Bonus_Status_Help_Viewed",
      "users": 124,
-     "raw": 233
+     "raw": 235
     },
     {
      "key": "finale",
      "label": "Reached the ending",
      "event": "Bonus_Status_Finale_Viewed",
      "users": 109,
-     "raw": 189
+     "raw": 191
     },
     {
      "key": "goto",
      "label": "Tapped through to सेवा स्थिति",
      "event": "Bonus_Status_GoTo_SevaSthiti",
      "users": 89,
-     "raw": 140
+     "raw": 141
     }
    ],
    "help": [
@@ -258,7 +258,7 @@
      "event": "Bonus_Status_Next_Tapped",
      "label": "आगे (page 1)",
      "users": 124,
-     "raw": 233
+     "raw": 235
     },
     {
      "event": "Bonus_Status_Ring_Tapped",
@@ -270,7 +270,7 @@
      "event": "Bonus_Status_Help_Understood",
      "label": "समझ गया",
      "users": 67,
-     "raw": 87
+     "raw": 88
     },
     {
      "event": "Bonus_Status_Help_Questions",
@@ -288,13 +288,13 @@
      "event": "Bonus_Status_Help_Skipped",
      "label": "छोड़ें",
      "users": 46,
-     "raw": 56
+     "raw": 57
     },
     {
      "event": "Bonus_Status_SevaSthiti_Primary_Tapped",
      "label": "सेवा स्थिति — primary button",
      "users": 84,
-     "raw": 122
+     "raw": 123
     },
     {
      "event": "Bonus_Status_SevaSthiti_Link_Tapped",
@@ -324,7 +324,7 @@
      "event": "Bonus_Status_OK_Tapped",
      "label": "ठीक है",
      "users": 34,
-     "raw": 43
+     "raw": 44
     },
     {
      "event": "Bonus_Status_Close_Tapped",
@@ -345,7 +345,7 @@
     "a0b9k4"
    ],
    "deeplink_mechanism": {
-    "location_href": 140
+    "location_href": 141
    },
    "dismiss_by_page": {
     "2": 37,
@@ -358,7 +358,7 @@
   "reached": 252,
   "audience": 263,
   "callbacks": 21,
-  "goto": 174,
+  "goto": 175,
   "need_help": 32
  },
  "all_callback_ids": [
