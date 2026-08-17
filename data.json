@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-17 20:33 IST",
+  "generated": "2026-08-17 21:07 IST",
   "sample": false,
   "region": "eu1",
   "start_date": "2026-07-16",
@@ -709,7 +709,7 @@
             "label": "1 time only",
             "min": 1,
             "max": 1,
-            "users": 50
+            "users": 48
           },
           {
             "label": "2 times",
@@ -741,7 +741,7 @@
             "label": "1 time only",
             "min": 1,
             "max": 1,
-            "users": 53
+            "users": 54
           },
           {
             "label": "2 times",
@@ -770,12 +770,12 @@
         ]
       },
       "freq_avg": {
-        "shown": 11.16,
-        "ok": 10.36
+        "shown": 11.21,
+        "ok": 10.35
       },
       "freq_max": {
-        "shown": 99,
-        "ok": 89
+        "shown": 101,
+        "ok": 90
       },
       "attribution": "event",
       "campaigns": [],
@@ -793,10 +793,10 @@
         ]
       ],
       "funnel": {
-        "shown": 444,
-        "ok": 465
+        "shown": 442,
+        "ok": 466
       },
-      "ok_outside_shown": 29,
+      "ok_outside_shown": 32,
       "options": [],
       "daily": [
         {
@@ -886,18 +886,18 @@
         },
         {
           "date": "2026-08-17",
-          "shown": 13,
-          "ok": 55
+          "shown": 11,
+          "ok": 56
         }
       ],
-      "note": "Full-page offer creative (round 2): one screen, one ठीक है, no quiz. 29 profiles tapped ठीक है without a recorded Page shown — those devices were still injecting the bridge at page load, so treat Shown as a slight under-count."
+      "note": "Full-page offer creative (round 2): one screen, one ठीक है, no quiz. 32 profiles tapped ठीक है without a recorded Page shown — those devices were still injecting the bridge at page load, so treat Shown as a slight under-count."
     }
   ],
   "unattributed": {
     "edu_ok": 767,
-    "completed": 630,
+    "completed": 631,
     "edu_ok_technician": 411,
-    "completed_technician": 351
+    "completed_technician": 352
   },
   "both_apps": 0
 }
