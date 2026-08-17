@@ -1,5 +1,5 @@
 {
- "generated": "2026-08-17 11:32 IST",
+ "generated": "2026-08-17 12:42 IST",
  "start_date": "20260812",
  "cycle_end": "2026-08-31",
  "credit_on": "2026-09-01",
@@ -195,7 +195,7 @@
      "label": "Screen shown",
      "event": "Bonus_Status_Comm_Viewed",
      "users": 142,
-     "raw": 331
+     "raw": 332
     },
     {
      "key": "next",
@@ -329,8 +329,8 @@
     {
      "event": "Bonus_Status_Close_Tapped",
      "label": "✕ closed",
-     "users": 66,
-     "raw": 99
+     "users": 67,
+     "raw": 100
     }
    ],
    "callbacks": 8,
@@ -350,7 +350,7 @@
    "dismiss_by_page": {
     "2": 38,
     "3": 7,
-    "1": 54
+    "1": 55
    }
   }
  ],
