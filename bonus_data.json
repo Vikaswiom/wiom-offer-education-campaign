@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-18 00:52 IST",
+  "generated": "2026-08-18 01:18 IST",
   "region": "eu1",
   "start_date": "2026-07-27",
   "triggers": [
@@ -203,7 +203,7 @@
           "label": "Opened the gift",
           "event": "Bonus_Seva2_Gift_Opened",
           "users": 847,
-          "events": 4779
+          "events": 4781
         },
         {
           "key": "window_rule",
@@ -224,21 +224,21 @@
           "label": "Tapped the Seva Sthiti chip",
           "event": "Bonus_Seva2_Chip_Tapped",
           "users": 774,
-          "events": 3535
+          "events": 3538
         },
         {
           "key": "help",
           "label": "Tapped the (?) button",
           "event": "Bonus_Seva2_Help_Tapped",
           "users": 700,
-          "events": 3655
+          "events": 3660
         },
         {
           "key": "completed",
           "label": "Completed the story",
           "event": "Bonus_Seva2_Flow_Completed",
           "users": 725,
-          "events": 3107
+          "events": 3110
         }
       ],
       "cards": [
@@ -273,7 +273,7 @@
           "index": 0,
           "label": "hero · the gift",
           "users": 688,
-          "events": 3123
+          "events": 3129
         },
         {
           "name": "window_rule",
@@ -287,7 +287,7 @@
           "index": 2,
           "label": "where Seva Sthiti lives",
           "users": 208,
-          "events": 298
+          "events": 299
         },
         {
           "name": "help_icon",
@@ -310,7 +310,7 @@
       },
       "goto": {
         "users": 684,
-        "events": 2492
+        "events": 2493
       },
       "toggled": {
         "users": 149,
@@ -325,18 +325,18 @@
         {
           "metric": "grahak_ki_santushti",
           "label": "Customer satisfaction",
-          "users": 490
+          "users": 491
         }
       ],
       "dismissed_total": {
         "users": 765,
-        "events": 4125
+        "events": 4132
       },
       "key": "home_story_r2_5card",
       "label": "Home story · 5 cards",
       "live_ts": 20260731110019,
       "live_label": "31 Jul 2026, 11:00 IST",
-      "raw_events": 31916,
+      "raw_events": 31937,
       "events_confirmed": [
         "Story_Viewed",
         "Gift_Opened",
@@ -377,9 +377,9 @@
       {
         "key": "round2",
         "label": "since 31 Jul 11:00",
-        "users": 240,
-        "events": 1566,
-        "days": 17.58,
+        "users": 241,
+        "events": 1568,
+        "days": 17.6,
         "reach_pct": 33,
         "per_user_day": 0.123
       }
@@ -461,9 +461,9 @@
           "label": "20 Jul–30 Jul (before)"
         },
         "post": {
-          "users": 240,
-          "events": 1566,
-          "days": 17.58,
+          "users": 241,
+          "events": 1568,
+          "days": 17.6,
           "reach_pct": 33,
           "per_user_day": 0.123,
           "label": "since 31 Jul 11:00 (after)"
