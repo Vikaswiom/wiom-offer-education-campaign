@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-17 13:06 IST",
+  "generated": "2026-08-17 13:54 IST",
   "sample": false,
   "region": "eu1",
   "start_date": "2026-07-16",
@@ -213,13 +213,13 @@
       "funnel": {
         "shown": 267,
         "edu_ok": 262,
-        "completed": 245
+        "completed": 246
       },
       "options": [
         {
           "option": "1",
           "label": "1st (top)",
-          "users": 194
+          "users": 195
         },
         {
           "option": "2",
@@ -345,6 +345,11 @@
         },
         {
           "date": "2026-08-16",
+          "shown": 0,
+          "completed": 1
+        },
+        {
+          "date": "2026-08-17",
           "shown": 0,
           "completed": 1
         }
@@ -699,7 +704,7 @@
             "label": "1 time only",
             "min": 1,
             "max": 1,
-            "users": 48
+            "users": 49
           },
           {
             "label": "2 times",
@@ -717,13 +722,13 @@
             "label": "4 times",
             "min": 4,
             "max": 4,
-            "users": 34
+            "users": 33
           },
           {
             "label": "5 or more times",
             "min": 5,
             "max": null,
-            "users": 285
+            "users": 286
           }
         ],
         "ok": [
@@ -731,7 +736,7 @@
             "label": "1 time only",
             "min": 1,
             "max": 1,
-            "users": 52
+            "users": 53
           },
           {
             "label": "2 times",
@@ -743,7 +748,7 @@
             "label": "3 times",
             "min": 3,
             "max": 3,
-            "users": 36
+            "users": 35
           },
           {
             "label": "4 times",
@@ -755,13 +760,13 @@
             "label": "5 or more times",
             "min": 5,
             "max": null,
-            "users": 294
+            "users": 295
           }
         ]
       },
       "freq_avg": {
-        "shown": 11.15,
-        "ok": 10.34
+        "shown": 11.14,
+        "ok": 10.35
       },
       "freq_max": {
         "shown": 98,
@@ -783,8 +788,8 @@
         ]
       ],
       "funnel": {
-        "shown": 441,
-        "ok": 457
+        "shown": 442,
+        "ok": 458
       },
       "ok_outside_shown": 26,
       "options": [],
@@ -876,8 +881,8 @@
         },
         {
           "date": "2026-08-17",
-          "shown": 3,
-          "ok": 25
+          "shown": 5,
+          "ok": 29
         }
       ],
       "note": "Full-page offer creative (round 2): one screen, one ठीक है, no quiz. 26 profiles tapped ठीक है without a recorded Page shown — those devices were still injecting the bridge at page load, so treat Shown as a slight under-count."
@@ -885,9 +890,9 @@
   ],
   "unattributed": {
     "edu_ok": 758,
-    "completed": 620,
+    "completed": 621,
     "edu_ok_technician": 406,
-    "completed_technician": 346
+    "completed_technician": 347
   },
   "both_apps": 0
 }
