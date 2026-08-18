@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-18 15:44 IST",
+  "generated": "2026-08-18 16:22 IST",
   "sample": false,
   "region": "eu1",
   "start_date": "2026-07-16",
@@ -520,7 +520,7 @@
             "label": "1 time only",
             "min": 1,
             "max": 1,
-            "users": 104
+            "users": 105
           },
           {
             "label": "2 times",
@@ -552,7 +552,7 @@
             "label": "1 time only",
             "min": 1,
             "max": 1,
-            "users": 97
+            "users": 98
           },
           {
             "label": "2 times",
@@ -582,7 +582,7 @@
       },
       "freq_avg": {
         "shown": 1.29,
-        "ok": 1.28
+        "ok": 1.27
       },
       "freq_max": {
         "shown": 9,
@@ -604,8 +604,8 @@
         ]
       ],
       "funnel": {
-        "shown": 131,
-        "ok": 119
+        "shown": 132,
+        "ok": 120
       },
       "ok_outside_shown": 0,
       "options": [],
@@ -702,8 +702,8 @@
         },
         {
           "date": "2026-08-18",
-          "shown": 1,
-          "ok": 1
+          "shown": 2,
+          "ok": 2
         }
       ],
       "note": "Full-page offer creative (round 2): one screen, one ठीक है, no quiz."
@@ -737,13 +737,13 @@
             "label": "4 times",
             "min": 4,
             "max": 4,
-            "users": 34
+            "users": 33
           },
           {
             "label": "5 or more times",
             "min": 5,
             "max": null,
-            "users": 287
+            "users": 288
           }
         ],
         "ok": [
@@ -757,13 +757,13 @@
             "label": "2 times",
             "min": 2,
             "max": 2,
-            "users": 44
+            "users": 45
           },
           {
             "label": "3 times",
             "min": 3,
             "max": 3,
-            "users": 34
+            "users": 32
           },
           {
             "label": "4 times",
@@ -775,7 +775,7 @@
             "label": "5 or more times",
             "min": 5,
             "max": null,
-            "users": 299
+            "users": 300
           }
         ]
       },
@@ -901,8 +901,8 @@
         },
         {
           "date": "2026-08-18",
-          "shown": 5,
-          "ok": 24
+          "shown": 6,
+          "ok": 25
         }
       ],
       "note": "Full-page offer creative (round 2): one screen, one ठीक है, no quiz. 33 profiles tapped ठीक है without a recorded Page shown — those devices were still injecting the bridge at page load, so treat Shown as a slight under-count."
