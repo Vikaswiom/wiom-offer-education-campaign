@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-19 02:28 IST",
+  "generated": "2026-08-19 04:12 IST",
   "sample": false,
   "region": "eu1",
   "start_date": "2026-07-16",
@@ -34,75 +34,337 @@
       "shown_by_campaign": [
         {
           "id": "1784201594",
-          "users": 0
+          "users": 15
         },
         {
           "id": "1784207437",
-          "users": 0
+          "users": 388
         }
       ],
       "funnel": {
-        "shown": 0,
-        "edu_ok": 0,
-        "completed": 0
+        "shown": 399,
+        "edu_ok": 388,
+        "completed": 354
       },
       "options": [
         {
           "option": "1",
           "label": "1st (top)",
-          "users": 0
+          "users": 278
         },
         {
           "option": "2",
           "label": "2nd (middle)",
-          "users": 0
+          "users": 30
         },
         {
           "option": "3",
           "label": "3rd (bottom)",
-          "users": 0
+          "users": 47
         }
       ],
-      "daily": []
+      "daily": [
+        {
+          "date": "2026-07-16",
+          "shown": 28,
+          "completed": 17
+        },
+        {
+          "date": "2026-07-17",
+          "shown": 57,
+          "completed": 41
+        },
+        {
+          "date": "2026-07-18",
+          "shown": 64,
+          "completed": 47
+        },
+        {
+          "date": "2026-07-19",
+          "shown": 64,
+          "completed": 38
+        },
+        {
+          "date": "2026-07-20",
+          "shown": 72,
+          "completed": 46
+        },
+        {
+          "date": "2026-07-21",
+          "shown": 56,
+          "completed": 34
+        },
+        {
+          "date": "2026-07-22",
+          "shown": 50,
+          "completed": 31
+        },
+        {
+          "date": "2026-07-23",
+          "shown": 31,
+          "completed": 22
+        },
+        {
+          "date": "2026-07-24",
+          "shown": 15,
+          "completed": 15
+        },
+        {
+          "date": "2026-07-25",
+          "shown": 19,
+          "completed": 12
+        },
+        {
+          "date": "2026-07-26",
+          "shown": 17,
+          "completed": 12
+        },
+        {
+          "date": "2026-07-27",
+          "shown": 4,
+          "completed": 6
+        },
+        {
+          "date": "2026-07-28",
+          "shown": 3,
+          "completed": 5
+        },
+        {
+          "date": "2026-07-29",
+          "shown": 2,
+          "completed": 4
+        },
+        {
+          "date": "2026-07-30",
+          "shown": 0,
+          "completed": 3
+        },
+        {
+          "date": "2026-07-31",
+          "shown": 0,
+          "completed": 3
+        },
+        {
+          "date": "2026-08-01",
+          "shown": 0,
+          "completed": 5
+        },
+        {
+          "date": "2026-08-02",
+          "shown": 0,
+          "completed": 1
+        },
+        {
+          "date": "2026-08-03",
+          "shown": 0,
+          "completed": 3
+        },
+        {
+          "date": "2026-08-04",
+          "shown": 0,
+          "completed": 3
+        },
+        {
+          "date": "2026-08-05",
+          "shown": 0,
+          "completed": 1
+        },
+        {
+          "date": "2026-08-06",
+          "shown": 0,
+          "completed": 1
+        },
+        {
+          "date": "2026-08-08",
+          "shown": 0,
+          "completed": 2
+        },
+        {
+          "date": "2026-08-09",
+          "shown": 0,
+          "completed": 1
+        },
+        {
+          "date": "2026-08-10",
+          "shown": 0,
+          "completed": 1
+        },
+        {
+          "date": "2026-08-11",
+          "shown": 0,
+          "completed": 1
+        },
+        {
+          "date": "2026-08-18",
+          "shown": 0,
+          "completed": 2
+        }
+      ]
     },
     {
       "key": "tech",
       "label": "Technician App",
       "color": "#2563EB",
-      "note": "Technician app — attributed by profile property role = technician on every event (no impressions found for campaign 1784203536 in either inApp_Shown or Notification Viewed). Campaign ids observed on technicians' inApp_Shown: none.",
+      "note": "Technician app — Shown comes from CleverTap's own impression event (Notification Viewed, wzrk_id 1784203536) because this app does not fire the custom inApp_Shown; education/quiz are locked to that cohort by identity. 416 role = technician profile(s) acted without a recorded impression.",
       "campaigns": [
         "1784203536"
       ],
       "shown_by_campaign": [
         {
           "id": "1784203536",
-          "users": 0
+          "users": 267
         }
       ],
       "funnel": {
-        "shown": 0,
-        "edu_ok": 0,
-        "completed": 0
+        "shown": 267,
+        "edu_ok": 263,
+        "completed": 247
       },
       "options": [
         {
           "option": "1",
           "label": "1st (top)",
-          "users": 0
+          "users": 196
         },
         {
           "option": "2",
           "label": "2nd (middle)",
-          "users": 0
+          "users": 19
         },
         {
           "option": "3",
           "label": "3rd (bottom)",
-          "users": 0
+          "users": 32
         }
       ],
-      "daily": [],
-      "attribution": "role"
+      "daily": [
+        {
+          "date": "2026-07-16",
+          "shown": 7,
+          "completed": 5
+        },
+        {
+          "date": "2026-07-17",
+          "shown": 27,
+          "completed": 19
+        },
+        {
+          "date": "2026-07-18",
+          "shown": 63,
+          "completed": 39
+        },
+        {
+          "date": "2026-07-19",
+          "shown": 83,
+          "completed": 51
+        },
+        {
+          "date": "2026-07-20",
+          "shown": 63,
+          "completed": 33
+        },
+        {
+          "date": "2026-07-21",
+          "shown": 40,
+          "completed": 33
+        },
+        {
+          "date": "2026-07-22",
+          "shown": 30,
+          "completed": 25
+        },
+        {
+          "date": "2026-07-23",
+          "shown": 15,
+          "completed": 10
+        },
+        {
+          "date": "2026-07-24",
+          "shown": 5,
+          "completed": 3
+        },
+        {
+          "date": "2026-07-25",
+          "shown": 4,
+          "completed": 3
+        },
+        {
+          "date": "2026-07-26",
+          "shown": 0,
+          "completed": 2
+        },
+        {
+          "date": "2026-07-27",
+          "shown": 0,
+          "completed": 2
+        },
+        {
+          "date": "2026-07-28",
+          "shown": 0,
+          "completed": 3
+        },
+        {
+          "date": "2026-07-29",
+          "shown": 0,
+          "completed": 3
+        },
+        {
+          "date": "2026-07-31",
+          "shown": 0,
+          "completed": 2
+        },
+        {
+          "date": "2026-08-01",
+          "shown": 0,
+          "completed": 3
+        },
+        {
+          "date": "2026-08-03",
+          "shown": 0,
+          "completed": 1
+        },
+        {
+          "date": "2026-08-04",
+          "shown": 0,
+          "completed": 1
+        },
+        {
+          "date": "2026-08-05",
+          "shown": 0,
+          "completed": 2
+        },
+        {
+          "date": "2026-08-08",
+          "shown": 0,
+          "completed": 2
+        },
+        {
+          "date": "2026-08-13",
+          "shown": 0,
+          "completed": 1
+        },
+        {
+          "date": "2026-08-14",
+          "shown": 0,
+          "completed": 1
+        },
+        {
+          "date": "2026-08-16",
+          "shown": 0,
+          "completed": 1
+        },
+        {
+          "date": "2026-08-17",
+          "shown": 0,
+          "completed": 1
+        },
+        {
+          "date": "2026-08-18",
+          "shown": 0,
+          "completed": 1
+        }
+      ],
+      "attribution": "impressions"
     },
     {
       "key": "csp_eduonly",
@@ -116,7 +378,7 @@
       "shown_by_campaign": [
         {
           "id": "1784285997",
-          "users": 0
+          "users": 148
         }
       ],
       "steps": [
@@ -127,10 +389,63 @@
         ]
       ],
       "funnel": {
-        "shown": 0
+        "shown": 148
       },
       "options": [],
-      "daily": [],
+      "daily": [
+        {
+          "date": "2026-07-17",
+          "shown": 2
+        },
+        {
+          "date": "2026-07-18",
+          "shown": 25
+        },
+        {
+          "date": "2026-07-19",
+          "shown": 39
+        },
+        {
+          "date": "2026-07-20",
+          "shown": 45
+        },
+        {
+          "date": "2026-07-21",
+          "shown": 31
+        },
+        {
+          "date": "2026-07-22",
+          "shown": 12
+        },
+        {
+          "date": "2026-07-23",
+          "shown": 23
+        },
+        {
+          "date": "2026-07-24",
+          "shown": 15
+        },
+        {
+          "date": "2026-07-25",
+          "shown": 8
+        },
+        {
+          "date": "2026-07-26",
+          "shown": 9
+        },
+        {
+          "date": "2026-07-27",
+          "shown": 3
+        },
+        {
+          "date": "2026-07-28",
+          "shown": 1
+        },
+        {
+          "date": "2026-07-29",
+          "shown": 3
+        }
+      ],
       "note": "Education screen + ठीक है only, no quiz. Capped once/day, 3 lifetime. Reach only — unique users the in-app was shown to."
     },
     {
@@ -156,10 +471,47 @@
         ]
       ],
       "funnel": {
-        "shown": 0
+        "shown": 163
       },
       "options": [],
-      "daily": [],
+      "daily": [
+        {
+          "date": "2026-07-17",
+          "shown": 6
+        },
+        {
+          "date": "2026-07-18",
+          "shown": 32
+        },
+        {
+          "date": "2026-07-19",
+          "shown": 41
+        },
+        {
+          "date": "2026-07-20",
+          "shown": 49
+        },
+        {
+          "date": "2026-07-21",
+          "shown": 32
+        },
+        {
+          "date": "2026-07-22",
+          "shown": 37
+        },
+        {
+          "date": "2026-07-23",
+          "shown": 21
+        },
+        {
+          "date": "2026-07-24",
+          "shown": 5
+        },
+        {
+          "date": "2026-07-25",
+          "shown": 2
+        }
+      ],
       "note": "Education screen + ठीक है only, no quiz. Capped once/day, 3 lifetime. Reach only — unique users the in-app was shown to."
     },
     {
@@ -173,19 +525,19 @@
             "label": "1 time only",
             "min": 1,
             "max": 1,
-            "users": 0
+            "users": 105
           },
           {
             "label": "2 times",
             "min": 2,
             "max": 2,
-            "users": 0
+            "users": 22
           },
           {
             "label": "3 times",
             "min": 3,
             "max": 3,
-            "users": 0
+            "users": 4
           },
           {
             "label": "4 times",
@@ -197,7 +549,7 @@
             "label": "5 or more times",
             "min": 5,
             "max": null,
-            "users": 0
+            "users": 1
           }
         ],
         "ok": [
@@ -205,19 +557,19 @@
             "label": "1 time only",
             "min": 1,
             "max": 1,
-            "users": 0
+            "users": 98
           },
           {
             "label": "2 times",
             "min": 2,
             "max": 2,
-            "users": 0
+            "users": 17
           },
           {
             "label": "3 times",
             "min": 3,
             "max": 3,
-            "users": 0
+            "users": 4
           },
           {
             "label": "4 times",
@@ -229,17 +581,17 @@
             "label": "5 or more times",
             "min": 5,
             "max": null,
-            "users": 0
+            "users": 1
           }
         ]
       },
       "freq_avg": {
-        "shown": 0,
-        "ok": 0
+        "shown": 1.29,
+        "ok": 1.27
       },
       "freq_max": {
-        "shown": 0,
-        "ok": 0
+        "shown": 9,
+        "ok": 9
       },
       "attribution": "event",
       "campaigns": [],
@@ -257,12 +609,108 @@
         ]
       ],
       "funnel": {
-        "shown": 0,
-        "ok": 0
+        "shown": 132,
+        "ok": 120
       },
       "ok_outside_shown": 0,
       "options": [],
-      "daily": [],
+      "daily": [
+        {
+          "date": "2026-07-31",
+          "shown": 11,
+          "ok": 10
+        },
+        {
+          "date": "2026-08-01",
+          "shown": 21,
+          "ok": 17
+        },
+        {
+          "date": "2026-08-02",
+          "shown": 15,
+          "ok": 14
+        },
+        {
+          "date": "2026-08-03",
+          "shown": 15,
+          "ok": 14
+        },
+        {
+          "date": "2026-08-04",
+          "shown": 11,
+          "ok": 11
+        },
+        {
+          "date": "2026-08-05",
+          "shown": 9,
+          "ok": 9
+        },
+        {
+          "date": "2026-08-06",
+          "shown": 4,
+          "ok": 4
+        },
+        {
+          "date": "2026-08-07",
+          "shown": 12,
+          "ok": 10
+        },
+        {
+          "date": "2026-08-08",
+          "shown": 8,
+          "ok": 6
+        },
+        {
+          "date": "2026-08-09",
+          "shown": 10,
+          "ok": 9
+        },
+        {
+          "date": "2026-08-10",
+          "shown": 6,
+          "ok": 6
+        },
+        {
+          "date": "2026-08-11",
+          "shown": 7,
+          "ok": 6
+        },
+        {
+          "date": "2026-08-12",
+          "shown": 9,
+          "ok": 7
+        },
+        {
+          "date": "2026-08-13",
+          "shown": 9,
+          "ok": 9
+        },
+        {
+          "date": "2026-08-14",
+          "shown": 1,
+          "ok": 1
+        },
+        {
+          "date": "2026-08-15",
+          "shown": 9,
+          "ok": 8
+        },
+        {
+          "date": "2026-08-16",
+          "shown": 5,
+          "ok": 4
+        },
+        {
+          "date": "2026-08-17",
+          "shown": 1,
+          "ok": 1
+        },
+        {
+          "date": "2026-08-18",
+          "shown": 2,
+          "ok": 2
+        }
+      ],
       "note": "Full-page offer creative (round 2): one screen, one ठीक है, no quiz."
     },
     {
@@ -276,31 +724,31 @@
             "label": "1 time only",
             "min": 1,
             "max": 1,
-            "users": 0
+            "users": 48
           },
           {
             "label": "2 times",
             "min": 2,
             "max": 2,
-            "users": 0
+            "users": 40
           },
           {
             "label": "3 times",
             "min": 3,
             "max": 3,
-            "users": 0
+            "users": 33
           },
           {
             "label": "4 times",
             "min": 4,
             "max": 4,
-            "users": 0
+            "users": 33
           },
           {
             "label": "5 or more times",
             "min": 5,
             "max": null,
-            "users": 0
+            "users": 288
           }
         ],
         "ok": [
@@ -308,41 +756,41 @@
             "label": "1 time only",
             "min": 1,
             "max": 1,
-            "users": 0
+            "users": 53
           },
           {
             "label": "2 times",
             "min": 2,
             "max": 2,
-            "users": 0
+            "users": 45
           },
           {
             "label": "3 times",
             "min": 3,
             "max": 3,
-            "users": 0
+            "users": 32
           },
           {
             "label": "4 times",
             "min": 4,
             "max": 4,
-            "users": 0
+            "users": 38
           },
           {
             "label": "5 or more times",
             "min": 5,
             "max": null,
-            "users": 0
+            "users": 300
           }
         ]
       },
       "freq_avg": {
-        "shown": 0,
-        "ok": 0
+        "shown": 11.25,
+        "ok": 10.43
       },
       "freq_max": {
-        "shown": 0,
-        "ok": 0
+        "shown": 101,
+        "ok": 92
       },
       "attribution": "event",
       "campaigns": [],
@@ -360,20 +808,116 @@
         ]
       ],
       "funnel": {
-        "shown": 0,
-        "ok": 0
+        "shown": 442,
+        "ok": 468
       },
-      "ok_outside_shown": 0,
+      "ok_outside_shown": 34,
       "options": [],
-      "daily": [],
-      "note": "Full-page offer creative (round 2): one screen, one ठीक है, no quiz."
+      "daily": [
+        {
+          "date": "2026-07-31",
+          "shown": 103,
+          "ok": 91
+        },
+        {
+          "date": "2026-08-01",
+          "shown": 145,
+          "ok": 132
+        },
+        {
+          "date": "2026-08-02",
+          "shown": 139,
+          "ok": 122
+        },
+        {
+          "date": "2026-08-03",
+          "shown": 144,
+          "ok": 133
+        },
+        {
+          "date": "2026-08-04",
+          "shown": 142,
+          "ok": 132
+        },
+        {
+          "date": "2026-08-05",
+          "shown": 135,
+          "ok": 119
+        },
+        {
+          "date": "2026-08-06",
+          "shown": 127,
+          "ok": 115
+        },
+        {
+          "date": "2026-08-07",
+          "shown": 96,
+          "ok": 81
+        },
+        {
+          "date": "2026-08-08",
+          "shown": 150,
+          "ok": 142
+        },
+        {
+          "date": "2026-08-09",
+          "shown": 123,
+          "ok": 123
+        },
+        {
+          "date": "2026-08-10",
+          "shown": 91,
+          "ok": 99
+        },
+        {
+          "date": "2026-08-11",
+          "shown": 75,
+          "ok": 92
+        },
+        {
+          "date": "2026-08-12",
+          "shown": 67,
+          "ok": 88
+        },
+        {
+          "date": "2026-08-13",
+          "shown": 52,
+          "ok": 64
+        },
+        {
+          "date": "2026-08-14",
+          "shown": 48,
+          "ok": 83
+        },
+        {
+          "date": "2026-08-15",
+          "shown": 11,
+          "ok": 43
+        },
+        {
+          "date": "2026-08-16",
+          "shown": 14,
+          "ok": 59
+        },
+        {
+          "date": "2026-08-17",
+          "shown": 11,
+          "ok": 56
+        },
+        {
+          "date": "2026-08-18",
+          "shown": 9,
+          "ok": 31
+        }
+      ],
+      "note": "Full-page offer creative (round 2): one screen, one ठीक है, no quiz. 34 profiles tapped ठीक है without a recorded Page shown — those devices were still injecting the bridge at page load, so treat Shown as a slight under-count."
     }
   ],
   "unattributed": {
-    "edu_ok": 0,
-    "completed": 0,
-    "edu_ok_technician": 0,
-    "completed_technician": 0
+    "edu_ok": 774,
+    "completed": 637,
+    "edu_ok_technician": 415,
+    "completed_technician": 355
   },
   "both_apps": 0
 }
