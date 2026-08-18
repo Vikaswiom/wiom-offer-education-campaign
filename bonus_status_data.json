@@ -1,5 +1,5 @@
 {
- "generated": "2026-08-18 11:07 IST",
+ "generated": "2026-08-18 12:27 IST",
  "start_date": "20260812",
  "cycle_end": "2026-08-31",
  "credit_on": "2026-09-01",
@@ -195,28 +195,28 @@
      "label": "Screen shown",
      "event": "Bonus_Status_Comm_Viewed",
      "users": 142,
-     "raw": 344
+     "raw": 345
     },
     {
      "key": "next",
      "label": "Tapped आगे",
      "event": "Bonus_Status_Next_Tapped",
      "users": 128,
-     "raw": 249
+     "raw": 250
     },
     {
      "key": "help",
      "label": "Reached the help question",
      "event": "Bonus_Status_Help_Viewed",
      "users": 128,
-     "raw": 249
+     "raw": 250
     },
     {
      "key": "finale",
      "label": "Reached the ending",
      "event": "Bonus_Status_Finale_Viewed",
      "users": 113,
-     "raw": 204
+     "raw": 205
     },
     {
      "key": "goto",
@@ -258,7 +258,7 @@
      "event": "Bonus_Status_Next_Tapped",
      "label": "आगे (page 1)",
      "users": 128,
-     "raw": 249
+     "raw": 250
     },
     {
      "event": "Bonus_Status_Ring_Tapped",
@@ -270,7 +270,7 @@
      "event": "Bonus_Status_Help_Understood",
      "label": "समझ गया",
      "users": 70,
-     "raw": 92
+     "raw": 93
     },
     {
      "event": "Bonus_Status_Help_Questions",
@@ -324,7 +324,7 @@
      "event": "Bonus_Status_OK_Tapped",
      "label": "ठीक है",
      "users": 37,
-     "raw": 49
+     "raw": 50
     },
     {
      "event": "Bonus_Status_Close_Tapped",
