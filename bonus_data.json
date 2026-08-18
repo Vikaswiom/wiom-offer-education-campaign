@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-18 22:36 IST",
+  "generated": "2026-08-18 23:11 IST",
   "region": "eu1",
   "start_date": "2026-07-27",
   "triggers": [
@@ -224,7 +224,7 @@
           "label": "Tapped the Seva Sthiti chip",
           "event": "Bonus_Seva2_Chip_Tapped",
           "users": 779,
-          "events": 3720
+          "events": 3721
         },
         {
           "key": "help",
@@ -238,7 +238,7 @@
           "label": "Completed the story",
           "event": "Bonus_Seva2_Flow_Completed",
           "users": 730,
-          "events": 3286
+          "events": 3287
         }
       ],
       "cards": [
@@ -310,7 +310,7 @@
       },
       "goto": {
         "users": 691,
-        "events": 2638
+        "events": 2639
       },
       "toggled": {
         "users": 156,
@@ -336,7 +336,7 @@
       "label": "Home story · 5 cards",
       "live_ts": 20260731110019,
       "live_label": "31 Jul 2026, 11:00 IST",
-      "raw_events": 32994,
+      "raw_events": 32997,
       "events_confirmed": [
         "Story_Viewed",
         "Gift_Opened",
@@ -379,14 +379,14 @@
         "label": "since 31 Jul 11:00",
         "users": 252,
         "events": 1680,
-        "days": 18.48,
+        "days": 18.51,
         "reach_pct": 35,
-        "per_user_day": 0.125
+        "per_user_day": 0.124
       }
     ],
     "lift_r1": 262,
     "lift_r2": -50,
-    "lift_total": 81
+    "lift_total": 80
   },
   "followthrough": {
     "chip_event": "service_status_opened",
@@ -463,13 +463,13 @@
         "post": {
           "users": 252,
           "events": 1680,
-          "days": 18.48,
+          "days": 18.51,
           "reach_pct": 35,
-          "per_user_day": 0.125,
+          "per_user_day": 0.124,
           "label": "since 31 Jul 11:00 (after)"
         },
         "stopped": false,
-        "lift_pct": -3,
+        "lift_pct": -4,
         "pre_overlaps": [
           "Quality-of-work section"
         ]
