@@ -1,95 +1,95 @@
 {
-  "generated": "2026-08-18 23:11 IST",
+  "generated": "2026-08-19 00:49 IST",
   "region": "eu1",
   "start_date": "2026-07-27",
   "triggers": [
     {
       "key": "quality_section",
       "label": "Quality-of-work section",
-      "live_ts": 20260727233314,
-      "live_label": "27 Jul 2026, 23:33 IST",
+      "live_ts": null,
+      "live_label": null,
       "funnel": [
         {
           "key": "intro_viewed",
           "label": "Popup shown",
           "event": "Bonus_Seva_Intro_Viewed",
-          "users": 416,
-          "events": 561
+          "users": 0,
+          "events": 0
         },
         {
           "key": "learn_more",
           "label": "Tapped Learn more",
           "event": "Bonus_Seva_LearnMore_Clicked",
-          "users": 310,
-          "events": 373
+          "users": 0,
+          "events": 0
         },
         {
           "key": "video_played",
           "label": "Video started",
           "event": "Bonus_Seva_Video_Played",
-          "users": 309,
-          "events": 372
+          "users": 0,
+          "events": 0
         },
         {
           "key": "understood",
           "label": "Tapped Understood",
           "event": "Bonus_Seva_Understood_Clicked",
-          "users": 113,
-          "events": 118
+          "users": 0,
+          "events": 0
         },
         {
           "key": "quiz_answered",
           "label": "Completed — answered the quiz",
           "event": "Bonus_Seva_Quiz_Answered",
-          "users": 106,
-          "events": 110
+          "users": 0,
+          "events": 0
         }
       ],
       "dropoffs": {
         "intro_dismissed": {
-          "users": 123,
-          "events": 137
+          "users": 0,
+          "events": 0
         },
         "video_dismissed": {
-          "users": 172,
-          "events": 200,
+          "users": 0,
+          "events": 0,
           "watched": {
-            "users": 172,
-            "avg": 31.0,
-            "median": 36,
+            "users": 0,
+            "avg": 0,
+            "median": 0,
             "buckets": [
               {
                 "label": "0–5s",
-                "users": 53
+                "users": 0
               },
               {
                 "label": "6–15s",
-                "users": 9
+                "users": 0
               },
               {
                 "label": "16–30s",
-                "users": 16
+                "users": 0
               },
               {
                 "label": "31–44s",
-                "users": 20
+                "users": 0
               },
               {
                 "label": "45s+",
-                "users": 74
+                "users": 0
               }
             ]
           }
         }
       },
       "dismiss_tap": {
-        "users": 106,
-        "events": 110
+        "users": 0,
+        "events": 0
       },
       "understood_watched": {
-        "users": 113,
-        "avg": 52.8,
-        "median": 55,
+        "users": 0,
+        "avg": 0,
+        "median": 0,
         "buckets": [
           {
             "label": "0–5s",
@@ -109,235 +109,97 @@
           },
           {
             "label": "45s+",
-            "users": 113
+            "users": 0
           }
         ]
       },
       "quiz": {
-        "answered": 106,
-        "correct": 91,
-        "wrong": 15,
-        "choices": [
-          {
-            "choice": "help_icon",
-            "label": "(?) icon (correct)",
-            "users": 91
-          },
-          {
-            "choice": "luck",
-            "label": "Luck",
-            "users": 11
-          },
-          {
-            "choice": "rotate_phone",
-            "label": "Rotate phone",
-            "users": 4
-          }
-        ]
+        "answered": 0,
+        "correct": 0,
+        "wrong": 0,
+        "choices": []
       },
-      "impact": {
-        "event": "service_status_help_opened",
-        "cohort_event": "Bonus_Seva_Quiz_Answered",
-        "cohort_users": 106,
-        "pre": {
-          "users": 49,
-          "events": 230,
-          "days": 11.0,
-          "reach_pct": 46,
-          "per_user_day": 0.197,
-          "label": "16 Jul–26 Jul (before)"
-        },
-        "post": {
-          "users": 62,
-          "events": 260,
-          "days": 3.48,
-          "reach_pct": 58,
-          "per_user_day": 0.705,
-          "label": "27 Jul 23:33 → 31 Jul 11:00 (while live)"
-        },
-        "stopped": true,
-        "lift_pct": 258
-      },
-      "daily": [
-        {
-          "date": "2026-07-27",
-          "intro_viewed": 9,
-          "completed": 6
-        },
-        {
-          "date": "2026-07-28",
-          "intro_viewed": 211,
-          "completed": 53
-        },
-        {
-          "date": "2026-07-29",
-          "intro_viewed": 95,
-          "completed": 19
-        },
-        {
-          "date": "2026-07-30",
-          "intro_viewed": 184,
-          "completed": 23
-        },
-        {
-          "date": "2026-07-31",
-          "intro_viewed": 41,
-          "completed": 5
-        }
-      ]
+      "impact": null,
+      "daily": []
     }
   ],
   "round2": [
     {
-      "shown": 867,
+      "shown": 0,
       "funnel": [
         {
           "key": "shown",
           "label": "Story shown",
           "event": "Bonus_Seva2_Story_Viewed",
-          "users": 867,
-          "events": 4979
+          "users": 0,
+          "events": 0
         },
         {
           "key": "gift",
           "label": "Opened the gift",
           "event": "Bonus_Seva2_Gift_Opened",
-          "users": 847,
-          "events": 4875
+          "users": 0,
+          "events": 0
         },
         {
           "key": "window_rule",
           "label": "1–15 Aug + the rule",
           "event": "Bonus_Seva2_Card_Viewed",
-          "users": 744,
+          "users": 0,
           "events": null
         },
         {
           "key": "home_chip",
           "label": "Where Seva Sthiti lives",
           "event": "Bonus_Seva2_Card_Viewed",
-          "users": 695,
+          "users": 0,
           "events": null
         },
         {
           "key": "chip",
           "label": "Tapped the Seva Sthiti chip",
           "event": "Bonus_Seva2_Chip_Tapped",
-          "users": 779,
-          "events": 3721
+          "users": 0,
+          "events": 0
         },
         {
           "key": "help",
           "label": "Tapped the (?) button",
           "event": "Bonus_Seva2_Help_Tapped",
-          "users": 706,
-          "events": 3826
+          "users": 0,
+          "events": 0
         },
         {
           "key": "completed",
           "label": "Completed the story",
           "event": "Bonus_Seva2_Flow_Completed",
-          "users": 730,
-          "events": 3287
+          "users": 0,
+          "events": 0
         }
       ],
-      "cards": [
-        {
-          "name": "window_rule",
-          "index": 1,
-          "label": "1–15 Aug + the rule",
-          "users": 744
-        },
-        {
-          "name": "home_chip",
-          "index": 2,
-          "label": "where Seva Sthiti lives",
-          "users": 695
-        },
-        {
-          "name": "help_icon",
-          "index": 3,
-          "label": "the (?) button",
-          "users": 649
-        },
-        {
-          "name": "done",
-          "index": 4,
-          "label": "handoff",
-          "users": 542
-        }
-      ],
-      "quits": [
-        {
-          "name": "hero_gift",
-          "index": 0,
-          "label": "hero · the gift",
-          "users": 695,
-          "events": 3352
-        },
-        {
-          "name": "window_rule",
-          "index": 1,
-          "label": "1–15 Aug + the rule",
-          "users": 223,
-          "events": 296
-        },
-        {
-          "name": "home_chip",
-          "index": 2,
-          "label": "where Seva Sthiti lives",
-          "users": 216,
-          "events": 316
-        },
-        {
-          "name": "help_icon",
-          "index": 3,
-          "label": "the (?) button",
-          "users": 290,
-          "events": 441
-        },
-        {
-          "name": "done",
-          "index": 4,
-          "label": "handoff",
-          "users": 4,
-          "events": 4
-        }
-      ],
-      "exits": {
-        "deeplink": 691,
-        "acknowledge": 294
-      },
+      "cards": [],
+      "quits": [],
+      "exits": {},
       "goto": {
-        "users": 691,
-        "events": 2639
+        "users": 0,
+        "events": 0
       },
       "toggled": {
-        "users": 156,
-        "events": 300
+        "users": 0,
+        "events": 0
       },
-      "help_metrics": [
-        {
-          "metric": "samay_par_kaam",
-          "label": "On-time work",
-          "users": 649
-        },
-        {
-          "metric": "grahak_ki_santushti",
-          "label": "Customer satisfaction",
-          "users": 501
-        }
-      ],
+      "help_metrics": [],
       "dismissed_total": {
-        "users": 774,
-        "events": 4409
+        "users": 0,
+        "events": 0
       },
       "key": "home_story_r2_5card",
       "label": "Home story · 5 cards",
-      "live_ts": 20260731110019,
-      "live_label": "31 Jul 2026, 11:00 IST",
-      "raw_events": 32997,
-      "events_confirmed": [
+      "live_ts": null,
+      "live_label": null,
+      "raw_events": 0,
+      "events_confirmed": [],
+      "events_unseen": [
         "Story_Viewed",
         "Gift_Opened",
         "Card_Viewed",
@@ -347,171 +209,48 @@
         "GoTo_SevaSthiti",
         "Flow_Completed",
         "Dismissed"
-      ],
-      "events_unseen": []
+      ]
     }
   ],
-  "timeline": {
-    "event": "service_status_help_opened",
-    "cohort_event": "Bonus_Seva2_Flow_Completed",
-    "cohort_users": 730,
-    "windows": [
-      {
-        "key": "before",
-        "label": "16 Jul–26 Jul",
-        "users": 125,
-        "events": 558,
-        "days": 11.0,
-        "reach_pct": 17,
-        "per_user_day": 0.069
-      },
-      {
-        "key": "round1",
-        "label": "27 Jul 23:33 → 31 Jul 11:00",
-        "users": 124,
-        "events": 635,
-        "days": 3.48,
-        "reach_pct": 17,
-        "per_user_day": 0.25
-      },
-      {
-        "key": "round2",
-        "label": "since 31 Jul 11:00",
-        "users": 252,
-        "events": 1680,
-        "days": 18.51,
-        "reach_pct": 35,
-        "per_user_day": 0.124
-      }
-    ],
-    "lift_r1": 262,
-    "lift_r2": -50,
-    "lift_total": 80
-  },
-  "followthrough": {
-    "chip_event": "service_status_opened",
-    "chip_prop": "screen",
-    "chip_value": "service_status",
-    "help_event": "service_status_help_opened",
-    "chip_window_min": 30,
-    "help_window_min": 3,
-    "steps": [
-      {
-        "key": "completed",
-        "label": "Finished the story",
-        "users": 730
-      },
-      {
-        "key": "chip",
-        "label": "Opened the Seva Sthiti chip · within 30 min",
-        "users": 115
-      },
-      {
-        "key": "help",
-        "label": "Opened the (?) help screen · within 3 min of that",
-        "users": 24
-      }
-    ]
-  },
-  "impacts": [
-    {
-      "key": "quality_section",
-      "label": "Quality-of-work section",
-      "live_label": "27 Jul 2026, 23:33 IST",
-      "cohort_label": "answered the quiz",
-      "impact": {
-        "event": "service_status_help_opened",
-        "cohort_event": "Bonus_Seva_Quiz_Answered",
-        "cohort_users": 106,
-        "pre": {
-          "users": 49,
-          "events": 230,
-          "days": 11.0,
-          "reach_pct": 46,
-          "per_user_day": 0.197,
-          "label": "16 Jul–26 Jul (before)"
-        },
-        "post": {
-          "users": 62,
-          "events": 260,
-          "days": 3.48,
-          "reach_pct": 58,
-          "per_user_day": 0.705,
-          "label": "27 Jul 23:33 → 31 Jul 11:00 (while live)"
-        },
-        "stopped": true,
-        "lift_pct": 258
-      }
-    },
-    {
-      "key": "home_story_r2_5card",
-      "label": "Home story · 5 cards",
-      "live_label": "31 Jul 2026, 11:00 IST",
-      "cohort_label": "finished the story",
-      "impact": {
-        "event": "service_status_help_opened",
-        "cohort_event": "Bonus_Seva2_Flow_Completed",
-        "cohort_users": 730,
-        "pre": {
-          "users": 170,
-          "events": 1038,
-          "days": 11.0,
-          "reach_pct": 23,
-          "per_user_day": 0.129,
-          "label": "20 Jul–30 Jul (before)"
-        },
-        "post": {
-          "users": 252,
-          "events": 1680,
-          "days": 18.51,
-          "reach_pct": 35,
-          "per_user_day": 0.124,
-          "label": "since 31 Jul 11:00 (after)"
-        },
-        "stopped": false,
-        "lift_pct": -4,
-        "pre_overlaps": [
-          "Quality-of-work section"
-        ]
-      }
-    }
-  ],
+  "timeline": null,
+  "followthrough": null,
+  "impacts": [],
   "totals": {
     "funnel": [
       {
         "key": "intro_viewed",
         "label": "Popup shown",
         "event": "Bonus_Seva_Intro_Viewed",
-        "users": 416,
-        "events": 561
+        "users": 0,
+        "events": 0
       },
       {
         "key": "learn_more",
         "label": "Tapped Learn more",
         "event": "Bonus_Seva_LearnMore_Clicked",
-        "users": 310,
-        "events": 373
+        "users": 0,
+        "events": 0
       },
       {
         "key": "video_played",
         "label": "Video started",
         "event": "Bonus_Seva_Video_Played",
-        "users": 309,
-        "events": 372
+        "users": 0,
+        "events": 0
       },
       {
         "key": "understood",
         "label": "Tapped Understood",
         "event": "Bonus_Seva_Understood_Clicked",
-        "users": 113,
-        "events": 118
+        "users": 0,
+        "events": 0
       },
       {
         "key": "quiz_answered",
         "label": "Completed — answered the quiz",
         "event": "Bonus_Seva_Quiz_Answered",
-        "users": 106,
-        "events": 110
+        "users": 0,
+        "events": 0
       }
     ]
   }
