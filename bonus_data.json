@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-19 16:05 IST",
+  "generated": "2026-08-19 16:32 IST",
   "region": "eu1",
   "start_date": "2026-07-27",
   "triggers": [
@@ -273,14 +273,14 @@
           "index": 0,
           "label": "hero · the gift",
           "users": 698,
-          "events": 3440
+          "events": 3442
         },
         {
           "name": "window_rule",
           "index": 1,
           "label": "1–15 Aug + the rule",
-          "users": 224,
-          "events": 299
+          "users": 225,
+          "events": 300
         },
         {
           "name": "home_chip",
@@ -330,13 +330,13 @@
       ],
       "dismissed_total": {
         "users": 775,
-        "events": 4519
+        "events": 4522
       },
       "key": "home_story_r2_5card",
       "label": "Home story · 5 cards",
       "live_ts": 20260731110019,
       "live_label": "31 Jul 2026, 11:00 IST",
-      "raw_events": 33388,
+      "raw_events": 33391,
       "events_confirmed": [
         "Story_Viewed",
         "Gift_Opened",
@@ -378,8 +378,8 @@
         "key": "round2",
         "label": "since 31 Jul 11:00",
         "users": 257,
-        "events": 1734,
-        "days": 19.21,
+        "events": 1736,
+        "days": 19.23,
         "reach_pct": 35,
         "per_user_day": 0.123
       }
@@ -462,8 +462,8 @@
         },
         "post": {
           "users": 257,
-          "events": 1734,
-          "days": 19.21,
+          "events": 1736,
+          "days": 19.23,
           "reach_pct": 35,
           "per_user_day": 0.123,
           "label": "since 31 Jul 11:00 (after)"
