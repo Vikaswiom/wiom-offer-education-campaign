@@ -1,5 +1,5 @@
 {
- "generated": "2026-08-19 17:26 IST",
+ "generated": "2026-08-19 18:32 IST",
  "start_date": "20260812",
  "cycle_end": "2026-08-31",
  "credit_on": "2026-09-01",
@@ -18,35 +18,35 @@
      "label": "Screen shown",
      "event": "Bonus_Status_Comm_Viewed",
      "users": 111,
-     "raw": 375
+     "raw": 380
     },
     {
      "key": "next",
      "label": "Tapped आगे",
      "event": "Bonus_Status_Next_Tapped",
      "users": 109,
-     "raw": 277
+     "raw": 281
     },
     {
      "key": "help",
      "label": "Reached the help question",
      "event": "Bonus_Status_Help_Viewed",
      "users": 109,
-     "raw": 277
+     "raw": 281
     },
     {
      "key": "finale",
      "label": "Reached the ending",
      "event": "Bonus_Status_Finale_Viewed",
      "users": 100,
-     "raw": 230
+     "raw": 232
     },
     {
      "key": "goto",
      "label": "Tapped through to सेवा स्थिति",
      "event": "Bonus_Status_GoTo_SevaSthiti",
      "users": 87,
-     "raw": 167
+     "raw": 168
     }
    ],
    "help": [
@@ -81,7 +81,7 @@
      "event": "Bonus_Status_Next_Tapped",
      "label": "आगे (page 1)",
      "users": 109,
-     "raw": 277
+     "raw": 281
     },
     {
      "event": "Bonus_Status_Ring_Tapped",
@@ -93,13 +93,13 @@
      "event": "Bonus_Status_Help_Understood",
      "label": "समझ गया",
      "users": 61,
-     "raw": 101
+     "raw": 102
     },
     {
      "event": "Bonus_Status_Help_Questions",
      "label": "कुछ सवाल हैं",
      "users": 27,
-     "raw": 30
+     "raw": 31
     },
     {
      "event": "Bonus_Status_Help_NeedCall",
@@ -117,7 +117,7 @@
      "event": "Bonus_Status_SevaSthiti_Primary_Tapped",
      "label": "सेवा स्थिति — primary button",
      "users": 77,
-     "raw": 138
+     "raw": 139
     },
     {
      "event": "Bonus_Status_SevaSthiti_Link_Tapped",
@@ -153,7 +153,7 @@
      "event": "Bonus_Status_Close_Tapped",
      "label": "✕ closed",
      "users": 61,
-     "raw": 92
+     "raw": 95
     }
    ],
    "callbacks": 13,
@@ -173,11 +173,11 @@
     "a0b9n2"
    ],
    "deeplink_mechanism": {
-    "location_href": 167
+    "location_href": 168
    },
    "dismiss_by_page": {
-    "2": 35,
-    "1": 48,
+    "2": 37,
+    "1": 49,
     "3": 9
    }
   },
