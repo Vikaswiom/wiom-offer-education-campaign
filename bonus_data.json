@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-20 00:13 IST",
+  "generated": "2026-08-20 00:42 IST",
   "region": "eu1",
   "start_date": "2026-07-27",
   "triggers": [
@@ -203,7 +203,7 @@
           "label": "Opened the gift",
           "event": "Bonus_Seva2_Gift_Opened",
           "users": 848,
-          "events": 4900
+          "events": 4902
         },
         {
           "key": "window_rule",
@@ -224,21 +224,21 @@
           "label": "Tapped the Seva Sthiti chip",
           "event": "Bonus_Seva2_Chip_Tapped",
           "users": 783,
-          "events": 3811
+          "events": 3825
         },
         {
           "key": "help",
           "label": "Tapped the (?) button",
           "event": "Bonus_Seva2_Help_Tapped",
-          "users": 709,
-          "events": 3909
+          "users": 710,
+          "events": 3923
         },
         {
           "key": "completed",
           "label": "Completed the story",
           "event": "Bonus_Seva2_Flow_Completed",
           "users": 734,
-          "events": 3364
+          "events": 3378
         }
       ],
       "cards": [
@@ -273,14 +273,14 @@
           "index": 0,
           "label": "hero · the gift",
           "users": 701,
-          "events": 3470
+          "events": 3476
         },
         {
           "name": "window_rule",
           "index": 1,
           "label": "1–15 Aug + the rule",
-          "users": 225,
-          "events": 300
+          "users": 226,
+          "events": 301
         },
         {
           "name": "home_chip",
@@ -293,8 +293,8 @@
           "name": "help_icon",
           "index": 3,
           "label": "the (?) button",
-          "users": 295,
-          "events": 455
+          "users": 296,
+          "events": 456
         },
         {
           "name": "done",
@@ -310,7 +310,7 @@
       },
       "goto": {
         "users": 695,
-        "events": 2693
+        "events": 2707
       },
       "toggled": {
         "users": 158,
@@ -320,7 +320,7 @@
         {
           "metric": "samay_par_kaam",
           "label": "On-time work",
-          "users": 652
+          "users": 653
         },
         {
           "metric": "grahak_ki_santushti",
@@ -330,13 +330,13 @@
       ],
       "dismissed_total": {
         "users": 778,
-        "events": 4555
+        "events": 4563
       },
       "key": "home_story_r2_5card",
       "label": "Home story · 5 cards",
       "live_ts": 20260731110019,
       "live_label": "31 Jul 2026, 11:00 IST",
-      "raw_events": 33476,
+      "raw_events": 33542,
       "events_confirmed": [
         "Story_Viewed",
         "Gift_Opened",
@@ -377,10 +377,10 @@
       {
         "key": "round2",
         "label": "since 31 Jul 11:00",
-        "users": 260,
-        "events": 1760,
-        "days": 19.55,
-        "reach_pct": 35,
+        "users": 261,
+        "events": 1761,
+        "days": 19.57,
+        "reach_pct": 36,
         "per_user_day": 0.123
       }
     ],
@@ -461,10 +461,10 @@
           "label": "20 Jul–30 Jul (before)"
         },
         "post": {
-          "users": 260,
-          "events": 1760,
-          "days": 19.55,
-          "reach_pct": 35,
+          "users": 261,
+          "events": 1761,
+          "days": 19.57,
+          "reach_pct": 36,
           "per_user_day": 0.123,
           "label": "since 31 Jul 11:00 (after)"
         },
