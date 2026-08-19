@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-19 17:05 IST",
+  "generated": "2026-08-19 17:30 IST",
   "sample": false,
   "region": "eu1",
   "start_date": "2026-07-16",
@@ -205,7 +205,7 @@
       "key": "tech",
       "label": "Technician App",
       "color": "#2563EB",
-      "note": "Technician app — Shown comes from CleverTap's own impression event (Notification Viewed, wzrk_id 1784203536) because this app does not fire the custom inApp_Shown; education/quiz are locked to that cohort by identity. 421 role = technician profile(s) acted without a recorded impression.",
+      "note": "Technician app — Shown comes from CleverTap's own impression event (Notification Viewed, wzrk_id 1784203536) because this app does not fire the custom inApp_Shown; education/quiz are locked to that cohort by identity. 422 role = technician profile(s) acted without a recorded impression.",
       "campaigns": [
         "1784203536"
       ],
@@ -778,13 +778,13 @@
             "label": "3 times",
             "min": 3,
             "max": 3,
-            "users": 34
+            "users": 33
           },
           {
             "label": "4 times",
             "min": 4,
             "max": 4,
-            "users": 37
+            "users": 38
           },
           {
             "label": "5 or more times",
@@ -796,7 +796,7 @@
       },
       "freq_avg": {
         "shown": 11.27,
-        "ok": 10.47
+        "ok": 10.48
       },
       "freq_max": {
         "shown": 101,
@@ -929,10 +929,10 @@
     }
   ],
   "unattributed": {
-    "edu_ok": 788,
-    "completed": 652,
-    "edu_ok_technician": 420,
-    "completed_technician": 361
+    "edu_ok": 789,
+    "completed": 653,
+    "edu_ok_technician": 421,
+    "completed_technician": 362
   },
   "both_apps": 0
 }
