@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-19 19:51 IST",
+  "generated": "2026-08-19 20:29 IST",
   "sample": false,
   "region": "eu1",
   "start_date": "2026-07-16",
@@ -766,7 +766,7 @@
             "label": "1 time only",
             "min": 1,
             "max": 1,
-            "users": 53
+            "users": 54
           },
           {
             "label": "2 times",
@@ -796,7 +796,7 @@
       },
       "freq_avg": {
         "shown": 11.25,
-        "ok": 10.47
+        "ok": 10.45
       },
       "freq_max": {
         "shown": 101,
@@ -819,9 +819,9 @@
       ],
       "funnel": {
         "shown": 443,
-        "ok": 469
+        "ok": 470
       },
-      "ok_outside_shown": 34,
+      "ok_outside_shown": 35,
       "options": [],
       "daily": [
         {
@@ -922,17 +922,17 @@
         {
           "date": "2026-08-19",
           "shown": 6,
-          "ok": 16
+          "ok": 17
         }
       ],
-      "note": "Full-page offer creative (round 2): one screen, one ठीक है, no quiz. 34 profiles tapped ठीक है without a recorded Page shown — those devices were still injecting the bridge at page load, so treat Shown as a slight under-count."
+      "note": "Full-page offer creative (round 2): one screen, one ठीक है, no quiz. 35 profiles tapped ठीक है without a recorded Page shown — those devices were still injecting the bridge at page load, so treat Shown as a slight under-count."
     }
   ],
   "unattributed": {
     "edu_ok": 791,
-    "completed": 654,
+    "completed": 655,
     "edu_ok_technician": 421,
-    "completed_technician": 361
+    "completed_technician": 362
   },
   "both_apps": 0
 }
