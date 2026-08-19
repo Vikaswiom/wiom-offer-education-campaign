@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-19 15:25 IST",
+  "generated": "2026-08-19 16:05 IST",
   "sample": false,
   "region": "eu1",
   "start_date": "2026-07-16",
@@ -752,13 +752,13 @@
             "label": "4 times",
             "min": 4,
             "max": 4,
-            "users": 33
+            "users": 32
           },
           {
             "label": "5 or more times",
             "min": 5,
             "max": null,
-            "users": 288
+            "users": 289
           }
         ],
         "ok": [
@@ -800,7 +800,7 @@
       },
       "freq_max": {
         "shown": 101,
-        "ok": 92
+        "ok": 93
       },
       "attribution": "event",
       "campaigns": [],
@@ -921,18 +921,18 @@
         },
         {
           "date": "2026-08-19",
-          "shown": 4,
-          "ok": 9
+          "shown": 5,
+          "ok": 12
         }
       ],
       "note": "Full-page offer creative (round 2): one screen, one ठीक है, no quiz. 34 profiles tapped ठीक है without a recorded Page shown — those devices were still injecting the bridge at page load, so treat Shown as a slight under-count."
     }
   ],
   "unattributed": {
-    "edu_ok": 787,
-    "completed": 650,
+    "edu_ok": 788,
+    "completed": 652,
     "edu_ok_technician": 420,
-    "completed_technician": 360
+    "completed_technician": 361
   },
   "both_apps": 0
 }
