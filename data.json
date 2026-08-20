@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-20 20:13 IST",
+  "generated": "2026-08-20 20:47 IST",
   "sample": false,
   "region": "eu1",
   "start_date": "2026-07-16",
@@ -801,7 +801,7 @@
       },
       "freq_avg": {
         "shown": 11.26,
-        "ok": 10.47
+        "ok": 10.48
       },
       "freq_max": {
         "shown": 101,
@@ -932,15 +932,15 @@
         {
           "date": "2026-08-20",
           "shown": 2,
-          "ok": 9
+          "ok": 10
         }
       ],
       "note": "Full-page offer creative (round 2): one screen, one ठीक है, no quiz. 36 profiles tapped ठीक है without a recorded Page shown — those devices were still injecting the bridge at page load, so treat Shown as a slight under-count."
     }
   ],
   "unattributed": {
-    "edu_ok": 804,
-    "completed": 663,
+    "edu_ok": 805,
+    "completed": 664,
     "edu_ok_technician": 427,
     "completed_technician": 367
   },
