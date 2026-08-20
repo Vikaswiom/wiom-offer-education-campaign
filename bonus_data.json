@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-20 20:47 IST",
+  "generated": "2026-08-20 21:24 IST",
   "region": "eu1",
   "start_date": "2026-07-27",
   "triggers": [
@@ -224,21 +224,21 @@
           "label": "Tapped the Seva Sthiti chip",
           "event": "Bonus_Seva2_Chip_Tapped",
           "users": 788,
-          "events": 4008
+          "events": 4009
         },
         {
           "key": "help",
           "label": "Tapped the (?) button",
           "event": "Bonus_Seva2_Help_Tapped",
           "users": 716,
-          "events": 4116
+          "events": 4117
         },
         {
           "key": "completed",
           "label": "Completed the story",
           "event": "Bonus_Seva2_Flow_Completed",
           "users": 739,
-          "events": 3568
+          "events": 3569
         }
       ],
       "cards": [
@@ -272,8 +272,8 @@
           "name": "hero_gift",
           "index": 0,
           "label": "hero · the gift",
-          "users": 702,
-          "events": 3620
+          "users": 703,
+          "events": 3621
         },
         {
           "name": "window_rule",
@@ -310,7 +310,7 @@
       },
       "goto": {
         "users": 700,
-        "events": 2853
+        "events": 2854
       },
       "toggled": {
         "users": 165,
@@ -330,13 +330,13 @@
       ],
       "dismissed_total": {
         "users": 779,
-        "events": 4734
+        "events": 4735
       },
       "key": "home_story_r2_5card",
       "label": "Home story · 5 cards",
       "live_ts": 20260731110019,
       "live_label": "31 Jul 2026, 11:00 IST",
-      "raw_events": 34482,
+      "raw_events": 34487,
       "events_confirmed": [
         "Story_Viewed",
         "Gift_Opened",
@@ -378,15 +378,15 @@
         "key": "round2",
         "label": "since 31 Jul 11:00",
         "users": 267,
-        "events": 1818,
-        "days": 20.41,
+        "events": 1819,
+        "days": 20.43,
         "reach_pct": 36,
-        "per_user_day": 0.121
+        "per_user_day": 0.12
       }
     ],
     "lift_r1": 258,
     "lift_r2": -51,
-    "lift_total": 75
+    "lift_total": 74
   },
   "followthrough": {
     "chip_event": "service_status_opened",
@@ -462,14 +462,14 @@
         },
         "post": {
           "users": 267,
-          "events": 1818,
-          "days": 20.41,
+          "events": 1819,
+          "days": 20.43,
           "reach_pct": 36,
-          "per_user_day": 0.121,
+          "per_user_day": 0.12,
           "label": "since 31 Jul 11:00 (after)"
         },
         "stopped": false,
-        "lift_pct": -5,
+        "lift_pct": -6,
         "pre_overlaps": [
           "Quality-of-work section"
         ]
