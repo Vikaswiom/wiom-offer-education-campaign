@@ -1,5 +1,5 @@
 {
- "generated": "2026-08-20 20:16 IST",
+ "generated": "2026-08-20 21:12 IST",
  "start_date": "20260812",
  "cycle_end": "2026-08-31",
  "credit_on": "2026-09-01",
@@ -196,35 +196,35 @@
      "label": "Screen shown",
      "event": "Bonus_Status_Comm_Viewed",
      "users": 144,
-     "raw": 379
+     "raw": 382
     },
     {
      "key": "next",
      "label": "Tapped आगे",
      "event": "Bonus_Status_Next_Tapped",
      "users": 130,
-     "raw": 271
+     "raw": 274
     },
     {
      "key": "help",
      "label": "Reached the help question",
      "event": "Bonus_Status_Help_Viewed",
      "users": 130,
-     "raw": 271
+     "raw": 274
     },
     {
      "key": "finale",
      "label": "Reached the ending",
      "event": "Bonus_Status_Finale_Viewed",
      "users": 118,
-     "raw": 221
+     "raw": 224
     },
     {
      "key": "goto",
      "label": "Tapped through to सेवा स्थिति",
      "event": "Bonus_Status_GoTo_SevaSthiti",
      "users": 97,
-     "raw": 160
+     "raw": 163
     }
    ],
    "help": [
@@ -259,7 +259,7 @@
      "event": "Bonus_Status_Next_Tapped",
      "label": "आगे (page 1)",
      "users": 130,
-     "raw": 271
+     "raw": 274
     },
     {
      "event": "Bonus_Status_Ring_Tapped",
@@ -271,13 +271,13 @@
      "event": "Bonus_Status_Help_Understood",
      "label": "समझ गया",
      "users": 73,
-     "raw": 99
+     "raw": 100
     },
     {
      "event": "Bonus_Status_Help_Questions",
      "label": "कुछ सवाल हैं",
      "users": 31,
-     "raw": 33
+     "raw": 34
     },
     {
      "event": "Bonus_Status_Help_NeedCall",
@@ -289,13 +289,13 @@
      "event": "Bonus_Status_Help_Skipped",
      "label": "छोड़ें",
      "users": 56,
-     "raw": 73
+     "raw": 74
     },
     {
      "event": "Bonus_Status_SevaSthiti_Primary_Tapped",
      "label": "सेवा स्थिति — primary button",
      "users": 93,
-     "raw": 141
+     "raw": 144
     },
     {
      "event": "Bonus_Status_SevaSthiti_Link_Tapped",
@@ -330,8 +330,8 @@
     {
      "event": "Bonus_Status_Close_Tapped",
      "label": "✕ closed",
-     "users": 76,
-     "raw": 120
+     "users": 77,
+     "raw": 121
     }
    ],
    "callbacks": 8,
@@ -346,10 +346,10 @@
     "a0b9k4"
    ],
    "deeplink_mechanism": {
-    "location_href": 160
+    "location_href": 163
    },
    "dismiss_by_page": {
-    "2": 43,
+    "2": 44,
     "3": 9,
     "1": 68
    }
