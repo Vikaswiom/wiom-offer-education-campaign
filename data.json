@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-20 10:13 IST",
+  "generated": "2026-08-20 10:46 IST",
   "sample": false,
   "region": "eu1",
   "start_date": "2026-07-16",
@@ -926,8 +926,8 @@
         },
         {
           "date": "2026-08-20",
-          "shown": 3,
-          "ok": 1
+          "shown": 4,
+          "ok": 3
         }
       ],
       "note": "Full-page offer creative (round 2): one screen, one ठीक है, no quiz. 36 profiles tapped ठीक है without a recorded Page shown — those devices were still injecting the bridge at page load, so treat Shown as a slight under-count."
