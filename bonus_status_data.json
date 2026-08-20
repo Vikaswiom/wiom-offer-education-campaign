@@ -1,5 +1,5 @@
 {
- "generated": "2026-08-20 13:20 IST",
+ "generated": "2026-08-20 14:20 IST",
  "start_date": "20260812",
  "cycle_end": "2026-08-31",
  "credit_on": "2026-09-01",
@@ -18,35 +18,35 @@
      "label": "Screen shown",
      "event": "Bonus_Status_Comm_Viewed",
      "users": 111,
-     "raw": 382
+     "raw": 385
     },
     {
      "key": "next",
      "label": "Tapped आगे",
      "event": "Bonus_Status_Next_Tapped",
      "users": 109,
-     "raw": 283
+     "raw": 285
     },
     {
      "key": "help",
      "label": "Reached the help question",
      "event": "Bonus_Status_Help_Viewed",
      "users": 109,
-     "raw": 283
+     "raw": 285
     },
     {
      "key": "finale",
      "label": "Reached the ending",
      "event": "Bonus_Status_Finale_Viewed",
      "users": 100,
-     "raw": 233
+     "raw": 234
     },
     {
      "key": "goto",
      "label": "Tapped through to सेवा स्थिति",
      "event": "Bonus_Status_GoTo_SevaSthiti",
      "users": 87,
-     "raw": 169
+     "raw": 170
     }
    ],
    "help": [
@@ -81,7 +81,7 @@
      "event": "Bonus_Status_Next_Tapped",
      "label": "आगे (page 1)",
      "users": 109,
-     "raw": 283
+     "raw": 285
     },
     {
      "event": "Bonus_Status_Ring_Tapped",
@@ -105,7 +105,7 @@
      "event": "Bonus_Status_Help_NeedCall",
      "label": "बात करनी है",
      "users": 17,
-     "raw": 19
+     "raw": 20
     },
     {
      "event": "Bonus_Status_Help_Skipped",
@@ -128,14 +128,14 @@
     {
      "event": "Bonus_Status_SevaSthiti_After_Callback_Tapped",
      "label": "सेवा स्थिति — after callback",
-     "users": 11,
-     "raw": 12
+     "users": 12,
+     "raw": 13
     },
     {
      "event": "Bonus_Status_Callback_Primary_Tapped",
      "label": "कॉल बैक — primary button",
-     "users": 11,
-     "raw": 12
+     "users": 12,
+     "raw": 13
     },
     {
      "event": "Bonus_Status_Callback_Link_Tapped",
@@ -153,11 +153,12 @@
      "event": "Bonus_Status_Close_Tapped",
      "label": "✕ closed",
      "users": 61,
-     "raw": 95
+     "raw": 96
     }
    ],
-   "callbacks": 13,
+   "callbacks": 14,
    "callback_ids": [
+    "a0a6y9",
     "a0a7g7",
     "a0b5x8",
     "a0b6g1",
@@ -173,11 +174,11 @@
     "a0b9n2"
    ],
    "deeplink_mechanism": {
-    "location_href": 169
+    "location_href": 170
    },
    "dismiss_by_page": {
     "2": 37,
-    "1": 49,
+    "1": 50,
     "3": 9
    }
   },
@@ -357,11 +358,12 @@
  "totals": {
   "reached": 255,
   "audience": 263,
-  "callbacks": 21,
+  "callbacks": 22,
   "goto": 183,
   "need_help": 32
  },
  "all_callback_ids": [
+  "a0a6y9",
   "a0a7a9",
   "a0a7b7",
   "a0a7b8",
