@@ -1,5 +1,5 @@
 {
- "generated": "2026-08-20 16:10 IST",
+ "generated": "2026-08-20 17:05 IST",
  "start_date": "20260812",
  "cycle_end": "2026-08-31",
  "credit_on": "2026-09-01",
@@ -18,35 +18,35 @@
      "label": "Screen shown",
      "event": "Bonus_Status_Comm_Viewed",
      "users": 111,
-     "raw": 388
+     "raw": 390
     },
     {
      "key": "next",
      "label": "Tapped आगे",
      "event": "Bonus_Status_Next_Tapped",
      "users": 109,
-     "raw": 286
+     "raw": 287
     },
     {
      "key": "help",
      "label": "Reached the help question",
      "event": "Bonus_Status_Help_Viewed",
-     "users": 108,
-     "raw": 277
+     "users": 109,
+     "raw": 287
     },
     {
      "key": "finale",
      "label": "Reached the ending",
      "event": "Bonus_Status_Finale_Viewed",
      "users": 100,
-     "raw": 236
+     "raw": 237
     },
     {
      "key": "goto",
      "label": "Tapped through to सेवा स्थिति",
      "event": "Bonus_Status_GoTo_SevaSthiti",
      "users": 87,
-     "raw": 171
+     "raw": 172
     }
    ],
    "help": [
@@ -60,7 +60,7 @@
      "key": "some_questions",
      "label": "हाँ, कुछ सवाल हैं",
      "event": "Bonus_Status_Help_Questions",
-     "users": 28
+     "users": 29
     },
     {
      "key": "need_help",
@@ -75,13 +75,13 @@
      "users": 60
     }
    ],
-   "help_answered": 107,
+   "help_answered": 108,
    "clicks": [
     {
      "event": "Bonus_Status_Next_Tapped",
      "label": "आगे (page 1)",
      "users": 109,
-     "raw": 286
+     "raw": 287
     },
     {
      "event": "Bonus_Status_Ring_Tapped",
@@ -98,8 +98,8 @@
     {
      "event": "Bonus_Status_Help_Questions",
      "label": "कुछ सवाल हैं",
-     "users": 28,
-     "raw": 32
+     "users": 29,
+     "raw": 33
     },
     {
      "event": "Bonus_Status_Help_NeedCall",
@@ -152,8 +152,8 @@
     {
      "event": "Bonus_Status_Close_Tapped",
      "label": "✕ closed",
-     "users": 61,
-     "raw": 97
+     "users": 62,
+     "raw": 99
     }
    ],
    "callbacks": 14,
@@ -174,11 +174,11 @@
     "a0b9n2"
    ],
    "deeplink_mechanism": {
-    "location_href": 171
+    "location_href": 172
    },
    "dismiss_by_page": {
     "2": 37,
-    "1": 51,
+    "1": 53,
     "3": 9
    }
   },
@@ -209,8 +209,8 @@
      "key": "help",
      "label": "Reached the help question",
      "event": "Bonus_Status_Help_Viewed",
-     "users": 129,
-     "raw": 263
+     "users": 130,
+     "raw": 269
     },
     {
      "key": "finale",
