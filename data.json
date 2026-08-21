@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-21 09:11 IST",
+  "generated": "2026-08-21 09:54 IST",
   "sample": false,
   "region": "eu1",
   "start_date": "2026-07-16",
@@ -205,93 +205,93 @@
       "key": "tech",
       "label": "Technician App",
       "color": "#2563EB",
-      "note": "Technician app — Shown comes from CleverTap's own impression event (Notification Viewed, wzrk_id 1784203536) because this app does not fire the custom inApp_Shown; education/quiz are locked to that cohort by identity. 519 role = technician profile(s) acted without a recorded impression.",
+      "note": "Technician app — Shown comes from CleverTap's own impression event (Notification Viewed, wzrk_id 1784203536) because this app does not fire the custom inApp_Shown; education/quiz are locked to that cohort by identity. 428 role = technician profile(s) acted without a recorded impression.",
       "campaigns": [
         "1784203536"
       ],
       "shown_by_campaign": [
         {
           "id": "1784203536",
-          "users": 175
+          "users": 267
         }
       ],
       "funnel": {
-        "shown": 175,
-        "edu_ok": 171,
-        "completed": 161
+        "shown": 267,
+        "edu_ok": 263,
+        "completed": 248
       },
       "options": [
         {
           "option": "1",
           "label": "1st (top)",
-          "users": 131
+          "users": 197
         },
         {
           "option": "2",
           "label": "2nd (middle)",
-          "users": 13
+          "users": 19
         },
         {
           "option": "3",
           "label": "3rd (bottom)",
-          "users": 17
+          "users": 32
         }
       ],
       "daily": [
         {
           "date": "2026-07-16",
-          "shown": 4,
-          "completed": 2
+          "shown": 7,
+          "completed": 5
         },
         {
           "date": "2026-07-17",
-          "shown": 17,
-          "completed": 12
+          "shown": 27,
+          "completed": 19
         },
         {
           "date": "2026-07-18",
-          "shown": 35,
-          "completed": 21
+          "shown": 63,
+          "completed": 39
         },
         {
           "date": "2026-07-19",
-          "shown": 62,
-          "completed": 40
+          "shown": 83,
+          "completed": 51
         },
         {
           "date": "2026-07-20",
-          "shown": 38,
-          "completed": 18
+          "shown": 63,
+          "completed": 33
         },
         {
           "date": "2026-07-21",
+          "shown": 40,
+          "completed": 33
+        },
+        {
+          "date": "2026-07-22",
           "shown": 30,
           "completed": 25
         },
         {
-          "date": "2026-07-22",
-          "shown": 18,
-          "completed": 16
-        },
-        {
           "date": "2026-07-23",
-          "shown": 10,
-          "completed": 5
+          "shown": 15,
+          "completed": 10
         },
         {
           "date": "2026-07-24",
-          "shown": 2,
-          "completed": 2
+          "shown": 5,
+          "completed": 3
         },
         {
           "date": "2026-07-25",
-          "shown": 2,
+          "shown": 4,
           "completed": 3
         },
         {
           "date": "2026-07-26",
           "shown": 0,
-          "completed": 1
+          "completed": 2
         },
         {
           "date": "2026-07-27",
@@ -299,19 +299,24 @@
           "completed": 2
         },
         {
+          "date": "2026-07-28",
+          "shown": 0,
+          "completed": 3
+        },
+        {
           "date": "2026-07-29",
           "shown": 0,
-          "completed": 2
+          "completed": 3
         },
         {
           "date": "2026-07-31",
           "shown": 0,
-          "completed": 1
+          "completed": 2
         },
         {
           "date": "2026-08-01",
           "shown": 0,
-          "completed": 2
+          "completed": 3
         },
         {
           "date": "2026-08-03",
@@ -330,6 +335,11 @@
         },
         {
           "date": "2026-08-08",
+          "shown": 0,
+          "completed": 2
+        },
+        {
+          "date": "2026-08-13",
           "shown": 0,
           "completed": 1
         },
@@ -350,6 +360,11 @@
         },
         {
           "date": "2026-08-18",
+          "shown": 0,
+          "completed": 1
+        },
+        {
+          "date": "2026-08-19",
           "shown": 0,
           "completed": 1
         }
@@ -924,10 +939,10 @@
     }
   ],
   "unattributed": {
-    "edu_ok": 897,
-    "completed": 751,
-    "edu_ok_technician": 519,
-    "completed_technician": 453
+    "edu_ok": 806,
+    "completed": 665,
+    "edu_ok_technician": 428,
+    "completed_technician": 367
   },
   "both_apps": 0
 }
