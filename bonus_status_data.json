@@ -1,5 +1,5 @@
 {
- "generated": "2026-08-21 15:17 IST",
+ "generated": "2026-08-21 16:10 IST",
  "start_date": "20260812",
  "cycle_end": "2026-08-31",
  "credit_on": "2026-09-01",
@@ -18,21 +18,21 @@
      "label": "Screen shown",
      "event": "Bonus_Status_Comm_Viewed",
      "users": 111,
-     "raw": 405
+     "raw": 406
     },
     {
      "key": "next",
      "label": "Tapped आगे",
      "event": "Bonus_Status_Next_Tapped",
      "users": 109,
-     "raw": 295
+     "raw": 296
     },
     {
      "key": "help",
      "label": "Reached the help question",
      "event": "Bonus_Status_Help_Viewed",
      "users": 109,
-     "raw": 295
+     "raw": 296
     },
     {
      "key": "finale",
@@ -45,8 +45,8 @@
      "key": "goto",
      "label": "Tapped through to सेवा स्थिति",
      "event": "Bonus_Status_GoTo_SevaSthiti",
-     "users": 87,
-     "raw": 174
+     "users": 59,
+     "raw": 90
     }
    ],
    "help": [
@@ -81,7 +81,7 @@
      "event": "Bonus_Status_Next_Tapped",
      "label": "आगे (page 1)",
      "users": 109,
-     "raw": 295
+     "raw": 296
     },
     {
      "event": "Bonus_Status_Ring_Tapped",
@@ -152,8 +152,8 @@
     {
      "event": "Bonus_Status_Close_Tapped",
      "label": "✕ closed",
-     "users": 64,
-     "raw": 105
+     "users": 65,
+     "raw": 106
     }
    ],
    "callbacks": 14,
@@ -177,7 +177,7 @@
     "location_href": 174
    },
    "dismiss_by_page": {
-    "2": 38,
+    "2": 39,
     "1": 56,
     "3": 11
    }
@@ -223,8 +223,8 @@
      "key": "goto",
      "label": "Tapped through to सेवा स्थिति",
      "event": "Bonus_Status_GoTo_SevaSthiti",
-     "users": 98,
-     "raw": 166
+     "users": 65,
+     "raw": 82
     }
    ],
    "help": [
@@ -360,7 +360,7 @@
   "reached": 256,
   "audience": 263,
   "callbacks": 23,
-  "goto": 185,
+  "goto": 124,
   "need_help": 33
  },
  "all_callback_ids": [
