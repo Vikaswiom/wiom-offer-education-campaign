@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-21 14:52 IST",
+  "generated": "2026-08-21 15:28 IST",
   "sample": false,
   "region": "eu1",
   "start_date": "2026-07-16",
@@ -806,7 +806,7 @@
       },
       "freq_avg": {
         "shown": 11.26,
-        "ok": 10.5
+        "ok": 10.51
       },
       "freq_max": {
         "shown": 101,
@@ -949,8 +949,8 @@
     }
   ],
   "unattributed": {
-    "edu_ok": 809,
-    "completed": 667,
+    "edu_ok": 810,
+    "completed": 669,
     "edu_ok_technician": 427,
     "completed_technician": 367
   },
