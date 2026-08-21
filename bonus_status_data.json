@@ -1,5 +1,5 @@
 {
- "generated": "2026-08-21 11:31 IST",
+ "generated": "2026-08-21 12:32 IST",
  "start_date": "20260812",
  "cycle_end": "2026-08-31",
  "credit_on": "2026-09-01",
@@ -18,21 +18,21 @@
      "label": "Screen shown",
      "event": "Bonus_Status_Comm_Viewed",
      "users": 111,
-     "raw": 401
+     "raw": 402
     },
     {
      "key": "next",
      "label": "Tapped आगे",
      "event": "Bonus_Status_Next_Tapped",
      "users": 109,
-     "raw": 294
+     "raw": 295
     },
     {
      "key": "help",
      "label": "Reached the help question",
      "event": "Bonus_Status_Help_Viewed",
      "users": 109,
-     "raw": 294
+     "raw": 295
     },
     {
      "key": "finale",
@@ -81,7 +81,7 @@
      "event": "Bonus_Status_Next_Tapped",
      "label": "आगे (page 1)",
      "users": 109,
-     "raw": 294
+     "raw": 295
     },
     {
      "event": "Bonus_Status_Ring_Tapped",
@@ -153,7 +153,7 @@
      "event": "Bonus_Status_Close_Tapped",
      "label": "✕ closed",
      "users": 64,
-     "raw": 104
+     "raw": 105
     }
    ],
    "callbacks": 14,
@@ -177,7 +177,7 @@
     "location_href": 174
    },
    "dismiss_by_page": {
-    "2": 37,
+    "2": 38,
     "1": 56,
     "3": 11
    }
@@ -196,35 +196,35 @@
      "label": "Screen shown",
      "event": "Bonus_Status_Comm_Viewed",
      "users": 145,
-     "raw": 387
+     "raw": 388
     },
     {
      "key": "next",
      "label": "Tapped आगे",
      "event": "Bonus_Status_Next_Tapped",
      "users": 131,
-     "raw": 277
+     "raw": 278
     },
     {
      "key": "help",
      "label": "Reached the help question",
      "event": "Bonus_Status_Help_Viewed",
      "users": 131,
-     "raw": 277
+     "raw": 278
     },
     {
      "key": "finale",
      "label": "Reached the ending",
      "event": "Bonus_Status_Finale_Viewed",
-     "users": 118,
-     "raw": 226
+     "users": 119,
+     "raw": 228
     },
     {
      "key": "goto",
      "label": "Tapped through to सेवा स्थिति",
      "event": "Bonus_Status_GoTo_SevaSthiti",
-     "users": 97,
-     "raw": 164
+     "users": 98,
+     "raw": 165
     }
    ],
    "help": [
@@ -238,13 +238,13 @@
      "key": "some_questions",
      "label": "हाँ, कुछ सवाल हैं",
      "event": "Bonus_Status_Help_Questions",
-     "users": 31
+     "users": 32
     },
     {
      "key": "need_help",
      "label": "हाँ, बात करनी है",
      "event": "Bonus_Status_Help_NeedCall",
-     "users": 15
+     "users": 16
     },
     {
      "key": "skipped",
@@ -253,13 +253,13 @@
      "users": 57
     }
    ],
-   "help_answered": 119,
+   "help_answered": 121,
    "clicks": [
     {
      "event": "Bonus_Status_Next_Tapped",
      "label": "आगे (page 1)",
      "users": 131,
-     "raw": 277
+     "raw": 278
     },
     {
      "event": "Bonus_Status_Ring_Tapped",
@@ -276,14 +276,14 @@
     {
      "event": "Bonus_Status_Help_Questions",
      "label": "कुछ सवाल हैं",
-     "users": 31,
-     "raw": 34
+     "users": 32,
+     "raw": 35
     },
     {
      "event": "Bonus_Status_Help_NeedCall",
      "label": "बात करनी है",
-     "users": 15,
-     "raw": 16
+     "users": 16,
+     "raw": 17
     },
     {
      "event": "Bonus_Status_Help_Skipped",
@@ -306,14 +306,14 @@
     {
      "event": "Bonus_Status_SevaSthiti_After_Callback_Tapped",
      "label": "सेवा स्थिति — after callback",
-     "users": 6,
-     "raw": 8
+     "users": 7,
+     "raw": 9
     },
     {
      "event": "Bonus_Status_Callback_Primary_Tapped",
      "label": "कॉल बैक — primary button",
-     "users": 7,
-     "raw": 7
+     "users": 8,
+     "raw": 8
     },
     {
      "event": "Bonus_Status_Callback_Link_Tapped",
@@ -334,19 +334,20 @@
      "raw": 121
     }
    ],
-   "callbacks": 8,
+   "callbacks": 9,
    "callback_ids": [
     "a0a7a9",
     "a0a7b7",
     "a0a7b8",
     "a0b5n4",
     "a0b6q3",
+    "a0b8t8",
     "a0b9i9",
     "a0b9j7",
     "a0b9k4"
    ],
    "deeplink_mechanism": {
-    "location_href": 164
+    "location_href": 165
    },
    "dismiss_by_page": {
     "2": 44,
@@ -358,9 +359,9 @@
  "totals": {
   "reached": 256,
   "audience": 263,
-  "callbacks": 22,
-  "goto": 184,
-  "need_help": 32
+  "callbacks": 23,
+  "goto": 185,
+  "need_help": 33
  },
  "all_callback_ids": [
   "a0a6y9",
@@ -379,6 +380,7 @@
   "a0b6y6",
   "a0b7d7",
   "a0b8s0",
+  "a0b8t8",
   "a0b8w2",
   "a0b8w8",
   "a0b9i9",
