@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-21 15:28 IST",
+  "generated": "2026-08-21 16:07 IST",
   "region": "eu1",
   "start_date": "2026-07-27",
   "triggers": [
@@ -140,23 +140,23 @@
         "cohort_event": "Bonus_Seva_Quiz_Answered",
         "cohort_users": 106,
         "pre": {
-          "users": 49,
-          "events": 230,
+          "users": 43,
+          "events": 223,
           "days": 11.0,
-          "reach_pct": 46,
-          "per_user_day": 0.197,
+          "reach_pct": 41,
+          "per_user_day": 0.191,
           "label": "16 Jul–26 Jul (before)"
         },
         "post": {
-          "users": 62,
-          "events": 260,
+          "users": 54,
+          "events": 231,
           "days": 3.48,
-          "reach_pct": 58,
-          "per_user_day": 0.705,
+          "reach_pct": 51,
+          "per_user_day": 0.627,
           "label": "27 Jul 23:33 → 31 Jul 11:00 (while live)"
         },
         "stopped": true,
-        "lift_pct": 258
+        "lift_pct": 228
       },
       "daily": [
         {
@@ -224,21 +224,21 @@
           "label": "Tapped the Seva Sthiti chip",
           "event": "Bonus_Seva2_Chip_Tapped",
           "users": 788,
-          "events": 4070
+          "events": 4073
         },
         {
           "key": "help",
           "label": "Tapped the (?) button",
           "event": "Bonus_Seva2_Help_Tapped",
           "users": 717,
-          "events": 4180
+          "events": 4184
         },
         {
           "key": "completed",
           "label": "Completed the story",
           "event": "Bonus_Seva2_Flow_Completed",
           "users": 741,
-          "events": 3637
+          "events": 3640
         }
       ],
       "cards": [
@@ -273,14 +273,14 @@
           "index": 0,
           "label": "hero · the gift",
           "users": 708,
-          "events": 3681
+          "events": 3682
         },
         {
           "name": "window_rule",
           "index": 1,
           "label": "1–15 Aug + the rule",
           "users": 229,
-          "events": 313
+          "events": 314
         },
         {
           "name": "home_chip",
@@ -306,11 +306,11 @@
       ],
       "exits": {
         "deeplink": 701,
-        "acknowledge": 313
+        "acknowledge": 314
       },
       "goto": {
         "users": 701,
-        "events": 2911
+        "events": 2913
       },
       "toggled": {
         "users": 167,
@@ -330,13 +330,13 @@
       ],
       "dismissed_total": {
         "users": 782,
-        "events": 4807
+        "events": 4809
       },
       "key": "home_story_r2_5card",
       "label": "Home story · 5 cards",
       "live_ts": 20260731110019,
       "live_label": "31 Jul 2026, 11:00 IST",
-      "raw_events": 34827,
+      "raw_events": 34841,
       "events_confirmed": [
         "Story_Viewed",
         "Gift_Opened",
@@ -359,34 +359,34 @@
       {
         "key": "before",
         "label": "16 Jul–26 Jul",
-        "users": 126,
-        "events": 559,
+        "users": 116,
+        "events": 497,
         "days": 11.0,
-        "reach_pct": 17,
-        "per_user_day": 0.069
+        "reach_pct": 16,
+        "per_user_day": 0.061
       },
       {
         "key": "round1",
         "label": "27 Jul 23:33 → 31 Jul 11:00",
-        "users": 124,
-        "events": 635,
+        "users": 108,
+        "events": 567,
         "days": 3.48,
-        "reach_pct": 17,
-        "per_user_day": 0.246
+        "reach_pct": 15,
+        "per_user_day": 0.22
       },
       {
         "key": "round2",
         "label": "since 31 Jul 11:00",
-        "users": 269,
-        "events": 1865,
-        "days": 21.19,
-        "reach_pct": 36,
-        "per_user_day": 0.119
+        "users": 262,
+        "events": 1551,
+        "days": 21.21,
+        "reach_pct": 35,
+        "per_user_day": 0.099
       }
     ],
-    "lift_r1": 257,
-    "lift_r2": -52,
-    "lift_total": 72
+    "lift_r1": 261,
+    "lift_r2": -55,
+    "lift_total": 62
   },
   "followthrough": {
     "chip_event": "service_status_opened",
@@ -409,7 +409,7 @@
       {
         "key": "help",
         "label": "Opened the (?) help screen · within 3 min of that",
-        "users": 24
+        "users": 21
       }
     ]
   },
@@ -424,23 +424,23 @@
         "cohort_event": "Bonus_Seva_Quiz_Answered",
         "cohort_users": 106,
         "pre": {
-          "users": 49,
-          "events": 230,
+          "users": 43,
+          "events": 223,
           "days": 11.0,
-          "reach_pct": 46,
-          "per_user_day": 0.197,
+          "reach_pct": 41,
+          "per_user_day": 0.191,
           "label": "16 Jul–26 Jul (before)"
         },
         "post": {
-          "users": 62,
-          "events": 260,
+          "users": 54,
+          "events": 231,
           "days": 3.48,
-          "reach_pct": 58,
-          "per_user_day": 0.705,
+          "reach_pct": 51,
+          "per_user_day": 0.627,
           "label": "27 Jul 23:33 → 31 Jul 11:00 (while live)"
         },
         "stopped": true,
-        "lift_pct": 258
+        "lift_pct": 228
       }
     },
     {
@@ -453,23 +453,23 @@
         "cohort_event": "Bonus_Seva2_Flow_Completed",
         "cohort_users": 741,
         "pre": {
-          "users": 170,
-          "events": 1038,
+          "users": 154,
+          "events": 918,
           "days": 11.0,
-          "reach_pct": 23,
-          "per_user_day": 0.127,
+          "reach_pct": 21,
+          "per_user_day": 0.113,
           "label": "20 Jul–30 Jul (before)"
         },
         "post": {
-          "users": 269,
-          "events": 1865,
-          "days": 21.19,
-          "reach_pct": 36,
-          "per_user_day": 0.119,
+          "users": 262,
+          "events": 1551,
+          "days": 21.21,
+          "reach_pct": 35,
+          "per_user_day": 0.099,
           "label": "since 31 Jul 11:00 (after)"
         },
         "stopped": false,
-        "lift_pct": -6,
+        "lift_pct": -12,
         "pre_overlaps": [
           "Quality-of-work section"
         ]
