@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-21 10:32 IST",
+  "generated": "2026-08-21 11:12 IST",
   "sample": false,
   "region": "eu1",
   "start_date": "2026-07-16",
@@ -43,14 +43,14 @@
       ],
       "funnel": {
         "shown": 399,
-        "edu_ok": 388,
-        "completed": 354
+        "edu_ok": 389,
+        "completed": 355
       },
       "options": [
         {
           "option": "1",
           "label": "1st (top)",
-          "users": 278
+          "users": 279
         },
         {
           "option": "2",
@@ -198,6 +198,11 @@
           "date": "2026-08-18",
           "shown": 0,
           "completed": 2
+        },
+        {
+          "date": "2026-08-21",
+          "shown": 0,
+          "completed": 1
         }
       ]
     },
