@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-21 23:32 IST",
+  "generated": "2026-08-22 00:22 IST",
   "sample": false,
   "region": "eu1",
   "start_date": "2026-07-16",
@@ -34,85 +34,85 @@
       "shown_by_campaign": [
         {
           "id": "1784201594",
-          "users": 15
+          "users": 14
         },
         {
           "id": "1784207437",
-          "users": 388
+          "users": 365
         }
       ],
       "funnel": {
-        "shown": 399,
-        "edu_ok": 390,
-        "completed": 357
+        "shown": 376,
+        "edu_ok": 367,
+        "completed": 335
       },
       "options": [
         {
           "option": "1",
           "label": "1st (top)",
-          "users": 280
+          "users": 263
         },
         {
           "option": "2",
           "label": "2nd (middle)",
-          "users": 30
+          "users": 28
         },
         {
           "option": "3",
           "label": "3rd (bottom)",
-          "users": 48
+          "users": 45
         }
       ],
       "daily": [
         {
           "date": "2026-07-16",
-          "shown": 28,
+          "shown": 27,
           "completed": 17
         },
         {
           "date": "2026-07-17",
-          "shown": 57,
-          "completed": 41
-        },
-        {
-          "date": "2026-07-18",
-          "shown": 64,
-          "completed": 47
-        },
-        {
-          "date": "2026-07-19",
-          "shown": 64,
+          "shown": 51,
           "completed": 38
         },
         {
+          "date": "2026-07-18",
+          "shown": 59,
+          "completed": 43
+        },
+        {
+          "date": "2026-07-19",
+          "shown": 61,
+          "completed": 37
+        },
+        {
           "date": "2026-07-20",
-          "shown": 72,
-          "completed": 46
+          "shown": 66,
+          "completed": 42
         },
         {
           "date": "2026-07-21",
-          "shown": 56,
-          "completed": 34
+          "shown": 51,
+          "completed": 32
         },
         {
           "date": "2026-07-22",
-          "shown": 50,
-          "completed": 31
+          "shown": 47,
+          "completed": 30
         },
         {
           "date": "2026-07-23",
-          "shown": 31,
-          "completed": 22
+          "shown": 27,
+          "completed": 21
         },
         {
           "date": "2026-07-24",
-          "shown": 15,
-          "completed": 15
+          "shown": 14,
+          "completed": 13
         },
         {
           "date": "2026-07-25",
           "shown": 19,
-          "completed": 12
+          "completed": 11
         },
         {
           "date": "2026-07-26",
@@ -122,7 +122,7 @@
         {
           "date": "2026-07-27",
           "shown": 4,
-          "completed": 6
+          "completed": 5
         },
         {
           "date": "2026-07-28",
@@ -147,7 +147,7 @@
         {
           "date": "2026-08-01",
           "shown": 0,
-          "completed": 5
+          "completed": 4
         },
         {
           "date": "2026-08-02",
@@ -202,7 +202,7 @@
         {
           "date": "2026-08-21",
           "shown": 0,
-          "completed": 3
+          "completed": 1
         }
       ]
     },
@@ -393,7 +393,7 @@
       "shown_by_campaign": [
         {
           "id": "1784285997",
-          "users": 148
+          "users": 139
         }
       ],
       "steps": [
@@ -434,11 +434,11 @@
         },
         {
           "date": "2026-07-23",
-          "shown": 23
+          "shown": 21
         },
         {
           "date": "2026-07-24",
-          "shown": 15
+          "shown": 14
         },
         {
           "date": "2026-07-25",
@@ -954,8 +954,8 @@
     }
   ],
   "unattributed": {
-    "edu_ok": 811,
-    "completed": 671,
+    "edu_ok": 834,
+    "completed": 693,
     "edu_ok_technician": 429,
     "completed_technician": 370
   },
