@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-21 12:36 IST",
+  "generated": "2026-08-21 13:26 IST",
   "region": "eu1",
   "start_date": "2026-07-27",
   "triggers": [
@@ -273,7 +273,7 @@
           "index": 0,
           "label": "hero · the gift",
           "users": 708,
-          "events": 3678
+          "events": 3679
         },
         {
           "name": "window_rule",
@@ -287,7 +287,7 @@
           "index": 2,
           "label": "where Seva Sthiti lives",
           "users": 225,
-          "events": 335
+          "events": 336
         },
         {
           "name": "help_icon",
@@ -310,7 +310,7 @@
       },
       "goto": {
         "users": 701,
-        "events": 2906
+        "events": 2907
       },
       "toggled": {
         "users": 167,
@@ -330,13 +330,13 @@
       ],
       "dismissed_total": {
         "users": 782,
-        "events": 4803
+        "events": 4805
       },
       "key": "home_story_r2_5card",
       "label": "Home story · 5 cards",
       "live_ts": 20260731110019,
       "live_label": "31 Jul 2026, 11:00 IST",
-      "raw_events": 34804,
+      "raw_events": 34807,
       "events_confirmed": [
         "Story_Viewed",
         "Gift_Opened",
@@ -379,7 +379,7 @@
         "label": "since 31 Jul 11:00",
         "users": 269,
         "events": 1859,
-        "days": 21.07,
+        "days": 21.1,
         "reach_pct": 36,
         "per_user_day": 0.119
       }
@@ -463,7 +463,7 @@
         "post": {
           "users": 269,
           "events": 1859,
-          "days": 21.07,
+          "days": 21.1,
           "reach_pct": 36,
           "per_user_day": 0.119,
           "label": "since 31 Jul 11:00 (after)"
