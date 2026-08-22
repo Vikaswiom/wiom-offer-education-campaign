@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-22 09:38 IST",
+  "generated": "2026-08-22 10:18 IST",
   "region": "eu1",
   "start_date": "2026-07-27",
   "triggers": [
@@ -224,21 +224,21 @@
           "label": "Tapped the Seva Sthiti chip",
           "event": "Bonus_Seva2_Chip_Tapped",
           "users": 791,
-          "events": 4163
+          "events": 4172
         },
         {
           "key": "help",
           "label": "Tapped the (?) button",
           "event": "Bonus_Seva2_Help_Tapped",
           "users": 721,
-          "events": 4276
+          "events": 4284
         },
         {
           "key": "completed",
           "label": "Completed the story",
           "event": "Bonus_Seva2_Flow_Completed",
           "users": 744,
-          "events": 3737
+          "events": 3745
         }
       ],
       "cards": [
@@ -272,15 +272,15 @@
           "name": "hero_gift",
           "index": 0,
           "label": "hero · the gift",
-          "users": 711,
-          "events": 3746
+          "users": 712,
+          "events": 3757
         },
         {
           "name": "window_rule",
           "index": 1,
           "label": "1–15 Aug + the rule",
           "users": 229,
-          "events": 315
+          "events": 316
         },
         {
           "name": "home_chip",
@@ -306,15 +306,15 @@
       ],
       "exits": {
         "deeplink": 705,
-        "acknowledge": 319
+        "acknowledge": 320
       },
       "goto": {
         "users": 705,
-        "events": 2999
+        "events": 3006
       },
       "toggled": {
-        "users": 168,
-        "events": 326
+        "users": 169,
+        "events": 327
       },
       "help_metrics": [
         {
@@ -330,13 +330,13 @@
       ],
       "dismissed_total": {
         "users": 783,
-        "events": 4882
+        "events": 4894
       },
       "key": "home_story_r2_5card",
       "label": "Home story · 5 cards",
       "live_ts": 20260731110019,
       "live_label": "31 Jul 2026, 11:00 IST",
-      "raw_events": 35294,
+      "raw_events": 35339,
       "events_confirmed": [
         "Story_Viewed",
         "Gift_Opened",
@@ -378,8 +378,8 @@
         "key": "round2",
         "label": "since 31 Jul 11:00",
         "users": 269,
-        "events": 1889,
-        "days": 21.94,
+        "events": 1892,
+        "days": 21.97,
         "reach_pct": 36,
         "per_user_day": 0.116
       }
@@ -462,8 +462,8 @@
         },
         "post": {
           "users": 269,
-          "events": 1889,
-          "days": 21.94,
+          "events": 1892,
+          "days": 21.97,
           "reach_pct": 36,
           "per_user_day": 0.116,
           "label": "since 31 Jul 11:00 (after)"
