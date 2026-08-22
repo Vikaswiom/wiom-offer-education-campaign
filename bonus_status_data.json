@@ -1,5 +1,5 @@
 {
- "generated": "2026-08-22 21:00 IST",
+ "generated": "2026-08-22 21:20 IST",
  "start_date": "20260812",
  "cycle_end": "2026-08-31",
  "credit_on": "2026-09-01",
@@ -196,7 +196,7 @@
      "label": "Screen shown",
      "event": "Bonus_Status_Comm_Viewed",
      "users": 146,
-     "raw": 403
+     "raw": 404
     },
     {
      "key": "next",
@@ -224,7 +224,7 @@
      "label": "Tapped through to सेवा स्थिति",
      "event": "Bonus_Status_GoTo_SevaSthiti",
      "users": 100,
-     "raw": 171
+     "raw": 174
     }
    ],
    "help": [
@@ -265,7 +265,7 @@
      "event": "Bonus_Status_Ring_Tapped",
      "label": "The pulsing check",
      "users": 4,
-     "raw": 4
+     "raw": 7
     },
     {
      "event": "Bonus_Status_Help_Understood",
@@ -347,7 +347,7 @@
     "a0b9k4"
    ],
    "deeplink_mechanism": {
-    "location_href": 171
+    "location_href": 174
    },
    "dismiss_by_page": {
     "2": 45,
