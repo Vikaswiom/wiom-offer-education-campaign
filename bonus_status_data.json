@@ -1,5 +1,5 @@
 {
- "generated": "2026-08-22 19:10 IST",
+ "generated": "2026-08-22 20:01 IST",
  "start_date": "20260812",
  "cycle_end": "2026-08-31",
  "credit_on": "2026-09-01",
@@ -196,28 +196,28 @@
      "label": "Screen shown",
      "event": "Bonus_Status_Comm_Viewed",
      "users": 146,
-     "raw": 401
+     "raw": 402
     },
     {
      "key": "next",
      "label": "Tapped आगे",
      "event": "Bonus_Status_Next_Tapped",
      "users": 132,
-     "raw": 289
+     "raw": 290
     },
     {
      "key": "help",
      "label": "Reached the help question",
      "event": "Bonus_Status_Help_Viewed",
      "users": 132,
-     "raw": 289
+     "raw": 290
     },
     {
      "key": "finale",
      "label": "Reached the ending",
      "event": "Bonus_Status_Finale_Viewed",
-     "users": 120,
-     "raw": 238
+     "users": 121,
+     "raw": 239
     },
     {
      "key": "goto",
@@ -250,7 +250,7 @@
      "key": "skipped",
      "label": "छोड़ें",
      "event": "Bonus_Status_Help_Skipped",
-     "users": 59
+     "users": 60
     }
    ],
    "help_answered": 122,
@@ -259,7 +259,7 @@
      "event": "Bonus_Status_Next_Tapped",
      "label": "आगे (page 1)",
      "users": 132,
-     "raw": 289
+     "raw": 290
     },
     {
      "event": "Bonus_Status_Ring_Tapped",
@@ -288,8 +288,8 @@
     {
      "event": "Bonus_Status_Help_Skipped",
      "label": "छोड़ें",
-     "users": 59,
-     "raw": 80
+     "users": 60,
+     "raw": 81
     },
     {
      "event": "Bonus_Status_SevaSthiti_Primary_Tapped",
@@ -324,8 +324,8 @@
     {
      "event": "Bonus_Status_OK_Tapped",
      "label": "ठीक है",
-     "users": 42,
-     "raw": 59
+     "users": 43,
+     "raw": 60
     },
     {
      "event": "Bonus_Status_Close_Tapped",
@@ -352,7 +352,7 @@
    "dismiss_by_page": {
     "2": 45,
     "3": 9,
-    "1": 70
+    "1": 71
    }
   }
  ],
