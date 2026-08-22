@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-22 16:10 IST",
+  "generated": "2026-08-22 16:28 IST",
   "sample": false,
   "region": "eu1",
   "start_date": "2026-07-16",
@@ -43,7 +43,7 @@
       ],
       "funnel": {
         "shown": 399,
-        "edu_ok": 390,
+        "edu_ok": 391,
         "completed": 357
       },
       "options": [

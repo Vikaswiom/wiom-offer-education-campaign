@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-22 16:10 IST",
+  "generated": "2026-08-22 16:28 IST",
   "region": "eu1",
   "start_date": "2026-07-27",
   "triggers": [
@@ -310,7 +310,7 @@
       },
       "goto": {
         "users": 707,
-        "events": 3045
+        "events": 3046
       },
       "toggled": {
         "users": 171,
@@ -336,7 +336,7 @@
       "label": "Home story · 5 cards",
       "live_ts": 20260731110019,
       "live_label": "31 Jul 2026, 11:00 IST",
-      "raw_events": 35546,
+      "raw_events": 35547,
       "events_confirmed": [
         "Story_Viewed",
         "Gift_Opened",
@@ -378,8 +378,8 @@
         "key": "round2",
         "label": "since 31 Jul 11:00",
         "users": 269,
-        "events": 1915,
-        "days": 22.22,
+        "events": 1918,
+        "days": 22.23,
         "reach_pct": 36,
         "per_user_day": 0.116
       }
@@ -462,8 +462,8 @@
         },
         "post": {
           "users": 269,
-          "events": 1915,
-          "days": 22.22,
+          "events": 1918,
+          "days": 22.23,
           "reach_pct": 36,
           "per_user_day": 0.116,
           "label": "since 31 Jul 11:00 (after)"
