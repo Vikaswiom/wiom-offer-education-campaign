@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-22 15:37 IST",
+  "generated": "2026-08-22 16:10 IST",
   "region": "eu1",
   "start_date": "2026-07-27",
   "triggers": [
@@ -224,21 +224,21 @@
           "label": "Tapped the Seva Sthiti chip",
           "event": "Bonus_Seva2_Chip_Tapped",
           "users": 792,
-          "events": 4212
+          "events": 4214
         },
         {
           "key": "help",
           "label": "Tapped the (?) button",
           "event": "Bonus_Seva2_Help_Tapped",
           "users": 723,
-          "events": 4320
+          "events": 4322
         },
         {
           "key": "completed",
           "label": "Completed the story",
           "event": "Bonus_Seva2_Flow_Completed",
           "users": 745,
-          "events": 3787
+          "events": 3789
         }
       ],
       "cards": [
@@ -273,7 +273,7 @@
           "index": 0,
           "label": "hero · the gift",
           "users": 713,
-          "events": 3788
+          "events": 3789
         },
         {
           "name": "window_rule",
@@ -310,11 +310,11 @@
       },
       "goto": {
         "users": 707,
-        "events": 3044
+        "events": 3045
       },
       "toggled": {
-        "users": 170,
-        "events": 329
+        "users": 171,
+        "events": 330
       },
       "help_metrics": [
         {
@@ -330,13 +330,13 @@
       ],
       "dismissed_total": {
         "users": 783,
-        "events": 4929
+        "events": 4930
       },
       "key": "home_story_r2_5card",
       "label": "Home story · 5 cards",
       "live_ts": 20260731110019,
       "live_label": "31 Jul 2026, 11:00 IST",
-      "raw_events": 35537,
+      "raw_events": 35546,
       "events_confirmed": [
         "Story_Viewed",
         "Gift_Opened",
@@ -379,7 +379,7 @@
         "label": "since 31 Jul 11:00",
         "users": 269,
         "events": 1915,
-        "days": 22.19,
+        "days": 22.22,
         "reach_pct": 36,
         "per_user_day": 0.116
       }
@@ -463,7 +463,7 @@
         "post": {
           "users": 269,
           "events": 1915,
-          "days": 22.19,
+          "days": 22.22,
           "reach_pct": 36,
           "per_user_day": 0.116,
           "label": "since 31 Jul 11:00 (after)"
