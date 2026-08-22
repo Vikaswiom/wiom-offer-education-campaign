@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-22 15:18 IST",
+  "generated": "2026-08-22 15:37 IST",
   "region": "eu1",
   "start_date": "2026-07-27",
   "triggers": [
@@ -224,7 +224,7 @@
           "label": "Tapped the Seva Sthiti chip",
           "event": "Bonus_Seva2_Chip_Tapped",
           "users": 792,
-          "events": 4211
+          "events": 4212
         },
         {
           "key": "help",
@@ -238,7 +238,7 @@
           "label": "Completed the story",
           "event": "Bonus_Seva2_Flow_Completed",
           "users": 745,
-          "events": 3786
+          "events": 3787
         }
       ],
       "cards": [
@@ -286,8 +286,8 @@
           "name": "home_chip",
           "index": 2,
           "label": "where Seva Sthiti lives",
-          "users": 227,
-          "events": 341
+          "users": 228,
+          "events": 342
         },
         {
           "name": "help_icon",
@@ -310,7 +310,7 @@
       },
       "goto": {
         "users": 707,
-        "events": 3043
+        "events": 3044
       },
       "toggled": {
         "users": 170,
@@ -330,13 +330,13 @@
       ],
       "dismissed_total": {
         "users": 783,
-        "events": 4928
+        "events": 4929
       },
       "key": "home_story_r2_5card",
       "label": "Home story · 5 cards",
       "live_ts": 20260731110019,
       "live_label": "31 Jul 2026, 11:00 IST",
-      "raw_events": 35533,
+      "raw_events": 35537,
       "events_confirmed": [
         "Story_Viewed",
         "Gift_Opened",
@@ -378,8 +378,8 @@
         "key": "round2",
         "label": "since 31 Jul 11:00",
         "users": 269,
-        "events": 1913,
-        "days": 22.18,
+        "events": 1915,
+        "days": 22.19,
         "reach_pct": 36,
         "per_user_day": 0.116
       }
@@ -462,8 +462,8 @@
         },
         "post": {
           "users": 269,
-          "events": 1913,
-          "days": 22.18,
+          "events": 1915,
+          "days": 22.19,
           "reach_pct": 36,
           "per_user_day": 0.116,
           "label": "since 31 Jul 11:00 (after)"
