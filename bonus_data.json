@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-22 13:43 IST",
+  "generated": "2026-08-22 14:20 IST",
   "region": "eu1",
   "start_date": "2026-07-27",
   "triggers": [
@@ -224,21 +224,21 @@
           "label": "Tapped the Seva Sthiti chip",
           "event": "Bonus_Seva2_Chip_Tapped",
           "users": 792,
-          "events": 4206
+          "events": 4210
         },
         {
           "key": "help",
           "label": "Tapped the (?) button",
           "event": "Bonus_Seva2_Help_Tapped",
           "users": 723,
-          "events": 4316
+          "events": 4320
         },
         {
           "key": "completed",
           "label": "Completed the story",
           "event": "Bonus_Seva2_Flow_Completed",
           "users": 745,
-          "events": 3780
+          "events": 3786
         }
       ],
       "cards": [
@@ -273,7 +273,7 @@
           "index": 0,
           "label": "hero · the gift",
           "users": 713,
-          "events": 3785
+          "events": 3787
         },
         {
           "name": "window_rule",
@@ -305,12 +305,12 @@
         }
       ],
       "exits": {
-        "deeplink": 706,
-        "acknowledge": 322
+        "deeplink": 707,
+        "acknowledge": 323
       },
       "goto": {
-        "users": 706,
-        "events": 3038
+        "users": 707,
+        "events": 3043
       },
       "toggled": {
         "users": 170,
@@ -330,13 +330,13 @@
       ],
       "dismissed_total": {
         "users": 783,
-        "events": 4925
+        "events": 4927
       },
       "key": "home_story_r2_5card",
       "label": "Home story · 5 cards",
       "live_ts": 20260731110019,
       "live_label": "31 Jul 2026, 11:00 IST",
-      "raw_events": 35510,
+      "raw_events": 35531,
       "events_confirmed": [
         "Story_Viewed",
         "Gift_Opened",
@@ -378,15 +378,15 @@
         "key": "round2",
         "label": "since 31 Jul 11:00",
         "users": 269,
-        "events": 1895,
-        "days": 22.11,
+        "events": 1908,
+        "days": 22.14,
         "reach_pct": 36,
-        "per_user_day": 0.115
+        "per_user_day": 0.116
       }
     ],
     "lift_r1": 260,
     "lift_r2": -53,
-    "lift_total": 69
+    "lift_total": 71
   },
   "followthrough": {
     "chip_event": "service_status_opened",
@@ -462,10 +462,10 @@
         },
         "post": {
           "users": 269,
-          "events": 1895,
-          "days": 22.11,
+          "events": 1908,
+          "days": 22.14,
           "reach_pct": 36,
-          "per_user_day": 0.115,
+          "per_user_day": 0.116,
           "label": "since 31 Jul 11:00 (after)"
         },
         "stopped": false,
