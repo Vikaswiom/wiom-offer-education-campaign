@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-23 23:32 IST",
+  "generated": "2026-08-24 00:13 IST",
   "region": "eu1",
   "start_date": "2026-07-27",
   "triggers": [
@@ -279,8 +279,8 @@
           "name": "window_rule",
           "index": 1,
           "label": "1–15 Aug + the rule",
-          "users": 231,
-          "events": 322
+          "users": 232,
+          "events": 323
         },
         {
           "name": "home_chip",
@@ -310,7 +310,7 @@
       },
       "goto": {
         "users": 713,
-        "events": 3113
+        "events": 3114
       },
       "toggled": {
         "users": 173,
@@ -330,13 +330,13 @@
       ],
       "dismissed_total": {
         "users": 784,
-        "events": 4973
+        "events": 4974
       },
       "key": "home_story_r2_5card",
       "label": "Home story · 5 cards",
       "live_ts": 20260731110019,
       "live_label": "31 Jul 2026, 11:00 IST",
-      "raw_events": 35890,
+      "raw_events": 35892,
       "events_confirmed": [
         "Story_Viewed",
         "Gift_Opened",
@@ -378,15 +378,15 @@
         "key": "round2",
         "label": "since 31 Jul 11:00",
         "users": 272,
-        "events": 1986,
-        "days": 23.52,
+        "events": 1987,
+        "days": 23.55,
         "reach_pct": 36,
-        "per_user_day": 0.113
+        "per_user_day": 0.112
       }
     ],
     "lift_r1": 265,
-    "lift_r2": -54,
-    "lift_total": 66
+    "lift_r2": -55,
+    "lift_total": 65
   },
   "followthrough": {
     "chip_event": "service_status_opened",
@@ -462,14 +462,14 @@
         },
         "post": {
           "users": 272,
-          "events": 1986,
-          "days": 23.52,
+          "events": 1987,
+          "days": 23.55,
           "reach_pct": 36,
-          "per_user_day": 0.113,
+          "per_user_day": 0.112,
           "label": "since 31 Jul 11:00 (after)"
         },
         "stopped": false,
-        "lift_pct": -11,
+        "lift_pct": -12,
         "pre_overlaps": [
           "Quality-of-work section"
         ]
