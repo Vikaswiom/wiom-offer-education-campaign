@@ -1,5 +1,5 @@
 {
- "generated": "2026-08-23 09:41 IST",
+ "generated": "2026-08-23 10:34 IST",
  "start_date": "20260812",
  "cycle_end": "2026-08-31",
  "credit_on": "2026-09-01",
@@ -196,28 +196,28 @@
      "label": "Screen shown",
      "event": "Bonus_Status_Comm_Viewed",
      "users": 146,
-     "raw": 405
+     "raw": 406
     },
     {
      "key": "next",
      "label": "Tapped आगे",
      "event": "Bonus_Status_Next_Tapped",
-     "users": 133,
-     "raw": 291
+     "users": 134,
+     "raw": 292
     },
     {
      "key": "help",
      "label": "Reached the help question",
      "event": "Bonus_Status_Help_Viewed",
-     "users": 133,
-     "raw": 291
+     "users": 134,
+     "raw": 292
     },
     {
      "key": "finale",
      "label": "Reached the ending",
      "event": "Bonus_Status_Finale_Viewed",
-     "users": 121,
-     "raw": 239
+     "users": 123,
+     "raw": 241
     },
     {
      "key": "goto",
@@ -238,7 +238,7 @@
      "key": "some_questions",
      "label": "हाँ, कुछ सवाल हैं",
      "event": "Bonus_Status_Help_Questions",
-     "users": 32
+     "users": 33
     },
     {
      "key": "need_help",
@@ -250,16 +250,16 @@
      "key": "skipped",
      "label": "छोड़ें",
      "event": "Bonus_Status_Help_Skipped",
-     "users": 60
+     "users": 61
     }
    ],
-   "help_answered": 122,
+   "help_answered": 123,
    "clicks": [
     {
      "event": "Bonus_Status_Next_Tapped",
      "label": "आगे (page 1)",
-     "users": 133,
-     "raw": 291
+     "users": 134,
+     "raw": 292
     },
     {
      "event": "Bonus_Status_Ring_Tapped",
@@ -276,8 +276,8 @@
     {
      "event": "Bonus_Status_Help_Questions",
      "label": "कुछ सवाल हैं",
-     "users": 32,
-     "raw": 35
+     "users": 33,
+     "raw": 36
     },
     {
      "event": "Bonus_Status_Help_NeedCall",
@@ -288,8 +288,8 @@
     {
      "event": "Bonus_Status_Help_Skipped",
      "label": "छोड़ें",
-     "users": 60,
-     "raw": 81
+     "users": 61,
+     "raw": 82
     },
     {
      "event": "Bonus_Status_SevaSthiti_Primary_Tapped",
@@ -324,14 +324,14 @@
     {
      "event": "Bonus_Status_OK_Tapped",
      "label": "ठीक है",
-     "users": 43,
-     "raw": 60
+     "users": 44,
+     "raw": 61
     },
     {
      "event": "Bonus_Status_Close_Tapped",
      "label": "✕ closed",
-     "users": 77,
-     "raw": 125
+     "users": 78,
+     "raw": 126
     }
    ],
    "callbacks": 9,
@@ -351,7 +351,7 @@
    },
    "dismiss_by_page": {
     "2": 45,
-    "3": 9,
+    "3": 10,
     "1": 71
    }
   }
