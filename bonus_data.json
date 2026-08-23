@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-23 20:23 IST",
+  "generated": "2026-08-23 20:41 IST",
   "region": "eu1",
   "start_date": "2026-07-27",
   "triggers": [
@@ -273,7 +273,7 @@
           "index": 0,
           "label": "hero · the gift",
           "users": 713,
-          "events": 3822
+          "events": 3821
         },
         {
           "name": "window_rule",
@@ -287,7 +287,7 @@
           "index": 2,
           "label": "where Seva Sthiti lives",
           "users": 231,
-          "events": 345
+          "events": 346
         },
         {
           "name": "help_icon",
@@ -379,7 +379,7 @@
         "label": "since 31 Jul 11:00",
         "users": 272,
         "events": 1983,
-        "days": 23.39,
+        "days": 23.4,
         "reach_pct": 36,
         "per_user_day": 0.113
       }
@@ -463,7 +463,7 @@
         "post": {
           "users": 272,
           "events": 1983,
-          "days": 23.39,
+          "days": 23.4,
           "reach_pct": 36,
           "per_user_day": 0.113,
           "label": "since 31 Jul 11:00 (after)"
