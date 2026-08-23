@@ -1,5 +1,5 @@
 {
- "generated": "2026-08-23 20:25 IST",
+ "generated": "2026-08-23 21:01 IST",
  "start_date": "20260812",
  "cycle_end": "2026-08-31",
  "credit_on": "2026-09-01",
@@ -111,7 +111,7 @@
      "event": "Bonus_Status_Help_Skipped",
      "label": "छोड़ें",
      "users": 62,
-     "raw": 91
+     "raw": 92
     },
     {
      "event": "Bonus_Status_SevaSthiti_Primary_Tapped",
@@ -147,7 +147,7 @@
      "event": "Bonus_Status_OK_Tapped",
      "label": "ठीक है",
      "users": 53,
-     "raw": 73
+     "raw": 74
     },
     {
      "event": "Bonus_Status_Close_Tapped",
