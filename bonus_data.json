@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-23 07:26 IST",
+  "generated": "2026-08-23 08:39 IST",
   "region": "eu1",
   "start_date": "2026-07-27",
   "triggers": [
@@ -224,21 +224,21 @@
           "label": "Tapped the Seva Sthiti chip",
           "event": "Bonus_Seva2_Chip_Tapped",
           "users": 792,
-          "events": 4234
+          "events": 4237
         },
         {
           "key": "help",
           "label": "Tapped the (?) button",
           "event": "Bonus_Seva2_Help_Tapped",
           "users": 723,
-          "events": 4346
+          "events": 4348
         },
         {
           "key": "completed",
           "label": "Completed the story",
           "event": "Bonus_Seva2_Flow_Completed",
           "users": 746,
-          "events": 3812
+          "events": 3816
         }
       ],
       "cards": [
@@ -273,7 +273,7 @@
           "index": 0,
           "label": "hero · the gift",
           "users": 713,
-          "events": 3799
+          "events": 3803
         },
         {
           "name": "window_rule",
@@ -286,8 +286,8 @@
           "name": "home_chip",
           "index": 2,
           "label": "where Seva Sthiti lives",
-          "users": 228,
-          "events": 342
+          "users": 229,
+          "events": 343
         },
         {
           "name": "help_icon",
@@ -310,11 +310,11 @@
       },
       "goto": {
         "users": 709,
-        "events": 3066
+        "events": 3070
       },
       "toggled": {
-        "users": 172,
-        "events": 331
+        "users": 173,
+        "events": 332
       },
       "help_metrics": [
         {
@@ -330,13 +330,13 @@
       ],
       "dismissed_total": {
         "users": 783,
-        "events": 4943
+        "events": 4948
       },
       "key": "home_story_r2_5card",
       "label": "Home story · 5 cards",
       "live_ts": 20260731110019,
       "live_label": "31 Jul 2026, 11:00 IST",
-      "raw_events": 35652,
+      "raw_events": 35671,
       "events_confirmed": [
         "Story_Viewed",
         "Gift_Opened",
@@ -379,14 +379,14 @@
         "label": "since 31 Jul 11:00",
         "users": 271,
         "events": 1953,
-        "days": 22.85,
+        "days": 22.9,
         "reach_pct": 36,
-        "per_user_day": 0.115
+        "per_user_day": 0.114
       }
     ],
     "lift_r1": 266,
     "lift_r2": -54,
-    "lift_total": 69
+    "lift_total": 68
   },
   "followthrough": {
     "chip_event": "service_status_opened",
@@ -463,13 +463,13 @@
         "post": {
           "users": 271,
           "events": 1953,
-          "days": 22.85,
+          "days": 22.9,
           "reach_pct": 36,
-          "per_user_day": 0.115,
+          "per_user_day": 0.114,
           "label": "since 31 Jul 11:00 (after)"
         },
         "stopped": false,
-        "lift_pct": -10,
+        "lift_pct": -11,
         "pre_overlaps": [
           "Quality-of-work section"
         ]
