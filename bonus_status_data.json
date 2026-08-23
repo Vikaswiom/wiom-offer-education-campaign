@@ -1,5 +1,5 @@
 {
- "generated": "2026-08-23 08:42 IST",
+ "generated": "2026-08-23 09:41 IST",
  "start_date": "20260812",
  "cycle_end": "2026-08-31",
  "credit_on": "2026-09-01",
@@ -196,21 +196,21 @@
      "label": "Screen shown",
      "event": "Bonus_Status_Comm_Viewed",
      "users": 146,
-     "raw": 404
+     "raw": 405
     },
     {
      "key": "next",
      "label": "Tapped आगे",
      "event": "Bonus_Status_Next_Tapped",
-     "users": 132,
-     "raw": 290
+     "users": 133,
+     "raw": 291
     },
     {
      "key": "help",
      "label": "Reached the help question",
      "event": "Bonus_Status_Help_Viewed",
-     "users": 132,
-     "raw": 290
+     "users": 133,
+     "raw": 291
     },
     {
      "key": "finale",
@@ -258,8 +258,8 @@
     {
      "event": "Bonus_Status_Next_Tapped",
      "label": "आगे (page 1)",
-     "users": 132,
-     "raw": 290
+     "users": 133,
+     "raw": 291
     },
     {
      "event": "Bonus_Status_Ring_Tapped",
