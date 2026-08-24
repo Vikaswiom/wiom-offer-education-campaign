@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-24 18:56 IST",
+  "generated": "2026-08-24 19:43 IST",
   "sample": false,
   "region": "eu1",
   "start_date": "2026-07-16",
@@ -540,7 +540,7 @@
             "label": "1 time only",
             "min": 1,
             "max": 1,
-            "users": 116
+            "users": 117
           },
           {
             "label": "2 times",
@@ -572,7 +572,7 @@
             "label": "1 time only",
             "min": 1,
             "max": 1,
-            "users": 106
+            "users": 107
           },
           {
             "label": "2 times",
@@ -624,8 +624,8 @@
         ]
       ],
       "funnel": {
-        "shown": 144,
-        "ok": 129
+        "shown": 145,
+        "ok": 130
       },
       "ok_outside_shown": 0,
       "options": [],
@@ -747,8 +747,8 @@
         },
         {
           "date": "2026-08-24",
-          "shown": 2,
-          "ok": 2
+          "shown": 3,
+          "ok": 3
         }
       ],
       "note": "Full-page offer creative (round 2): one screen, one ठीक है, no quiz."
@@ -985,9 +985,9 @@
   ],
   "unattributed": {
     "edu_ok": 843,
-    "completed": 696,
+    "completed": 697,
     "edu_ok_technician": 441,
-    "completed_technician": 381
+    "completed_technician": 382
   },
   "both_apps": 0
 }
