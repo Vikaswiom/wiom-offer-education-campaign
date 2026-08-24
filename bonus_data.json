@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-24 22:31 IST",
+  "generated": "2026-08-24 23:10 IST",
   "region": "eu1",
   "start_date": "2026-07-27",
   "triggers": [
@@ -224,7 +224,7 @@
           "label": "Tapped the Seva Sthiti chip",
           "event": "Bonus_Seva2_Chip_Tapped",
           "users": 797,
-          "events": 4402
+          "events": 4403
         },
         {
           "key": "help",
@@ -336,7 +336,7 @@
       "label": "Home story · 5 cards",
       "live_ts": 20260731110019,
       "live_label": "31 Jul 2026, 11:00 IST",
-      "raw_events": 36384,
+      "raw_events": 36385,
       "events_confirmed": [
         "Story_Viewed",
         "Gift_Opened",
@@ -379,7 +379,7 @@
         "label": "since 31 Jul 11:00",
         "users": 274,
         "events": 2036,
-        "days": 24.48,
+        "days": 24.51,
         "reach_pct": 36,
         "per_user_day": 0.11
       }
@@ -463,7 +463,7 @@
         "post": {
           "users": 274,
           "events": 2036,
-          "days": 24.48,
+          "days": 24.51,
           "reach_pct": 36,
           "per_user_day": 0.11,
           "label": "since 31 Jul 11:00 (after)"
