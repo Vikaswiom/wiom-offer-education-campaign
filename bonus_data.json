@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-24 16:43 IST",
+  "generated": "2026-08-24 17:14 IST",
   "region": "eu1",
   "start_date": "2026-07-27",
   "triggers": [
@@ -224,21 +224,21 @@
           "label": "Tapped the Seva Sthiti chip",
           "event": "Bonus_Seva2_Chip_Tapped",
           "users": 795,
-          "events": 4393
+          "events": 4395
         },
         {
           "key": "help",
           "label": "Tapped the (?) button",
           "event": "Bonus_Seva2_Help_Tapped",
           "users": 728,
-          "events": 4489
+          "events": 4491
         },
         {
           "key": "completed",
           "label": "Completed the story",
           "event": "Bonus_Seva2_Flow_Completed",
           "users": 752,
-          "events": 3977
+          "events": 3980
         }
       ],
       "cards": [
@@ -306,15 +306,15 @@
       ],
       "exits": {
         "deeplink": 715,
-        "acknowledge": 328
+        "acknowledge": 329
       },
       "goto": {
         "users": 718,
-        "events": 3238
+        "events": 3239
       },
       "toggled": {
         "users": 175,
-        "events": 339
+        "events": 341
       },
       "help_metrics": [
         {
@@ -336,7 +336,7 @@
       "label": "Home story · 5 cards",
       "live_ts": 20260731110019,
       "live_label": "31 Jul 2026, 11:00 IST",
-      "raw_events": 36345,
+      "raw_events": 36355,
       "events_confirmed": [
         "Story_Viewed",
         "Gift_Opened",
@@ -377,16 +377,16 @@
       {
         "key": "round2",
         "label": "since 31 Jul 11:00",
-        "users": 273,
-        "events": 2007,
-        "days": 24.24,
+        "users": 274,
+        "events": 2026,
+        "days": 24.26,
         "reach_pct": 36,
-        "per_user_day": 0.11
+        "per_user_day": 0.111
       }
     ],
     "lift_r1": 263,
     "lift_r2": -55,
-    "lift_total": 62
+    "lift_total": 63
   },
   "followthrough": {
     "chip_event": "service_status_opened",
@@ -461,11 +461,11 @@
           "label": "20 Jul–30 Jul (before)"
         },
         "post": {
-          "users": 273,
-          "events": 2007,
-          "days": 24.24,
+          "users": 274,
+          "events": 2026,
+          "days": 24.26,
           "reach_pct": 36,
-          "per_user_day": 0.11,
+          "per_user_day": 0.111,
           "label": "since 31 Jul 11:00 (after)"
         },
         "stopped": false,
