@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-25 16:25 IST",
+  "generated": "2026-08-25 17:04 IST",
   "region": "eu1",
   "start_date": "2026-07-27",
   "triggers": [
@@ -238,7 +238,7 @@
           "label": "Completed the story",
           "event": "Bonus_Seva2_Flow_Completed",
           "users": 755,
-          "events": 4052
+          "events": 4053
         }
       ],
       "cards": [
@@ -310,7 +310,7 @@
       },
       "goto": {
         "users": 720,
-        "events": 3296
+        "events": 3297
       },
       "toggled": {
         "users": 175,
@@ -336,7 +336,7 @@
       "label": "Home story · 5 cards",
       "live_ts": 20260731110019,
       "live_label": "31 Jul 2026, 11:00 IST",
-      "raw_events": 36612,
+      "raw_events": 36614,
       "events_confirmed": [
         "Story_Viewed",
         "Gift_Opened",
@@ -378,8 +378,8 @@
         "key": "round2",
         "label": "since 31 Jul 11:00",
         "users": 278,
-        "events": 2055,
-        "days": 25.23,
+        "events": 2058,
+        "days": 25.25,
         "reach_pct": 37,
         "per_user_day": 0.108
       }
@@ -462,8 +462,8 @@
         },
         "post": {
           "users": 278,
-          "events": 2055,
-          "days": 25.23,
+          "events": 2058,
+          "days": 25.25,
           "reach_pct": 37,
           "per_user_day": 0.108,
           "label": "since 31 Jul 11:00 (after)"
