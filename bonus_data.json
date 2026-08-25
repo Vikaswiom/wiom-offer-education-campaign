@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-26 01:27 IST",
+  "generated": "2026-08-26 02:05 IST",
   "region": "eu1",
   "start_date": "2026-07-27",
   "triggers": [
@@ -224,21 +224,21 @@
           "label": "Tapped the Seva Sthiti chip",
           "event": "Bonus_Seva2_Chip_Tapped",
           "users": 800,
-          "events": 4479
+          "events": 4481
         },
         {
           "key": "help",
           "label": "Tapped the (?) button",
           "event": "Bonus_Seva2_Help_Tapped",
           "users": 734,
-          "events": 4581
+          "events": 4583
         },
         {
           "key": "completed",
           "label": "Completed the story",
           "event": "Bonus_Seva2_Flow_Completed",
           "users": 759,
-          "events": 4079
+          "events": 4082
         }
       ],
       "cards": [
@@ -310,7 +310,7 @@
       },
       "goto": {
         "users": 724,
-        "events": 3321
+        "events": 3324
       },
       "toggled": {
         "users": 177,
@@ -336,7 +336,7 @@
       "label": "Home story · 5 cards",
       "live_ts": 20260731110019,
       "live_label": "31 Jul 2026, 11:00 IST",
-      "raw_events": 36716,
+      "raw_events": 36726,
       "events_confirmed": [
         "Story_Viewed",
         "Gift_Opened",
@@ -378,15 +378,15 @@
         "key": "round2",
         "label": "since 31 Jul 11:00",
         "users": 279,
-        "events": 2064,
-        "days": 25.6,
+        "events": 2074,
+        "days": 25.63,
         "reach_pct": 37,
-        "per_user_day": 0.106
+        "per_user_day": 0.107
       }
     ],
     "lift_r1": 267,
     "lift_r2": -57,
-    "lift_total": 58
+    "lift_total": 60
   },
   "followthrough": {
     "chip_event": "service_status_opened",
@@ -462,14 +462,14 @@
         },
         "post": {
           "users": 279,
-          "events": 2064,
-          "days": 25.6,
+          "events": 2074,
+          "days": 25.63,
           "reach_pct": 37,
-          "per_user_day": 0.106,
+          "per_user_day": 0.107,
           "label": "since 31 Jul 11:00 (after)"
         },
         "stopped": false,
-        "lift_pct": -16,
+        "lift_pct": -15,
         "pre_overlaps": [
           "Quality-of-work section"
         ]
