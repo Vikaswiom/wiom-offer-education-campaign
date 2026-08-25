@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-25 13:40 IST",
+  "generated": "2026-08-25 14:30 IST",
   "sample": false,
   "region": "eu1",
   "start_date": "2026-07-16",
@@ -210,7 +210,7 @@
       "key": "tech",
       "label": "Technician App",
       "color": "#2563EB",
-      "note": "Technician app — Shown comes from CleverTap's own impression event (Notification Viewed, wzrk_id 1784203536) because this app does not fire the custom inApp_Shown; education/quiz are locked to that cohort by identity. 447 role = technician profile(s) acted without a recorded impression.",
+      "note": "Technician app — Shown comes from CleverTap's own impression event (Notification Viewed, wzrk_id 1784203536) because this app does not fire the custom inApp_Shown; education/quiz are locked to that cohort by identity. 448 role = technician profile(s) acted without a recorded impression.",
       "campaigns": [
         "1784203536"
       ],
@@ -550,7 +550,7 @@
             "label": "1 time only",
             "min": 1,
             "max": 1,
-            "users": 118
+            "users": 119
           },
           {
             "label": "2 times",
@@ -582,7 +582,7 @@
             "label": "1 time only",
             "min": 1,
             "max": 1,
-            "users": 108
+            "users": 109
           },
           {
             "label": "2 times",
@@ -634,8 +634,8 @@
         ]
       ],
       "funnel": {
-        "shown": 146,
-        "ok": 131
+        "shown": 147,
+        "ok": 132
       },
       "ok_outside_shown": 0,
       "options": [],
@@ -762,8 +762,8 @@
         },
         {
           "date": "2026-08-25",
-          "shown": 1,
-          "ok": 1
+          "shown": 2,
+          "ok": 2
         }
       ],
       "note": "Full-page offer creative (round 2): one screen, one ठीक है, no quiz."
@@ -1004,10 +1004,10 @@
     }
   ],
   "unattributed": {
-    "edu_ok": 850,
-    "completed": 701,
-    "edu_ok_technician": 447,
-    "completed_technician": 386
+    "edu_ok": 851,
+    "completed": 702,
+    "edu_ok_technician": 448,
+    "completed_technician": 387
   },
   "both_apps": 0
 }
