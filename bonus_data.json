@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-25 07:35 IST",
+  "generated": "2026-08-25 08:42 IST",
   "region": "eu1",
   "start_date": "2026-07-27",
   "triggers": [
@@ -224,21 +224,21 @@
           "label": "Tapped the Seva Sthiti chip",
           "event": "Bonus_Seva2_Chip_Tapped",
           "users": 797,
-          "events": 4414
+          "events": 4418
         },
         {
           "key": "help",
           "label": "Tapped the (?) button",
           "event": "Bonus_Seva2_Help_Tapped",
           "users": 730,
-          "events": 4508
+          "events": 4513
         },
         {
           "key": "completed",
           "label": "Completed the story",
           "event": "Bonus_Seva2_Flow_Completed",
           "users": 754,
-          "events": 4001
+          "events": 4007
         }
       ],
       "cards": [
@@ -310,7 +310,7 @@
       },
       "goto": {
         "users": 718,
-        "events": 3251
+        "events": 3257
       },
       "toggled": {
         "users": 175,
@@ -336,7 +336,7 @@
       "label": "Home story · 5 cards",
       "live_ts": 20260731110019,
       "live_label": "31 Jul 2026, 11:00 IST",
-      "raw_events": 36424,
+      "raw_events": 36445,
       "events_confirmed": [
         "Story_Viewed",
         "Gift_Opened",
@@ -379,14 +379,14 @@
         "label": "since 31 Jul 11:00",
         "users": 274,
         "events": 2036,
-        "days": 24.86,
+        "days": 24.9,
         "reach_pct": 36,
-        "per_user_day": 0.109
+        "per_user_day": 0.108
       }
     ],
     "lift_r1": 262,
     "lift_r2": -56,
-    "lift_total": 60
+    "lift_total": 59
   },
   "followthrough": {
     "chip_event": "service_status_opened",
@@ -463,13 +463,13 @@
         "post": {
           "users": 274,
           "events": 2036,
-          "days": 24.86,
+          "days": 24.9,
           "reach_pct": 36,
-          "per_user_day": 0.109,
+          "per_user_day": 0.108,
           "label": "since 31 Jul 11:00 (after)"
         },
         "stopped": false,
-        "lift_pct": -13,
+        "lift_pct": -14,
         "pre_overlaps": [
           "Quality-of-work section"
         ]
