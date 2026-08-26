@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-26 18:41 IST",
+  "generated": "2026-08-26 19:34 IST",
   "sample": false,
   "region": "eu1",
   "start_date": "2026-07-16",
@@ -550,13 +550,13 @@
             "label": "1 time only",
             "min": 1,
             "max": 1,
-            "users": 120
+            "users": 119
           },
           {
             "label": "2 times",
             "min": 2,
             "max": 2,
-            "users": 24
+            "users": 25
           },
           {
             "label": "3 times",
@@ -582,13 +582,13 @@
             "label": "1 time only",
             "min": 1,
             "max": 1,
-            "users": 110
+            "users": 109
           },
           {
             "label": "2 times",
             "min": 2,
             "max": 2,
-            "users": 19
+            "users": 20
           },
           {
             "label": "3 times",
@@ -611,8 +611,8 @@
         ]
       },
       "freq_avg": {
-        "shown": 1.27,
-        "ok": 1.26
+        "shown": 1.28,
+        "ok": 1.27
       },
       "freq_max": {
         "shown": 9,
@@ -767,8 +767,8 @@
         },
         {
           "date": "2026-08-26",
-          "shown": 2,
-          "ok": 2
+          "shown": 3,
+          "ok": 3
         }
       ],
       "note": "Full-page offer creative (round 2): one screen, one ठीक है, no quiz."
@@ -1009,7 +1009,7 @@
     }
   ],
   "unattributed": {
-    "edu_ok": 869,
+    "edu_ok": 870,
     "completed": 719,
     "edu_ok_technician": 458,
     "completed_technician": 397
