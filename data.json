@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-30 07:04 IST",
+  "generated": "2026-08-30 12:50 IST",
   "sample": false,
   "region": "eu1",
   "start_date": "2026-07-16",
@@ -555,13 +555,13 @@
             "label": "1 time only",
             "min": 1,
             "max": 1,
-            "users": 121
+            "users": 120
           },
           {
             "label": "2 times",
             "min": 2,
             "max": 2,
-            "users": 25
+            "users": 26
           },
           {
             "label": "3 times",
@@ -587,13 +587,13 @@
             "label": "1 time only",
             "min": 1,
             "max": 1,
-            "users": 111
+            "users": 110
           },
           {
             "label": "2 times",
             "min": 2,
             "max": 2,
-            "users": 20
+            "users": 21
           },
           {
             "label": "3 times",
@@ -616,8 +616,8 @@
         ]
       },
       "freq_avg": {
-        "shown": 1.27,
-        "ok": 1.26
+        "shown": 1.28,
+        "ok": 1.27
       },
       "freq_max": {
         "shown": 9,
@@ -782,6 +782,11 @@
         },
         {
           "date": "2026-08-29",
+          "shown": 1,
+          "ok": 1
+        },
+        {
+          "date": "2026-08-30",
           "shown": 1,
           "ok": 1
         }
@@ -1024,10 +1029,10 @@
     }
   ],
   "unattributed": {
-    "edu_ok": 888,
-    "completed": 742,
+    "edu_ok": 890,
+    "completed": 744,
     "edu_ok_technician": 469,
-    "completed_technician": 407
+    "completed_technician": 408
   },
   "both_apps": 0
 }
