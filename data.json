@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-31 19:25 IST",
+  "generated": "2026-09-01 01:24 IST",
   "sample": false,
   "region": "eu1",
   "start_date": "2026-07-16",
@@ -43,7 +43,7 @@
       ],
       "funnel": {
         "shown": 399,
-        "edu_ok": 391,
+        "edu_ok": 392,
         "completed": 358
       },
       "options": [
@@ -565,13 +565,13 @@
             "label": "1 time only",
             "min": 1,
             "max": 1,
-            "users": 120
+            "users": 119
           },
           {
             "label": "2 times",
             "min": 2,
             "max": 2,
-            "users": 26
+            "users": 27
           },
           {
             "label": "3 times",
@@ -597,13 +597,13 @@
             "label": "1 time only",
             "min": 1,
             "max": 1,
-            "users": 110
+            "users": 109
           },
           {
             "label": "2 times",
             "min": 2,
             "max": 2,
-            "users": 21
+            "users": 22
           },
           {
             "label": "3 times",
@@ -627,7 +627,7 @@
       },
       "freq_avg": {
         "shown": 1.28,
-        "ok": 1.27
+        "ok": 1.28
       },
       "freq_max": {
         "shown": 9,
@@ -797,6 +797,11 @@
         },
         {
           "date": "2026-08-30",
+          "shown": 1,
+          "ok": 1
+        },
+        {
+          "date": "2026-08-31",
           "shown": 1,
           "ok": 1
         }
@@ -1039,10 +1044,10 @@
     }
   ],
   "unattributed": {
-    "edu_ok": 907,
-    "completed": 758,
+    "edu_ok": 908,
+    "completed": 760,
     "edu_ok_technician": 479,
-    "completed_technician": 417
+    "completed_technician": 418
   },
   "both_apps": 0
 }
