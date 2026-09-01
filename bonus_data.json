@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-01 18:19 IST",
+  "generated": "2026-09-01 22:30 IST",
   "region": "eu1",
   "start_date": "2026-07-27",
   "triggers": [
@@ -224,21 +224,21 @@
           "label": "Tapped the Seva Sthiti chip",
           "event": "Bonus_Seva2_Chip_Tapped",
           "users": 806,
-          "events": 4780
+          "events": 4782
         },
         {
           "key": "help",
           "label": "Tapped the (?) button",
           "event": "Bonus_Seva2_Help_Tapped",
           "users": 735,
-          "events": 4833
+          "events": 4836
         },
         {
           "key": "completed",
           "label": "Completed the story",
           "event": "Bonus_Seva2_Flow_Completed",
           "users": 768,
-          "events": 4543
+          "events": 4548
         }
       ],
       "cards": [
@@ -310,7 +310,7 @@
       },
       "goto": {
         "users": 739,
-        "events": 3778
+        "events": 3782
       },
       "toggled": {
         "users": 191,
@@ -336,7 +336,7 @@
       "label": "Home story · 5 cards",
       "live_ts": 20260731110019,
       "live_label": "31 Jul 2026, 11:00 IST",
-      "raw_events": 38236,
+      "raw_events": 38250,
       "events_confirmed": [
         "Story_Viewed",
         "Gift_Opened",
@@ -378,8 +378,8 @@
         "key": "round2",
         "label": "since 31 Jul 11:00",
         "users": 299,
-        "events": 2216,
-        "days": 32.3,
+        "events": 2226,
+        "days": 32.48,
         "reach_pct": 39,
         "per_user_day": 0.089
       }
@@ -462,8 +462,8 @@
         },
         "post": {
           "users": 299,
-          "events": 2216,
-          "days": 32.3,
+          "events": 2226,
+          "days": 32.48,
           "reach_pct": 39,
           "per_user_day": 0.089,
           "label": "since 31 Jul 11:00 (after)"
