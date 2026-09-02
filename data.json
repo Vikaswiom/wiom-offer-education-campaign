@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-02 14:30 IST",
+  "generated": "2026-09-02 19:02 IST",
   "sample": false,
   "region": "eu1",
   "start_date": "2026-07-16",
@@ -43,7 +43,7 @@
       ],
       "funnel": {
         "shown": 399,
-        "edu_ok": 392,
+        "edu_ok": 393,
         "completed": 358
       },
       "options": [
@@ -215,7 +215,7 @@
       "key": "tech",
       "label": "Technician App",
       "color": "#2563EB",
-      "note": "Technician app — Shown comes from CleverTap's own impression event (Notification Viewed, wzrk_id 1784203536) because this app does not fire the custom inApp_Shown; education/quiz are locked to that cohort by identity. 487 role = technician profile(s) acted without a recorded impression.",
+      "note": "Technician app — Shown comes from CleverTap's own impression event (Notification Viewed, wzrk_id 1784203536) because this app does not fire the custom inApp_Shown; education/quiz are locked to that cohort by identity. 488 role = technician profile(s) acted without a recorded impression.",
       "campaigns": [
         "1784203536"
       ],
@@ -565,7 +565,7 @@
             "label": "1 time only",
             "min": 1,
             "max": 1,
-            "users": 119
+            "users": 120
           },
           {
             "label": "2 times",
@@ -597,7 +597,7 @@
             "label": "1 time only",
             "min": 1,
             "max": 1,
-            "users": 109
+            "users": 110
           },
           {
             "label": "2 times",
@@ -649,8 +649,8 @@
         ]
       ],
       "funnel": {
-        "shown": 151,
-        "ok": 136
+        "shown": 152,
+        "ok": 137
       },
       "ok_outside_shown": 0,
       "options": [],
@@ -802,6 +802,11 @@
         },
         {
           "date": "2026-08-31",
+          "shown": 1,
+          "ok": 1
+        },
+        {
+          "date": "2026-09-02",
           "shown": 1,
           "ok": 1
         }
@@ -1044,10 +1049,10 @@
     }
   ],
   "unattributed": {
-    "edu_ok": 922,
-    "completed": 773,
-    "edu_ok_technician": 486,
-    "completed_technician": 427
+    "edu_ok": 923,
+    "completed": 774,
+    "edu_ok_technician": 487,
+    "completed_technician": 428
   },
   "both_apps": 0
 }
