@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-03 19:07 IST",
+  "generated": "2026-09-03 22:44 IST",
   "region": "eu1",
   "start_date": "2026-07-27",
   "triggers": [
@@ -224,21 +224,21 @@
           "label": "Tapped the Seva Sthiti chip",
           "event": "Bonus_Seva2_Chip_Tapped",
           "users": 808,
-          "events": 4835
+          "events": 4839
         },
         {
           "key": "help",
           "label": "Tapped the (?) button",
           "event": "Bonus_Seva2_Help_Tapped",
           "users": 735,
-          "events": 4873
+          "events": 4876
         },
         {
           "key": "completed",
           "label": "Completed the story",
           "event": "Bonus_Seva2_Flow_Completed",
           "users": 770,
-          "events": 4638
+          "events": 4644
         }
       ],
       "cards": [
@@ -310,7 +310,7 @@
       },
       "goto": {
         "users": 742,
-        "events": 3905
+        "events": 3911
       },
       "toggled": {
         "users": 195,
@@ -320,7 +320,7 @@
         {
           "metric": "samay_par_kaam",
           "label": "On-time work",
-          "users": 681
+          "users": 682
         },
         {
           "metric": "grahak_ki_santushti",
@@ -336,7 +336,7 @@
       "label": "Home story · 5 cards",
       "live_ts": 20260731110019,
       "live_label": "31 Jul 2026, 11:00 IST",
-      "raw_events": 38561,
+      "raw_events": 38580,
       "events_confirmed": [
         "Story_Viewed",
         "Gift_Opened",
@@ -378,8 +378,8 @@
         "key": "round2",
         "label": "since 31 Jul 11:00",
         "users": 303,
-        "events": 2270,
-        "days": 34.34,
+        "events": 2272,
+        "days": 34.49,
         "reach_pct": 39,
         "per_user_day": 0.086
       }
@@ -462,8 +462,8 @@
         },
         "post": {
           "users": 303,
-          "events": 2270,
-          "days": 34.34,
+          "events": 2272,
+          "days": 34.49,
           "reach_pct": 39,
           "per_user_day": 0.086,
           "label": "since 31 Jul 11:00 (after)"
