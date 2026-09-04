@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-04 10:15 IST",
+  "generated": "2026-09-04 14:38 IST",
   "sample": false,
   "region": "eu1",
   "start_date": "2026-07-16",
@@ -220,7 +220,7 @@
       "key": "tech",
       "label": "Technician App",
       "color": "#2563EB",
-      "note": "Technician app — Shown comes from CleverTap's own impression event (Notification Viewed, wzrk_id 1784203536) because this app does not fire the custom inApp_Shown; education/quiz are locked to that cohort by identity. 495 role = technician profile(s) acted without a recorded impression.",
+      "note": "Technician app — Shown comes from CleverTap's own impression event (Notification Viewed, wzrk_id 1784203536) because this app does not fire the custom inApp_Shown; education/quiz are locked to that cohort by identity. 496 role = technician profile(s) acted without a recorded impression.",
       "campaigns": [
         "1784203536"
       ],
@@ -570,7 +570,7 @@
             "label": "1 time only",
             "min": 1,
             "max": 1,
-            "users": 121
+            "users": 122
           },
           {
             "label": "2 times",
@@ -602,7 +602,7 @@
             "label": "1 time only",
             "min": 1,
             "max": 1,
-            "users": 111
+            "users": 112
           },
           {
             "label": "2 times",
@@ -632,7 +632,7 @@
       },
       "freq_avg": {
         "shown": 1.28,
-        "ok": 1.28
+        "ok": 1.27
       },
       "freq_max": {
         "shown": 9,
@@ -654,8 +654,8 @@
         ]
       ],
       "funnel": {
-        "shown": 153,
-        "ok": 138
+        "shown": 154,
+        "ok": 139
       },
       "ok_outside_shown": 0,
       "options": [],
@@ -817,8 +817,8 @@
         },
         {
           "date": "2026-09-04",
-          "shown": 1,
-          "ok": 1
+          "shown": 2,
+          "ok": 2
         }
       ],
       "note": "Full-page offer creative (round 2): one screen, one ठीक है, no quiz."
@@ -1059,10 +1059,10 @@
     }
   ],
   "unattributed": {
-    "edu_ok": 932,
-    "completed": 780,
-    "edu_ok_technician": 494,
-    "completed_technician": 434
+    "edu_ok": 937,
+    "completed": 784,
+    "edu_ok_technician": 495,
+    "completed_technician": 436
   },
   "both_apps": 0
 }
