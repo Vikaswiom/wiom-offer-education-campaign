@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-04 05:48 IST",
+  "generated": "2026-09-04 10:15 IST",
   "sample": false,
   "region": "eu1",
   "start_date": "2026-07-16",
@@ -570,7 +570,7 @@
             "label": "1 time only",
             "min": 1,
             "max": 1,
-            "users": 120
+            "users": 121
           },
           {
             "label": "2 times",
@@ -602,7 +602,7 @@
             "label": "1 time only",
             "min": 1,
             "max": 1,
-            "users": 110
+            "users": 111
           },
           {
             "label": "2 times",
@@ -654,8 +654,8 @@
         ]
       ],
       "funnel": {
-        "shown": 152,
-        "ok": 137
+        "shown": 153,
+        "ok": 138
       },
       "ok_outside_shown": 0,
       "options": [],
@@ -812,6 +812,11 @@
         },
         {
           "date": "2026-09-02",
+          "shown": 1,
+          "ok": 1
+        },
+        {
+          "date": "2026-09-04",
           "shown": 1,
           "ok": 1
         }
