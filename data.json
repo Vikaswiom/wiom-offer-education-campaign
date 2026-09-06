@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-06 21:59 IST",
+  "generated": "2026-09-07 00:06 IST",
   "sample": false,
   "region": "eu1",
   "start_date": "2026-07-16",
@@ -1069,8 +1069,8 @@
     }
   ],
   "unattributed": {
-    "edu_ok": 949,
-    "completed": 797,
+    "edu_ok": 950,
+    "completed": 798,
     "edu_ok_technician": 501,
     "completed_technician": 441
   },
