@@ -1,5 +1,5 @@
 {
- "generated": "2026-09-08 09:52 IST",
+ "generated": "2026-09-08 14:32 IST",
  "start_date": "20260812",
  "cycle_end": "2026-08-31",
  "credit_on": "2026-09-01",
@@ -9,15 +9,17 @@
    "label": "4 में से 3",
    "sub": "One check short",
    "size": 111,
-   "reached": 111,
+   "reached": 112,
    "not_reached": 0,
-   "orphans": [],
+   "orphans": [
+    "a0b5r7"
+   ],
    "funnel": [
     {
      "key": "viewed",
      "label": "Screen shown",
      "event": "Bonus_Status_Comm_Viewed",
-     "users": 111,
+     "users": 112,
      "raw": 433
     },
     {
@@ -359,7 +361,7 @@
   }
  ],
  "totals": {
-  "reached": 257,
+  "reached": 258,
   "audience": 263,
   "callbacks": 25,
   "goto": 187,
