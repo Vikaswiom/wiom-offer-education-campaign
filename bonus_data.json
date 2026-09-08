@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-08 15:09 IST",
+  "generated": "2026-09-08 19:23 IST",
   "region": "eu1",
   "start_date": "2026-07-27",
   "triggers": [
@@ -189,88 +189,14 @@
   ],
   "round2": [
     {
-      "shown": 24,
+      "shown": 867,
       "funnel": [
         {
           "key": "shown",
           "label": "Story shown",
           "event": "Bonus_Seva2_Story_Viewed",
-          "users": 24,
-          "events": 25
-        },
-        {
-          "key": "gift",
-          "label": "Opened the gift",
-          "event": "Bonus_Seva2_Gift_Opened",
-          "users": 0,
-          "events": 0
-        },
-        {
-          "key": "chip",
-          "label": "Tapped the Seva Sthiti chip",
-          "event": "Bonus_Seva2_Chip_Tapped",
-          "users": 0,
-          "events": 0
-        },
-        {
-          "key": "help",
-          "label": "Tapped the (?) button",
-          "event": "Bonus_Seva2_Help_Tapped",
-          "users": 0,
-          "events": 0
-        },
-        {
-          "key": "completed",
-          "label": "Completed the story",
-          "event": "Bonus_Seva2_Flow_Completed",
-          "users": 0,
-          "events": 0
-        }
-      ],
-      "cards": [],
-      "quits": [],
-      "exits": {},
-      "goto": {
-        "users": 0,
-        "events": 0
-      },
-      "toggled": {
-        "users": 0,
-        "events": 0
-      },
-      "help_metrics": [],
-      "dismissed_total": {
-        "users": 0,
-        "events": 0
-      },
-      "key": "home_story_r2",
-      "label": "Home story · 6 cards (superseded)",
-      "live_ts": 20260908105050,
-      "live_label": "08 Sep 2026, 10:50 IST",
-      "raw_events": 25,
-      "events_confirmed": [
-        "Story_Viewed"
-      ],
-      "events_unseen": [
-        "Gift_Opened",
-        "Card_Viewed",
-        "Quality_Toggled",
-        "Chip_Tapped",
-        "Help_Tapped",
-        "GoTo_SevaSthiti",
-        "Flow_Completed",
-        "Dismissed"
-      ]
-    },
-    {
-      "shown": 505,
-      "funnel": [
-        {
-          "key": "shown",
-          "label": "Story shown",
-          "event": "Bonus_Seva2_Story_Viewed",
-          "users": 505,
-          "events": 2592
+          "users": 867,
+          "events": 4979
         },
         {
           "key": "gift",
@@ -408,9 +334,9 @@
       },
       "key": "home_story_r2_5card",
       "label": "Home story · 5 cards",
-      "live_ts": 20260731110024,
+      "live_ts": 20260731110019,
       "live_label": "31 Jul 2026, 11:00 IST",
-      "raw_events": 36646,
+      "raw_events": 39033,
       "events_confirmed": [
         "Story_Viewed",
         "Gift_Opened",
@@ -452,8 +378,8 @@
         "key": "round2",
         "label": "since 31 Jul 11:00",
         "users": 305,
-        "events": 2303,
-        "days": 39.17,
+        "events": 2312,
+        "days": 39.35,
         "reach_pct": 39,
         "per_user_day": 0.076
       }
@@ -536,8 +462,8 @@
         },
         "post": {
           "users": 305,
-          "events": 2303,
-          "days": 39.17,
+          "events": 2312,
+          "days": 39.35,
           "reach_pct": 39,
           "per_user_day": 0.076,
           "label": "since 31 Jul 11:00 (after)"
