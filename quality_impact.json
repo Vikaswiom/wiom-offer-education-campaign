@@ -1,7 +1,7 @@
 {
-  "generated": "2026-09-09 17:49 IST",
+  "generated": "2026-09-10 17:43 IST",
   "pre_date": "2026-07-15",
-  "post_date": "2026-09-09",
+  "post_date": "2026-09-10",
   "cohort": {
     "r1": 105,
     "r2": 773,
@@ -10,22 +10,22 @@
   "cohort_pre": null,
   "cohort_post": {
     "scored": 835,
-    "compliant": 338,
-    "pct": 40.5,
+    "compliant": 337,
+    "pct": 40.4,
     "rating": 0.0
   },
   "control_pre": null,
   "control_post": {
     "scored": 225,
-    "compliant": 125,
-    "pct": 55.6,
+    "compliant": 126,
+    "pct": 56.0,
     "rating": 0.0
   },
   "transitions": {
     "newly": 0,
     "slipped": 0,
     "stayed": 0,
-    "compliant_now": 338,
+    "compliant_now": 337,
     "matched_post": 835
   }
 }
