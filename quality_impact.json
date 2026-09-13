@@ -1,7 +1,7 @@
 {
-  "generated": "2026-09-12 17:06 IST",
+  "generated": "2026-09-13 18:13 IST",
   "pre_date": "2026-07-15",
-  "post_date": "2026-09-12",
+  "post_date": "2026-09-13",
   "cohort": {
     "r1": 105,
     "r2": 773,
@@ -9,7 +9,7 @@
   },
   "cohort_pre": null,
   "cohort_post": {
-    "scored": 835,
+    "scored": 836,
     "compliant": 335,
     "pct": 40.1,
     "rating": 0.0
@@ -26,6 +26,6 @@
     "slipped": 0,
     "stayed": 0,
     "compliant_now": 335,
-    "matched_post": 835
+    "matched_post": 836
   }
 }
