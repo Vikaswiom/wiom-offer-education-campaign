@@ -29,7 +29,34 @@
  * instead mints a DIFFERENT /exec URL and the page keeps writing to the old one.
  */
 function doGet(e) {
+ try {
   var p = (e && e.parameter) || {};
+
+  /* ── Self-test ────────────────────────────────────────────────────────
+     ?action=ping -> which spreadsheet this script is bound to, who it runs
+     as, and whether it can actually WRITE. Reads can succeed while writes
+     fail (wrong Google account, view-only access), and Google reports that
+     as an unhelpful "unable to open the file" HTML page. One call, answered. */
+  if (String(p.action || '') === 'ping') {
+    var out0 = { ok: true };
+    try {
+      var s0 = SpreadsheetApp.getActiveSpreadsheet();
+      out0.bound_to = s0 ? s0.getName() : null;
+      out0.file_id  = s0 ? s0.getId()   : null;
+      out0.tabs = [];
+      var all = s0 ? s0.getSheets() : [];
+      for (var z = 0; z < all.length; z++) out0.tabs.push(all[z].getName());
+    } catch (e0) { out0.ok = false; out0.read_error = String(e0 && e0.message || e0); }
+    try { out0.runs_as = Session.getEffectiveUser().getEmail(); } catch (e1) { out0.runs_as = 'unknown'; }
+    try {
+      var t0 = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('_ping')
+            || SpreadsheetApp.getActiveSpreadsheet().insertSheet('_ping');
+      t0.getRange(1, 1).setValue(new Date());
+      out0.can_write = true;
+    } catch (e2) { out0.can_write = false; out0.write_error = String(e2 && e2.message || e2); }
+    return ContentService.createTextOutput(JSON.stringify(out0))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
 
   /* ── Aggregate feed for a dashboard: counts only, never a csp_id ──────
      ?action=stats            -> JSON
@@ -124,4 +151,11 @@ function doGet(e) {
     csp, app, event, page, sid, stamp
   ]);
   return ContentService.createTextOutput('ok');
+
+ } catch (err) {
+  /* Never let an exception fall through to Google's "Sorry, unable to open the
+     file at present" page - that page is indistinguishable from a bad URL, a
+     wrong account and a broken deployment, and it cost us a round trip. */
+  return ContentService.createTextOutput('err: ' + String((err && err.message) || err));
+ }
 }
