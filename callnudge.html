@@ -30,12 +30,11 @@ WHAT CHANGED FROM THE CleverTap CUSTOM-HTML VERSION, AND WHY:
    property measured from window.innerHeight. Last valid wins, so a WebView
    that mis-reports viewport units still gets a full-height page.
 
-2. ONE ACKNOWLEDGE CTA. The proposal's two buttons (अभी कॉल करें / बाद में) are
-   replaced by a single ठीक है, and the scrim's third dismiss path is gone with
-   the scrim. This page now teaches rather than asks: there is no branch to
-   record, so the funnel is simply seen -> acknowledged, exactly like
-   offer.html. A CTA that promises to place a call and then only closes a page
-   would also be a promise the page cannot keep.
+2. NO CTA AT ALL. The proposal's two buttons (अभी कॉल करें / बाद में) went to a
+   single ठीक है, and that is now gone too: the app's WebView gives a hosted
+   page no way to close itself or reach a route, so every button here was a
+   promise the page could not keep. The CSP reads it and leaves via the app's
+   own back arrow. The page teaches; it does not ask.
 
 3. IDENTITY FROM THE URL, TRACKING TO THE SHEET. The CT build carried no
    properties at all because the in-app knew who it was showing to. A banner
@@ -43,13 +42,11 @@ WHAT CHANGED FROM THE CleverTap CUSTOM-HTML VERSION, AND WHY:
    logged to the shared Google Sheet.
 
 EVENTS (sheet tab `CallNudge`, page="callnudge"):
-  view - once, on load
-  ok   - the ठीक है tap
-Renamed from the proposal's call_nudge_shown / _accepted / _dismissed: the tab
-is per-creative, so the event names stay in the same shape as offer.html and
-one reader can count both funnels the same way.
+  view - once, on load. That is the whole funnel.
+With no CTA there is nothing to acknowledge, so reach is the only measure this
+page can honestly report. Do not reintroduce a read rate from it.
 
-CleverTap events still fire best-effort as CSP/TECH_Call_Nudge_Banner_*, NOT the
+CleverTap fires best-effort as CSP/TECH_Call_Nudge_Banner_Shown, NOT the
 proposal's call_nudge_*_csp - reusing those names would merge this surface into
 the in-app campaign's numbers.
 
@@ -115,15 +112,6 @@ stroke-linecap:round;stroke-linejoin:round}
 .ask{font-size:16px;line-height:24px;font-weight:600;color:var(--muted);text-align:center;
 max-width:300px;position:relative;z-index:1;margin-top:40px}
 
-/* ठीक है = acknowledge → pink TEXT CTA per house convention, never a filled
-   primary. 24 + 2×12 = 48px tap target. Identical to offer.html's CTA. */
-.cta{margin-top:16px;width:100%;text-align:center;padding:12px 16px;
-font-size:16px;line-height:24px;font-weight:700;color:var(--brand);cursor:pointer;
-transition:opacity .12s ease}
-.cta:active{opacity:.55}
-/* Once tapped, stop a second tap firing a second close mid-teardown. */
-.cta.gone{opacity:.4;pointer-events:none}
-
 /* ── Narrow layout viewports ──────────────────────────────────────────────
    Same defence as offer.html: a real handset handed that page a layout
    viewport near 180 CSS px, which a 164px fixed-width mock cannot survive.
@@ -168,16 +156,6 @@ transition:opacity .12s ease}
 .halo{width:200px;height:200px}
 .ask{margin-top:16px;font-size:13px;line-height:19px}
 }
-
-/* Shown only if nothing closed the page ~1.2s after the tap. The app's
-   WebView (WiomWebView.kt) exposes no JS bridge, no WebChromeClient and no
-   scheme interception, so today the page CANNOT close itself and a tap that
-   appears to do nothing reads as broken. This line is self-removing: once the
-   app adds a close bridge, the WebView is gone long before 1.2s and it never
-   appears. */
-.hint{margin-top:2px;text-align:center;font-size:13px;line-height:18px;color:var(--muted);
-opacity:0;transition:opacity .2s ease;pointer-events:none}
-.hint.show{opacity:1}
 
 /* Short devices — a 5" 1280×720 handset is ~640 CSS px tall. Shrink the mock
    rather than let the CTA fall below the fold. */
@@ -230,8 +208,6 @@ opacity:0;transition:opacity .2s ease;pointer-events:none}
 <p class="ask">पता और समय कस्टमर से कन्फ़र्म कर लें।</p>
 </div>
 
-<div class="cta" id="ok" role="button" tabindex="0">ठीक है</div>
-<p class="hint" id="hint">बंद करने के लिए ऊपर ← दबाएँ</p>
 </div>
 
 <script>
@@ -243,10 +219,6 @@ opacity:0;transition:opacity .2s ease;pointer-events:none}
    endpoint offer.html uses. The `page` value is what separates the funnels. */
 var LOG  = 'https://script.google.com/macros/s/AKfycbzjcvUOC_l23lHmweSUYlxnGgGBTSezci5Jv6qZKINwHLEb5GUDq9SE97xULDmwyBKUGw/exec';
 var PAGE = 'callnudge';
-/* Where the ठीक है tap sends the CSP — see closePage(). csp.wiom.in is the
-   app's verified app-link host, so this resolves to an in-app route rather
-   than a web page. */
-var DEEP_LINK = 'https://csp.wiom.in/wallet';
 var CREATIVE = 'call_first_nudge_v1';
 
 /* ── URL parameters ─── one pass over query AND hash, keys lower-cased with
@@ -341,75 +313,6 @@ function ct(name){
   })();
 }
 
-/* ── Closing the banner ───────────────────────────────────────────────
-   There is no CleverTap in-app to dismiss here, and the host app's JS bridge
-   is not documented, so this tries every shape an Android WebView bridge
-   commonly takes before falling back to the browser's own exits. Open the
-   page with &diag=1 on a handset to see exactly what this app injects - the
-   overlay lists every bridge-shaped object on window - and once that is known
-   this whole ladder collapses to the one real call.
-
-   history.back() is fired unconditionally: the earlier history.length > 1
-   guard meant that a banner opened as the WebView's FIRST page - which is the
-   normal case - skipped it and the page simply stayed put. */
-function closePage(){
-  var i, j, k, b, m, mh;
-  /* The destination first: a close call would tear this page down before any
-     navigation could happen.
-
-     FIRED INTO A HIDDEN IFRAME, NEVER location.href. If the app is not
-     intercepting WebView navigations, location.href would replace the creative
-     with whatever that URL serves a browser - very likely a 404 - and
-     the CSP would be left staring at an error instead of the page they just
-     acknowledged. An iframe load fails invisibly and leaves the page intact,
-     so this is safe to ship before the app side exists. */
-  try {
-    var fr = document.createElement('iframe');
-    fr.setAttribute('aria-hidden', 'true');
-    /* Sandboxed: this page does not control what that URL serves a browser, and an un-sandboxed frame could script the top-level window
-       out from under the creative. The sandbox does not affect the WebView's
-       chance to intercept the navigation, which is the only thing wanted. */
-    fr.setAttribute('sandbox', '');
-    fr.style.cssText = 'position:absolute;width:0;height:0;border:0;visibility:hidden';
-    fr.src = DEEP_LINK;
-    document.body.appendChild(fr);
-    setTimeout(function(){ try { fr.parentNode.removeChild(fr); } catch (e) {} }, 1500);
-  } catch (e) {}
-
-  var NAMES = ['CleverTap','Android','AndroidBridge','AndroidInterface','AndroidApp',
-               'WiomApp','Wiom','wiom','JSBridge','JsBridge','NativeBridge','AppBridge',
-               'NativeInterface','JavascriptInterface','nativeApp','mobileApp','app','bridge'];
-  /* No goHome() here on purpose: the tap has a specific destination now
-     (DEEP_LINK), and a bridge that navigates home instead would quietly send
-     the CSP somewhere the link never asked for. These only ever close. */
-  var METHODS = ['dismissInAppNotification','closeInAppNotification','closeWebView',
-                 'closeWebview','closeWindow','closePage','close','finishActivity',
-                 'finish','dismiss','exit','goBack','back','onBackPressed'];
-  for (i = 0; i < NAMES.length; i++) {
-    try { b = window[NAMES[i]]; } catch (e) { b = null; }
-    if (!b) continue;
-    for (j = 0; j < METHODS.length; j++) {
-      try {
-        if (typeof b[METHODS[j]] === 'function') { b[METHODS[j]](); return; }
-      } catch (e) {}
-    }
-  }
-  try {
-    mh = window.webkit && window.webkit.messageHandlers;
-    if (mh) {
-      var HS = ['close','closeWebView','nativeClose','dismiss','clevertap','jsBridge','bridge'];
-      for (k = 0; k < HS.length; k++) {
-        if (mh[HS[k]] && typeof mh[HS[k]].postMessage === 'function') {
-          mh[HS[k]].postMessage({ action: 'close' }); return;
-        }
-      }
-    }
-  } catch (e) {}
-  try { window.open('', '_self'); } catch (e) {}
-  try { window.close(); } catch (e) {}
-  try { history.back(); } catch (e) {}
-}
-
 /* ── Bridge discovery ─────────────────────────────────────────────────
    &diag=1 only. Lists every object on window that looks like an injected
    native bridge (an object carrying functions) plus its method names, so the
@@ -455,38 +358,6 @@ function diagOverlay(){
 }
 if (Q.diag) { try { diagOverlay(); } catch (e) {} }
 
-
-/* motion.micro - the dialog's own 200ms exit, kept. */
-function fadeOut(then){
-  try { document.getElementById('app').className = 'app'; } catch (e) {}
-  setTimeout(then, 200);
-}
-
-var okDone = false;
-function onOK(){
-  if (okDone) return;
-  okDone = true;
-  document.getElementById('ok').className = 'cta gone';
-  log('ok');
-  ct('OK_Clicked');
-  /* Closing tears down the WebView, so let the beacon leave first. The 200ms
-     fade is the dialog's own motion.micro exit, kept. */
-  fadeOut(closePage);
-  /* If the page is still here a moment later, nothing closed it - say so
-     rather than leaving a tap that looks dead. Self-removing: see .hint. */
-  setTimeout(function(){
-    try { document.getElementById('hint').className = 'hint show'; } catch (e) {}
-  }, 400);
-}
-
-var ok = document.getElementById('ok');
-ok.addEventListener('click', onOK, false);
-ok.addEventListener('keydown', function(e){
-  if (e.keyCode === 13 || e.keyCode === 32) { e.preventDefault(); onOK(); }
-}, false);
-
-log('view');
-ct('Shown');
 
 /* ── Viewport height, measured ──
    A photo from a real handset (17 Sep) showed the page not filling the app's

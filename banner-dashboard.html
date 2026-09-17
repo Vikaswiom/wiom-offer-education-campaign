@@ -89,9 +89,10 @@ h2{font-size:17px;font-weight:700}
 .card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px}
 .grid{display:grid;gap:12px}
 .k4{grid-template-columns:repeat(4,1fr)}
+.k3{grid-template-columns:repeat(3,1fr)}
 .k2{grid-template-columns:1fr 1fr}
-@media(max-width:760px){.k4{grid-template-columns:1fr 1fr}.k2{grid-template-columns:1fr}}
-@media(max-width:400px){.k4{grid-template-columns:1fr}}
+@media(max-width:760px){.k4,.k3{grid-template-columns:1fr 1fr}.k2{grid-template-columns:1fr}}
+@media(max-width:400px){.k4,.k3{grid-template-columns:1fr}}
 
 /* ── stat tile ── */
 .tile .lab{font-size:11.5px;font-weight:600;letter-spacing:.3px;text-transform:uppercase;color:var(--ink-3)}
@@ -144,8 +145,8 @@ summary{cursor:pointer;font-size:12.5px;font-weight:600;color:var(--ink-2);paddi
 <header>
   <div>
     <h1>Education Banners</h1>
-    <p class="sub">What CSPs and technicians are being taught in-app, and whether they read it.
-    Live from the tracking sheet &mdash; no snapshot, no refresh job.</p>
+    <p class="sub">What CSPs and technicians are being taught in-app, and how far each banner
+    reaches. Live from the tracking sheet &mdash; no snapshot, no refresh job.</p>
   </div>
   <div class="spacer"></div>
   <span class="pill" id="statusPill"><span class="dotlive"></span><span id="statusTxt">loading…</span></span>
@@ -160,14 +161,17 @@ summary{cursor:pointer;font-size:12.5px;font-weight:600;color:var(--ink-2);paddi
   <ul>
     <li><b>Unique CSPs</b> counts people; <b>Total views</b> counts openings. One person
         opening a page five times is 1 unique and 5 views. Every figure says which it is.</li>
-    <li><b>Read rate</b> = unique CSPs who tapped <b>ठीक है</b> &divide; unique CSPs who saw the page.
-        It measures acknowledgement, not comprehension &mdash; nobody is asked a question.</li>
+    <li>Neither banner has a button: the CSP reads it and leaves with the app&rsquo;s back arrow.
+        So <b>reach is the whole measure</b> &mdash; there is no read rate, and a low number here means
+        the banner was not opened, never that it was ignored. If a creative regains a button, its
+        acknowledgement columns reappear on their own.</li>
     <li>Rows whose CSP ID did not resolve are counted in views but never as a person. A run of
         them means a banner is being opened without <code>cspId</code> in the link.</li>
     <li>Repeat exposure is the one chart counted from raw view volume, because
         &ldquo;how often&rdquo; is the question it asks.</li>
-    <li>Both pages are acknowledgement-only. A read rate below 100% is usually someone
-        closing the WebView with the system back gesture, not disagreement.</li>
+    <li>Views are counted when the page loads, so a CSP who opens a banner and leaves
+        immediately still counts as reached. That is honest for reach and says nothing
+        about whether it was read.</li>
   </ul>
 </div>
 
@@ -351,6 +355,12 @@ function creative(key, b){
   var okU   = n(b.csps_by_event && b.csps_by_event.ok);
   var seenE = n(b.events && b.events.view);
   var rate  = pct(okU, seenU);
+  /* A page with no CTA has nothing to acknowledge. Showing "Read rate 0%" for
+     it would invent a drop-off that cannot exist, so reach becomes the only
+     thing reported - the same call already made for the education-only
+     CleverTap creative. Driven by the data, not a hardcoded list, so a
+     creative that regains a CTA starts reporting one again by itself. */
+  var hasCta = okU > 0 || n(b.events && b.events.ok) > 0;
 
   var h = '<section><div class="shead"><span class="swatch" style="background:' + m.hue + '"></span>'
         + '<h2>' + esc(m.name) + '</h2></div>'
@@ -362,15 +372,24 @@ function creative(key, b){
     return h;
   }
 
-  h += '<div class="grid k4">'
-     + tile('CSPs reached', fmt(seenU), 'unique people &middot; ' + fmt(seenE) + ' total views')
-     + tile('Read it', fmt(okU), 'unique people who tapped ठीक है')
-     + tile('Read rate', rate + '%', 'of the ' + fmt(seenU) + ' reached', true)
+  h += '<div class="grid ' + (hasCta ? 'k4' : 'k3') + '">'
+     + tile('CSPs reached', fmt(seenU), 'unique people')
+     + tile('Total views', fmt(seenE), 'openings, repeats included')
+     + (hasCta
+        ? tile('Read it', fmt(okU), 'unique people who tapped ठीक है')
+          + tile('Read rate', rate + '%', 'of the ' + fmt(seenU) + ' reached', true)
+        : '')
      + tile('Times seen each', (b.freq_avg || 0) + '×', 'average per CSP &middot; most ' + n(b.freq_max) + '×')
      + '</div>';
+  if (!hasCta) {
+    h += '<p class="snote" style="margin-top:10px">This banner has no button &mdash; the CSP reads it '
+       + 'and leaves with the app\u2019s back arrow. Reach is the only thing it can report, so there is '
+       + 'no read rate to show and none should be inferred.</p>';
+  }
 
   /* Read rate as a meter: one ratio against its own limit, which is a meter,
      not a two-slice pie and not a one-bar bar chart. */
+  if (hasCta) {
   h += '<div class="card ' + m.cls + '" style="margin-top:12px">'
      + '<div class="ctitle">Seen → read</div>'
      + '<div class="csub">Unique CSPs. Each person counted once, however many times they opened it.</div>'
@@ -383,6 +402,7 @@ function creative(key, b){
        + 'handset closes the page early; the tap is still real, so nothing is discarded.</p>';
   }
   h += '</div>';
+  }
 
   /* App split — two apps is identity, so categorical, two slots, direct-labelled. */
   var apps = [], ak;
@@ -392,14 +412,18 @@ function creative(key, b){
                 sub: pct(n(ab.csps_by_event && ab.csps_by_event.ok), n(ab.csps_by_event && ab.csps_by_event.view)) + '% read',
                 v: { reached: n(ab.csps_by_event && ab.csps_by_event.view),
                      read:    n(ab.csps_by_event && ab.csps_by_event.ok) } });
+    if (!hasCta) apps[apps.length - 1].sub = '';
   }
   if (apps.length) {
-    var ser = [ { key:'reached', name:'Reached', color:m.hue },
-                { key:'read',    name:'Read',    color:m.hue2 } ];
+    /* One series needs no legend - the title names it. The second is added
+       only when there is actually something to compare against. */
+    var ser = [ { key:'reached', name:'Reached', color:m.hue } ];
+    if (hasCta) ser.push({ key:'read', name:'Read', color:m.hue2 });
     h += '<div class="card" style="margin-top:12px"><div class="ctitle">Which app</div>'
-       + '<div class="csub">Unique CSPs. The technician app and the CSP app run the same page with a different banner.</div>'
-       + columns(apps, ser, { unit:'unique CSPs', alt:'Unique CSPs reached and read, by app' })
-       + legend([{ name:'Reached (unique CSPs)', color:m.hue }, { name:'Read (unique CSPs)', color:m.hue2 }])
+       + '<div class="csub">Unique CSPs reached. The technician app and the CSP app run the same page with a different banner.</div>'
+       + columns(apps, ser, { unit:'unique CSPs', alt:'Unique CSPs reached by app' })
+       + (hasCta ? legend([{ name:'Reached (unique CSPs)', color:m.hue },
+                           { name:'Read (unique CSPs)', color:m.hue2 }]) : '')
        + '</div>';
   }
 
@@ -453,28 +477,36 @@ function render(d){
        + '</div></section>';
   }
 
-  /* Table view: the accessibility fallback, and the thing people paste into a deck. */
-  var rows = '', tot;
+  /* Table view: the accessibility fallback, and the thing people paste into a deck.
+     The acknowledgement columns appear only if some creative actually has a
+     button; a table of zeros would read as a result rather than an absence. */
+  var rows = '', tot, anyCta = false;
+  for (k = 0; k < pages.length; k++) {
+    var pb = d.by_page && d.by_page[pages[k]];
+    if (pb && pb.events && pb.events.ok) anyCta = true;
+  }
   for (k = 0; k < pages.length; k++) {
     var b = d.by_page && d.by_page[pages[k]];
     if (!b) continue;
     var su = n(b.csps_by_event && b.csps_by_event.view), ou = n(b.csps_by_event && b.csps_by_event.ok);
-    rows += '<tr><td><b>' + esc(META[pages[k]].name) + '</b></td><td>' + fmt(su) + '</td><td>' + fmt(ou)
-          + '</td><td>' + pct(ou, su) + '%</td><td>' + fmt(n(b.events && b.events.view))
+    rows += '<tr><td><b>' + esc(META[pages[k]].name) + '</b></td><td>' + fmt(su) + '</td>'
+          + (anyCta ? '<td>' + fmt(ou) + '</td><td>' + pct(ou, su) + '%</td>' : '')
+          + '<td>' + fmt(n(b.events && b.events.view))
           + '</td><td>' + (b.freq_avg || 0) + '×</td></tr>';
     var aj;
     for (aj in APPS) if (APPS.hasOwnProperty(aj) && b.by_app && b.by_app[aj]) {
       tot = b.by_app[aj];
       var asu = n(tot.csps_by_event && tot.csps_by_event.view), aou = n(tot.csps_by_event && tot.csps_by_event.ok);
-      rows += '<tr><td style="padding-left:20px;color:var(--ink-2)">' + esc(APPS[aj]) + '</td><td>' + fmt(asu)
-            + '</td><td>' + fmt(aou) + '</td><td>' + pct(aou, asu) + '%</td><td>'
-            + fmt(n(tot.events && tot.events.view)) + '</td><td>' + (tot.freq_avg || 0) + '×</td></tr>';
+      rows += '<tr><td style="padding-left:20px;color:var(--ink-2)">' + esc(APPS[aj]) + '</td><td>' + fmt(asu) + '</td>'
+            + (anyCta ? '<td>' + fmt(aou) + '</td><td>' + pct(aou, asu) + '%</td>' : '')
+            + '<td>' + fmt(n(tot.events && tot.events.view)) + '</td><td>'
+            + (tot.freq_avg || 0) + '×</td></tr>';
     }
   }
   if (rows) {
     h += '<details open><summary>All numbers</summary><div class="card tw" style="margin-top:8px">'
        + '<table><thead><tr><th>Banner</th><th>Reached<br><span style="font-weight:400">unique CSPs</span></th>'
-       + '<th>Read<br><span style="font-weight:400">unique CSPs</span></th><th>Read rate</th>'
+       + (anyCta ? '<th>Read<br><span style="font-weight:400">unique CSPs</span></th><th>Read rate</th>' : '')
        + '<th>Views<br><span style="font-weight:400">total</span></th><th>Avg seen</th></tr></thead>'
        + '<tbody>' + rows + '</tbody></table></div></details>';
   }
