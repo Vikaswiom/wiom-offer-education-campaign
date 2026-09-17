@@ -1,0 +1,483 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Education Banners — CSP &amp; Technician</title>
+<!--
+Stakeholder dashboard for the two in-app education banner pages.
+
+  offer.html      -> tab "Log"        page="offer"      view -> ok
+  callnudge.html  -> tab "CallNudge"  page="callnudge"  view -> ok
+
+DATA IS LIVE, NOT A SNAPSHOT. The page calls the Apps Script stats endpoint
+over JSONP on every load, so there is no fetcher, no GitHub Action and nothing
+to go stale - unlike dashboard.html / bonus.html in this repo, which render a
+committed data.json. JSONP rather than fetch() because Apps Script answers with
+a 302 to script.googleusercontent.com, which a cross-origin fetch cannot follow.
+The endpoint returns COUNTS ONLY - never a csp_id - so a public dashboard leaks
+no identity.
+
+EVERY NUMBER IS LABELLED "Unique CSPs" OR "Total views". They answer different
+questions and the gap between them is the point: one person seeing a page five
+times is 1 unique and 5 views. Only the repeat-exposure chart is counted from
+raw volume, because "how often" is literally the question it asks.
+
+Rows with csp_id "unknown" are counted in raw volume but never as a person -
+"unknown" is a broken banner link, not a category anyone should see on a chart.
+
+Palette: Wiom magenta #D9008D leads, blue #2a78d6 second. Validated with the
+dataviz validator on all pairs, light and dark: CVD dE 14.2, normal-vision 30.4,
+both >= 3:1 on their surface. Dark steps #e8459e / #3987e5 validated separately
+against the dark surface - not an automatic flip of the light values.
+-->
+<style>
+:root{
+  color-scheme:light;
+  --bg:#F7F5F9; --surface:#FFFFFF; --line:#E7E3EE; --line-soft:#F0EDF4;
+  --ink:#161021; --ink-2:#5C5570; --ink-3:#8B8399;
+  --s1:#D9008D; --s1-soft:#FDE3F3;
+  --s2:#2a78d6; --s2-soft:#DEEAFA;
+  --pos:#008043; --pos-bg:#E1FAED;
+  --warn:#8A5A00; --warn-bg:#FFF3D6;
+  /* ordinal ramp for repeat exposure — one hue, light->dark, nothing lighter
+     than step 250 so the first bar still clears 2:1 on this surface */
+  --o1:#86b6ef; --o2:#5598e7; --o3:#3987e5; --o4:#256abf; --o5:#1c5cab;
+}
+@media (prefers-color-scheme:dark){
+  :root:where(:not([data-theme="light"])){
+    color-scheme:dark;
+    --bg:#131118; --surface:#1C1922; --line:#312C3C; --line-soft:#262231;
+    --ink:#F5F2F8; --ink-2:#B2AAC2; --ink-3:#847B96;
+    --s1:#e8459e; --s1-soft:#3D1330;
+    --s2:#3987e5; --s2-soft:#12233B;
+    --pos:#4BD18B; --pos-bg:#0E2B1D;
+    --warn:#E8B94D; --warn-bg:#2E2410;
+    --o1:#184f95; --o2:#256abf; --o3:#3987e5; --o4:#5598e7; --o5:#86b6ef;
+  }
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);
+font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans","Noto Sans Devanagari",system-ui,sans-serif;
+-webkit-font-smoothing:antialiased;font-size:14px;line-height:1.45}
+.wrap{max-width:1080px;margin:0 auto;padding:24px 16px 64px}
+
+/* ── header ── */
+header{display:flex;flex-wrap:wrap;align-items:flex-end;gap:12px;margin-bottom:8px}
+h1{font-size:24px;line-height:1.2;font-weight:700;letter-spacing:-.3px}
+.sub{color:var(--ink-2);font-size:13px;margin-top:4px;max-width:62ch}
+.spacer{flex:1 1 auto}
+.pill{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;
+padding:5px 10px;border-radius:999px;background:var(--pos-bg);color:var(--pos);white-space:nowrap}
+.pill.warnp{background:var(--warn-bg);color:var(--warn)}
+.dotlive{width:6px;height:6px;border-radius:50%;background:currentColor}
+button.rf{font:inherit;font-size:13px;font-weight:600;color:var(--s1);background:transparent;
+border:1px solid var(--line);border-radius:999px;padding:6px 14px;cursor:pointer}
+button.rf:hover{border-color:var(--s1)}
+button.rf:disabled{opacity:.5;cursor:default}
+
+/* ── sections ── */
+section{margin-top:28px}
+.shead{display:flex;align-items:center;gap:10px;margin-bottom:2px}
+.swatch{width:10px;height:10px;border-radius:3px;flex:0 0 auto}
+h2{font-size:17px;font-weight:700}
+.snote{color:var(--ink-2);font-size:12.5px;margin:2px 0 14px;max-width:70ch}
+
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px}
+.grid{display:grid;gap:12px}
+.k4{grid-template-columns:repeat(4,1fr)}
+.k2{grid-template-columns:1fr 1fr}
+@media(max-width:760px){.k4{grid-template-columns:1fr 1fr}.k2{grid-template-columns:1fr}}
+@media(max-width:400px){.k4{grid-template-columns:1fr}}
+
+/* ── stat tile ── */
+.tile .lab{font-size:11.5px;font-weight:600;letter-spacing:.3px;text-transform:uppercase;color:var(--ink-3)}
+.tile .val{font-size:30px;line-height:1.1;font-weight:700;margin-top:6px;font-variant-numeric:tabular-nums}
+.tile .foot{font-size:12px;color:var(--ink-2);margin-top:4px}
+.tile .val.pct{color:var(--s1)}
+.tile.b .val.pct{color:var(--s2)}
+
+/* ── meter ── */
+.meter{margin-top:14px}
+.mrow{display:flex;justify-content:space-between;align-items:baseline;font-size:12.5px;color:var(--ink-2)}
+.mtrack{height:10px;border-radius:999px;background:var(--line-soft);margin-top:6px;overflow:hidden}
+.mfill{height:100%;border-radius:999px;background:var(--s1);transition:width .4s ease}
+.b .mfill{background:var(--s2)}
+
+/* ── charts ── */
+.ctitle{font-size:13px;font-weight:700;margin-bottom:2px}
+.csub{font-size:11.5px;color:var(--ink-3);margin-bottom:12px}
+svg{display:block;width:100%;height:auto;overflow:visible}
+.gl{stroke:var(--line-soft);stroke-width:1}
+.axt{font-size:11px;fill:var(--ink-3)}
+.vlab{font-size:11px;font-weight:700;fill:var(--ink);font-variant-numeric:tabular-nums}
+.vlab2{font-size:10px;fill:var(--ink-3);font-variant-numeric:tabular-nums}
+.bar{transition:opacity .12s}
+.bar:hover{opacity:.78}
+
+/* ── legend ── */
+.leg{display:flex;flex-wrap:wrap;gap:14px;margin-top:12px;font-size:12px;color:var(--ink-2)}
+.leg i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+
+/* ── table ── */
+table{width:100%;border-collapse:collapse;font-size:12.5px;font-variant-numeric:tabular-nums}
+th,td{text-align:right;padding:7px 8px;border-bottom:1px solid var(--line-soft);white-space:nowrap}
+th:first-child,td:first-child{text-align:left}
+th{font-size:11px;text-transform:uppercase;letter-spacing:.3px;color:var(--ink-3);font-weight:600}
+.tw{overflow-x:auto}
+details{margin-top:12px}
+summary{cursor:pointer;font-size:12.5px;font-weight:600;color:var(--ink-2);padding:4px 0}
+
+.notes{margin-top:28px;font-size:12px;color:var(--ink-2);line-height:1.6}
+.notes b{color:var(--ink)}
+.notes li{margin:5px 0 5px 18px}
+.empty{color:var(--ink-3);font-size:13px;padding:22px 0;text-align:center}
+.err{background:var(--warn-bg);color:var(--warn);border-radius:10px;padding:12px 14px;font-size:13px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div>
+    <h1>Education Banners</h1>
+    <p class="sub">What CSPs and technicians are being taught in-app, and whether they read it.
+    Live from the tracking sheet &mdash; no snapshot, no refresh job.</p>
+  </div>
+  <div class="spacer"></div>
+  <span class="pill" id="statusPill"><span class="dotlive"></span><span id="statusTxt">loading…</span></span>
+  <button class="rf" id="rfBtn" type="button">Refresh</button>
+</header>
+
+<div id="err" class="err" style="display:none"></div>
+<div id="body"></div>
+
+<div class="notes" id="notes" style="display:none">
+  <p><b>How to read this</b></p>
+  <ul>
+    <li><b>Unique CSPs</b> counts people; <b>Total views</b> counts openings. One person
+        opening a page five times is 1 unique and 5 views. Every figure says which it is.</li>
+    <li><b>Read rate</b> = unique CSPs who tapped <b>ठीक है</b> &divide; unique CSPs who saw the page.
+        It measures acknowledgement, not comprehension &mdash; nobody is asked a question.</li>
+    <li>Rows whose CSP ID did not resolve are counted in views but never as a person. A run of
+        them means a banner is being opened without <code>cspId</code> in the link.</li>
+    <li>Repeat exposure is the one chart counted from raw view volume, because
+        &ldquo;how often&rdquo; is the question it asks.</li>
+    <li>Both pages are acknowledgement-only. A read rate below 100% is usually someone
+        closing the WebView with the system back gesture, not disagreement.</li>
+  </ul>
+</div>
+
+</div>
+
+<script>
+/* ES5-ish on purpose: this gets opened on old handsets in the field too. */
+(function(){
+'use strict';
+
+var ENDPOINT = 'https://script.google.com/macros/s/AKfycbzjcvUOC_l23lHmweSUYlxnGgGBTSezci5Jv6qZKINwHLEb5GUDq9SE97xULDmwyBKUGw/exec';
+
+var META = {
+  offer:     { name: 'Offer education',   cls: '',  hue: 'var(--s1)', soft: 'var(--s1-soft)',
+               line: 'Every customer’s offer is different — ask them to open their Wiom app for the final amount.' },
+  callnudge: { name: 'Call-first nudge',  cls: 'b', hue: 'var(--s2)', soft: 'var(--s2-soft)',
+               line: 'CSPs who call before visiting see fewer cancellations — confirm address and time first.' }
+};
+var APPS = { CSP: 'CSP app', TECH: 'Technician app' };
+
+function $(id){ return document.getElementById(id); }
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function n(v){ return (v == null ? 0 : v); }
+function fmt(v){ return String(n(v)).replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
+function pct(a, b){ return b ? Math.round((a / b) * 1000) / 10 : 0; }
+
+/* ── JSONP ──
+   Apps Script answers a stats request with a 302 to script.googleusercontent.com.
+   A cross-origin fetch() cannot follow that, so the response is pulled in as a
+   script tag instead. Cache-busted, with a timeout so a dead endpoint shows an
+   error rather than a spinner forever. */
+var seq = 0;
+function load(done, fail){
+  var cb = '__stats' + (++seq), t, sc;
+  var cleanup = function(){
+    try { delete window[cb]; } catch (e) { window[cb] = void 0; }
+    if (t) clearTimeout(t);
+    if (sc && sc.parentNode) sc.parentNode.removeChild(sc);
+  };
+  window[cb] = function(d){ cleanup(); done(d); };
+  t = setTimeout(function(){ cleanup(); fail('The tracking endpoint did not answer in 25 seconds.'); }, 25000);
+  sc = document.createElement('script');
+  sc.src = ENDPOINT + '?action=stats&callback=' + cb + '&_=' + (+new Date());
+  sc.onerror = function(){ cleanup(); fail('Could not reach the tracking endpoint.'); };
+  document.body.appendChild(sc);
+}
+
+/* ── pieces ───────────────────────────────────────────────────────────── */
+
+function tile(lab, val, foot, isPct){
+  return '<div class="card tile"><div class="lab">' + esc(lab) + '</div>'
+       + '<div class="val' + (isPct ? ' pct' : '') + '">' + val + '</div>'
+       + '<div class="foot">' + foot + '</div></div>';
+}
+
+/* Grouped columns. Used for the app split and for the daily trend: with a
+   handful of days a column per day reads better than a 2-point line, and it
+   degrades gracefully to a single day instead of drawing a lone dot. */
+function columns(groups, series, opts){
+  opts = opts || {};
+  var W = 640, H = 210, padL = 34, padR = 8, padT = 18, padB = 40;
+  var max = 0, i, j;
+  for (i = 0; i < groups.length; i++)
+    for (j = 0; j < series.length; j++) max = Math.max(max, n(groups[i].v[series[j].key]));
+  if (max <= 0) max = 1;
+  var innerW = W - padL - padR, innerH = H - padT - padB;
+  var gw = innerW / groups.length;
+  var bw = Math.min(46, (gw - 10) / series.length - 2);
+  var s = '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="' + esc(opts.alt || '') + '">';
+
+  var ticks = 4, tv, ty;
+  for (i = 0; i <= ticks; i++) {
+    tv = Math.round(max * i / ticks);
+    ty = padT + innerH - (innerH * i / ticks);
+    s += '<line class="gl" x1="' + padL + '" y1="' + ty + '" x2="' + (W - padR) + '" y2="' + ty + '"/>'
+       + '<text class="axt" x="' + (padL - 6) + '" y="' + (ty + 3.5) + '" text-anchor="end">' + tv + '</text>';
+  }
+
+  for (i = 0; i < groups.length; i++) {
+    var cx = padL + gw * i + gw / 2;
+    var total = series.length * bw + (series.length - 1) * 2;
+    for (j = 0; j < series.length; j++) {
+      var v = n(groups[i].v[series[j].key]);
+      var h = Math.max(v > 0 ? 2 : 0, innerH * (v / max));
+      var x = cx - total / 2 + j * (bw + 2);
+      var y = padT + innerH - h;
+      /* 4px rounded data-end, square against the baseline */
+      var r = Math.min(4, h);
+      var d = 'M' + x + ',' + (padT + innerH) + ' V' + (y + r)
+            + ' q0,' + (-r) + ' ' + r + ',' + (-r)
+            + ' H' + (x + bw - r) + ' q' + r + ',0 ' + r + ',' + r
+            + ' V' + (padT + innerH) + ' Z';
+      if (v > 0) {
+        s += '<path class="bar" d="' + d + '" fill="' + series[j].color + '">'
+           + '<title>' + esc(groups[i].label + ' · ' + series[j].name + ': ' + fmt(v) + ' ' + (opts.unit || '')) + '</title></path>';
+        if (opts.labelBars !== false)
+          s += '<text class="vlab" x="' + (x + bw / 2) + '" y="' + (y - 5) + '" text-anchor="middle">' + fmt(v) + '</text>';
+      }
+    }
+    s += '<text class="axt" x="' + cx + '" y="' + (H - padB + 16) + '" text-anchor="middle">' + esc(groups[i].label) + '</text>';
+    if (groups[i].sub)
+      s += '<text class="vlab2" x="' + cx + '" y="' + (H - padB + 29) + '" text-anchor="middle">' + esc(groups[i].sub) + '</text>';
+  }
+  return s + '</svg>';
+}
+
+/* Repeat exposure: ordered buckets, so one hue light->dark, not categorical. */
+function freqChart(freq, totalPeople){
+  var keys = ['1','2','3','4','5+'];
+  var ramp = ['var(--o1)','var(--o2)','var(--o3)','var(--o4)','var(--o5)'];
+  var W = 640, H = 170, padL = 34, padR = 8, padT = 18, padB = 38;
+  var max = 0, i;
+  for (i = 0; i < keys.length; i++) max = Math.max(max, n(freq[keys[i]]));
+  if (max <= 0) max = 1;
+  var innerW = W - padL - padR, innerH = H - padT - padB;
+  var gw = innerW / keys.length, bw = Math.min(64, gw - 16);
+  var s = '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Repeat exposure buckets">';
+  var t, ty;
+  for (i = 0; i <= 3; i++) {
+    t = Math.round(max * i / 3); ty = padT + innerH - (innerH * i / 3);
+    s += '<line class="gl" x1="' + padL + '" y1="' + ty + '" x2="' + (W - padR) + '" y2="' + ty + '"/>'
+       + '<text class="axt" x="' + (padL - 6) + '" y="' + (ty + 3.5) + '" text-anchor="end">' + t + '</text>';
+  }
+  for (i = 0; i < keys.length; i++) {
+    var v = n(freq[keys[i]]);
+    var h = Math.max(v > 0 ? 2 : 0, innerH * (v / max));
+    var x = padL + gw * i + (gw - bw) / 2, y = padT + innerH - h, r = Math.min(4, h);
+    if (v > 0) {
+      s += '<path class="bar" d="M' + x + ',' + (padT + innerH) + ' V' + (y + r)
+         + ' q0,' + (-r) + ' ' + r + ',' + (-r) + ' H' + (x + bw - r)
+         + ' q' + r + ',0 ' + r + ',' + r + ' V' + (padT + innerH) + ' Z" fill="' + ramp[i] + '">'
+         + '<title>' + esc(v + ' CSPs saw it ' + keys[i] + (keys[i] === '1' ? ' time' : ' times')) + '</title></path>'
+         + '<text class="vlab" x="' + (x + bw / 2) + '" y="' + (y - 5) + '" text-anchor="middle">' + v + '</text>'
+         + '<text class="vlab2" x="' + (x + bw / 2) + '" y="' + (y - 17) + '" text-anchor="middle">'
+         + pct(v, totalPeople) + '%</text>';
+    }
+    s += '<text class="axt" x="' + (x + bw / 2) + '" y="' + (H - padB + 16) + '" text-anchor="middle">'
+       + keys[i] + (keys[i] === '5+' ? '' : '×') + '</text>';
+  }
+  return s + '</svg>';
+}
+
+function legend(items){
+  var s = '<div class="leg">', i;
+  for (i = 0; i < items.length; i++)
+    s += '<span><i style="background:' + items[i].color + '"></i>' + esc(items[i].name) + '</span>';
+  return s + '</div>';
+}
+
+/* ── one creative ─────────────────────────────────────────────────────── */
+
+function creative(key, b){
+  var m = META[key];
+  var seenU = n(b.csps_by_event && b.csps_by_event.view);
+  var okU   = n(b.csps_by_event && b.csps_by_event.ok);
+  var seenE = n(b.events && b.events.view);
+  var rate  = pct(okU, seenU);
+
+  var h = '<section><div class="shead"><span class="swatch" style="background:' + m.hue + '"></span>'
+        + '<h2>' + esc(m.name) + '</h2></div>'
+        + '<p class="snote">' + esc(m.line) + '</p>';
+
+  if (!b.rows) {
+    h += '<div class="card"><div class="empty">No events yet. The banner has not been opened, '
+       + 'or it is still pointing somewhere else.</div></div></section>';
+    return h;
+  }
+
+  h += '<div class="grid k4">'
+     + tile('CSPs reached', fmt(seenU), 'unique people &middot; ' + fmt(seenE) + ' total views')
+     + tile('Read it', fmt(okU), 'unique people who tapped ठीक है')
+     + tile('Read rate', rate + '%', 'of the ' + fmt(seenU) + ' reached', true)
+     + tile('Times seen each', (b.freq_avg || 0) + '×', 'average per CSP &middot; most ' + n(b.freq_max) + '×')
+     + '</div>';
+
+  /* Read rate as a meter: one ratio against its own limit, which is a meter,
+     not a two-slice pie and not a one-bar bar chart. */
+  h += '<div class="card ' + m.cls + '" style="margin-top:12px">'
+     + '<div class="ctitle">Seen → read</div>'
+     + '<div class="csub">Unique CSPs. Each person counted once, however many times they opened it.</div>'
+     + '<div class="meter"><div class="mrow"><span>' + fmt(okU) + ' read of ' + fmt(seenU) + ' reached</span>'
+     + '<span style="font-weight:700;color:' + m.hue + '">' + rate + '%</span></div>'
+     + '<div class="mtrack"><div class="mfill" style="width:' + Math.min(100, rate) + '%;background:' + m.hue + '"></div></div></div>';
+  if (okU > seenU) {
+    h += '<p class="csub" style="margin-top:10px;color:var(--warn)">'
+       + (okU - seenU) + ' CSPs tapped without a recorded view. The view beacon can be lost when a '
+       + 'handset closes the page early; the tap is still real, so nothing is discarded.</p>';
+  }
+  h += '</div>';
+
+  /* App split — two apps is identity, so categorical, two slots, direct-labelled. */
+  var apps = [], ak;
+  for (ak in APPS) if (APPS.hasOwnProperty(ak) && b.by_app && b.by_app[ak]) {
+    var ab = b.by_app[ak];
+    apps.push({ label: APPS[ak],
+                sub: pct(n(ab.csps_by_event && ab.csps_by_event.ok), n(ab.csps_by_event && ab.csps_by_event.view)) + '% read',
+                v: { reached: n(ab.csps_by_event && ab.csps_by_event.view),
+                     read:    n(ab.csps_by_event && ab.csps_by_event.ok) } });
+  }
+  if (apps.length) {
+    var ser = [ { key:'reached', name:'Reached', color:m.hue },
+                { key:'read',    name:'Read',    color:m.soft } ];
+    h += '<div class="card" style="margin-top:12px"><div class="ctitle">Which app</div>'
+       + '<div class="csub">Unique CSPs. The technician app and the CSP app run the same page with a different banner.</div>'
+       + columns(apps, ser, { unit:'unique CSPs', alt:'Unique CSPs reached and read, by app' })
+       + legend([{ name:'Reached (unique CSPs)', color:m.hue }, { name:'Read (unique CSPs)', color:m.soft }])
+       + '</div>';
+  }
+
+  if (b.freq && seenU) {
+    h += '<div class="card" style="margin-top:12px"><div class="ctitle">How many times each CSP saw it</div>'
+       + '<div class="csub">Counted from total views per person &mdash; the one chart here that is volume, not people. '
+       + 'A tall 5+ bar means the banner is repeating more than intended.</div>'
+       + freqChart(b.freq, seenU)
+       + '</div>';
+  }
+  return h + '</section>';
+}
+
+/* ── render ───────────────────────────────────────────────────────────── */
+
+function render(d){
+  var host = $('body'), h = '', k;
+  var pages = ['offer', 'callnudge'];
+
+  for (k = 0; k < pages.length; k++)
+    if (d.by_page && d.by_page[pages[k]]) h += creative(pages[k], d.by_page[pages[k]]);
+
+  /* Daily reach, both creatives together — the only place they share an axis,
+     and only because the measure is identical (unique CSPs reached per day). */
+  if (d.days && d.days.length) {
+    var g = [], i, day, lab;
+    for (i = 0; i < d.days.length; i++) {
+      day = d.days[i];
+      lab = day.d.substring(8) + '/' + day.d.substring(5, 7);
+      g.push({ label: lab, v: {
+        offer:     day.pages && day.pages.offer     && day.pages.offer.view     ? day.pages.offer.view.users : 0,
+        callnudge: day.pages && day.pages.callnudge && day.pages.callnudge.view ? day.pages.callnudge.view.users : 0
+      }});
+    }
+    h += '<section><div class="shead"><h2>Daily reach</h2></div>'
+       + '<p class="snote">Unique CSPs who opened each banner that day. Someone who opens it on two '
+       + 'days counts on both &mdash; these are daily figures, not a running total.</p>'
+       + '<div class="card">'
+       + columns(g, [ { key:'offer', name:'Offer education', color:'var(--s1)' },
+                      { key:'callnudge', name:'Call-first nudge', color:'var(--s2)' } ],
+                 { unit:'unique CSPs', alt:'Unique CSPs reached per day by banner' })
+       + legend([{ name:'Offer education', color:'var(--s1)' }, { name:'Call-first nudge', color:'var(--s2)' }])
+       + '</div></section>';
+  }
+
+  /* Table view: the accessibility fallback, and the thing people paste into a deck. */
+  var rows = '', tot;
+  for (k = 0; k < pages.length; k++) {
+    var b = d.by_page && d.by_page[pages[k]];
+    if (!b) continue;
+    var su = n(b.csps_by_event && b.csps_by_event.view), ou = n(b.csps_by_event && b.csps_by_event.ok);
+    rows += '<tr><td><b>' + esc(META[pages[k]].name) + '</b></td><td>' + fmt(su) + '</td><td>' + fmt(ou)
+          + '</td><td>' + pct(ou, su) + '%</td><td>' + fmt(n(b.events && b.events.view))
+          + '</td><td>' + (b.freq_avg || 0) + '×</td></tr>';
+    var aj;
+    for (aj in APPS) if (APPS.hasOwnProperty(aj) && b.by_app && b.by_app[aj]) {
+      tot = b.by_app[aj];
+      var asu = n(tot.csps_by_event && tot.csps_by_event.view), aou = n(tot.csps_by_event && tot.csps_by_event.ok);
+      rows += '<tr><td style="padding-left:20px;color:var(--ink-2)">' + esc(APPS[aj]) + '</td><td>' + fmt(asu)
+            + '</td><td>' + fmt(aou) + '</td><td>' + pct(aou, asu) + '%</td><td>'
+            + fmt(n(tot.events && tot.events.view)) + '</td><td>' + (tot.freq_avg || 0) + '×</td></tr>';
+    }
+  }
+  if (rows) {
+    h += '<details open><summary>All numbers</summary><div class="card tw" style="margin-top:8px">'
+       + '<table><thead><tr><th>Banner</th><th>Reached<br><span style="font-weight:400">unique CSPs</span></th>'
+       + '<th>Read<br><span style="font-weight:400">unique CSPs</span></th><th>Read rate</th>'
+       + '<th>Views<br><span style="font-weight:400">total</span></th><th>Avg seen</th></tr></thead>'
+       + '<tbody>' + rows + '</tbody></table></div></details>';
+  }
+
+  host.innerHTML = h || '<div class="card"><div class="empty">Nothing logged yet.</div></div>';
+  $('notes').style.display = '';
+}
+
+function stamp(iso){
+  try {
+    var dt = new Date(iso);
+    var ist = new Date(dt.getTime() + (330 + dt.getTimezoneOffset()) * 60000);
+    var p = function(x){ return (x < 10 ? '0' : '') + x; };
+    return p(ist.getHours()) + ':' + p(ist.getMinutes()) + ' IST';
+  } catch (e) { return ''; }
+}
+
+function go(){
+  var btn = $('rfBtn');
+  btn.disabled = true;
+  $('statusTxt').textContent = 'loading…';
+  $('err').style.display = 'none';
+  load(function(d){
+    btn.disabled = false;
+    $('statusPill').className = 'pill';
+    $('statusTxt').textContent = 'live · ' + stamp(d.updated);
+    render(d);
+  }, function(msg){
+    btn.disabled = false;
+    $('statusPill').className = 'pill warnp';
+    $('statusTxt').textContent = 'not reachable';
+    $('err').style.display = '';
+    $('err').innerHTML = esc(msg) + ' The sheet keeps recording either way &mdash; this page only reads it. '
+      + 'If it persists, the Apps Script deployment is the thing to check.';
+  });
+}
+
+$('rfBtn').addEventListener('click', go, false);
+go();
+})();
+</script>
+</body>
+</html>

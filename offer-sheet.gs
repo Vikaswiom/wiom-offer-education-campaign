@@ -83,28 +83,51 @@ function doGet(e) {
   if (String(p.action || '') === 'stats') {
     var ss0 = SpreadsheetApp.getActiveSpreadsheet();
     var out = { updated: new Date().toISOString(), by_page: {}, days: [] };
-    var days = {};
-    var mk = function () { return { rows: 0, events: {}, csps: 0, csps_by_event: {}, by_app: {}, _c: {}, _e: {} }; };
+    var days = {}, seen = {};   /* seen = de-dup set for per-day UNIQUE users */
+
+    /* Every bucket carries BOTH numbers, always: `events` is raw volume and
+       `csps`/`csps_by_event` are unique people. A dashboard that shows one
+       without saying which is unreadable, so neither is offered alone. */
+    var mk = function () {
+      return { rows: 0, events: {}, csps: 0, csps_by_event: {},
+               freq: {}, freq_avg: 0, freq_max: 0, by_app: {}, _c: {}, _e: {}, _v: {} };
+    };
     var bump = function (b, ev, id) {
       b.rows++;
       if (!b.events[ev]) b.events[ev] = 0;
       b.events[ev]++;
-      if (id && id !== 'unknown') {
-        if (!b._c[id]) { b._c[id] = 1; b.csps++; }
-        if (!b._e[ev]) b._e[ev] = {};
-        if (!b._e[ev][id]) {
-          b._e[ev][id] = 1;
-          if (!b.csps_by_event[ev]) b.csps_by_event[ev] = 0;
-          b.csps_by_event[ev]++;
-        }
+      if (!id || id === 'unknown') return;   /* 'unknown' is not a person */
+      if (!b._c[id]) { b._c[id] = 1; b.csps++; }
+      if (!b._e[ev]) b._e[ev] = {};
+      if (!b._e[ev][id]) {
+        b._e[ev][id] = 1;
+        if (!b.csps_by_event[ev]) b.csps_by_event[ev] = 0;
+        b.csps_by_event[ev]++;
       }
+      /* Repeat exposure: how many times this person saw the page. Counted from
+         raw view volume per identity - the ONE place raw volume is the answer,
+         because the question is literally "how often". */
+      if (ev === 'view') b._v[id] = (b._v[id] || 0) + 1;
     };
+    var finish = function (b) {
+      var k, n, sum = 0, ppl = 0;
+      b.freq = { '1': 0, '2': 0, '3': 0, '4': 0, '5+': 0 };
+      for (k in b._v) if (b._v.hasOwnProperty(k)) {
+        n = b._v[k]; ppl++; sum += n;
+        if (n > b.freq_max) b.freq_max = n;
+        b.freq[n >= 5 ? '5+' : String(n)]++;
+      }
+      b.freq_avg = ppl ? Math.round((sum / ppl) * 100) / 100 : 0;
+      delete b._c; delete b._e; delete b._v;
+      for (k in b.by_app) if (b.by_app.hasOwnProperty(k)) finish(b.by_app[k]);
+    };
+
     var kq;
     for (kq in PAGES) if (PAGES.hasOwnProperty(kq)) {
       var shq = ss0.getSheetByName(PAGES[kq].tab);
       var bq  = mk();
       out.by_page[kq] = bq;
-      if (!shq || shq.getLastRow() < 2) continue;
+      if (!shq || shq.getLastRow() < 2) { finish(bq); continue; }
       var vals = shq.getRange(2, 1, shq.getLastRow() - 1, 6).getValues();
       for (var i = 0; i < vals.length; i++) {
         var d  = vals[i][0];
@@ -117,18 +140,22 @@ function doGet(e) {
         bump(bq, ev, id);
         if (!bq.by_app[ap]) bq.by_app[ap] = mk();
         bump(bq.by_app[ap], ev, id);
+
         if (!days[ds]) days[ds] = { d: ds, pages: {} };
         if (!days[ds].pages[kq]) days[ds].pages[kq] = {};
-        if (!days[ds].pages[kq][ev]) days[ds].pages[kq][ev] = 0;
-        days[ds].pages[kq][ev]++;
+        if (!days[ds].pages[kq][ev]) days[ds].pages[kq][ev] = { users: 0, events: 0 };
+        days[ds].pages[kq][ev].events++;
+        if (id && id !== 'unknown') {
+          var sk = ds + '|' + kq + '|' + ev + '|' + id;
+          if (!seen[sk]) { seen[sk] = 1; days[ds].pages[kq][ev].users++; }
+        }
       }
+      finish(bq);
     }
-    var strip = function (b) { delete b._c; delete b._e; var k;
-      for (k in b.by_app) if (b.by_app.hasOwnProperty(k)) strip(b.by_app[k]); };
     var kr;
-    for (kr in out.by_page) if (out.by_page.hasOwnProperty(kr)) strip(out.by_page[kr]);
     for (kr in days) if (days.hasOwnProperty(kr)) out.days.push(days[kr]);
     out.days.sort(function (x, y) { return x.d < y.d ? -1 : 1; });
+
     var body = JSON.stringify(out);
     if (p.callback) {
       return ContentService.createTextOutput(p.callback + '(' + body + ')')
