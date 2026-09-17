@@ -36,8 +36,11 @@ against the dark surface - not an automatic flip of the light values.
   color-scheme:light;
   --bg:#F7F5F9; --surface:#FFFFFF; --line:#E7E3EE; --line-soft:#F0EDF4;
   --ink:#161021; --ink-2:#5C5570; --ink-3:#8B8399;
-  --s1:#D9008D; --s1-soft:#FDE3F3;
-  --s2:#2a78d6; --s2-soft:#DEEAFA;
+  /* Second shade for the reached-vs-read pair: one hue, two steps, moving
+     AWAY from the surface (darker on light, lighter on dark) so both marks
+     clear 3:1. Validated as ordinal ramps in both modes. */
+  --s1:#D9008D; --s1-2:#A30070;
+  --s2:#2a78d6; --s2-2:#1c5cab;
   --pos:#008043; --pos-bg:#E1FAED;
   --warn:#8A5A00; --warn-bg:#FFF3D6;
   /* ordinal ramp for repeat exposure — one hue, light->dark, nothing lighter
@@ -49,8 +52,8 @@ against the dark surface - not an automatic flip of the light values.
     color-scheme:dark;
     --bg:#131118; --surface:#1C1922; --line:#312C3C; --line-soft:#262231;
     --ink:#F5F2F8; --ink-2:#B2AAC2; --ink-3:#847B96;
-    --s1:#e8459e; --s1-soft:#3D1330;
-    --s2:#3987e5; --s2-soft:#12233B;
+    --s1:#e8459e; --s1-2:#f79ac9;
+    --s2:#3987e5; --s2-2:#86b6ef;
     --pos:#4BD18B; --pos-bg:#0E2B1D;
     --warn:#E8B94D; --warn-bg:#2E2410;
     --o1:#184f95; --o2:#256abf; --o3:#3987e5; --o4:#5598e7; --o5:#86b6ef;
@@ -178,9 +181,9 @@ summary{cursor:pointer;font-size:12.5px;font-weight:600;color:var(--ink-2);paddi
 var ENDPOINT = 'https://script.google.com/macros/s/AKfycbzjcvUOC_l23lHmweSUYlxnGgGBTSezci5Jv6qZKINwHLEb5GUDq9SE97xULDmwyBKUGw/exec';
 
 var META = {
-  offer:     { name: 'Offer education',   cls: '',  hue: 'var(--s1)', soft: 'var(--s1-soft)',
+  offer:     { name: 'Offer education',   cls: '',  hue: 'var(--s1)', hue2: 'var(--s1-2)',
                line: 'Every customer’s offer is different — ask them to open their Wiom app for the final amount.' },
-  callnudge: { name: 'Call-first nudge',  cls: 'b', hue: 'var(--s2)', soft: 'var(--s2-soft)',
+  callnudge: { name: 'Call-first nudge',  cls: 'b', hue: 'var(--s2)', hue2: 'var(--s2-2)',
                line: 'CSPs who call before visiting see fewer cancellations — confirm address and time first.' }
 };
 var APPS = { CSP: 'CSP app', TECH: 'Technician app' };
@@ -190,6 +193,20 @@ function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').rep
 function n(v){ return (v == null ? 0 : v); }
 function fmt(v){ return String(n(v)).replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
 function pct(a, b){ return b ? Math.round((a / b) * 1000) / 10 : 0; }
+
+/* Round tick values. Scaling the axis straight off the data max prints ticks
+   like 196 / 147 / 98, which nobody reads as a scale. Snap the step to a
+   familiar number and let the top of the axis land above the tallest bar. */
+function axis(m){
+  if (m <= 0) return { max: 4, step: 1 };
+  var raw = m / 4;
+  var exp = Math.pow(10, Math.floor(Math.log(raw) / Math.LN10));
+  var f = raw / exp, nf;
+  if (f <= 1) nf = 1; else if (f <= 2) nf = 2; else if (f <= 2.5) nf = 2.5;
+  else if (f <= 3) nf = 3; else if (f <= 4) nf = 4; else if (f <= 5) nf = 5; else nf = 10;
+  var step = Math.max(1, Math.round(nf * exp));
+  return { max: step * 4, step: step };
+}
 
 /* ── JSONP ──
    Apps Script answers a stats request with a 302 to script.googleusercontent.com.
@@ -220,24 +237,34 @@ function tile(lab, val, foot, isPct){
        + '<div class="foot">' + foot + '</div></div>';
 }
 
+/* An SVG with a viewBox scales its text down with everything else, so a 640-wide
+   chart squeezed into a 350px phone renders 11px labels at about 6px. Narrow
+   screens get a narrower viewBox instead, which keeps text near its real size. */
+function narrow(){ try { return window.innerWidth < 560; } catch (e) { return false; } }
+
 /* Grouped columns. Used for the app split and for the daily trend: with a
    handful of days a column per day reads better than a 2-point line, and it
    degrades gracefully to a single day instead of drawing a lone dot. */
 function columns(groups, series, opts){
   opts = opts || {};
-  var W = 640, H = 210, padL = 34, padR = 8, padT = 18, padB = 40;
+  var nar = narrow();
+  var W = nar ? 350 : 640, H = nar ? 190 : 210, padL = nar ? 28 : 34, padR = 8,
+      padT = 18, padB = 40;
   var max = 0, i, j;
   for (i = 0; i < groups.length; i++)
     for (j = 0; j < series.length; j++) max = Math.max(max, n(groups[i].v[series[j].key]));
-  if (max <= 0) max = 1;
+  var ax = axis(max); max = ax.max;
   var innerW = W - padL - padR, innerH = H - padT - padB;
   var gw = innerW / groups.length;
-  var bw = Math.min(46, (gw - 10) / series.length - 2);
+  var bw = Math.min(46, (gw - (nar ? 6 : 10)) / series.length - 2);
+  /* Selective direct labels: a number over every bar collides once the columns
+     get thin, and the tooltip and the table already carry the exact figures. */
+  var showLab = opts.labelBars !== false && groups.length * series.length <= (nar ? 6 : 16);
   var s = '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="' + esc(opts.alt || '') + '">';
 
   var ticks = 4, tv, ty;
   for (i = 0; i <= ticks; i++) {
-    tv = Math.round(max * i / ticks);
+    tv = ax.step * i;
     ty = padT + innerH - (innerH * i / ticks);
     s += '<line class="gl" x1="' + padL + '" y1="' + ty + '" x2="' + (W - padR) + '" y2="' + ty + '"/>'
        + '<text class="axt" x="' + (padL - 6) + '" y="' + (ty + 3.5) + '" text-anchor="end">' + tv + '</text>';
@@ -260,7 +287,7 @@ function columns(groups, series, opts){
       if (v > 0) {
         s += '<path class="bar" d="' + d + '" fill="' + series[j].color + '">'
            + '<title>' + esc(groups[i].label + ' · ' + series[j].name + ': ' + fmt(v) + ' ' + (opts.unit || '')) + '</title></path>';
-        if (opts.labelBars !== false)
+        if (showLab)
           s += '<text class="vlab" x="' + (x + bw / 2) + '" y="' + (y - 5) + '" text-anchor="middle">' + fmt(v) + '</text>';
       }
     }
@@ -275,16 +302,18 @@ function columns(groups, series, opts){
 function freqChart(freq, totalPeople){
   var keys = ['1','2','3','4','5+'];
   var ramp = ['var(--o1)','var(--o2)','var(--o3)','var(--o4)','var(--o5)'];
-  var W = 640, H = 170, padL = 34, padR = 8, padT = 18, padB = 38;
+  var nar = narrow();
+  var W = nar ? 350 : 640, H = nar ? 165 : 170, padL = nar ? 28 : 34, padR = 8,
+      padT = 20, padB = 38;
   var max = 0, i;
   for (i = 0; i < keys.length; i++) max = Math.max(max, n(freq[keys[i]]));
-  if (max <= 0) max = 1;
+  var fax = axis(max); max = fax.max;
   var innerW = W - padL - padR, innerH = H - padT - padB;
-  var gw = innerW / keys.length, bw = Math.min(64, gw - 16);
+  var gw = innerW / keys.length, bw = Math.min(64, gw - (nar ? 8 : 16));
   var s = '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Repeat exposure buckets">';
   var t, ty;
-  for (i = 0; i <= 3; i++) {
-    t = Math.round(max * i / 3); ty = padT + innerH - (innerH * i / 3);
+  for (i = 0; i <= 4; i++) {
+    t = fax.step * i; ty = padT + innerH - (innerH * i / 4);
     s += '<line class="gl" x1="' + padL + '" y1="' + ty + '" x2="' + (W - padR) + '" y2="' + ty + '"/>'
        + '<text class="axt" x="' + (padL - 6) + '" y="' + (ty + 3.5) + '" text-anchor="end">' + t + '</text>';
   }
@@ -366,11 +395,11 @@ function creative(key, b){
   }
   if (apps.length) {
     var ser = [ { key:'reached', name:'Reached', color:m.hue },
-                { key:'read',    name:'Read',    color:m.soft } ];
+                { key:'read',    name:'Read',    color:m.hue2 } ];
     h += '<div class="card" style="margin-top:12px"><div class="ctitle">Which app</div>'
        + '<div class="csub">Unique CSPs. The technician app and the CSP app run the same page with a different banner.</div>'
        + columns(apps, ser, { unit:'unique CSPs', alt:'Unique CSPs reached and read, by app' })
-       + legend([{ name:'Reached (unique CSPs)', color:m.hue }, { name:'Read (unique CSPs)', color:m.soft }])
+       + legend([{ name:'Reached (unique CSPs)', color:m.hue }, { name:'Read (unique CSPs)', color:m.hue2 }])
        + '</div>';
   }
 
@@ -395,7 +424,15 @@ function render(d){
 
   /* Daily reach, both creatives together — the only place they share an axis,
      and only because the measure is identical (unique CSPs reached per day). */
-  if (d.days && d.days.length) {
+  /* The older stats endpoint returned a plain event count per day instead of
+     {users, events}. Rather than draw that as "unique CSPs" - which it is not -
+     the section is skipped until the updated script is deployed. */
+  var dayShapeOK = false, dk, dp;
+  if (d.days) for (dk = 0; dk < d.days.length && !dayShapeOK; dk++) {
+    dp = d.days[dk].pages || {};
+    for (var pk in dp) if (dp.hasOwnProperty(pk) && dp[pk].view && typeof dp[pk].view === 'object') dayShapeOK = true;
+  }
+  if (d.days && d.days.length && dayShapeOK) {
     var g = [], i, day, lab;
     for (i = 0; i < d.days.length; i++) {
       day = d.days[i];
@@ -461,6 +498,7 @@ function go(){
   $('statusTxt').textContent = 'loading…';
   $('err').style.display = 'none';
   load(function(d){
+    LAST = d;
     btn.disabled = false;
     $('statusPill').className = 'pill';
     $('statusTxt').textContent = 'live · ' + stamp(d.updated);
@@ -476,6 +514,17 @@ function go(){
 }
 
 $('rfBtn').addEventListener('click', go, false);
+
+/* Keep the last payload so a rotate or resize re-lays out the charts without
+   another round trip to the endpoint. */
+var LAST = null, rzT = null, wasNarrow = narrow();
+window.addEventListener('resize', function(){
+  if (rzT) clearTimeout(rzT);
+  rzT = setTimeout(function(){
+    if (LAST && narrow() !== wasNarrow) { wasNarrow = narrow(); render(LAST); }
+  }, 180);
+}, false);
+
 go();
 })();
 </script>
