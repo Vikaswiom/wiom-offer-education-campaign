@@ -1,53 +1,60 @@
 /**
  * Wiom — CSP/technician education banner pages · view + tap log
  *
- * Shared by BOTH banner creatives in this repo. The `page` column keeps their
- * funnels apart; nothing here ever merges them.
- *   offer.html     page="offer"      events: view, ok
- *   callnudge.html page="callnudge"  events: view, call, later
+ * ONE script, ONE spreadsheet, ONE TAB PER CREATIVE. The two banner pages have
+ * different event sets and different funnels, so interleaving them in a single
+ * tab would force every reader to filter before they could count anything.
+ *
+ *   offer.html      page="offer"      tab "Log"        events: view, ok
+ *   callnudge.html  page="callnudge"  tab "CallNudge"  events: view, call, later
+ *
  *   https://vikaswiom.github.io/wiom-offer-education-campaign/offer.html?cspId=<ID>
  *   https://vikaswiom.github.io/wiom-offer-education-campaign/callnudge.html?cspId=<ID>
+ *   ...&app=TECH on the technician app's banner.
  *
  * Every beacon arrives as:
- *   ?flow=OFFER&event=view|ok&uid=<cspId>&app=CSP|TECH&page=offer&oid=<open id>&t=<ms>
+ *   ?flow=OFFER&event=<...>&uid=<cspId>&app=CSP|TECH&page=<...>&oid=<open id>&t=<ms>
  *
  * THE OPEN-ID PARAMETER IS `oid`, NOT `sid`. Google's frontend reserves `sid`
  * on script.google.com and answers HTTP 400 to a session-id-shaped value before
- * doGet is ever called - no execution log, no catchable error, just a generic
+ * doGet is ever called — no execution log, no catchable error, just a generic
  * Drive error page for the caller. Cost an afternoon; do not rename it back.
  *
- * ONE ROW PER EVENT, on purpose. The ₹750 script dedups per CSP per day because
- * it answers "who asked for a callback". This one answers "how many times has
- * this CSP been taught this", so repeat views are the data, not noise. The only
- * thing suppressed is an exact replay of the same beacon (same sid + event + t),
- * which is a network retry rather than a second view.
+ * ONE ROW PER EVENT, on purpose. Repeat exposure is the measurement, so nothing
+ * is deduped except an exact beacon replay (same oid + event + t), which is a
+ * network retry rather than a second view.
  *
- * SETUP
- *   1. Open the tracking Google Sheet → Extensions → Apps Script.
- *   2. Select everything in Code.gs and paste ALL of this over it. Partial
- *      pastes leave helpers undefined — that is what cost several rounds on the
- *      ₹750 script, hence the single self-contained doGet.
- *   3. Save → Deploy → New deployment → type "Web app".
- *        Execute as: Me.      Who has access: ANYONE.
- *      Anything other than "Anyone" redirects to accounts.google.com and the
- *      rows are dropped silently.
- *   4. Copy the /exec URL into `var LOG = '...'` in offer.html.
+ * ADDING A THIRD CREATIVE: add one entry to PAGES below. Nothing else changes —
+ * the tab is created on the first event, and stats picks it up automatically.
  *
- * CHANGING THIS LATER: Save does NOT update the live URL. Deploy → Manage
- * deployments → ✏️ → Version: New version → Deploy. Picking "New deployment"
- * instead mints a DIFFERENT /exec URL and the page keeps writing to the old one.
+ * SETUP / REDEPLOY
+ *   Extensions → Apps Script → select all in Code.gs → paste ALL of this → Save.
+ *   First time : Deploy → New deployment → Web app → Execute as Me,
+ *                Who has access ANYONE. Anything else silently drops rows.
+ *   After that : Deploy → Manage deployments → ✏️ → Version: NEW VERSION.
+ *                "New deployment" mints a DIFFERENT /exec URL and the pages
+ *                keep writing to the old one.
  */
 function doGet(e) {
  try {
   var p = (e && e.parameter) || {};
 
+  /* The whole routing table. Event names are an allowlist per page, not a free
+     text column: a typo would otherwise open a silent funnel nobody counts. */
+  var PAGES = {
+    offer:     { tab: 'Log',       events: { view: 1, ok: 1 } },
+    callnudge: { tab: 'CallNudge', events: { view: 1, call: 1, later: 1 } }
+  };
+  var HEADER = ['date', 'time (IST)', 'csp_id', 'app', 'event', 'page', 'open_id', 't'];
+
   /* ── Self-test ────────────────────────────────────────────────────────
-     ?action=ping -> which spreadsheet this script is bound to, who it runs
-     as, and whether it can actually WRITE. Reads can succeed while writes
-     fail (wrong Google account, view-only access), and Google reports that
-     as an unhelpful "unable to open the file" HTML page. One call, answered. */
+     ?action=ping -> what this is bound to, who it runs as, existing tabs, and
+     whether it can actually WRITE. Reads can succeed while writes fail, and
+     Google reports that as an unhelpful "unable to open the file" page. */
   if (String(p.action || '') === 'ping') {
-    var out0 = { ok: true };
+    var out0 = { ok: true, pages: {} };
+    var kp;
+    for (kp in PAGES) if (PAGES.hasOwnProperty(kp)) out0.pages[kp] = PAGES[kp].tab;
     try {
       var s0 = SpreadsheetApp.getActiveSpreadsheet();
       out0.bound_to = s0 ? s0.getName() : null;
@@ -70,34 +77,35 @@ function doGet(e) {
   /* ── Aggregate feed for a dashboard: counts only, never a csp_id ──────
      ?action=stats            -> JSON
      ?action=stats&callback=f -> JSONP (Apps Script's 302 breaks a plain
-                                 cross-origin fetch, so a dashboard needs this) */
+                                 cross-origin fetch, so a dashboard needs this)
+     Counted per page AND per app, never merged: a combined number across two
+     different creatives answers a question nobody asked. */
   if (String(p.action || '') === 'stats') {
     var ss0 = SpreadsheetApp.getActiveSpreadsheet();
-    var sh0 = ss0.getSheetByName('Log');
-    var out = {
-      updated: new Date().toISOString(),
-      rows: 0,
-      by_page: {},   /* offer / callnudge - each creative's own funnel */
-      by_app:  {},
-      days:    []
-    };
-    if (sh0 && sh0.getLastRow() > 1) {
-      var vals = sh0.getRange(2, 1, sh0.getLastRow() - 1, 6).getValues();
-      var days = {};
-      /* Counted per page AND per app, never merged. Two creatives share this
-         sheet; a combined number would answer a question nobody asked. */
-      var bump = function (bucket, ev, id) {
-        if (!bucket.events[ev]) bucket.events[ev] = 0;
-        bucket.events[ev]++;
-        if (id && id !== 'unknown') {
-          if (!bucket._csps[id]) { bucket._csps[id] = 1; bucket.csps++; }
-          if (!bucket._by[ev]) bucket._by[ev] = {};
-          if (!bucket._by[ev][id]) { bucket._by[ev][id] = 1;
-            if (!bucket.csps_by_event[ev]) bucket.csps_by_event[ev] = 0;
-            bucket.csps_by_event[ev]++; }
+    var out = { updated: new Date().toISOString(), by_page: {}, days: [] };
+    var days = {};
+    var mk = function () { return { rows: 0, events: {}, csps: 0, csps_by_event: {}, by_app: {}, _c: {}, _e: {} }; };
+    var bump = function (b, ev, id) {
+      b.rows++;
+      if (!b.events[ev]) b.events[ev] = 0;
+      b.events[ev]++;
+      if (id && id !== 'unknown') {
+        if (!b._c[id]) { b._c[id] = 1; b.csps++; }
+        if (!b._e[ev]) b._e[ev] = {};
+        if (!b._e[ev][id]) {
+          b._e[ev][id] = 1;
+          if (!b.csps_by_event[ev]) b.csps_by_event[ev] = 0;
+          b.csps_by_event[ev]++;
         }
-      };
-      var mk = function () { return { events: {}, csps: 0, csps_by_event: {}, _csps: {}, _by: {} }; };
+      }
+    };
+    var kq;
+    for (kq in PAGES) if (PAGES.hasOwnProperty(kq)) {
+      var shq = ss0.getSheetByName(PAGES[kq].tab);
+      var bq  = mk();
+      out.by_page[kq] = bq;
+      if (!shq || shq.getLastRow() < 2) continue;
+      var vals = shq.getRange(2, 1, shq.getLastRow() - 1, 6).getValues();
       for (var i = 0; i < vals.length; i++) {
         var d  = vals[i][0];
         var ds = (d && typeof d.getTime === 'function')
@@ -105,24 +113,22 @@ function doGet(e) {
         var id = String(vals[i][2] || '');
         var ap = String(vals[i][3] || 'CSP');
         var ev = String(vals[i][4] || '');
-        var pg = String(vals[i][5] || 'offer');
         if (!ev) continue;
-        out.rows++;
-        if (!out.by_page[pg]) out.by_page[pg] = mk();
-        if (!out.by_app[ap])  out.by_app[ap]  = mk();
+        bump(bq, ev, id);
+        if (!bq.by_app[ap]) bq.by_app[ap] = mk();
+        bump(bq.by_app[ap], ev, id);
         if (!days[ds]) days[ds] = { d: ds, pages: {} };
-        if (!days[ds].pages[pg]) days[ds].pages[pg] = {};
-        if (!days[ds].pages[pg][ev]) days[ds].pages[pg][ev] = 0;
-        days[ds].pages[pg][ev]++;
-        bump(out.by_page[pg], ev, id);
-        bump(out.by_app[ap],  ev, id);
+        if (!days[ds].pages[kq]) days[ds].pages[kq] = {};
+        if (!days[ds].pages[kq][ev]) days[ds].pages[kq][ev] = 0;
+        days[ds].pages[kq][ev]++;
       }
-      var strip = function (m) { var k; for (k in m) if (m.hasOwnProperty(k)) { delete m[k]._csps; delete m[k]._by; } };
-      strip(out.by_page); strip(out.by_app);
-      var kk;
-      for (kk in days) if (days.hasOwnProperty(kk)) out.days.push(days[kk]);
-      out.days.sort(function (x, y) { return x.d < y.d ? -1 : 1; });
     }
+    var strip = function (b) { delete b._c; delete b._e; var k;
+      for (k in b.by_app) if (b.by_app.hasOwnProperty(k)) strip(b.by_app[k]); };
+    var kr;
+    for (kr in out.by_page) if (out.by_page.hasOwnProperty(kr)) strip(out.by_page[kr]);
+    for (kr in days) if (days.hasOwnProperty(kr)) out.days.push(days[kr]);
+    out.days.sort(function (x, y) { return x.d < y.d ? -1 : 1; });
     var body = JSON.stringify(out);
     if (p.callback) {
       return ContentService.createTextOutput(p.callback + '(' + body + ')')
@@ -132,42 +138,38 @@ function doGet(e) {
   }
 
   /* ── Write one row ───────────────────────────────────────────────── */
-  /* Allowlist, not a free-text column: a typo in a page would otherwise open a
-     silent third funnel nobody is counting.
-       offer.html     -> view, ok
-       callnudge.html -> view, call, later */
+  var page = String(p.page || 'offer').trim().toLowerCase();
+  if (!PAGES.hasOwnProperty(page)) return ContentService.createTextOutput('bad-page');
+
   var event = String(p.event || '').trim().toLowerCase();
-  if (event !== 'view' && event !== 'ok' && event !== 'call' && event !== 'later') {
-    return ContentService.createTextOutput('bad-event');
-  }
+  if (!PAGES[page].events.hasOwnProperty(event)) return ContentService.createTextOutput('bad-event');
 
   var csp = String(p.uid || p.cspId || p.csp_id || p.csp || '').trim().substring(0, 80) || 'unknown';
   var app = String(p.app || 'CSP').trim().toUpperCase().substring(0, 12);
   if (app !== 'CSP' && app !== 'TECH') app = 'CSP';
-  var page  = String(p.page  || 'offer').trim().substring(0, 40);
-  var sid   = String(p.oid || p.sid || '').trim().substring(0, 40);
-  var stamp = String(p.t     || '').trim().substring(0, 20);
+  var oid   = String(p.oid || p.sid || '').trim().substring(0, 40);
+  var stamp = String(p.t   || '').trim().substring(0, 20);
 
   var ss = SpreadsheetApp.getActiveSpreadsheet();
-  var sh = ss.getSheetByName('Log');
+  var sh = ss.getSheetByName(PAGES[page].tab);
   if (!sh) {
-    sh = ss.insertSheet('Log');
-    sh.appendRow(['date', 'time (IST)', 'csp_id', 'app', 'event', 'page', 'open_id', 't']);
+    sh = ss.insertSheet(PAGES[page].tab);
+    sh.appendRow(HEADER);
     sh.setFrozenRows(1);
-    sh.getRange(1, 1, 1, 8).setFontWeight('bold');
+    sh.getRange(1, 1, 1, HEADER.length).setFontWeight('bold');
   }
 
-  /* Replay guard. Not a dedup of repeat views — those are wanted. This only
-     drops the exact same beacon arriving twice (a retried request), which is
-     identified by sid + event + t being identical. Looks at the tail only. */
-  if (sid && stamp) {
+  /* Replay guard. NOT a dedup of repeat views — those are wanted. This only
+     drops the exact same beacon arriving twice (a retried request), identified
+     by oid + event + t being identical. Looks at the tail only. */
+  if (oid && stamp) {
     var last = sh.getLastRow();
     if (last > 1) {
       var n    = Math.min(last - 1, 300);
       var from = last - n + 1;
       var tail = sh.getRange(from, 5, n, 4).getValues();   /* event, page, open_id, t */
       for (var j = tail.length - 1; j >= 0; j--) {
-        if (String(tail[j][2]) === sid && String(tail[j][0]) === event && String(tail[j][3]) === stamp) {
+        if (String(tail[j][2]) === oid && String(tail[j][0]) === event && String(tail[j][3]) === stamp) {
           return ContentService.createTextOutput('ok-replay');
         }
       }
@@ -178,13 +180,13 @@ function doGet(e) {
   sh.appendRow([
     Utilities.formatDate(now, 'Asia/Kolkata', 'yyyy-MM-dd'),
     Utilities.formatDate(now, 'Asia/Kolkata', 'HH:mm:ss'),
-    csp, app, event, page, sid, stamp
+    csp, app, event, page, oid, stamp
   ]);
   return ContentService.createTextOutput('ok');
 
  } catch (err) {
   /* Never let an exception fall through to Google's "Sorry, unable to open the
-     file at present" page - that page is indistinguishable from a bad URL, a
+     file at present" page — that page is indistinguishable from a bad URL, a
      wrong account and a broken deployment, and it cost us a round trip. */
   return ContentService.createTextOutput('err: ' + String((err && err.message) || err));
  }
@@ -195,36 +197,30 @@ function doGet(e) {
  *
  * Pick `testWrite` in the function dropdown at the top of the Apps Script
  * editor and press Run. Two things happen that a web-app request cannot do:
- *   1. If authorization is missing or was granted with too narrow a scope,
- *      Google prompts for it here. A deployed web app cannot prompt - it just
- *      throws, and the caller gets an unhelpful HTML error page.
- *   2. The real exception text appears in the execution log, instead of being
- *      swallowed into "Sorry, unable to open the file at present".
- *
- * Success also creates the `Log` tab, which takes insertSheet out of the
- * request path for good.
+ *   1. If authorization is missing or too narrow, Google prompts for it here.
+ *      A deployed web app cannot prompt — it just throws, and the caller gets
+ *      an unhelpful HTML error page.
+ *   2. The real exception appears in the execution log.
+ * It also creates both tabs, taking insertSheet out of the request path.
  */
 function testWrite() {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
-  Logger.log('bound to : %s', ss ? ss.getName() : 'NOTHING - this script is not bound to a spreadsheet');
-  Logger.log('file id  : %s', ss ? ss.getId() : '-');
+  Logger.log('bound to : %s', ss ? ss.getName() : 'NOTHING — this script is not bound to a spreadsheet');
   try { Logger.log('runs as  : %s', Session.getEffectiveUser().getEmail()); } catch (e) { Logger.log('runs as  : unknown'); }
 
-  var sh = ss.getSheetByName('Log');
-  if (!sh) {
-    sh = ss.insertSheet('Log');
-    sh.appendRow(['date', 'time (IST)', 'csp_id', 'app', 'event', 'page', 'open_id', 't']);
-    sh.setFrozenRows(1);
-    sh.getRange(1, 1, 1, 8).setFontWeight('bold');
-    Logger.log('created the Log tab');
-  } else {
-    Logger.log('Log tab already existed');
+  var HEADER = ['date', 'time (IST)', 'csp_id', 'app', 'event', 'page', 'open_id', 't'];
+  var tabs = ['Log', 'CallNudge'];
+  for (var i = 0; i < tabs.length; i++) {
+    var sh = ss.getSheetByName(tabs[i]);
+    if (!sh) {
+      sh = ss.insertSheet(tabs[i]);
+      sh.appendRow(HEADER);
+      sh.setFrozenRows(1);
+      sh.getRange(1, 1, 1, HEADER.length).setFontWeight('bold');
+      Logger.log('created tab %s', tabs[i]);
+    } else {
+      Logger.log('tab %s already existed', tabs[i]);
+    }
   }
-  var now = new Date();
-  sh.appendRow([
-    Utilities.formatDate(now, 'Asia/Kolkata', 'yyyy-MM-dd'),
-    Utilities.formatDate(now, 'Asia/Kolkata', 'HH:mm:ss'),
-    'TEST_EDITOR', 'CSP', 'view', 'offer', 'editor', String(+now)
-  ]);
-  Logger.log('WRITE OK - a TEST_EDITOR row is now in the Log tab');
+  Logger.log('WRITE OK — both tabs exist and are writable');
 }
