@@ -383,6 +383,11 @@ function closePage(){
   try {
     var fr = document.createElement('iframe');
     fr.setAttribute('aria-hidden', 'true');
+    /* Sandboxed: this page does not control what csp.wiom.in/home serves a
+       browser, and an un-sandboxed frame could script the top-level window
+       out from under the creative. The sandbox does not affect the WebView's
+       chance to intercept the navigation, which is the only thing wanted. */
+    fr.setAttribute('sandbox', '');
     fr.style.cssText = 'position:absolute;width:0;height:0;border:0;visibility:hidden';
     fr.src = HOME_LINK;
     document.body.appendChild(fr);
@@ -471,7 +476,7 @@ function onOK(){
      rather than leaving a tap that looks dead. Self-removing: see .hint. */
   setTimeout(function(){
     try { document.getElementById('hint').className = 'hint show'; } catch (e) {}
-  }, 1200);
+  }, 400);
 }
 
 var ok = document.getElementById('ok');
