@@ -1,0 +1,338 @@
+<!doctype html>
+<html lang="hi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>सही अमाउंट कस्टमर के व्योम ऐप में — Offer Education (banner page)</title>
+<!--
+Offer Education - full-page Appchitra creative - IN-APP BANNER BUILD.
+
+  https://vikaswiom.github.io/wiom-offer-education-campaign/offer.html?cspId=<ID>
+  ...&app=TECH   on the technician app's banner
+
+This is the BANNER version of Downloads/CT_offer_page_CSP.html. The artwork is
+byte-identical; only the plumbing differs, in exactly two ways:
+
+1. IDENTITY comes from the URL, not from CleverTap. The app appends cspId when
+   the CSP taps the banner, so this page knows who is reading without any
+   CleverTap profile. Parameter name is read tolerantly - cspId / csp_id /
+   csp-id / cspid / csp / uid / id, query string or hash - because different
+   surfaces spell it differently and a silent mismatch here costs the whole log.
+
+2. TRACKING goes to a Google Sheet via an Apps Script pixel beacon, EVERY TIME.
+   No per-day dedup, no once-per-device guard: one row per view, one row per
+   ठीक है tap, so the sheet answers "how many times has this CSP been taught
+   this" and not just "has he ever". CleverTap events still fire IF the app
+   happens to inject its bridge, as a free second channel - but nothing here
+   depends on that, which is the whole point of moving off the in-app.
+
+EVENT NAMES ARE DELIBERATELY NOT THE IN-APP ONES.
+The CT in-app creative fires CSP_Offer_Page_Shown / CSP_Offer_Page_OK_Clicked and
+those are already wired into dashboard.html as variant "offer_page". Reusing them
+here would silently merge the banner surface into the in-app funnel - the same
+trap the in-app build's own header warns about. This page fires
+CSP_Offer_Banner_Shown / CSP_Offer_Banner_OK_Clicked (TECH_* on the tech app).
+
+THE ONE LINE TO FILL IN: var LOG = '...' below - the Apps Script /exec URL bound
+to the tracking sheet. Empty = the page still renders and the button still works,
+it just logs nothing. Apps Script source lives in offer-sheet.gs in this repo.
+
+ES5 ONLY - no arrow functions, no const/let, no template literals. The CSP app's
+WebView can be as old as Chrome 38, where those are a SyntaxError that kills the
+entire script: the page still paints, so the failure looks like "the button does
+nothing" rather than an error. Same reason the ₹750 flow pages were transpiled.
+-->
+<style>
+:root{
+--brand:#D9008D; --brand-tint:#FFE5F6;
+--ink:#161021; --muted:#665E75;
+--pos:#008043; --pos-bg:#E1FAED;
+--skel:#E8E4F0;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;-webkit-text-size-adjust:100%}
+/* The gradient sits on <body> too, so a tablet or a very wide WebView shows
+   brand colour in the gutters instead of a dark band. */
+body{background:#F5EFF6;display:flex;justify-content:center;touch-action:manipulation;
+font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans","Noto Sans Devanagari",system-ui,sans-serif;
+-webkit-font-smoothing:antialiased}
+
+/* ── The full mobile page ── */
+.app{width:100%;max-width:420px;min-height:100vh;min-height:100dvh;
+display:flex;flex-direction:column;align-items:center;
+background:linear-gradient(180deg,#F9E3F0 0%,#F5EFF6 45%,#F3F0F8 100%);
+color:var(--ink);overflow:hidden;
+padding:calc(40px + env(safe-area-inset-top)) 24px calc(16px + env(safe-area-inset-bottom))}
+
+.ttl{font-size:24px;line-height:32px;font-weight:700;text-align:center;letter-spacing:-.2px;position:relative;z-index:1}
+
+/* hero — the customer's phone + the ask, centered as one unit */
+.hero{position:relative;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;width:100%;min-height:300px}
+.phonewrap{position:relative;display:flex;justify-content:center}
+.halo{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+width:390px;height:390px;border-radius:50%;z-index:0;
+background:radial-gradient(closest-side,rgba(255,224,243,.95),rgba(255,229,246,.55) 58%,rgba(255,229,246,0))}
+/* phone at a real mobile aspect ratio (~1:2) — it depicts the customer's Wiom app */
+.phone{position:relative;z-index:1;width:164px;background:var(--ink);border-radius:26px;padding:8px;
+box-shadow:0 4px 12px rgba(217,43,144,.3)}
+.scr{background:#FFFFFF;border-radius:19px;height:320px;padding:14px 12px 16px;
+display:flex;flex-direction:column;align-items:center}
+.bar{display:flex;align-items:center;gap:5px;flex:0 0 auto}
+.dot{width:10px;height:10px;border-radius:50%;background:var(--brand)}
+.brand{font-size:14px;font-weight:700;color:var(--brand);line-height:1}
+/* the offer block — centered like the app's hero content */
+.mid{margin:auto 0;display:flex;flex-direction:column;align-items:center}
+.off{font-size:14px;font-weight:600;color:var(--muted);line-height:1}
+.amt{margin-top:12px;font-size:36px;font-weight:700;line-height:1;color:var(--ink)}
+.amt span{letter-spacing:5px}
+.fin{margin-top:16px;display:inline-flex;align-items:center;gap:4px;
+background:var(--pos-bg);color:var(--pos);font-size:13px;font-weight:700;line-height:1;padding:6px 10px;border-radius:888px}
+.fin svg{width:12px;height:12px;stroke:var(--pos);stroke-width:2.6;fill:none;stroke-linecap:round;stroke-linejoin:round}
+/* placeholder list rows at the bottom of the screen */
+.skl{flex:0 0 auto;display:flex;flex-direction:column;gap:7px;align-items:center}
+.skl i{display:block;height:6px;border-radius:3px;background:var(--skel)}
+
+/* customer bust anchored to the phone — whose phone this is */
+.cust{position:absolute;left:-36px;bottom:-14px;z-index:2;display:flex;flex-direction:column;align-items:center;gap:4px}
+.cust .av{width:62px;height:62px;border-radius:50%;border:3px solid #fff;overflow:hidden;
+box-shadow:0 2px 6px rgba(22,16,33,.15);background:#E9E5F2}
+.cust .av svg{display:block;width:100%;height:100%}
+.cust .nm{font-size:12px;line-height:16px;font-weight:600;color:var(--muted);background:#FFFFFF;
+padding:2px 8px;border-radius:888px;box-shadow:0 1px 3px rgba(22,16,33,.1)}
+
+.ask{font-size:16px;line-height:24px;font-weight:600;color:var(--muted);text-align:center;max-width:300px;
+position:relative;z-index:1;margin-top:40px}
+
+/* ठीक है = acknowledge → pink TEXT CTA per house convention, never a filled primary. 24 + 2×12 = 48px target */
+.cta{margin-top:16px;width:100%;text-align:center;padding:12px 16px;
+font-size:16px;line-height:24px;font-weight:700;color:var(--brand);cursor:pointer;user-select:none;
+-webkit-user-select:none;-webkit-tap-highlight-color:transparent;
+transition:opacity .12s ease}
+.cta:active{opacity:.55}
+/* Once tapped, stop a second tap firing a second dismiss mid-teardown. */
+.cta.gone{opacity:.4;pointer-events:none}
+
+/* Short devices (a 5" 1280×720 handset is ~640 CSS px tall) — shrink the
+   phone mock rather than let the CTA fall below the fold. */
+@media (max-height:700px){
+.app{padding-top:calc(24px + env(safe-area-inset-top))}
+.ttl{font-size:22px;line-height:29px}
+.scr{height:250px}
+.halo{width:320px;height:320px}
+.ask{margin-top:24px}
+.hero{min-height:0}
+}
+</style>
+</head>
+<body>
+<div class="app">
+
+<p class="ttl">सही अमाउंट कस्टमर के<br>व्योम ऐप में है</p>
+
+<div class="hero">
+<div class="phonewrap">
+<div class="halo"></div>
+<div class="phone">
+<div class="scr">
+<div class="bar"><span class="dot"></span><span class="brand">व्योम</span></div>
+<div class="mid">
+<div class="off">आपका ऑफर</div>
+<div class="amt">₹ <span>•••</span></div>
+<div class="fin">
+<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2 6.5l2.6 2.6L10 3.5"/></svg>
+फाइनल अमाउंट
+</div>
+</div>
+<div class="skl"><i style="width:88px"></i><i style="width:58px"></i></div>
+</div>
+<div class="cust">
+<div class="av">
+<svg viewBox="0 0 52 52" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+<defs><clipPath id="fpCust"><circle cx="26" cy="26" r="26"/></clipPath></defs>
+<circle cx="26" cy="26" r="26" fill="#E9E5F2"/>
+<g clip-path="url(#fpCust)">
+<path d="M6 54c0-12 9-18 20-18s20 6 20 18z" fill="#5C6B8A"/>
+<rect x="21.5" y="26" width="9" height="10" rx="4" fill="#E5B183"/>
+<circle cx="26" cy="15" r="10.5" fill="#2E2838"/>
+<circle cx="26" cy="21" r="10" fill="#F3C9A3"/>
+</g>
+</svg>
+</div>
+<div class="nm">कस्टमर</div>
+</div>
+</div>
+</div>
+
+<p class="ask">बस कस्टमर को उनका व्योम ऐप देखने को बोलें</p>
+</div>
+
+<div class="cta" id="ok" role="button" tabindex="0">ठीक है</div>
+</div>
+
+<script>
+/* Block comments only, ES5 only - see the note at the top of the file. */
+(function(){
+'use strict';
+
+/* ═══════════════ THE ONE LINE TO FILL IN ═══════════════
+   Apps Script /exec URL bound to the tracking Google Sheet.
+   Source to paste into that project = offer-sheet.gs in this repo.
+   Leave '' and the page works but logs nothing. */
+var LOG = '';
+
+var CREATIVE = 'offer_page_appchitra_v1';
+var PAGE     = 'offer';
+
+/* ── URL parameters ───────────────────────────────────────────────────
+   One pass over query AND hash, keys lower-cased with _ and - stripped,
+   so cspId / csp_id / csp-id / CSPID all land in the same bucket. Whoever
+   wires the banner cannot get the spelling wrong in a way that silently
+   empties the log. */
+var Q = (function(){
+  var out = {}, m, re = /[?&#]([a-zA-Z0-9_\-]+)=([^&#]*)/g, s = location.search + location.hash, v;
+  while ((m = re.exec(s))) {
+    try { v = decodeURIComponent(m[2].replace(/\+/g, ' ')); } catch (e) { v = m[2]; }
+    out[m[1].toLowerCase().replace(/[_\-]/g, '')] = v;
+  }
+  return out;
+})();
+
+function clean(v){
+  v = String(v == null ? '' : v).replace(/^\s+|\s+$/g, '');
+  /* An unresolved personalisation token ({{Profile.cspid}}, {cspId}, "default")
+     is worse than nothing: it would log as a real id shared by everyone. */
+  if (!v || v.toLowerCase() === 'default' || v.indexOf('{') >= 0 || v.indexOf('%7B') >= 0) return '';
+  return v.substring(0, 80);
+}
+
+var CSP_ID = clean(Q.cspid || Q.csp || Q.uid || Q.userid || Q.id);
+
+/* CSP app vs technician app. The banner URL carries &app=TECH on the
+   technician side; anything unrecognised is treated as CSP rather than
+   dropped, so a missing param never loses the row. */
+var APP = String(Q.app || '').toUpperCase();
+if (APP !== 'TECH' && APP !== 'CSP') APP = 'CSP';
+
+/* One id per page open, carried on every row. Lets the sheet pair a view
+   with the tap that followed it, and tell two opens apart from a reload. */
+var SID = (function(){
+  var s = '';
+  try { s = Math.random().toString(36).substring(2, 8); } catch (e) {}
+  return (+new Date()).toString(36) + (s || 'xxxxxx');
+})();
+
+/* NOTE on the missing-id case: unlike the ₹750 opt-in pages, this page does
+   NOT gate on a missing cspId. That page needed identity to record consent;
+   this one only teaches something, and refusing to teach because a token did
+   not resolve is the worse failure. The row is written with csp_id="unknown"
+   so a broken banner shows up as a block of unknowns in the sheet instead of
+   as silence. */
+var UID = CSP_ID || 'unknown';
+
+/* ── Sheet beacon ─────────────────────────────────────────────────────
+   Apps Script answers with a 302 to script.googleusercontent.com. Some
+   in-app WebViews drop that redirect for an <img>, and some have no fetch
+   at all, so the channels form a FALLBACK CHAIN: fetch(no-cors) first, and
+   Image/XHR only if it actually threw. Firing them together would write two
+   identical rows. keepalive lets the request outlive the ठीक है teardown. */
+function beacon(url){
+  function viaImage(){ try { new Image().src = url; return true; } catch (e) { return false; } }
+  function viaXhr(){
+    try { var x = new XMLHttpRequest(); x.open('GET', url, true); x.send(); return true; }
+    catch (e) { return false; }
+  }
+  if (typeof fetch === 'function') {
+    try {
+      fetch(url, { mode: 'no-cors', cache: 'no-store', keepalive: true })
+        .catch(function(){ if (!viaImage()) viaXhr(); });
+      return;
+    } catch (e) {}
+  }
+  if (!viaImage()) viaXhr();
+}
+
+/* ── CleverTap, best effort only ──────────────────────────────────────
+   A banner WebView usually has no CleverTap bridge. If the app does inject
+   one, these land as a free second channel; if not, the six retries expire
+   quietly and the sheet is still complete. Names are _Banner_, never the
+   in-app's _Page_ - see the header. */
+var ctSent = {};
+function ct(name, props){
+  var ev = APP + '_Offer_Banner_' + name;
+  if (ctSent[ev]) return;
+  ctSent[ev] = { done: false, n: 0 };
+  var p = { app: APP, creative: CREATIVE, surface: 'banner', csp_id: UID };
+  if (props) { for (var k in props) if (Object.prototype.hasOwnProperty.call(props, k)) p[k] = props[k]; }
+  (function attempt(){
+    var st = ctSent[ev];
+    if (st.done) return;
+    try {
+      if (window.CleverTap && typeof window.CleverTap.pushEvent === 'function') {
+        window.CleverTap.pushEvent(ev, JSON.stringify(p)); st.done = true; return;
+      }
+      if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.clevertap) {
+        window.webkit.messageHandlers.clevertap.postMessage(
+          { action: 'recordEventWithProps', event: ev, properties: p });
+        st.done = true; return;
+      }
+    } catch (e) {}
+    st.n++;
+    if (st.n < 6) setTimeout(attempt, 250 * st.n);
+  })();
+}
+
+/* ── The two tracked moments ──────────────────────────────────────────
+   EVERY view and EVERY tap, no dedup on this side and none on the sheet
+   side either: repeat exposure is the thing being measured. */
+function log(event){
+  if (!LOG) return;
+  beacon(LOG
+    + '?flow=OFFER'
+    + '&event=' + encodeURIComponent(event)
+    + '&uid='   + encodeURIComponent(UID)
+    + '&app='   + encodeURIComponent(APP)
+    + '&page='  + encodeURIComponent(PAGE)
+    + '&sid='   + encodeURIComponent(SID)
+    + '&t='     + (+new Date()));
+}
+
+/* ── Closing the banner ───────────────────────────────────────────────
+   There is no CleverTap in-app to dismiss here. Try whatever bridge the
+   host app exposes, then window.close(), and fall back to history.back()
+   which returns to the screen the banner was tapped from. If every one of
+   those is a no-op the CSP simply stays on an acknowledged page - visibly
+   tapped, nothing broken. */
+function closePage(){
+  try { if (window.CleverTap && typeof window.CleverTap.dismissInAppNotification === 'function') {
+    window.CleverTap.dismissInAppNotification(); return; } } catch (e) {}
+  try { if (window.Android && typeof window.Android.close === 'function') { window.Android.close(); return; } } catch (e) {}
+  try { if (window.AndroidBridge && typeof window.AndroidBridge.close === 'function') { window.AndroidBridge.close(); return; } } catch (e) {}
+  try { if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.close) {
+    window.webkit.messageHandlers.close.postMessage('close'); return; } } catch (e) {}
+  try { window.close(); } catch (e) {}
+  try { if (history.length > 1) history.back(); } catch (e) {}
+}
+
+var okDone = false;
+function onOK(){
+  if (okDone) return;
+  okDone = true;
+  document.getElementById('ok').className = 'cta gone';
+  log('ok');
+  ct('OK_Clicked');
+  /* Closing tears down the WebView, so give the beacon a moment to leave. */
+  setTimeout(closePage, 400);
+}
+
+var ok = document.getElementById('ok');
+ok.addEventListener('click', onOK, false);
+ok.addEventListener('keydown', function(e){
+  if (e.keyCode === 13 || e.keyCode === 32) { e.preventDefault(); onOK(); }
+}, false);
+
+log('view');
+ct('Shown');
+})();
+</script>
+</body>
+</html>
