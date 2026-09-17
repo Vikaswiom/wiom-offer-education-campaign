@@ -242,8 +242,10 @@ opacity:0;transition:opacity .2s ease;pointer-events:none}
    Leave '' and the page works but logs nothing. */
 var LOG = 'https://script.google.com/macros/s/AKfycbzjcvUOC_l23lHmweSUYlxnGgGBTSezci5Jv6qZKINwHLEb5GUDq9SE97xULDmwyBKUGw/exec';
 
-/* Deep link the ठीक है tap aims at — see closePage(). */
-var HOME_LINK = 'https://csp.wiom.in/home';
+/* Where the ठीक है tap sends the CSP — see closePage(). csp.wiom.in is the
+   app's verified app-link host, so this resolves to an in-app route rather
+   than a web page. */
+var DEEP_LINK = 'https://csp.wiom.in/wallet';
 var CREATIVE = 'offer_page_appchitra_v1';
 var PAGE     = 'offer';
 
@@ -379,14 +381,35 @@ function log(event){
    normal case - skipped it and the page simply stayed put. */
 function closePage(){
   var i, j, k, b, m, mh;
+  /* The destination first: a close call would tear this page down before any
+     navigation could happen.
+
+     FIRED INTO A HIDDEN IFRAME, NEVER location.href. If the app is not
+     intercepting WebView navigations, location.href would replace the creative
+     with whatever that URL serves a browser - very likely a 404 - and
+     the CSP would be left staring at an error instead of the page they just
+     acknowledged. An iframe load fails invisibly and leaves the page intact,
+     so this is safe to ship before the app side exists. */
+  try {
+    var fr = document.createElement('iframe');
+    fr.setAttribute('aria-hidden', 'true');
+    /* Sandboxed: this page does not control what that URL serves a browser, and an un-sandboxed frame could script the top-level window
+       out from under the creative. The sandbox does not affect the WebView's
+       chance to intercept the navigation, which is the only thing wanted. */
+    fr.setAttribute('sandbox', '');
+    fr.style.cssText = 'position:absolute;width:0;height:0;border:0;visibility:hidden';
+    fr.src = DEEP_LINK;
+    document.body.appendChild(fr);
+    setTimeout(function(){ try { fr.parentNode.removeChild(fr); } catch (e) {} }, 1500);
+  } catch (e) {}
+
   var NAMES = ['CleverTap','Android','AndroidBridge','AndroidInterface','AndroidApp',
                'WiomApp','Wiom','wiom','JSBridge','JsBridge','NativeBridge','AppBridge',
                'NativeInterface','JavascriptInterface','nativeApp','mobileApp','app','bridge'];
-  /* goHome first: ठीक है should land the CSP back on the app's home screen,
-     not on whatever screen happened to be underneath. Everything after it is a
-     fallback for a bridge that only knows how to close. */
-  var METHODS = ['goHome','home','openHome',
-                 'dismissInAppNotification','closeInAppNotification','closeWebView',
+  /* No goHome() here on purpose: the tap has a specific destination now
+     (DEEP_LINK), and a bridge that navigates home instead would quietly send
+     the CSP somewhere the link never asked for. These only ever close. */
+  var METHODS = ['dismissInAppNotification','closeInAppNotification','closeWebView',
                  'closeWebview','closeWindow','closePage','close','finishActivity',
                  'finish','dismiss','exit','goBack','back','onBackPressed'];
   for (i = 0; i < NAMES.length; i++) {
@@ -398,29 +421,6 @@ function closePage(){
       } catch (e) {}
     }
   }
-  /* The app's own deep link to home. csp.wiom.in is the verified app-link
-     host and /home maps to AppRoutes.HOME in DeepLinkRouter.
-
-     FIRED INTO A HIDDEN IFRAME, NEVER location.href. If the app is not
-     intercepting WebView navigations, location.href would replace the creative
-     with whatever csp.wiom.in/home serves a browser - very likely a 404 - and
-     the CSP would be left staring at an error instead of the page they just
-     acknowledged. An iframe load fails invisibly and leaves the page intact,
-     so this is safe to ship before the app side exists. */
-  try {
-    var fr = document.createElement('iframe');
-    fr.setAttribute('aria-hidden', 'true');
-    /* Sandboxed: this page does not control what csp.wiom.in/home serves a
-       browser, and an un-sandboxed frame could script the top-level window
-       out from under the creative. The sandbox does not affect the WebView's
-       chance to intercept the navigation, which is the only thing wanted. */
-    fr.setAttribute('sandbox', '');
-    fr.style.cssText = 'position:absolute;width:0;height:0;border:0;visibility:hidden';
-    fr.src = HOME_LINK;
-    document.body.appendChild(fr);
-    setTimeout(function(){ try { fr.parentNode.removeChild(fr); } catch (e) {} }, 1500);
-  } catch (e) {}
-
   try {
     mh = window.webkit && window.webkit.messageHandlers;
     if (mh) {
