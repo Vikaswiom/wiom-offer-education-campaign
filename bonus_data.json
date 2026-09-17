@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-17 11:26 IST",
+  "generated": "2026-09-17 16:54 IST",
   "region": "eu1",
   "start_date": "2026-07-27",
   "triggers": [
@@ -377,9 +377,9 @@
       {
         "key": "round2",
         "label": "since 31 Jul 11:00",
-        "users": 308,
-        "events": 2369,
-        "days": 48.02,
+        "users": 309,
+        "events": 2370,
+        "days": 48.25,
         "reach_pct": 40,
         "per_user_day": 0.064
       }
@@ -461,9 +461,9 @@
           "label": "20 Jul–30 Jul (before)"
         },
         "post": {
-          "users": 308,
-          "events": 2369,
-          "days": 48.02,
+          "users": 309,
+          "events": 2370,
+          "days": 48.25,
           "reach_pct": 40,
           "per_user_day": 0.064,
           "label": "since 31 Jul 11:00 (after)"
