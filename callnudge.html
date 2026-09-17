@@ -24,20 +24,24 @@ WHAT CHANGED FROM THE CleverTap CUSTOM-HTML VERSION, AND WHY:
    broken. Every token, both buttons and all copy are unchanged - the card is
    simply unfolded to full width.
 
-2. THREE EXITS BECOME TWO. Tapping the scrim was the third dismiss path; there
-   is no scrim to tap. अभी कॉल करें and बाद में remain.
+2. ONE ACKNOWLEDGE CTA. The proposal's two buttons (अभी कॉल करें / बाद में) are
+   replaced by a single ठीक है, and the scrim's third dismiss path is gone with
+   the scrim. This page now teaches rather than asks: there is no branch to
+   record, so the funnel is simply seen -> acknowledged, exactly like
+   offer.html. A CTA that promises to place a call and then only closes a page
+   would also be a promise the page cannot keep.
 
 3. IDENTITY FROM THE URL, TRACKING TO THE SHEET. The CT build carried no
    properties at all because the in-app knew who it was showing to. A banner
    does not, so cspId comes from the URL the app appends and every event is
    logged to the shared Google Sheet.
 
-EVENTS (sheet `Log` tab, page="callnudge"):
-  view   - once, on load
-  call   - अभी कॉल करें
-  later  - बाद में
-Renamed from the proposal's call_nudge_shown / _accepted / _dismissed to sit in
-the same three-column shape as offer.html, so one sheet answers both funnels.
+EVENTS (sheet tab `CallNudge`, page="callnudge"):
+  view - once, on load
+  ok   - the ठीक है tap
+Renamed from the proposal's call_nudge_shown / _accepted / _dismissed: the tab
+is per-creative, so the event names stay in the same shape as offer.html and
+one reader can count both funnels the same way.
 
 CleverTap events still fire best-effort as CSP/TECH_Call_Nudge_Banner_*, NOT the
 proposal's call_nudge_*_csp - reusing those names would merge this surface into
@@ -78,21 +82,22 @@ h1{font-size:20px;line-height:28px;font-weight:700;color:#161021;letter-spacing:
 /* bodyMd — B2_14_Regular, 14/20, textSecondary. WiomSpacing.sm above. */
 p{margin:8px 0 0;font-size:14px;line-height:20px;font-weight:400;color:#5C5570}
 
-/* WiomSpacing.sheetContentToCta — 48 dp */
-.btns{margin-top:48px;display:flex;flex-direction:column;gap:4px}
-button{font-family:inherit;width:100%;height:48px;border:0;border-radius:24px;
-font-size:16px;cursor:pointer;padding:0;display:block}
-#cta{background:#D9008D;color:#fff;font-weight:600}
-#cta:active{background:#A30070}
-#later{background:transparent;color:#D9008D;font-weight:700}
-#later:active{background:#FFE5F6}
-button[disabled]{opacity:.6}
+/* WiomSpacing.sheetContentToCta — 48 dp above the CTA, unchanged.
+   ठीक है = acknowledge -> pink TEXT CTA per house convention, never a filled
+   primary. 24 + 2×12 = 48px tap target. Identical to offer.html's CTA, so both
+   banner pages end the same way. */
+.cta{margin-top:48px;width:100%;text-align:center;padding:12px 16px;
+font-size:16px;line-height:24px;font-weight:700;color:#D9008D;cursor:pointer;
+user-select:none;-webkit-user-select:none;transition:opacity .12s ease}
+.cta:active{opacity:.55}
+/* Once tapped, stop a second tap firing a second close mid-teardown. */
+.cta.gone{opacity:.4;pointer-events:none}
 
 /* Short devices — a 5" 1280×720 handset is ~640 CSS px tall. Tighten the page
    padding rather than let a button fall below the fold. */
 @media (max-height:700px){
 .app{padding-top:calc(24px + env(safe-area-inset-top))}
-.btns{margin-top:32px}
+.cta{margin-top:32px}
 }
 @media (prefers-reduced-motion:reduce){.app{transition-duration:1ms}}
 </style>
@@ -110,10 +115,7 @@ button[disabled]{opacity:.6}
 <p>पता और समय कस्टमर से कन्फ़र्म कर लें।</p>
 </div>
 
-<div class="btns">
-<button id="cta" type="button">अभी कॉल करें</button>
-<button id="later" type="button">बाद में</button>
-</div>
+<div class="cta" id="ok" role="button" tabindex="0">ठीक है</div>
 
 </div>
 
@@ -127,11 +129,6 @@ button[disabled]{opacity:.6}
 var LOG  = 'https://script.google.com/macros/s/AKfycbzjcvUOC_l23lHmweSUYlxnGgGBTSezci5Jv6qZKINwHLEb5GUDq9SE97xULDmwyBKUGw/exec';
 var PAGE = 'callnudge';
 var CREATIVE = 'call_first_nudge_v1';
-
-/* Optional destination for the primary CTA. Empty = the CTA logs the intent
-   and closes the page. Set it to the app's deep link to send the partner
-   somewhere, e.g. the booking's detail screen. */
-var DEEPLINK = '';
 
 /* ── URL parameters ─── one pass over query AND hash, keys lower-cased with
    _ and - stripped, so cspId / csp_id / csp-id / CSPID all land together. */
@@ -245,33 +242,23 @@ function fadeOut(then){
   setTimeout(then, 200);
 }
 
-var acted = false;
-
-function accepted(){
-  if (acted) return; acted = true;
-  document.getElementById('cta').disabled = true;
-  log('call');
-  ct('Call_Clicked');
-  fadeOut(function(){
-    if (DEEPLINK) {
-      var sep = DEEPLINK.indexOf('?') > -1 ? '&' : '?';
-      location.href = DEEPLINK + sep + 'wzrk_c2a=call_now';
-      setTimeout(closePage, 400);   /* nothing intercepted it -> close anyway */
-    } else {
-      closePage();
-    }
-  });
-}
-
-function dismissed(){
-  if (acted) return; acted = true;
-  log('later');
-  ct('Later_Clicked');
+var okDone = false;
+function onOK(){
+  if (okDone) return;
+  okDone = true;
+  document.getElementById('ok').className = 'cta gone';
+  log('ok');
+  ct('OK_Clicked');
+  /* Closing tears down the WebView, so let the beacon leave first. The 200ms
+     fade is the dialog's own motion.micro exit, kept. */
   fadeOut(closePage);
 }
 
-document.getElementById('cta').addEventListener('click', accepted, false);
-document.getElementById('later').addEventListener('click', dismissed, false);
+var ok = document.getElementById('ok');
+ok.addEventListener('click', onOK, false);
+ok.addEventListener('keydown', function(e){
+  if (e.keyCode === 13 || e.keyCode === 32) { e.preventDefault(); onOK(); }
+}, false);
 
 log('view');
 ct('Shown');

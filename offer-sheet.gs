@@ -43,7 +43,7 @@ function doGet(e) {
      text column: a typo would otherwise open a silent funnel nobody counts. */
   var PAGES = {
     offer:     { tab: 'Log',       events: { view: 1, ok: 1 } },
-    callnudge: { tab: 'CallNudge', events: { view: 1, call: 1, later: 1 } }
+    callnudge: { tab: 'CallNudge', events: { view: 1, ok: 1 } }
   };
   var HEADER = ['date', 'time (IST)', 'csp_id', 'app', 'event', 'page', 'open_id', 't'];
 
