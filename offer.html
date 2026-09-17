@@ -380,7 +380,11 @@ function closePage(){
   var NAMES = ['CleverTap','Android','AndroidBridge','AndroidInterface','AndroidApp',
                'WiomApp','Wiom','wiom','JSBridge','JsBridge','NativeBridge','AppBridge',
                'NativeInterface','JavascriptInterface','nativeApp','mobileApp','app','bridge'];
-  var METHODS = ['dismissInAppNotification','closeInAppNotification','closeWebView',
+  /* goHome first: ठीक है should land the CSP back on the app's home screen,
+     not on whatever screen happened to be underneath. Everything after it is a
+     fallback for a bridge that only knows how to close. */
+  var METHODS = ['goHome','home','openHome',
+                 'dismissInAppNotification','closeInAppNotification','closeWebView',
                  'closeWebview','closeWindow','closePage','close','finishActivity',
                  'finish','dismiss','exit','goBack','back','onBackPressed'];
   for (i = 0; i < NAMES.length; i++) {
