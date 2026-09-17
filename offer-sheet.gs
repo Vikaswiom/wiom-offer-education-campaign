@@ -159,3 +159,42 @@ function doGet(e) {
   return ContentService.createTextOutput('err: ' + String((err && err.message) || err));
  }
 }
+
+/**
+ * RUN THIS FROM THE EDITOR to diagnose a write failure.
+ *
+ * Pick `testWrite` in the function dropdown at the top of the Apps Script
+ * editor and press Run. Two things happen that a web-app request cannot do:
+ *   1. If authorization is missing or was granted with too narrow a scope,
+ *      Google prompts for it here. A deployed web app cannot prompt - it just
+ *      throws, and the caller gets an unhelpful HTML error page.
+ *   2. The real exception text appears in the execution log, instead of being
+ *      swallowed into "Sorry, unable to open the file at present".
+ *
+ * Success also creates the `Log` tab, which takes insertSheet out of the
+ * request path for good.
+ */
+function testWrite() {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  Logger.log('bound to : %s', ss ? ss.getName() : 'NOTHING - this script is not bound to a spreadsheet');
+  Logger.log('file id  : %s', ss ? ss.getId() : '-');
+  try { Logger.log('runs as  : %s', Session.getEffectiveUser().getEmail()); } catch (e) { Logger.log('runs as  : unknown'); }
+
+  var sh = ss.getSheetByName('Log');
+  if (!sh) {
+    sh = ss.insertSheet('Log');
+    sh.appendRow(['date', 'time (IST)', 'csp_id', 'app', 'event', 'page', 'sid', 't']);
+    sh.setFrozenRows(1);
+    sh.getRange(1, 1, 1, 8).setFontWeight('bold');
+    Logger.log('created the Log tab');
+  } else {
+    Logger.log('Log tab already existed');
+  }
+  var now = new Date();
+  sh.appendRow([
+    Utilities.formatDate(now, 'Asia/Kolkata', 'yyyy-MM-dd'),
+    Utilities.formatDate(now, 'Asia/Kolkata', 'HH:mm:ss'),
+    'TEST_EDITOR', 'CSP', 'view', 'offer', 'editor', String(+now)
+  ]);
+  Logger.log('WRITE OK - a TEST_EDITOR row is now in the Log tab');
+}
