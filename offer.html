@@ -354,21 +354,94 @@ function log(event){
 }
 
 /* ── Closing the banner ───────────────────────────────────────────────
-   There is no CleverTap in-app to dismiss here. Try whatever bridge the
-   host app exposes, then window.close(), and fall back to history.back()
-   which returns to the screen the banner was tapped from. If every one of
-   those is a no-op the CSP simply stays on an acknowledged page - visibly
-   tapped, nothing broken. */
+   There is no CleverTap in-app to dismiss here, and the host app's JS bridge
+   is not documented, so this tries every shape an Android WebView bridge
+   commonly takes before falling back to the browser's own exits. Open the
+   page with &diag=1 on a handset to see exactly what this app injects - the
+   overlay lists every bridge-shaped object on window - and once that is known
+   this whole ladder collapses to the one real call.
+
+   history.back() is fired unconditionally: the earlier history.length > 1
+   guard meant that a banner opened as the WebView's FIRST page - which is the
+   normal case - skipped it and the page simply stayed put. */
 function closePage(){
-  try { if (window.CleverTap && typeof window.CleverTap.dismissInAppNotification === 'function') {
-    window.CleverTap.dismissInAppNotification(); return; } } catch (e) {}
-  try { if (window.Android && typeof window.Android.close === 'function') { window.Android.close(); return; } } catch (e) {}
-  try { if (window.AndroidBridge && typeof window.AndroidBridge.close === 'function') { window.AndroidBridge.close(); return; } } catch (e) {}
-  try { if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.close) {
-    window.webkit.messageHandlers.close.postMessage('close'); return; } } catch (e) {}
+  var i, j, k, b, m, mh;
+  var NAMES = ['CleverTap','Android','AndroidBridge','AndroidInterface','AndroidApp',
+               'WiomApp','Wiom','wiom','JSBridge','JsBridge','NativeBridge','AppBridge',
+               'NativeInterface','JavascriptInterface','nativeApp','mobileApp','app','bridge'];
+  var METHODS = ['dismissInAppNotification','closeInAppNotification','closeWebView',
+                 'closeWebview','closeWindow','closePage','close','finishActivity',
+                 'finish','dismiss','exit','goBack','back','onBackPressed'];
+  for (i = 0; i < NAMES.length; i++) {
+    try { b = window[NAMES[i]]; } catch (e) { b = null; }
+    if (!b) continue;
+    for (j = 0; j < METHODS.length; j++) {
+      try {
+        if (typeof b[METHODS[j]] === 'function') { b[METHODS[j]](); return; }
+      } catch (e) {}
+    }
+  }
+  try {
+    mh = window.webkit && window.webkit.messageHandlers;
+    if (mh) {
+      var HS = ['close','closeWebView','nativeClose','dismiss','clevertap','jsBridge','bridge'];
+      for (k = 0; k < HS.length; k++) {
+        if (mh[HS[k]] && typeof mh[HS[k]].postMessage === 'function') {
+          mh[HS[k]].postMessage({ action: 'close' }); return;
+        }
+      }
+    }
+  } catch (e) {}
+  try { window.open('', '_self'); } catch (e) {}
   try { window.close(); } catch (e) {}
-  try { if (history.length > 1) history.back(); } catch (e) {}
+  try { history.back(); } catch (e) {}
 }
+
+/* ── Bridge discovery ─────────────────────────────────────────────────
+   &diag=1 only. Lists every object on window that looks like an injected
+   native bridge (an object carrying functions) plus its method names, so the
+   real close call can be identified from a screenshot instead of guessed at.
+   Costs nothing when the parameter is absent. */
+function diagOverlay(){
+  var out = [], k, v, fns, i, seen = {};
+  var SKIP = {window:1, self:1, top:1, parent:1, frames:1, document:1, location:1,
+              navigator:1, history:1, screen:1, localStorage:1, sessionStorage:1,
+              performance:1, console:1, crypto:1, caches:1, indexedDB:1, webkit:1};
+  for (k in window) {
+    if (SKIP[k] || seen[k]) continue;
+    seen[k] = 1;
+    try { v = window[k]; } catch (e) { continue; }
+    if (!v || (typeof v !== 'object' && typeof v !== 'function')) continue;
+    fns = [];
+    try {
+      for (i in v) { if (typeof v[i] === 'function') fns.push(i); if (fns.length > 11) break; }
+    } catch (e) { continue; }
+    if (fns.length) out.push(k + ' → ' + fns.join(', '));
+    if (out.length > 26) break;
+  }
+  var wk = [];
+  try {
+    var mh = window.webkit && window.webkit.messageHandlers;
+    if (mh) for (k in mh) wk.push(k);
+  } catch (e) {}
+
+  var box = document.createElement('div');
+  box.style.cssText = 'position:fixed;left:0;right:0;bottom:0;top:0;z-index:99999;overflow:auto;'
+    + 'background:#161021;color:#7CFFB2;font:10px/1.5 monospace;padding:10px;'
+    + 'white-space:pre-wrap;word-break:break-all;-webkit-user-select:text;user-select:text';
+  box.textContent =
+      'BRIDGE DIAG — screenshot this\n'
+    + 'viewport ' + window.innerWidth + '×' + window.innerHeight
+    + '  dpr ' + (window.devicePixelRatio || '?') + '\n'
+    + 'cspId=' + UID + '  app=' + APP + '\n'
+    + 'webkit.messageHandlers: ' + (wk.length ? wk.join(', ') : 'none') + '\n'
+    + '---- objects on window carrying functions ----\n'
+    + (out.length ? out.join('\n') : 'none found');
+  box.addEventListener('click', function(){ box.parentNode.removeChild(box); }, false);
+  document.body.appendChild(box);
+}
+if (Q.diag) { try { diagOverlay(); } catch (e) {} }
+
 
 var okDone = false;
 function onOK(){
