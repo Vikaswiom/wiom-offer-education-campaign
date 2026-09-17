@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="hi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>कस्टमर से बात करने वालों के कनेक्शन कम कैंसिल होते हैं — Call-First Nudge</title>
+<!--
+Call-First Nudge - IN-APP BANNER BUILD.
+Spec: "Call-First Nudge" proposal v0.1 (9 Sep 2026), §Anatomy / §Copy.
+
+  https://vikaswiom.github.io/wiom-offer-education-campaign/callnudge.html?cspId=<ID>
+  ...&app=TECH   on the technician app's banner
+
+Sibling of offer.html. Same plumbing, same tracking sheet, different `page`
+value so the two funnels can never mix: offer.html logs page="offer", this logs
+page="callnudge".
+
+WHAT CHANGED FROM THE CleverTap CUSTOM-HTML VERSION, AND WHY:
+
+1. THE SCRIM IS GONE AND THE CARD IS NOW THE PAGE. A scrim at 48% only reads as
+   a dialog because the app shows through it. A banner opens this in a WebView
+   with nothing behind it, so the scrim would have darkened a blank white
+   screen and the 312dp card would have floated in the middle of it looking
+   broken. Every token, both buttons and all copy are unchanged - the card is
+   simply unfolded to full width.
+
+2. THREE EXITS BECOME TWO. Tapping the scrim was the third dismiss path; there
+   is no scrim to tap. अभी कॉल करें and बाद में remain.
+
+3. IDENTITY FROM THE URL, TRACKING TO THE SHEET. The CT build carried no
+   properties at all because the in-app knew who it was showing to. A banner
+   does not, so cspId comes from the URL the app appends and every event is
+   logged to the shared Google Sheet.
+
+EVENTS (sheet `Log` tab, page="callnudge"):
+  view   - once, on load
+  call   - अभी कॉल करें
+  later  - बाद में
+Renamed from the proposal's call_nudge_shown / _accepted / _dismissed to sit in
+the same three-column shape as offer.html, so one sheet answers both funnels.
+
+CleverTap events still fire best-effort as CSP/TECH_Call_Nudge_Banner_*, NOT the
+proposal's call_nudge_*_csp - reusing those names would merge this surface into
+the in-app campaign's numbers.
+
+ES5 ONLY - the CSP app's WebView can be Chrome 38, where let/arrow is a
+SyntaxError that kills the whole script while the page still paints.
+-->
+<style>
+/* Tokens carried over verbatim from the CleverTap build:
+   bgSurface #FFFFFF · textPrimary #161021 · textSecondary #5C5570
+   brandPrimary #D9008D · brandPressed #A30070 · bgBrandTint #FFE5F6 */
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;-webkit-text-size-adjust:100%;-webkit-tap-highlight-color:transparent;
+-webkit-user-select:none;user-select:none}
+body{background:#FFFFFF;display:flex;justify-content:center;touch-action:manipulation;
+font-family:"Noto Sans Devanagari","Noto Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+color:#161021;-webkit-font-smoothing:antialiased}
+
+/* The card, unfolded. 24px page padding = WiomSpacing.xxl, the card's own. */
+.app{width:100%;max-width:420px;min-height:100vh;min-height:100dvh;
+display:flex;flex-direction:column;background:#FFFFFF;
+padding:calc(40px + env(safe-area-inset-top)) 24px calc(16px + env(safe-area-inset-bottom));
+opacity:0;transition:opacity 200ms cubic-bezier(.2,0,0,1)}
+.app.in{opacity:1}
+
+/* Content sits optically centred; the CTAs stay at the bottom of the page,
+   which is where a thumb is. Mirrors offer.html's hero/CTA split. */
+.content{flex:1;display:flex;flex-direction:column;justify-content:center}
+
+/* icon badge — bgBrandTint + brandPrimary. Opportunity, not alert: never bgNegative. */
+.ic{width:48px;height:48px;border-radius:999px;background:#FFE5F6;color:#D9008D;
+display:flex;align-items:center;justify-content:center;margin:0 0 16px}
+.ic svg{width:24px;height:24px;display:block}
+
+/* headingLg — T3_20_Bold, 20/28/700, textPrimary, left-aligned */
+h1{font-size:20px;line-height:28px;font-weight:700;color:#161021;letter-spacing:0}
+/* bodyMd — B2_14_Regular, 14/20, textSecondary. WiomSpacing.sm above. */
+p{margin:8px 0 0;font-size:14px;line-height:20px;font-weight:400;color:#5C5570}
+
+/* WiomSpacing.sheetContentToCta — 48 dp */
+.btns{margin-top:48px;display:flex;flex-direction:column;gap:4px}
+button{font-family:inherit;width:100%;height:48px;border:0;border-radius:24px;
+font-size:16px;cursor:pointer;padding:0;display:block}
+#cta{background:#D9008D;color:#fff;font-weight:600}
+#cta:active{background:#A30070}
+#later{background:transparent;color:#D9008D;font-weight:700}
+#later:active{background:#FFE5F6}
+button[disabled]{opacity:.6}
+
+/* Short devices — a 5" 1280×720 handset is ~640 CSS px tall. Tighten the page
+   padding rather than let a button fall below the fold. */
+@media (max-height:700px){
+.app{padding-top:calc(24px + env(safe-area-inset-top))}
+.btns{margin-top:32px}
+}
+@media (prefers-reduced-motion:reduce){.app{transition-duration:1ms}}
+</style>
+</head>
+<body>
+<div class="app" id="app">
+
+<div class="content">
+<div class="ic">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/>
+</svg>
+</div>
+<h1 id="t">कस्टमर से बात करने वालों के कनेक्शन कम कैंसिल होते हैं</h1>
+<p>पता और समय कस्टमर से कन्फ़र्म कर लें।</p>
+</div>
+
+<div class="btns">
+<button id="cta" type="button">अभी कॉल करें</button>
+<button id="later" type="button">बाद में</button>
+</div>
+
+</div>
+
+<script>
+/* Block comments only, ES5 only - see the note at the top of the file. */
+(function(){
+'use strict';
+
+/* Apps Script /exec bound to the offer-education-campaign sheet - the SAME
+   endpoint offer.html uses. The `page` value is what separates the funnels. */
+var LOG  = 'https://script.google.com/macros/s/AKfycbzjcvUOC_l23lHmweSUYlxnGgGBTSezci5Jv6qZKINwHLEb5GUDq9SE97xULDmwyBKUGw/exec';
+var PAGE = 'callnudge';
+var CREATIVE = 'call_first_nudge_v1';
+
+/* Optional destination for the primary CTA. Empty = the CTA logs the intent
+   and closes the page. Set it to the app's deep link to send the partner
+   somewhere, e.g. the booking's detail screen. */
+var DEEPLINK = '';
+
+/* ── URL parameters ─── one pass over query AND hash, keys lower-cased with
+   _ and - stripped, so cspId / csp_id / csp-id / CSPID all land together. */
+var Q = (function(){
+  var out = {}, m, re = /[?&#]([a-zA-Z0-9_\-]+)=([^&#]*)/g, s = location.search + location.hash, v;
+  while ((m = re.exec(s))) {
+    try { v = decodeURIComponent(m[2].replace(/\+/g, ' ')); } catch (e) { v = m[2]; }
+    out[m[1].toLowerCase().replace(/[_\-]/g, '')] = v;
+  }
+  return out;
+})();
+
+function clean(v){
+  v = String(v == null ? '' : v).replace(/^\s+|\s+$/g, '');
+  /* An unresolved personalisation token is worse than nothing - it would log
+     as one real-looking id shared by everyone. */
+  if (!v || v.toLowerCase() === 'default' || v.indexOf('{') >= 0 || v.indexOf('%7B') >= 0) return '';
+  return v.substring(0, 80);
+}
+
+var UID = clean(Q.cspid || Q.csp || Q.uid || Q.userid || Q.id) || 'unknown';
+
+var APP = String(Q.app || '').toUpperCase();
+if (APP !== 'TECH' && APP !== 'CSP') APP = 'CSP';
+
+/* One id per page open, on every row: pairs the view with the tap that
+   followed it. SENT AS `oid`, NEVER `sid` - Google reserves sid on
+   script.google.com and 400s the request before the Apps Script runs, with no
+   execution log and nothing for a try/catch to catch. */
+var OID = (function(){
+  var s = '';
+  try { s = Math.random().toString(36).substring(2, 8); } catch (e) {}
+  return (+new Date()).toString(36) + (s || 'xxxxxx');
+})();
+
+/* ── Sheet beacon ─── fetch(no-cors) first, Image/XHR only if it actually
+   threw: a FALLBACK CHAIN, not a broadcast, or every tap writes two rows.
+   keepalive lets the request outlive the page teardown. */
+function bcn(url){
+  function viaImage(){ try { new Image().src = url; return true; } catch (e) { return false; } }
+  function viaXhr(){
+    try { var x = new XMLHttpRequest(); x.open('GET', url, true); x.send(); return true; }
+    catch (e) { return false; }
+  }
+  if (typeof fetch === 'function') {
+    try {
+      fetch(url, { mode: 'no-cors', cache: 'no-store', keepalive: true })
+        .catch(function(){ if (!viaImage()) viaXhr(); });
+      return;
+    } catch (e) {}
+  }
+  if (!viaImage()) viaXhr();
+}
+
+function log(event){
+  if (!LOG) return;
+  bcn(LOG
+    + '?flow=OFFER'
+    + '&event=' + encodeURIComponent(event)
+    + '&uid='   + encodeURIComponent(UID)
+    + '&app='   + encodeURIComponent(APP)
+    + '&page='  + encodeURIComponent(PAGE)
+    + '&oid='   + encodeURIComponent(OID)
+    + '&t='     + (+new Date()));
+}
+
+/* ── CleverTap, best effort only ─── a banner WebView usually has no bridge.
+   Names are _Call_Nudge_Banner_, never the proposal's call_nudge_*_csp, so
+   this surface can never merge into the in-app campaign's numbers. */
+var ctSent = {};
+function ct(name){
+  var ev = APP + '_Call_Nudge_Banner_' + name;
+  if (ctSent[ev]) return;
+  ctSent[ev] = { done: false, n: 0 };
+  var p = { app: APP, creative: CREATIVE, surface: 'banner', csp_id: UID };
+  (function attempt(){
+    var st = ctSent[ev];
+    if (st.done) return;
+    try {
+      if (window.CleverTap && typeof window.CleverTap.pushEvent === 'function') {
+        window.CleverTap.pushEvent(ev, JSON.stringify(p)); st.done = true; return;
+      }
+      if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.clevertap) {
+        window.webkit.messageHandlers.clevertap.postMessage(
+          { action: 'recordEventWithProps', event: ev, properties: p });
+        st.done = true; return;
+      }
+    } catch (e) {}
+    st.n++;
+    if (st.n < 6) setTimeout(attempt, 250 * st.n);
+  })();
+}
+
+/* ── Closing ─── no in-app to dismiss here. Try whatever bridge the host app
+   exposes, then window.close(), then history.back() which returns to the
+   screen the banner was tapped from. */
+function closePage(){
+  try { if (window.CleverTap && typeof window.CleverTap.dismissInAppNotification === 'function') {
+    window.CleverTap.dismissInAppNotification(); return; } } catch (e) {}
+  try { if (window.Android && typeof window.Android.close === 'function') { window.Android.close(); return; } } catch (e) {}
+  try { if (window.AndroidBridge && typeof window.AndroidBridge.close === 'function') { window.AndroidBridge.close(); return; } } catch (e) {}
+  try { if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.close) {
+    window.webkit.messageHandlers.close.postMessage('close'); return; } } catch (e) {}
+  try { window.close(); } catch (e) {}
+  try { if (history.length > 1) history.back(); } catch (e) {}
+}
+
+/* motion.micro - the dialog's own 200ms exit, kept. */
+function fadeOut(then){
+  try { document.getElementById('app').className = 'app'; } catch (e) {}
+  setTimeout(then, 200);
+}
+
+var acted = false;
+
+function accepted(){
+  if (acted) return; acted = true;
+  document.getElementById('cta').disabled = true;
+  log('call');
+  ct('Call_Clicked');
+  fadeOut(function(){
+    if (DEEPLINK) {
+      var sep = DEEPLINK.indexOf('?') > -1 ? '&' : '?';
+      location.href = DEEPLINK + sep + 'wzrk_c2a=call_now';
+      setTimeout(closePage, 400);   /* nothing intercepted it -> close anyway */
+    } else {
+      closePage();
+    }
+  });
+}
+
+function dismissed(){
+  if (acted) return; acted = true;
+  log('later');
+  ct('Later_Clicked');
+  fadeOut(closePage);
+}
+
+document.getElementById('cta').addEventListener('click', accepted, false);
+document.getElementById('later').addEventListener('click', dismissed, false);
+
+log('view');
+ct('Shown');
+
+/* Paint, then fade in - a page that is already visible cannot animate in. */
+setTimeout(function(){ document.getElementById('app').className = 'app in'; }, 16);
+})();
+</script>
+</body>
+</html>

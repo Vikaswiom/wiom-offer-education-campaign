@@ -1,8 +1,12 @@
 /**
- * Wiom — Offer Education banner page · view + tap log
+ * Wiom — CSP/technician education banner pages · view + tap log
  *
- * Paired with offer.html in this repo:
+ * Shared by BOTH banner creatives in this repo. The `page` column keeps their
+ * funnels apart; nothing here ever merges them.
+ *   offer.html     page="offer"      events: view, ok
+ *   callnudge.html page="callnudge"  events: view, call, later
  *   https://vikaswiom.github.io/wiom-offer-education-campaign/offer.html?cspId=<ID>
+ *   https://vikaswiom.github.io/wiom-offer-education-campaign/callnudge.html?cspId=<ID>
  *
  * Every beacon arrives as:
  *   ?flow=OFFER&event=view|ok&uid=<cspId>&app=CSP|TECH&page=offer&oid=<open id>&t=<ms>
@@ -72,13 +76,28 @@ function doGet(e) {
     var sh0 = ss0.getSheetByName('Log');
     var out = {
       updated: new Date().toISOString(),
-      totals: { views: 0, oks: 0, csps_viewed: 0, csps_tapped: 0 },
-      by_app: {},
-      days: []
+      rows: 0,
+      by_page: {},   /* offer / callnudge - each creative's own funnel */
+      by_app:  {},
+      days:    []
     };
     if (sh0 && sh0.getLastRow() > 1) {
-      var vals = sh0.getRange(2, 1, sh0.getLastRow() - 1, 5).getValues();
-      var uv = {}, ut = {}, days = {}, apps = {};
+      var vals = sh0.getRange(2, 1, sh0.getLastRow() - 1, 6).getValues();
+      var days = {};
+      /* Counted per page AND per app, never merged. Two creatives share this
+         sheet; a combined number would answer a question nobody asked. */
+      var bump = function (bucket, ev, id) {
+        if (!bucket.events[ev]) bucket.events[ev] = 0;
+        bucket.events[ev]++;
+        if (id && id !== 'unknown') {
+          if (!bucket._csps[id]) { bucket._csps[id] = 1; bucket.csps++; }
+          if (!bucket._by[ev]) bucket._by[ev] = {};
+          if (!bucket._by[ev][id]) { bucket._by[ev][id] = 1;
+            if (!bucket.csps_by_event[ev]) bucket.csps_by_event[ev] = 0;
+            bucket.csps_by_event[ev]++; }
+        }
+      };
+      var mk = function () { return { events: {}, csps: 0, csps_by_event: {}, _csps: {}, _by: {} }; };
       for (var i = 0; i < vals.length; i++) {
         var d  = vals[i][0];
         var ds = (d && typeof d.getTime === 'function')
@@ -86,20 +105,22 @@ function doGet(e) {
         var id = String(vals[i][2] || '');
         var ap = String(vals[i][3] || 'CSP');
         var ev = String(vals[i][4] || '');
-        if (!days[ds]) days[ds] = { d: ds, views: 0, oks: 0 };
-        if (!apps[ap]) apps[ap] = { views: 0, oks: 0, csps: {} };
-        if (ev === 'view') { out.totals.views++; days[ds].views++; apps[ap].views++; if (id) uv[id] = 1; }
-        if (ev === 'ok')   { out.totals.oks++;   days[ds].oks++;   apps[ap].oks++;   if (id) ut[id] = 1; }
-        if (id) apps[ap].csps[id] = 1;
+        var pg = String(vals[i][5] || 'offer');
+        if (!ev) continue;
+        out.rows++;
+        if (!out.by_page[pg]) out.by_page[pg] = mk();
+        if (!out.by_app[ap])  out.by_app[ap]  = mk();
+        if (!days[ds]) days[ds] = { d: ds, pages: {} };
+        if (!days[ds].pages[pg]) days[ds].pages[pg] = {};
+        if (!days[ds].pages[pg][ev]) days[ds].pages[pg][ev] = 0;
+        days[ds].pages[pg][ev]++;
+        bump(out.by_page[pg], ev, id);
+        bump(out.by_app[ap],  ev, id);
       }
-      var count = function (o) { var c = 0, k; for (k in o) if (o.hasOwnProperty(k)) c++; return c; };
-      out.totals.csps_viewed = count(uv);
-      out.totals.csps_tapped = count(ut);
-      var k;
-      for (k in apps) if (apps.hasOwnProperty(k)) {
-        out.by_app[k] = { views: apps[k].views, oks: apps[k].oks, csps: count(apps[k].csps) };
-      }
-      for (k in days) if (days.hasOwnProperty(k)) out.days.push(days[k]);
+      var strip = function (m) { var k; for (k in m) if (m.hasOwnProperty(k)) { delete m[k]._csps; delete m[k]._by; } };
+      strip(out.by_page); strip(out.by_app);
+      var kk;
+      for (kk in days) if (days.hasOwnProperty(kk)) out.days.push(days[kk]);
       out.days.sort(function (x, y) { return x.d < y.d ? -1 : 1; });
     }
     var body = JSON.stringify(out);
@@ -111,8 +132,12 @@ function doGet(e) {
   }
 
   /* ── Write one row ───────────────────────────────────────────────── */
+  /* Allowlist, not a free-text column: a typo in a page would otherwise open a
+     silent third funnel nobody is counting.
+       offer.html     -> view, ok
+       callnudge.html -> view, call, later */
   var event = String(p.event || '').trim().toLowerCase();
-  if (event !== 'view' && event !== 'ok') {
+  if (event !== 'view' && event !== 'ok' && event !== 'call' && event !== 'later') {
     return ContentService.createTextOutput('bad-event');
   }
 
