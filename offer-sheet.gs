@@ -5,7 +5,12 @@
  *   https://vikaswiom.github.io/wiom-offer-education-campaign/offer.html?cspId=<ID>
  *
  * Every beacon arrives as:
- *   ?flow=OFFER&event=view|ok&uid=<cspId>&app=CSP|TECH&page=offer&sid=<open id>&t=<ms>
+ *   ?flow=OFFER&event=view|ok&uid=<cspId>&app=CSP|TECH&page=offer&oid=<open id>&t=<ms>
+ *
+ * THE OPEN-ID PARAMETER IS `oid`, NOT `sid`. Google's frontend reserves `sid`
+ * on script.google.com and answers HTTP 400 to a session-id-shaped value before
+ * doGet is ever called - no execution log, no catchable error, just a generic
+ * Drive error page for the caller. Cost an afternoon; do not rename it back.
  *
  * ONE ROW PER EVENT, on purpose. The ₹750 script dedups per CSP per day because
  * it answers "who asked for a callback". This one answers "how many times has
@@ -115,14 +120,14 @@ function doGet(e) {
   var app = String(p.app || 'CSP').trim().toUpperCase().substring(0, 12);
   if (app !== 'CSP' && app !== 'TECH') app = 'CSP';
   var page  = String(p.page  || 'offer').trim().substring(0, 40);
-  var sid   = String(p.sid   || '').trim().substring(0, 40);
+  var sid   = String(p.oid || p.sid || '').trim().substring(0, 40);
   var stamp = String(p.t     || '').trim().substring(0, 20);
 
   var ss = SpreadsheetApp.getActiveSpreadsheet();
   var sh = ss.getSheetByName('Log');
   if (!sh) {
     sh = ss.insertSheet('Log');
-    sh.appendRow(['date', 'time (IST)', 'csp_id', 'app', 'event', 'page', 'sid', 't']);
+    sh.appendRow(['date', 'time (IST)', 'csp_id', 'app', 'event', 'page', 'open_id', 't']);
     sh.setFrozenRows(1);
     sh.getRange(1, 1, 1, 8).setFontWeight('bold');
   }
@@ -135,7 +140,7 @@ function doGet(e) {
     if (last > 1) {
       var n    = Math.min(last - 1, 300);
       var from = last - n + 1;
-      var tail = sh.getRange(from, 5, n, 4).getValues();   /* event, page, sid, t */
+      var tail = sh.getRange(from, 5, n, 4).getValues();   /* event, page, open_id, t */
       for (var j = tail.length - 1; j >= 0; j--) {
         if (String(tail[j][2]) === sid && String(tail[j][0]) === event && String(tail[j][3]) === stamp) {
           return ContentService.createTextOutput('ok-replay');
@@ -183,7 +188,7 @@ function testWrite() {
   var sh = ss.getSheetByName('Log');
   if (!sh) {
     sh = ss.insertSheet('Log');
-    sh.appendRow(['date', 'time (IST)', 'csp_id', 'app', 'event', 'page', 'sid', 't']);
+    sh.appendRow(['date', 'time (IST)', 'csp_id', 'app', 'event', 'page', 'open_id', 't']);
     sh.setFrozenRows(1);
     sh.getRange(1, 1, 1, 8).setFontWeight('bold');
     Logger.log('created the Log tab');

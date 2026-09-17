@@ -214,8 +214,14 @@ var APP = String(Q.app || '').toUpperCase();
 if (APP !== 'TECH' && APP !== 'CSP') APP = 'CSP';
 
 /* One id per page open, carried on every row. Lets the sheet pair a view
-   with the tap that followed it, and tell two opens apart from a reload. */
-var SID = (function(){
+   with the tap that followed it, and tell two opens apart from a reload.
+
+   SENT AS `oid`, NEVER `sid`. `sid` is reserved by Google's own frontend on
+   script.google.com: a request carrying a session-id-shaped sid= value is
+   rejected with HTTP 400 BEFORE the Apps Script runs, so there is no execution
+   log, no error text, and the caller gets a generic Drive "unable to open the
+   file" page. Verified by interleaved A/B: same value, sid=400 / oid=302. */
+var OID = (function(){
   var s = '';
   try { s = Math.random().toString(36).substring(2, 8); } catch (e) {}
   return (+new Date()).toString(36) + (s || 'xxxxxx');
@@ -292,7 +298,7 @@ function log(event){
     + '&uid='   + encodeURIComponent(UID)
     + '&app='   + encodeURIComponent(APP)
     + '&page='  + encodeURIComponent(PAGE)
-    + '&sid='   + encodeURIComponent(SID)
+    + '&oid='   + encodeURIComponent(OID)
     + '&t='     + (+new Date()));
 }
 
