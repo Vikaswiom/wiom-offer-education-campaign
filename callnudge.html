@@ -17,12 +17,18 @@ page="callnudge".
 
 WHAT CHANGED FROM THE CleverTap CUSTOM-HTML VERSION, AND WHY:
 
-1. THE SCRIM IS GONE AND THE CARD IS NOW THE PAGE. A scrim at 48% only reads as
-   a dialog because the app shows through it. A banner opens this in a WebView
-   with nothing behind it, so the scrim would have darkened a blank white
-   screen and the 312dp card would have floated in the middle of it looking
-   broken. Every token, both buttons and all copy are unchanged - the card is
-   simply unfolded to full width.
+1. THE SCRIM IS GONE AND THE CARD IS NOW THE PAGE, laid out as a sibling of
+   offer.html: centred title, haloed phone mock, supporting line, pink text CTA
+   at the bottom. The first attempt kept the dialog's top-left stack, and on a
+   real handset that stranded four small elements in the top third of the
+   screen with the CTA floating in empty space (photo, 17 Sep). A dialog's
+   composition does not survive being given a whole screen - it needs a hero.
+   All copy and every token are unchanged.
+
+   HEIGHT: the same photo showed the page not filling the WebView at all. So
+   the height is declared three ways - 100vh, then 100dvh, then a --vh custom
+   property measured from window.innerHeight. Last valid wins, so a WebView
+   that mis-reports viewport units still gets a full-height page.
 
 2. ONE ACKNOWLEDGE CTA. The proposal's two buttons (अभी कॉल करें / बाद में) are
    replaced by a single ठीक है, and the scrim's third dismiss path is gone with
@@ -53,51 +59,125 @@ SyntaxError that kills the whole script while the page still paints.
 <style>
 /* Tokens carried over verbatim from the CleverTap build:
    bgSurface #FFFFFF · textPrimary #161021 · textSecondary #5C5570
-   brandPrimary #D9008D · brandPressed #A30070 · bgBrandTint #FFE5F6 */
+   brandPrimary #D9008D · bgBrandTint #FFE5F6 · positive #008043 / #E1FAED */
+:root{
+--brand:#D9008D; --brand-tint:#FFE5F6;
+--ink:#161021; --muted:#5C5570;
+--pos:#008043; --pos-bg:#E1FAED;
+--skel:#E8E4F0;
+}
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%;-webkit-text-size-adjust:100%;-webkit-tap-highlight-color:transparent;
 -webkit-user-select:none;user-select:none}
-body{background:#FFFFFF;display:flex;justify-content:center;touch-action:manipulation;
+body{background:#F5EFF6;display:flex;justify-content:center;touch-action:manipulation;
 font-family:"Noto Sans Devanagari","Noto Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
-color:#161021;-webkit-font-smoothing:antialiased}
+color:var(--ink);-webkit-font-smoothing:antialiased}
 
-/* The card, unfolded. 24px page padding = WiomSpacing.xxl, the card's own. */
-.app{width:100%;max-width:420px;min-height:100vh;min-height:100dvh;
-display:flex;flex-direction:column;background:#FFFFFF;
+/* Height declared three ways - see the note at the top of the file. */
+.app{width:100%;max-width:420px;
+min-height:100vh;min-height:100dvh;min-height:calc(var(--vh,1vh) * 100);
+display:flex;flex-direction:column;align-items:center;
+background:linear-gradient(180deg,#F9E3F0 0%,#F5EFF6 45%,#F3F0F8 100%);
+overflow-x:hidden;
 padding:calc(40px + env(safe-area-inset-top)) 24px calc(16px + env(safe-area-inset-bottom));
 opacity:0;transition:opacity 200ms cubic-bezier(.2,0,0,1)}
 .app.in{opacity:1}
 
-/* Content sits optically centred; the CTAs stay at the bottom of the page,
-   which is where a thumb is. Mirrors offer.html's hero/CTA split. */
-.content{flex:1;display:flex;flex-direction:column;justify-content:center}
+/* headingLg scaled to the page it now owns, same weight and colour */
+.ttl{font-size:24px;line-height:32px;font-weight:700;text-align:center;letter-spacing:-.2px;
+position:relative;z-index:1}
 
-/* icon badge — bgBrandTint + brandPrimary. Opportunity, not alert: never bgNegative. */
-.ic{width:48px;height:48px;border-radius:999px;background:#FFE5F6;color:#D9008D;
-display:flex;align-items:center;justify-content:center;margin:0 0 16px}
-.ic svg{width:24px;height:24px;display:block}
+/* hero — the call being made, centred as one unit */
+.hero{position:relative;flex:1;display:flex;flex-direction:column;align-items:center;
+justify-content:center;width:100%;min-height:300px}
+.phonewrap{position:relative;display:flex;justify-content:center}
+.halo{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+width:390px;height:390px;border-radius:50%;z-index:0;
+background:radial-gradient(closest-side,rgba(255,224,243,.95),rgba(255,229,246,.55) 58%,rgba(255,229,246,0))}
+.phone{position:relative;z-index:1;width:164px;background:var(--ink);border-radius:26px;padding:8px;
+box-shadow:0 4px 12px rgba(217,43,144,.3)}
+.scr{background:#FFFFFF;border-radius:19px;height:320px;padding:18px 12px 16px;
+display:flex;flex-direction:column;align-items:center}
+.callto{font-size:12px;font-weight:600;color:var(--muted);line-height:1;flex:0 0 auto}
+.mid{margin:auto 0;display:flex;flex-direction:column;align-items:center}
+.av{width:64px;height:64px;border-radius:50%;border:3px solid #fff;overflow:hidden;
+box-shadow:0 2px 6px rgba(22,16,33,.15);background:#E9E5F2}
+.av svg{display:block;width:100%;height:100%}
+.nm{margin-top:10px;font-size:15px;font-weight:700;line-height:1;color:var(--ink)}
+.ring{margin-top:8px;font-size:12px;font-weight:600;line-height:1;color:var(--brand)}
+/* the green answer pill — the call is happening, not an alert */
+.ans{flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;gap:5px;
+background:var(--pos-bg);color:var(--pos);font-size:12px;font-weight:700;line-height:1;
+padding:8px 12px;border-radius:888px}
+.ans svg{width:12px;height:12px;stroke:var(--pos);stroke-width:2.4;fill:none;
+stroke-linecap:round;stroke-linejoin:round}
 
-/* headingLg — T3_20_Bold, 20/28/700, textPrimary, left-aligned */
-h1{font-size:20px;line-height:28px;font-weight:700;color:#161021;letter-spacing:0}
-/* bodyMd — B2_14_Regular, 14/20, textSecondary. WiomSpacing.sm above. */
-p{margin:8px 0 0;font-size:14px;line-height:20px;font-weight:400;color:#5C5570}
+.ask{font-size:16px;line-height:24px;font-weight:600;color:var(--muted);text-align:center;
+max-width:300px;position:relative;z-index:1;margin-top:40px}
 
-/* WiomSpacing.sheetContentToCta — 48 dp above the CTA, unchanged.
-   ठीक है = acknowledge -> pink TEXT CTA per house convention, never a filled
-   primary. 24 + 2×12 = 48px tap target. Identical to offer.html's CTA, so both
-   banner pages end the same way. */
-.cta{margin-top:48px;width:100%;text-align:center;padding:12px 16px;
-font-size:16px;line-height:24px;font-weight:700;color:#D9008D;cursor:pointer;
-user-select:none;-webkit-user-select:none;transition:opacity .12s ease}
+/* ठीक है = acknowledge → pink TEXT CTA per house convention, never a filled
+   primary. 24 + 2×12 = 48px tap target. Identical to offer.html's CTA. */
+.cta{margin-top:16px;width:100%;text-align:center;padding:12px 16px;
+font-size:16px;line-height:24px;font-weight:700;color:var(--brand);cursor:pointer;
+transition:opacity .12s ease}
 .cta:active{opacity:.55}
 /* Once tapped, stop a second tap firing a second close mid-teardown. */
 .cta.gone{opacity:.4;pointer-events:none}
 
-/* Short devices — a 5" 1280×720 handset is ~640 CSS px tall. Tighten the page
-   padding rather than let a button fall below the fold. */
+/* ── Narrow layout viewports ──────────────────────────────────────────────
+   Same defence as offer.html: a real handset handed that page a layout
+   viewport near 180 CSS px, which a 164px fixed-width mock cannot survive.
+   This page uses the same mock, so it gets the same steps. Plain media
+   queries, not clamp()/min() - an old WebView drops those and keeps the
+   fixed value, which is exactly the failure being fixed. */
+@media (max-width:360px){
+.app{padding-left:18px;padding-right:18px}
+.ttl{font-size:21px;line-height:28px}
+.phone{width:138px}
+.scr{height:268px}
+.halo{width:320px;height:320px}
+.av{width:56px;height:56px}
+.ask{margin-top:28px;font-size:15px;line-height:22px}
+}
+@media (max-width:300px){
+/* The hand-placed line break balances the title at full width; below this
+   it just strands a short line, so let the text find its own breaks. */
+.brk{display:none}
+.app{padding-left:14px;padding-right:14px}
+.ttl{font-size:18px;line-height:25px}
+.phone{width:112px;border-radius:20px;padding:6px}
+.scr{height:214px;border-radius:15px;padding:12px 8px 12px}
+.callto{font-size:11px}
+.av{width:44px;height:44px;border-width:2px}
+.nm{font-size:13px;margin-top:8px}
+.ring{font-size:11px}
+.ans{font-size:11px;padding:6px 10px}
+.halo{width:250px;height:250px}
+.hero{min-height:0}
+.ask{margin-top:20px;font-size:14px;line-height:20px;max-width:none}
+.cta{font-size:15px}
+}
+@media (max-width:230px){
+.ttl{font-size:16px;line-height:22px;letter-spacing:0}
+.phone{width:92px;border-radius:16px;padding:5px}
+.scr{height:176px;border-radius:12px;padding:10px 6px 10px}
+.av{width:36px;height:36px}
+.nm{font-size:12px}
+.ring{font-size:10px}
+.ans{font-size:10px;padding:5px 8px}
+.halo{width:200px;height:200px}
+.ask{margin-top:16px;font-size:13px;line-height:19px}
+}
+
+/* Short devices — a 5" 1280×720 handset is ~640 CSS px tall. Shrink the mock
+   rather than let the CTA fall below the fold. */
 @media (max-height:700px){
 .app{padding-top:calc(24px + env(safe-area-inset-top))}
-.cta{margin-top:32px}
+.ttl{font-size:22px;line-height:29px}
+.scr{height:250px}
+.halo{width:320px;height:320px}
+.ask{margin-top:24px}
+.hero{min-height:0}
 }
 @media (prefers-reduced-motion:reduce){.app{transition-duration:1ms}}
 </style>
@@ -105,18 +185,42 @@ user-select:none;-webkit-user-select:none;transition:opacity .12s ease}
 <body>
 <div class="app" id="app">
 
-<div class="content">
-<div class="ic">
-<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-<path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/>
+<p class="ttl">कस्टमर से बात करने वालों के <br class="brk">कनेक्शन कम कैंसिल होते हैं</p>
+
+<div class="hero">
+<div class="phonewrap">
+<div class="halo"></div>
+<div class="phone">
+<div class="scr">
+<div class="callto">कॉल हो रही है</div>
+<div class="mid">
+<div class="av">
+<svg viewBox="0 0 52 52" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+<defs><clipPath id="cnCust"><circle cx="26" cy="26" r="26"/></clipPath></defs>
+<circle cx="26" cy="26" r="26" fill="#E9E5F2"/>
+<g clip-path="url(#cnCust)">
+<path d="M6 54c0-12 9-18 20-18s20 6 20 18z" fill="#5C6B8A"/>
+<rect x="21.5" y="26" width="9" height="10" rx="4" fill="#E5B183"/>
+<circle cx="26" cy="15" r="10.5" fill="#2E2838"/>
+<circle cx="26" cy="21" r="10" fill="#F3C9A3"/>
+</g>
 </svg>
 </div>
-<h1 id="t">कस्टमर से बात करने वालों के कनेक्शन कम कैंसिल होते हैं</h1>
-<p>पता और समय कस्टमर से कन्फ़र्म कर लें।</p>
+<div class="nm">कस्टमर</div>
+<div class="ring">पता और समय पूछें</div>
+</div>
+<div class="ans">
+<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg>
+कॉल
+</div>
+</div>
+</div>
+</div>
+
+<p class="ask">पता और समय कस्टमर से कन्फ़र्म कर लें।</p>
 </div>
 
 <div class="cta" id="ok" role="button" tabindex="0">ठीक है</div>
-
 </div>
 
 <script>
@@ -262,6 +366,23 @@ ok.addEventListener('keydown', function(e){
 
 log('view');
 ct('Shown');
+
+/* ── Viewport height, measured ──
+   A photo from a real handset (17 Sep) showed the page not filling the app's
+   WebView: content stranded in the top third with the CTA in empty space. Some
+   in-app WebViews mis-report viewport units, so the height is also set from
+   window.innerHeight and re-set on resize/rotate. The CSS declares 100vh, then
+   100dvh, then calc(var(--vh)*100) - last valid wins, so this takes over
+   wherever it is available and changes nothing where vh already worked. */
+function setVH(){
+  try {
+    var h = window.innerHeight || document.documentElement.clientHeight;
+    if (h) document.documentElement.style.setProperty('--vh', (h / 100) + 'px');
+  } catch (e) {}
+}
+setVH();
+window.addEventListener('resize', setVH, false);
+window.addEventListener('orientationchange', function(){ setTimeout(setVH, 120); }, false);
 
 /* Paint, then fade in - a page that is already visible cannot animate in. */
 setTimeout(function(){ document.getElementById('app').className = 'app in'; }, 16);
