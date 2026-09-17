@@ -163,6 +163,16 @@ transition:opacity .12s ease}
 .ask{margin-top:16px;font-size:13px;line-height:19px}
 }
 
+/* Shown only if nothing closed the page ~1.2s after the tap. The app's
+   WebView (WiomWebView.kt) exposes no JS bridge, no WebChromeClient and no
+   scheme interception, so today the page CANNOT close itself and a tap that
+   appears to do nothing reads as broken. This line is self-removing: once the
+   app adds a close bridge, the WebView is gone long before 1.2s and it never
+   appears. */
+.hint{margin-top:2px;text-align:center;font-size:13px;line-height:18px;color:var(--muted);
+opacity:0;transition:opacity .2s ease;pointer-events:none}
+.hint.show{opacity:1}
+
 /* Short devices (a 5" 1280×720 handset is ~640 CSS px tall) — shrink the
    phone mock rather than let the CTA fall below the fold. */
 @media (max-height:700px){
@@ -218,6 +228,7 @@ transition:opacity .12s ease}
 </div>
 
 <div class="cta" id="ok" role="button" tabindex="0">ठीक है</div>
+<p class="hint" id="hint">बंद करने के लिए ऊपर ← दबाएँ</p>
 </div>
 
 <script>
@@ -452,6 +463,11 @@ function onOK(){
   ct('OK_Clicked');
   /* Closing tears down the WebView, so give the beacon a moment to leave. */
   setTimeout(closePage, 400);
+  /* If the page is still here a moment later, nothing closed it - say so
+     rather than leaving a tap that looks dead. Self-removing: see .hint. */
+  setTimeout(function(){
+    try { document.getElementById('hint').className = 'hint show'; } catch (e) {}
+  }, 1200);
 }
 
 var ok = document.getElementById('ok');
