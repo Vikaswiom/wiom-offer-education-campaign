@@ -359,6 +359,12 @@ function diagOverlay(){
 if (Q.diag) { try { diagOverlay(); } catch (e) {} }
 
 
+/* Fire on load. This is the whole funnel now that the page has no CTA - if
+   these two lines go missing the page still looks perfect and records
+   nothing, which is exactly how they were lost once already. */
+log('view');
+ct('Shown');
+
 /* ── Viewport height, measured ──
    A photo from a real handset (17 Sep) showed the page not filling the app's
    WebView: content stranded in the top third with the CTA in empty space. Some
