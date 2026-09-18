@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-18 10:35 IST",
+  "generated": "2026-09-18 15:14 IST",
   "region": "eu1",
   "start_date": "2026-07-27",
   "triggers": [
@@ -378,15 +378,15 @@
         "key": "round2",
         "label": "since 31 Jul 11:00",
         "users": 309,
-        "events": 2372,
-        "days": 48.98,
+        "events": 2373,
+        "days": 49.18,
         "reach_pct": 40,
-        "per_user_day": 0.063
+        "per_user_day": 0.062
       }
     ],
     "lift_r1": 265,
     "lift_r2": -74,
-    "lift_total": -5
+    "lift_total": -6
   },
   "followthrough": {
     "chip_event": "service_status_opened",
@@ -462,14 +462,14 @@
         },
         "post": {
           "users": 309,
-          "events": 2372,
-          "days": 48.98,
+          "events": 2373,
+          "days": 49.18,
           "reach_pct": 40,
-          "per_user_day": 0.063,
+          "per_user_day": 0.062,
           "label": "since 31 Jul 11:00 (after)"
         },
         "stopped": false,
-        "lift_pct": -49,
+        "lift_pct": -50,
         "pre_overlaps": [
           "Quality-of-work section"
         ]
