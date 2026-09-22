@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-22 11:52 IST",
+  "generated": "2026-09-22 17:24 IST",
   "sample": false,
   "region": "eu1",
   "start_date": "2026-07-16",
@@ -575,31 +575,31 @@
             "label": "1 time only",
             "min": 1,
             "max": 1,
-            "users": 156
+            "users": 154
           },
           {
             "label": "2 times",
             "min": 2,
             "max": 2,
-            "users": 63
+            "users": 60
           },
           {
             "label": "3 times",
             "min": 3,
             "max": 3,
-            "users": 56
+            "users": 64
           },
           {
             "label": "4 times",
             "min": 4,
             "max": 4,
-            "users": 8
+            "users": 7
           },
           {
             "label": "5 or more times",
             "min": 5,
             "max": null,
-            "users": 4
+            "users": 5
           }
         ],
         "ok": [
@@ -607,25 +607,25 @@
             "label": "1 time only",
             "min": 1,
             "max": 1,
-            "users": 150
+            "users": 152
           },
           {
             "label": "2 times",
             "min": 2,
             "max": 2,
-            "users": 68
+            "users": 66
           },
           {
             "label": "3 times",
             "min": 3,
             "max": 3,
-            "users": 40
+            "users": 44
           },
           {
             "label": "4 times",
             "min": 4,
             "max": 4,
-            "users": 5
+            "users": 6
           },
           {
             "label": "5 or more times",
@@ -636,8 +636,8 @@
         ]
       },
       "freq_avg": {
-        "shown": 1.77,
-        "ok": 1.66
+        "shown": 1.81,
+        "ok": 1.69
       },
       "freq_max": {
         "shown": 10,
@@ -659,8 +659,8 @@
         ]
       ],
       "funnel": {
-        "shown": 287,
-        "ok": 265
+        "shown": 290,
+        "ok": 270
       },
       "ok_outside_shown": 0,
       "options": [],
@@ -862,8 +862,8 @@
         },
         {
           "date": "2026-09-22",
-          "shown": 11,
-          "ok": 9
+          "shown": 28,
+          "ok": 23
         }
       ],
       "note": "Full-page offer creative (round 2): one screen, one ठीक है, no quiz."
