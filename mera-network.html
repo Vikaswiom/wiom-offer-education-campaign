@@ -147,7 +147,8 @@ footer{border-top:1px solid var(--line);padding-top:20px;color:var(--faint);font
     <p class="lede">One education screen telling partners that <b>Optical Power</b> and
     <b>peak-time speed</b> now live under <span class="dev">मेरा नेटवर्क</span> instead of
     <span class="dev">सेवा स्थिति</span>. There is nothing to complete, so the questions are how
-    many partners were reached and how long the screen held them. Every number is
+    many partners were reached and how long the screen held them before the
+    <span class="dev">समझ गया</span> tap. Every number is
     <b>unique CSPs</b> unless it says screens or events.</p>
     <div class="stamp" id="stamp"></div>
   </header>
@@ -227,16 +228,18 @@ footer{border-top:1px solid var(--line);padding-top:20px;color:var(--faint);font
       '<span class="chip">region <b>' + esc(d.region || "—") + '</b></span>';
 
     /* ---- hero ---- */
+    var rows0 = (os.buckets || []), tot0 = 0, read0 = 0;
+    rows0.forEach(function(r, i){ tot0 += r.n; if (i >= 2) read0 += r.n; });
     $("hero").innerHTML = '<h2>Where the campaign stands</h2><div class="tiles">' +
       tile("Partners reached", reached,
            screens + " screens served to " + reached + " unique CSPs") +
-      tile("Closed the screen", closed,
+      tile('Tapped <span class="dev">समझ गया</span>', closed,
            pct(closed, reached) + "% of them — " + closedScreens + " of " + screens + " screens") +
-      tile("Median time on screen", (os.median !== null && os.median !== undefined ? os.median + "s" : "—"),
-           (os.avg ? "mean " + os.avg + "s · " : "") + "impression to dismissal") +
-      tile("Screens never closed", (t.never_dismissed || 0),
-           pct(t.never_dismissed || 0, screens) + "% — app backgrounded with it open",
-           (t.never_dismissed || 0) > screens * 0.2 ? "act" : "") +
+      tile("Median time before the tap",
+           (os.median !== null && os.median !== undefined ? os.median + "s" : "—"),
+           (os.avg ? "mean " + os.avg + "s · " : "") + "shown to tap") +
+      tile("Stayed 6s or longer", pct(read0, tot0) + "%",
+           read0 + " of " + tot0 + " screens — long enough to read it") +
       "</div>";
 
     /* ---- time on screen ---- */
@@ -245,18 +248,18 @@ footer{border-top:1px solid var(--line);padding-top:20px;color:var(--faint);font
     var panel = document.createElement("div");
     panel.className = "panel";
     panel.innerHTML = '<div class="phead"><div class="pname"><span class="swatch" ' +
-      'style="background:var(--s1)"></span>How long the screen stayed open</div>' +
+      'style="background:var(--s1)"></span>How long before they tapped</div>' +
       '<span class="pn">' + tot + ' screens</span></div>' +
-      '<p style="margin:0 0 16px;font-size:13.5px;color:var(--muted)">Seconds between the in-app ' +
-      'being shown and being dismissed. Under 3 seconds is a reflex swat — nobody read 40 words of ' +
-      'Hindi in that time. Six seconds or more is someone who took the message in. Counted per ' +
-      '<b>screen</b>, not per CSP.</p>';
+      '<p style="margin:0 0 16px;font-size:13.5px;color:var(--muted)">Seconds between the screen ' +
+      'appearing and the <span class="dev">समझ गया</span> tap. Under 3 seconds is a reflex — nobody ' +
+      'read 40 words of Hindi in that time. Six seconds or more is someone who took the message in. ' +
+      'Counted per <b>screen</b>, not per CSP.</p>';
     var bars = document.createElement("div");
     bars.className = "bars";
     rows.forEach(function(r, i){
       var color = i === 0 ? "--warn" : i === 1 ? "--s2" : "--good";
       bars.appendChild(barRow(esc(r.label), r.n, tot, color,
-        r.label + " — " + r.n + " screens, " + pct(r.n, tot) + "% of dismissals"));
+        r.label + " — " + r.n + " screens, " + pct(r.n, tot) + "% of taps"));
     });
     panel.appendChild(bars);
     $("dwell").innerHTML = "<h2>Did they read it?</h2>";
@@ -267,12 +270,14 @@ footer{border-top:1px solid var(--line);padding-top:20px;color:var(--faint);font
     n1.className = "note";
     n1.style.marginTop = "14px";
     n1.innerHTML = "<b>" + pct(readers, tot) + "% stayed 6 seconds or longer</b> (" + readers +
-      " of " + tot + " screens). <b>How a dismissal is tied to this campaign:</b> " +
-      "<code>inApp_Shown</code> carries the campaign id, <code>inApp_Dismissed</code> does not — " +
-      "not one of the dismissals in the window mentions it. So each impression is paired with the " +
-      "first dismissal by the same CSP within " + Math.round((os.window || 900) / 60) + " minutes, " +
-      "and the pair is thrown away if any other in-app opened in between. That makes the pairing " +
-      "conservative, never optimistic: a stolen dismissal is dropped rather than counted.";
+      " of " + tot + " screens). <b>Where the tap comes from:</b> the screen's only control is " +
+      "<span class=\"dev\">समझ गया</span>, so the in-app closing is that tap. " +
+      "<code>inApp_Shown</code> carries <code>campaign_id</code> containing " + esc(d.campaign_id) +
+      "; <code>inApp_Dismissed</code> carries no campaign id in any field (0 of 715 records), so " +
+      "each impression is paired with the first dismissal by the same CSP within " +
+      Math.round((os.window || 900) / 60) + " minutes, and the pair is dropped if another in-app " +
+      "opened in between. A back-press or an app kill would look the same as a tap; " +
+      (t.never_dismissed || 0) + " screens closed by neither are left out entirely.";
     $("dwell").appendChild(n1);
 
     /* ---- daily trend ---- */
@@ -284,7 +289,7 @@ footer{border-top:1px solid var(--line);padding-top:20px;color:var(--faint);font
         var imp = x.impressions || 0, dis = x.dismissed || 0;
         var h = function(v){ return max ? Math.max(2, v / max * 118) : 2; };
         return '<div class="day" data-t="' + esc(dayLabel(x.d) + ": " + imp + " reached, " +
-          dis + " closed the screen") + '">' +
+          dis + " tapped समझ गया") + '">' +
           '<div class="stack">' +
             '<div class="seg" style="height:' + h(dis) + 'px;background:var(--good)"></div>' +
             '<div class="seg" style="height:' + h(Math.max(0, imp - dis)) +
@@ -295,8 +300,8 @@ footer{border-top:1px solid var(--line);padding-top:20px;color:var(--faint);font
         '<div class="phead"><div class="pname">Unique CSPs per day</div>' +
         '<span class="pn">' + days.length + ' live day(s)</span></div>' +
         '<div class="days">' + cols + "</div>" +
-        '<div class="legend"><span><i style="background:var(--good)"></i>closed the screen</span>' +
-        '<span><i style="background:var(--track)"></i>reached, screen not closed</span></div></div>';
+        '<div class="legend"><span><i style="background:var(--good)"></i>tapped समझ गया</span>' +
+        '<span><i style="background:var(--track)"></i>reached, no tap recorded</span></div></div>';
       Array.prototype.forEach.call($("trend").querySelectorAll(".day"), function(el){
         bindTip(el, el.getAttribute("data-t"));
       });
@@ -358,7 +363,7 @@ footer{border-top:1px solid var(--line);padding-top:20px;color:var(--faint);font
       '<span class="pn">events, not CSPs</span></div><div class="bars">' +
       '<div class="bar"><div class="top"><span class="lbl"><code>inApp_Shown</code> · this campaign' +
       '</span><span class="num">' + screens + "</span></div></div>" +
-      '<div class="bar"><div class="top"><span class="lbl"><code>inApp_Dismissed</code> · matched' +
+      '<div class="bar"><div class="top"><span class="lbl"><code>inApp_Dismissed</code> · paired to a screen' +
       '</span><span class="num">' + closedScreens + "</span></div></div>" +
       (f.map(function(s){
         return '<div class="bar"><div class="top"><span class="lbl"><code>' + esc(s.event) +
