@@ -1,0 +1,137 @@
+{
+ "generated": "2026-09-23 10:56 IST",
+ "region": "eu1",
+ "start_date": "20260922",
+ "creative": "mera_network_moved_v1",
+ "campaign_id": "1790081258",
+ "funnel": [
+  {
+   "key": "shown",
+   "event": "MeraNetwork_Edu_Shown",
+   "label": "Screen shown",
+   "users": 0,
+   "raw": 0
+  },
+  {
+   "key": "understood",
+   "event": "MeraNetwork_Edu_Understood",
+   "label": "Tapped समझ गया",
+   "users": 0,
+   "raw": 0
+  },
+  {
+   "key": "closed",
+   "event": "MeraNetwork_Edu_Closed",
+   "label": "Closed with ✕",
+   "users": 0,
+   "raw": 0
+  }
+ ],
+ "totals": {
+  "shown": 0,
+  "understood": 0,
+  "closed": 0,
+  "acted": 0,
+  "no_action": 0,
+  "orphans": 0,
+  "raw_shown": 0,
+  "impressions": 206,
+  "raw_impressions": 230,
+  "shown_gap": 206
+ },
+ "daily": [
+  {
+   "d": "20260922",
+   "impressions": 132,
+   "shown": 0,
+   "understood": 0,
+   "closed": 0
+  },
+  {
+   "d": "20260923",
+   "impressions": 80,
+   "shown": 0,
+   "understood": 0,
+   "closed": 0
+  }
+ ],
+ "seconds": {
+  "understood": {
+   "n": 0,
+   "avg": null,
+   "median": null,
+   "buckets": [
+    {
+     "label": "0–2s",
+     "n": 0
+    },
+    {
+     "label": "3–5s",
+     "n": 0
+    },
+    {
+     "label": "6–10s",
+     "n": 0
+    },
+    {
+     "label": "11–30s",
+     "n": 0
+    },
+    {
+     "label": "31s+",
+     "n": 0
+    }
+   ]
+  },
+  "closed": {
+   "n": 0,
+   "avg": null,
+   "median": null,
+   "buckets": [
+    {
+     "label": "0–2s",
+     "n": 0
+    },
+    {
+     "label": "3–5s",
+     "n": 0
+    },
+    {
+     "label": "6–10s",
+     "n": 0
+    },
+    {
+     "label": "11–30s",
+     "n": 0
+    },
+    {
+     "label": "31s+",
+     "n": 0
+    }
+   ]
+  },
+  "all_median": null
+ },
+ "freq": [
+  {
+   "label": "1",
+   "n": 0
+  },
+  {
+   "label": "2",
+   "n": 0
+  },
+  {
+   "label": "3",
+   "n": 0
+  },
+  {
+   "label": "4",
+   "n": 0
+  },
+  {
+   "label": "5+",
+   "n": 0
+  }
+ ]
+}
