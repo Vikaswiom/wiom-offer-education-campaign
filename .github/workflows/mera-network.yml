@@ -1,0 +1,44 @@
+# मेरा नेटवर्क in-app tracking — pull the MeraNetwork_Edu_* events plus the
+# campaign's own inApp_Shown and write mera_network_data.json for
+# mera-network.html. Every 30 min while the campaign runs, plus manual.
+name: mera-network
+
+on:
+  schedule:
+    - cron: "6,36 * * * *" # a couple of min BEFORE the pages deploy at :08/:38
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: mera-network
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: build mera_network_data.json + push if changed
+        env:
+          CLEVERTAP_ACCOUNT: ${{ secrets.CLEVERTAP_ACCOUNT }}
+          CLEVERTAP_PASSCODE: ${{ secrets.CLEVERTAP_PASSCODE }}
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          python3 fetch_mera_network.py
+          git add mera_network_data.json
+          if git diff --cached --quiet; then
+            echo "no change"
+          else
+            git commit -m "data: refresh mera network snapshot"
+            git pull --rebase --autostash origin main
+            git push origin HEAD:main
+          fi
