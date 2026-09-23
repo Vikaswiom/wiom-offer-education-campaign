@@ -1,0 +1,32 @@
+# Manual, read-only diagnostic for the मेरा नेटवर्क campaign: print what
+# CleverTap's own inApp_* / Notification events carry for it. Never writes.
+name: probe-mera
+
+on:
+  workflow_dispatch:
+    inputs:
+      campaign_id:
+        description: "CleverTap campaign id to probe"
+        required: false
+        default: "1790081258"
+      from_date:
+        description: "Window start, YYYYMMDD"
+        required: false
+        default: "20260922"
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - name: probe
+        env:
+          CLEVERTAP_ACCOUNT: ${{ secrets.CLEVERTAP_ACCOUNT }}
+          CLEVERTAP_PASSCODE: ${{ secrets.CLEVERTAP_PASSCODE }}
+        run: python3 probe_mera_network.py "${{ inputs.campaign_id }}" "${{ inputs.from_date }}"
