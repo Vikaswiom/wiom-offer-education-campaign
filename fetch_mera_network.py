@@ -36,7 +36,8 @@ IST = timezone(timedelta(hours=5, minutes=30))
 START = os.environ.get("MERA_NETWORK_START", "20260922")   # campaign go-live
 CREATIVE = "mera_network_moved_v1"
 PREFIX = "MeraNetwork_Edu_"
-CAMPAIGN = "1790081258"          # CleverTap campaign id, for the impressions cross-check
+CAMPAIGN = "1790081258"          # CleverTap campaign id
+DISMISS_WINDOW = 900             # seconds an inApp_Dismissed may trail its impression
 
 STEPS = [
     ("Shown",      "shown",      "Screen shown"),
@@ -79,30 +80,96 @@ def pull(event):
     return out
 
 
-def impressions():
-    """Unique CSPs CleverTap itself says were shown this campaign.
+def _ts(rec):
+    """ts is YYYYMMDDHHMMSS stamped in IST for this account — not epoch."""
+    try:
+        return datetime.strptime(str(rec.get("ts")), "%Y%m%d%H%M%S")
+    except (TypeError, ValueError):
+        return None
 
-    Independent of the creative's own Shown event: this one is fired by the SDK,
-    so it does not depend on the bridge being attached when the page painted. The
-    gap between the two is the size of that blind spot. Matched on `contains`
-    because campaign_id arrives bare or wrapped in a longer string.
+
+def system_events():
+    """The SDK's own inApp_Shown / inApp_Dismissed, paired into screen sessions.
+
+    inApp_Shown carries `campaign_id` (as "<id>_<YYYYMMDD>", hence the substring
+    match). inApp_Dismissed carries NO campaign id at all — proven by probe, which
+    found 0 of 713 dismissals mentioning this campaign anywhere in their props. So
+    a dismissal is tied back to an impression by identity and time:
+
+      * take the first dismissal AFTER the impression, within DISMISS_WINDOW
+      * reject it if ANY other in-app was shown to that CSP in between, so a
+        dismissal can never be stolen from a different campaign's screen
+      * one dismissal is consumed by at most one impression
+
+    The gap between the two is time on screen, which is the only attention signal
+    available while the untracked build of the creative is live.
     """
-    users, raw, days = set(), 0, collections.defaultdict(set)
     now = datetime.now(IST).strftime("%Y%m%d")
+
+    shown_all = collections.defaultdict(list)      # who -> [(t, is_ours)]
+    ours, raw, days = [], 0, collections.defaultdict(set)
+    users, imp_freq = set(), collections.Counter()
     for rec in ct.export_event("inApp_Shown", START, now):
-        if CAMPAIGN not in str(ct.props_of(rec).get("campaign_id", "")):
-            continue
         ident = ct.identity_of(rec)
-        if not ident:
+        t = _ts(rec)
+        if not ident or t is None:
             continue
         who = (ct.cspid_of(rec) or ident).strip().lower()
-        users.add(who)
-        raw += 1
-        d = ct.day_of(rec)
-        if d:
-            days[d].add(who)
+        mine = CAMPAIGN in str(ct.props_of(rec).get("campaign_id", ""))
+        shown_all[who].append((t, mine))
+        if mine:
+            ours.append((who, t))
+            users.add(who)
+            imp_freq[who] += 1
+            raw += 1
+            d = ct.day_of(rec)
+            if d:
+                days[d].add(who)
+
+    dismissals = collections.defaultdict(list)     # who -> [t]
+    n_dis = 0
+    for rec in ct.export_event("inApp_Dismissed", START, now):
+        ident = ct.identity_of(rec)
+        t = _ts(rec)
+        if not ident or t is None:
+            continue
+        dismissals[(ct.cspid_of(rec) or ident).strip().lower()].append(t)
+        n_dis += 1
+
+    for v in shown_all.values():
+        v.sort()
+    for v in dismissals.values():
+        v.sort()
+
+    matched, secs, closed_users = 0, [], set()
+    closed_days = collections.defaultdict(set)
+    used = collections.defaultdict(set)            # who -> {index of dismissal already claimed}
+    for who, t in sorted(ours, key=lambda x: x[1]):
+        cand = None
+        for i, d in enumerate(dismissals.get(who, ())):
+            if i in used[who] or d < t:
+                continue
+            gap = (d - t).total_seconds()
+            if gap > DISMISS_WINDOW:
+                break
+            # another in-app opened in between → that dismissal belongs to it
+            if any(t < o < d for o, _ in shown_all[who]):
+                break
+            cand = (i, gap, d)
+            break
+        if cand is None:
+            continue
+        used[who].add(cand[0])
+        matched += 1
+        secs.append(int(round(cand[1])))
+        closed_users.add(who)
+        closed_days[cand[2].strftime("%Y%m%d")].add(who)
+
     print(f"  {'inApp_Shown (' + CAMPAIGN + ')':28s} {raw:6d} records, {len(users):5d} unique CSPs")
-    return users, raw, days
+    print(f"  {'inApp_Dismissed (all)':28s} {n_dis:6d} records, {matched:5d} matched to this campaign")
+    return {"users": users, "raw": raw, "days": days, "imp_freq": imp_freq,
+            "closed_users": closed_users, "closed_raw": matched, "closed_days": closed_days,
+            "secs": secs, "dismissals_seen": n_dis}
 
 
 def bucketise(secs):
@@ -129,7 +196,8 @@ def median(xs):
 
 def main():
     data = {key: pull(ev) for ev, key, _ in STEPS}
-    imp_users, imp_raw, imp_days = impressions()
+    sysev = system_events()
+    imp_users, imp_raw, imp_days = sysev["users"], sysev["raw"], sysev["days"]
 
     shown = data["shown"]["users"]
     understood = data["understood"]["users"]
@@ -149,6 +217,7 @@ def main():
     daily = [{
         "d": d,
         "impressions": len(imp_days.get(d, ())),
+        "dismissed": len(sysev["closed_days"].get(d, ())),
         "shown": len(data["shown"]["days"].get(d, ())),
         "understood": len(data["understood"]["days"].get(d, ())),
         "closed": len(data["closed"]["days"].get(d, ())),
@@ -176,6 +245,10 @@ def main():
             "raw_shown": data["shown"]["raw"],
             "impressions": len(imp_users),
             "raw_impressions": imp_raw,
+            # System-event funnel: works today, cannot tell समझ गया from ✕.
+            "dismissed": len(sysev["closed_users"]),
+            "raw_dismissed": sysev["closed_raw"],
+            "never_dismissed": imp_raw - sysev["closed_raw"],
             # Impressions CleverTap recorded where the creative's own Shown never
             # arrived = the bridge-not-ready blind spot, measured rather than guessed.
             "shown_gap": len(imp_users - shown),
@@ -195,15 +268,30 @@ def main():
             "all_median": median(secs_all),
         },
         "freq": freq_buckets(data["shown"]["freq"]),
+        # Time on screen from the impression -> dismissal gap. One row per matched
+        # screen session (events, not unique CSPs), which is the only attention
+        # read available until the tracked creative is republished.
+        "on_screen": {
+            "n": len(sysev["secs"]),
+            "avg": round(sum(sysev["secs"]) / len(sysev["secs"]), 1) if sysev["secs"] else None,
+            "median": median(sysev["secs"]),
+            "buckets": bucketise(sysev["secs"]),
+            "window": DISMISS_WINDOW,
+        },
+        # How many times each CSP was served the in-app — from SDK impressions, so
+        # it reflects the real frequency cap rather than the creative's own JS.
+        "imp_freq": freq_buckets(sysev["imp_freq"]),
     }
 
     p = here("mera_network_data.json")
     json.dump(out, open(p, "w"), ensure_ascii=False, indent=1)
     t = out["totals"]
     print(f"\nwrote {p}")
-    print(f"  impressions {t['impressions']} | shown {t['shown']} -> समझ गया {t['understood']} "
-          f"/ ✕ {t['closed']} | no action {t['no_action']} | orphans {t['orphans']} "
-          f"| shown gap {t['shown_gap']}")
+    print(f"  impressions {t['impressions']} CSPs / {t['raw_impressions']} screens "
+          f"-> dismissed {t['dismissed']} CSPs / {t['raw_dismissed']} screens "
+          f"(never {t['never_dismissed']}) | median {out['on_screen']['median']}s on screen")
+    print(f"  tracked events: shown {t['shown']} -> समझ गया {t['understood']} / ✕ {t['closed']} "
+          f"| orphans {t['orphans']} | shown gap {t['shown_gap']}")
 
 
 if __name__ == "__main__":
