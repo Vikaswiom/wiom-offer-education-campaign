@@ -156,7 +156,6 @@ footer{border-top:1px solid var(--line);padding-top:20px;color:var(--faint);font
   <section id="hero"></section>
   <section id="dwell"></section>
   <section id="trend"></section>
-  <section id="tracked"></section>
   <section id="plumbing"></section>
 
   <footer id="foot"></footer>
@@ -214,7 +213,7 @@ footer{border-top:1px solid var(--line);padding-top:20px;color:var(--faint);font
   }
 
   function render(d){
-    var t = d.totals || {}, os = d.on_screen || {}, f = d.funnel || [];
+    var t = d.totals || {}, os = d.on_screen || {};
     var reached = t.impressions || 0, screens = t.raw_impressions || 0;
     var closed = t.dismissed || 0, closedScreens = t.raw_dismissed || 0;
 
@@ -307,46 +306,6 @@ footer{border-top:1px solid var(--line);padding-top:20px;color:var(--faint);font
       });
     }
 
-    /* ---- the tracked-creative funnel: समझ गया vs ✕, which system events cannot split ---- */
-    var shown = t.shown || 0;
-    var tp = document.createElement("div");
-    tp.className = "panel";
-    tp.innerHTML = '<div class="phead"><div class="pname"><span class="swatch" ' +
-      'style="background:var(--s2)"></span>Which button they used</div>' +
-      '<span class="pn">' + shown + ' screens tracked</span></div>';
-    var tb = document.createElement("div");
-    tb.className = "bars";
-    var COLOR = {shown: "--s1", understood: "--good", closed: "--s2"};
-    f.forEach(function(s){
-      tb.appendChild(barRow(esc(s.label), s.users, shown || 1, COLOR[s.key] || "--s1",
-        s.event + " — " + s.raw + " events"));
-    });
-    tp.appendChild(tb);
-    $("tracked").innerHTML = "<h2>समझ गया or ✕</h2>";
-    $("tracked").appendChild(tp);
-    var n2 = document.createElement("div");
-    n2.className = "note";
-    n2.style.marginTop = "14px";
-    if (!shown) {
-      n2.style.borderLeftColor = "var(--warn)";
-      n2.innerHTML = "<b>Empty because the creative live in CleverTap is the untracked build.</b> " +
-        "The SDK's own events say a screen was shown and dismissed; they cannot say which control " +
-        "did it, and the untracked creative fires nothing of its own. Zero " +
-        "<code>MeraNetwork_Edu_*</code> events exist — CleverTap does not know the names yet. " +
-        "Paste the tracked <code>mera-network-moved-popup.html</code> into campaign " +
-        esc(d.campaign_id) + ", tick <b>Include JavaScript</b>, republish, and this section fills " +
-        "in. Everything above keeps working either way.";
-    } else {
-      n2.innerHTML = "<b>Tap percentages run against the creative's own <code>Shown</code></b> (" +
-        shown + "), not the " + reached + " CSPs the SDK delivered to" +
-        (t.shown_gap ? ", a gap of <b>" + t.shown_gap + "</b> whose bridge attached after paint" : "") +
-        ". " + (t.orphans ? "<b>" + t.orphans + "</b> CSPs tapped with no <code>Shown</code> on " +
-        "record and are reported, never folded in. " : "") +
-        "Against delivered reach the acknowledgement rate is <b>" +
-        pct(t.understood || 0, reached) + "%</b>.";
-    }
-    $("tracked").appendChild(n2);
-
     /* ---- plumbing ---- */
     var freq = d.imp_freq || [], ftot = 0;
     freq.forEach(function(r){ ftot += r.n; });
@@ -365,17 +324,15 @@ footer{border-top:1px solid var(--line);padding-top:20px;color:var(--faint);font
       '</span><span class="num">' + screens + "</span></div></div>" +
       '<div class="bar"><div class="top"><span class="lbl"><code>inApp_Dismissed</code> · paired to a screen' +
       '</span><span class="num">' + closedScreens + "</span></div></div>" +
-      (f.map(function(s){
-        return '<div class="bar"><div class="top"><span class="lbl"><code>' + esc(s.event) +
-          '</code></span><span class="num">' + s.raw + "</span></div></div>";
-      }).join("")) + "</div></div></div>" +
+      "</div></div></div>" +
       '<div class="note" style="margin-top:14px"><b>Times served</b> counts SDK impressions per ' +
       'CSP, so it reflects the real frequency cap. A heavy <code>5+</code> bucket means the cap is ' +
       'not applied.</div>';
 
     $("foot").innerHTML = "Source: <code>mera_network_data.json</code>, written by " +
-      "<code>fetch_mera_network.py</code> from the CleverTap events export (<code>inApp_Shown</code>, " +
-      "<code>inApp_Dismissed</code> and <code>MeraNetwork_Edu_*</code>). Unique CSPs deduplicated on " +
+      "<code>fetch_mera_network.py</code> from the CleverTap events export (<code>inApp_Shown</code> " +
+      "filtered to <code>campaign_id</code> containing the campaign, paired with " +
+      "<code>inApp_Dismissed</code>). Unique CSPs deduplicated on " +
       "<code>profileData.cspid</code>, falling back to profile identity; the test shop is excluded. " +
       "Creative: <code>mera-network-moved-popup.html</code>. No partner names, phone numbers or " +
       "locations appear on this page.";
