@@ -132,6 +132,21 @@ code{font-family:var(--mono);font-size:.86em;background:var(--sunk);border:1px s
 .note b{color:var(--ink)}
 footer{border-top:1px solid var(--line);padding-top:20px;color:var(--faint);font-size:12.5px}
 
+/* ---- creative preview ---- */
+.creative{display:grid;grid-template-columns:auto 1fr;gap:22px;align-items:start}
+@media(max-width:820px){.creative{grid-template-columns:1fr;justify-items:center}}
+.phone{width:320px;height:660px;border-radius:30px;background:#000;padding:8px;flex:0 0 auto;
+  box-shadow:0 10px 30px rgba(0,0,0,.28);position:relative}
+.phone iframe{width:100%;height:100%;border:0;border-radius:23px;display:block;background:#D9008D}
+.rules{display:flex;flex-direction:column;gap:12px}
+.rule{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:baseline;
+  padding-bottom:12px;border-bottom:1px solid var(--line-soft)}
+.rule:last-child{border-bottom:none;padding-bottom:0}
+.rule .rk{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--faint);white-space:nowrap}
+.rule .rv{font-size:14px;color:var(--muted)}
+.rule .rv b{color:var(--ink)}
+
 #tip{position:fixed;z-index:60;pointer-events:none;opacity:0;transition:opacity .12s;
   background:var(--ink);color:var(--ground);font-size:12px;font-weight:600;
   border-radius:7px;padding:6px 10px;white-space:nowrap;transform:translate(-50%,-130%)}
@@ -157,6 +172,7 @@ footer{border-top:1px solid var(--line);padding-top:20px;color:var(--faint);font
   <section id="dwell"></section>
   <section id="trend"></section>
   <section id="plumbing"></section>
+  <section id="creative"></section>
 
   <footer id="foot"></footer>
 </div>
@@ -329,13 +345,48 @@ footer{border-top:1px solid var(--line);padding-top:20px;color:var(--faint);font
       'CSP, so it reflects the real frequency cap. A heavy <code>5+</code> bucket means the cap is ' +
       'not applied.</div>';
 
+    /* ---- the creative itself, plus the rules that govern when it appears ---- */
+    var once = 0, twice = 0, over = 0;
+    (d.imp_freq || []).forEach(function(r){
+      if (r.label === "1") once = r.n;
+      else if (r.label === "2") twice = r.n;
+      else over += r.n;
+    });
+    $("creative").innerHTML = "<h2>The creative and its rules</h2>" +
+      '<div class="panel"><div class="creative">' +
+      '<div class="phone"><iframe src="mera-network-creative.html" title="मेरा नेटवर्क in-app" ' +
+      'loading="lazy" sandbox="allow-scripts"></iframe></div>' +
+      '<div><div class="pname" style="margin-bottom:14px">What the CSP sees</div>' +
+      '<p style="margin:0 0 18px;font-size:13.5px;color:var(--muted)">Live render of ' +
+      '<code>mera-network-creative.html</code> — the same file that goes into the campaign, not a ' +
+      'screenshot. The phone demo loops through the four taps: hamburger → ' +
+      '<span class="dev">मेरा बिज़नेस</span> → <span class="dev">मेरा नेटवर्क</span> → the two ' +
+      'metrics. Closing works only inside the app, so the buttons do nothing here.</p>' +
+      '<div class="rules">' +
+      '<div class="rule"><span class="rk">Frequency</span><span class="rv"><b>Once per day, ' +
+      'twice lifetime.</b> Set in CleverTap Frequency Limits, not in the HTML — the creative has ' +
+      'no idea how often it has run.</span></div>' +
+      '<div class="rule"><span class="rk">Observed</span><span class="rv"><b>' + once + '</b> CSPs ' +
+      'served once, <b>' + twice + '</b> twice, <b>' + over + '</b> more than twice. ' +
+      (over ? "The lifetime cap is <b>not</b> holding." : "Matches the cap.") + '</span></div>' +
+      '<div class="rule"><span class="rk">Layout</span><span class="rv"><b>Cover</b> — full-bleed. ' +
+      'Any other layout letterboxes the page into a centred modal.</span></div>' +
+      '<div class="rule"><span class="rk">Close</span><span class="rv">✕ top-right and the ' +
+      '<span class="dev">समझ गया</span> button, both calling ' +
+      '<code>dismissInAppNotification()</code> with an iOS and a <code>clevertap://closeInApp</code> ' +
+      'fallback. CleverTap\'s own close button must be <b>off</b> or the screen shows two ✕.</span></div>' +
+      '<div class="rule"><span class="rk">Tracking</span><span class="rv">Needs <b>Include ' +
+      'JavaScript</b> ticked, or the bridge is never injected and no ' +
+      '<code>MeraNetwork_Edu_*</code> event fires.</span></div>' +
+      "</div></div></div></div>";
+
     $("foot").innerHTML = "Source: <code>mera_network_data.json</code>, written by " +
       "<code>fetch_mera_network.py</code> from the CleverTap events export (<code>inApp_Shown</code> " +
       "filtered to <code>campaign_id</code> containing the campaign, paired with " +
       "<code>inApp_Dismissed</code>). Unique CSPs deduplicated on " +
       "<code>profileData.cspid</code>, falling back to profile identity; the test shop is excluded. " +
-      "Creative: <code>mera-network-moved-popup.html</code>. No partner names, phone numbers or " +
-      "locations appear on this page.";
+      "Creative rendered from <code>mera-network-creative.html</code> in this repo. No partner names, " +
+      "phone numbers or locations appear on this page.";
   }
 
   fetch("mera_network_data.json", {cache: "no-store"})

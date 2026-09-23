@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+<title>मेरा नेटवर्क — नई जगह</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;500;600;700;800;900&display=swap');
+:root{
+  --brand:#D9008D;--brand-tint:#FCE7F3;--maroon:#4A1B2E;
+  --n900:#161021;--n500:#A7A1B2;--screen:#EEE9F5;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{width:100%;height:100%;
+  font-family:'Noto Sans Devanagari','Noto Sans','Segoe UI',system-ui,sans-serif;
+  background:var(--brand);color:#fff;overflow:hidden;-webkit-font-smoothing:antialiased}
+button{font-family:inherit;cursor:pointer}
+
+/* ── Full-page pop-up · solid Wiom pink ── */
+.blocker{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;background:var(--brand);
+  padding:calc(40px + env(safe-area-inset-top)) 24px calc(108px + env(safe-area-inset-bottom))}
+
+/* ── Phone demo ── */
+.demo{position:relative;width:152px;height:258px;margin:0 auto 36px;background:#fff;border-radius:22px;padding:6px;
+  box-shadow:0 16px 34px rgba(0,0,0,.24),0 0 64px rgba(255,255,255,.14)}
+.demo::before{content:"";position:absolute;left:-2px;top:60px;width:3px;height:20px;border-radius:2px;background:#EAE0E8}
+.demo::after{content:"";position:absolute;right:-2px;top:82px;width:3px;height:34px;border-radius:2px;background:#EAE0E8}
+.dscreen{position:relative;width:100%;height:100%;background:var(--screen);border-radius:17px;overflow:hidden}
+.statusbar{position:absolute;top:0;left:0;right:0;height:16px;background:var(--maroon);z-index:20;
+  display:flex;align-items:center;justify-content:space-between;padding:0 8px}
+.statusbar .stime{font-size:7px;font-weight:700;color:#fff;letter-spacing:.2px}
+.statusbar .notch{position:absolute;top:4px;left:50%;transform:translateX(-50%);width:32px;height:7px;border-radius:4px;background:#000}
+.statusbar .sbat{position:relative;width:12px;height:6px;border:1px solid #fff;border-radius:1px}
+.statusbar .sbat::after{content:"";position:absolute;right:-2px;top:1.5px;width:1.5px;height:3px;background:#fff;border-radius:0 1px 1px 0}
+.statusbar .sbat i{position:absolute;left:1px;top:1px;bottom:1px;width:70%;background:#fff;border-radius:.5px}
+.navbar{position:absolute;bottom:0;left:0;right:0;height:14px;display:flex;align-items:center;justify-content:center;z-index:20;pointer-events:none}
+.navbar .home{width:44px;height:4px;border-radius:2px;background:rgba(0,0,0,.3)}
+.ns{position:absolute;top:16px;left:0;right:0;bottom:0;opacity:0}
+.n1{animation:fn1 7s ease-in-out infinite}
+.n2{animation:fn2 7s ease-in-out infinite}
+.n3{animation:fn3 7s ease-in-out infinite}
+.n4{animation:fn4 7s ease-in-out infinite}
+@keyframes fn1{0%{opacity:1}18%{opacity:1}22%{opacity:0}100%{opacity:0}}
+@keyframes fn2{0%,22%{opacity:0}26%{opacity:1}42%{opacity:1}46%{opacity:0}100%{opacity:0}}
+@keyframes fn3{0%,46%{opacity:0}50%{opacity:1}64%{opacity:1}68%{opacity:0}100%{opacity:0}}
+@keyframes fn4{0%,68%{opacity:0}72%{opacity:1}96%{opacity:1}99%{opacity:0}100%{opacity:0}}
+
+.tbar{position:relative;height:30px;background:var(--maroon);color:#fff;display:flex;align-items:center;gap:8px;
+  padding:0 9px;font-size:10px;font-weight:700}
+.tbar .ico{position:relative;display:grid;place-items:center;width:16px;height:16px;flex-shrink:0}
+.hbody{padding:10px 10px 0;display:flex;flex-direction:column;gap:8px}
+.hcard{height:34px;background:#fff;border-radius:8px;opacity:.7}
+
+.drawer{position:absolute;top:0;left:0;bottom:0;width:78%;background:#fff;box-shadow:6px 0 18px rgba(0,0,0,.15)}
+.dhead{height:40px;background:var(--maroon);display:flex;align-items:center;gap:8px;padding:0 11px}
+.dava{width:26px;height:26px;border-radius:50%;background:rgba(255,255,255,.22)}
+.drow{position:relative;height:26px;display:flex;align-items:center;gap:8px;padding:0 10px;
+  font-size:9.5px;font-weight:600;color:var(--n900)}
+.drow .ri{width:13px;height:13px;flex-shrink:0;display:grid;place-items:center}
+.drow .lbl{flex:1}
+.drow .ch{flex-shrink:0;display:grid;place-items:center;color:var(--n500)}
+.drow.hi{background:var(--brand-tint)}
+.dsep{height:1px;background:#EDEAF2;margin:3px 10px}
+
+.lrow{position:relative;background:#fff;margin:9px 9px 0;border-radius:10px;padding:11px 12px;
+  font-size:10px;font-weight:600;color:var(--n900)}
+.lrow.hi{box-shadow:0 0 0 2px var(--brand)}
+.lrow.muted{color:var(--n500);font-weight:500}
+
+.tile{background:#fff;margin:9px 9px 0;border-radius:10px;padding:10px 11px}
+.tile .tl{font-size:9.5px;font-weight:700;color:var(--n900)}
+.tile .track{height:6px;background:var(--screen);border-radius:3px;margin-top:7px;overflow:hidden}
+.tile .track i{display:block;height:100%;background:var(--brand);border-radius:3px}
+
+.tap{position:absolute;top:50%;left:50%;margin:-15px 0 0 -15px;width:30px;height:30px;border-radius:50%;
+  background:rgba(217,0,141,.22);border:2px solid rgba(217,0,141,.55);animation:tapPulse 1.4s ease-out infinite}
+.tap::after{content:"";position:absolute;top:50%;left:50%;width:10px;height:10px;margin:-5px 0 0 -5px;
+  border-radius:50%;background:var(--brand)}
+@keyframes tapPulse{0%{transform:scale(.55);opacity:1}75%{transform:scale(1.3);opacity:0}100%{opacity:0}}
+
+/* ── Copy ── */
+.head{text-align:center;font-size:23px;font-weight:800;line-height:1.36;letter-spacing:-.2px;max-width:300px;
+  color:#fff;text-wrap:balance}
+.head .hl{color:#FFD65A}
+.sub{text-align:center;font-size:15px;font-weight:500;color:rgba(255,255,255,.9);line-height:1.5;margin-top:10px;max-width:280px}
+
+/* ── Top-right close ── */
+.xbtn{position:fixed;top:calc(12px + env(safe-area-inset-top));right:12px;z-index:40;width:40px;height:40px;
+  border-radius:50%;border:none;background:rgba(255,255,255,.18);display:grid;place-items:center}
+.xbtn:active{background:rgba(255,255,255,.3)}
+
+/* ── CTA bar · white button, pink text ── */
+.ctabar{position:fixed;bottom:0;left:0;right:0;z-index:30;background:var(--brand);
+  padding:16px 16px calc(20px + env(safe-area-inset-bottom))}
+.btn{display:block;width:100%;max-width:328px;margin:0 auto;padding:15px;border-radius:16px;border:none;
+  font-size:17px;font-weight:800}
+.btn-primary{background:#fff;color:var(--brand);box-shadow:0 8px 20px rgba(0,0,0,.18)}
+.btn-primary:active{transform:scale(.98)}
+</style>
+</head>
+<body>
+
+<button class="xbtn" data-act="close" aria-label="बंद करें"><svg width="18" height="18" viewBox="0 0 24 24" fill="#fff"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></button>
+
+<section class="blocker">
+  <div class="demo" aria-hidden="true">
+    <div class="dscreen">
+      <div class="statusbar"><span class="stime">5:07</span><span class="notch"></span><span class="sbat"><i></i></span></div>
+
+      <!-- 1 · home + tap hamburger -->
+      <div class="ns n1">
+        <div class="tbar">
+          <span class="ico"><svg width="14" height="14" viewBox="0 0 24 24" fill="#fff"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg><span class="tap"></span></span>
+          <span>होम</span>
+        </div>
+        <div class="hbody"><div class="hcard"></div><div class="hcard"></div><div class="hcard"></div></div>
+      </div>
+
+      <!-- 2 · drawer + tap mera business -->
+      <div class="ns n2">
+        <div class="drawer">
+          <div class="dhead"><span class="dava"></span></div>
+          <div class="drow"><span class="ri"><svg width="13" height="13" viewBox="0 0 24 24" fill="#161021"><path d="M21 18v1c0 1.1-.9 2-2 2H5c-1.11 0-2-.9-2-2V5c0-1.1.89-2 2-2h14c1.1 0 2 .9 2 2v1h-9c-1.11 0-2 .9-2 2v8c0 1.1.89 2 2 2h9zm-9-2h10V8H12v8zm4-2.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg></span><span class="lbl">पैसे</span><span class="ch"><svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg></span></div>
+          <div class="drow"><span class="ri"><svg width="13" height="13" viewBox="0 0 24 24" fill="#161021"><path d="M20.2 5.9l.8-.8C19.6 3.7 17.8 3 16 3s-3.6.7-5 2.1l.8.8C13 4.7 14.5 4 16 4s3 .7 4.2 1.9zm-2.8 2.7l.8-.8c-.8-.8-1.9-1.3-3.2-1.3s-2.4.5-3.2 1.3l.8.8c.6-.6 1.5-.9 2.4-.9s1.8.3 2.4.9zM19 13h-2V9h-2v4H5c-1.1 0-2 .9-2 2v4c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2v-4c0-1.1-.9-2-2-2zM8 18H6v-2h2v2zm3.5 0h-2v-2h2v2zm3.5 0h-2v-2h2v2z"/></svg></span><span class="lbl">नेट बॉक्स</span><span class="ch"><svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg></span></div>
+          <div class="drow hi"><span class="ri"><svg width="13" height="13" viewBox="0 0 24 24" fill="#161021"><path d="M20 4H4v2h16V4zm1 10v-2l-1-5H4l-1 5v2h1v6h10v-6h4v6h2v-6h1zm-9 4H6v-4h6v4z"/></svg></span><span class="lbl">मेरा बिज़नेस</span><span class="ch"><svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg></span><span class="tap"></span></div>
+          <div class="dsep"></div>
+          <div class="drow"><span class="ri"><svg width="13" height="13" viewBox="0 0 24 24" fill="#161021"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg></span><span class="lbl">सेटिंग्स</span><span class="ch"><svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg></span></div>
+          <div class="drow"><span class="ri"><svg width="13" height="13" viewBox="0 0 24 24" fill="#161021"><path d="M12 1c-4.97 0-9 4.03-9 9v7c0 1.66 1.34 3 3 3h3v-8H5v-2c0-3.87 3.13-7 7-7s7 3.13 7 7v2h-3v8h3c1.66 0 3-1.34 3-3v-7c0-4.97-4.03-9-9-9z"/></svg></span><span class="lbl">मदद</span><span class="ch"><svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg></span></div>
+        </div>
+      </div>
+
+      <!-- 3 · mera business + tap mera network -->
+      <div class="ns n3">
+        <div class="tbar">
+          <span class="ico"><svg width="14" height="14" viewBox="0 0 24 24" fill="#fff"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg></span>
+          <span>मेरा बिज़नेस</span>
+        </div>
+        <div class="lrow hi">मेरा नेटवर्क<span class="tap"></span></div>
+        <div class="lrow">टीम</div>
+        <div class="lrow muted">स्कीम · जल्द आ रहा है</div>
+      </div>
+
+      <!-- 4 · mera network reveals the two metrics -->
+      <div class="ns n4">
+        <div class="tbar">
+          <span class="ico"><svg width="14" height="14" viewBox="0 0 24 24" fill="#fff"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg></span>
+          <span>मेरा नेटवर्क</span>
+        </div>
+        <div class="tile"><div class="tl">ऑप्टिकल पावर</div><div class="track"><i style="width:78%"></i></div></div>
+        <div class="tile"><div class="tl">पीक टाइम पर स्पीड</div><div class="track"><i style="width:64%"></i></div></div>
+      </div>
+
+      <div class="navbar"><span class="home"></span></div>
+    </div>
+  </div>
+
+  <div class="head">ऑप्टिकल पावर और स्पीड अब <span class="hl">मेरे नेटवर्क</span> में दिखेंगे</div>
+  <div class="sub">पहले ये सेवा स्थिति में होते थे।</div>
+</section>
+
+<div class="ctabar">
+  <button class="btn btn-primary" data-act="dismiss">समझ गया</button>
+</div>
+
+<script>
+(function(){
+  var CREATIVE = 'mera_network_moved_v1';
+  var EV = 'MeraNetwork_Edu_';
+  var T0 = Date.now();
+  var sent = {};
+
+  /* CleverTap bridge, 6 tries with back-off. Android pushEvent first, then the
+     iOS message handler. Events fire BEFORE the dismiss so a dying WebView
+     cannot swallow them. */
+  function ct(name, props){
+    var ev = EV + name;
+    if (sent[ev]) return;
+    sent[ev] = { done:false, n:0 };
+    var p = { creative: CREATIVE };
+    if (props) { for (var k in props) if (Object.prototype.hasOwnProperty.call(props,k)) p[k] = props[k]; }
+    (function attempt(){
+      var st = sent[ev];
+      if (st.done) return;
+      try {
+        if (window.CleverTap && typeof window.CleverTap.pushEvent === 'function'){
+          window.CleverTap.pushEvent(ev, JSON.stringify(p)); st.done = true; return;
+        }
+        if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.clevertap){
+          window.webkit.messageHandlers.clevertap.postMessage(
+            { action:'recordEventWithProps', event:ev, properties:p });
+          st.done = true; return;
+        }
+      } catch(e){}
+      st.n++;
+      if (st.n < 6) setTimeout(attempt, 250 * st.n);
+    })();
+  }
+
+  ct('Shown');
+
+  var done = false;
+  function closeInApp(){
+    if (done) return; done = true;
+    try {
+      if (window.CleverTap && window.CleverTap.dismissInAppNotification){ window.CleverTap.dismissInAppNotification(); return; }
+    } catch(e){}
+    try {
+      if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.clevertap){
+        window.webkit.messageHandlers.clevertap.postMessage({ action:'dismissInAppNotification' }); return;
+      }
+    } catch(e){}
+    window.location.href = 'clevertap://closeInApp';
+  }
+
+  function onTap(which){
+    return function(){
+      if (done) return;
+      var secs = Math.round((Date.now() - T0) / 1000);
+      ct(which === 'cta' ? 'Understood' : 'Closed', { source: which, seconds: secs });
+      setTimeout(closeInApp, 300);
+    };
+  }
+
+  var cta = document.querySelector('[data-act="dismiss"]');
+  if (cta) cta.addEventListener('click', onTap('cta'));
+  var x = document.querySelector('[data-act="close"]');
+  if (x) x.addEventListener('click', onTap('x'));
+})();
+</script>
+</body>
+</html>
