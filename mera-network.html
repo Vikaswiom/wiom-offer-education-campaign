@@ -146,16 +146,16 @@ footer{border-top:1px solid var(--line);padding-top:20px;color:var(--faint);font
     <h1><span class="dev">मेरा नेटवर्क</span> — did partners see where the metrics moved?</h1>
     <p class="lede">One education screen telling partners that <b>Optical Power</b> and
     <b>peak-time speed</b> now live under <span class="dev">मेरा नेटवर्क</span> instead of
-    <span class="dev">सेवा स्थिति</span>. There is nothing to complete — the only question is how
-    many partners were reached and whether they read it or swatted it away. Every number below is
-    <b>unique CSPs</b> unless the column says events.</p>
+    <span class="dev">सेवा स्थिति</span>. There is nothing to complete, so the questions are how
+    many partners were reached and how long the screen held them. Every number is
+    <b>unique CSPs</b> unless it says screens or events.</p>
     <div class="stamp" id="stamp"></div>
   </header>
 
   <section id="hero"></section>
-  <section id="funnel"></section>
+  <section id="dwell"></section>
   <section id="trend"></section>
-  <section id="attention"></section>
+  <section id="tracked"></section>
   <section id="plumbing"></section>
 
   <footer id="foot"></footer>
@@ -196,16 +196,14 @@ footer{border-top:1px solid var(--line);padding-top:20px;color:var(--faint);font
     return (+String(d).slice(6, 8)) + " " + M[+String(d).slice(4, 6) - 1];
   }
 
-  function bar(label, users, denom, colorVar, note){
-    var w = denom ? Math.max(0.8, users / denom * 100) : 0;
+  function barRow(label, n, denom, colorVar, tipText){
     var d = document.createElement("div");
     d.className = "bar";
-    d.innerHTML = '<div class="top"><span class="lbl">' + esc(label) + '</span>' +
-      '<span class="num">' + users + '<i>' + pct(users, denom) + '%</i></span></div>' +
-      '<div class="track"><span class="fill" style="width:' + w +
-      '%;background:var(' + colorVar + ')"></span></div>';
-    bindTip(d, label + " — " + users + " CSPs, " + pct(users, denom) + "% of those shown" +
-      (note ? " · " + note : ""));
+    d.innerHTML = '<div class="top"><span class="lbl">' + label + '</span>' +
+      '<span class="num">' + n + '<i>' + pct(n, denom) + '%</i></span></div>' +
+      '<div class="track"><span class="fill" style="width:' +
+      (denom ? Math.max(0.8, n / denom * 100) : 0) + '%;background:var(' + colorVar + ')"></span></div>';
+    if (tipText) bindTip(d, tipText);
     return d;
   }
 
@@ -215,8 +213,9 @@ footer{border-top:1px solid var(--line);padding-top:20px;color:var(--faint);font
   }
 
   function render(d){
-    var t = d.totals || {}, f = d.funnel || [], sec = d.seconds || {};
-    var shown = t.shown || 0;
+    var t = d.totals || {}, os = d.on_screen || {}, f = d.funnel || [];
+    var reached = t.impressions || 0, screens = t.raw_impressions || 0;
+    var closed = t.dismissed || 0, closedScreens = t.raw_dismissed || 0;
 
     var age = ageMinutes(d.generated);
     var stale = age !== null && age > 90;
@@ -225,92 +224,70 @@ footer{border-top:1px solid var(--line);padding-top:20px;color:var(--faint);font
         '</b>' + (age !== null ? " · " + age + "m ago" : "") + '</span>' +
       '<span class="chip">live since <b>' + esc(dayLabel(d.start_date || "")) + ' 2026</b></span>' +
       '<span class="chip">campaign <b>' + esc(d.campaign_id || "—") + '</b></span>' +
-      '<span class="chip">creative <b>' + esc(d.creative || "—") + '</b></span>' +
       '<span class="chip">region <b>' + esc(d.region || "—") + '</b></span>';
 
     /* ---- hero ---- */
-    var imp = t.impressions || 0;
     $("hero").innerHTML = '<h2>Where the campaign stands</h2><div class="tiles">' +
-      tile("Partners reached", imp || shown,
-           imp ? "unique CSPs CleverTap delivered the in-app to"
-               : "unique CSPs who saw the screen") +
-      tile("Tapped <span class=\"dev\">समझ गया</span>", (t.understood || 0),
-           pct(t.understood || 0, shown) + "% of those reached — read and acknowledged") +
-      tile("Closed with ✕", (t.closed || 0),
-           pct(t.closed || 0, shown) + "% of those reached — dismissed without acknowledging") +
-      tile("No tap recorded", (t.no_action || 0),
-           pct(t.no_action || 0, shown) + "% — backgrounded the app or dismissed elsewhere",
-           (t.no_action || 0) > shown * 0.3 ? "act" : "") +
-      "</div>" +
-      (imp && shown ? '<div class="note" style="margin-top:14px"><b>Two reach numbers, and they will not ' +
-        'match.</b> CleverTap delivered the in-app to <b>' + imp + '</b> CSPs (<code>inApp_Shown</code>, ' +
-        'campaign ' + esc(d.campaign_id) + '); the creative\'s own JS recorded <b>' + shown +
-        '</b>. The <b>' + (t.shown_gap || 0) + '</b> in the gap are devices whose CleverTap bridge ' +
-        'was not attached yet when the page painted. Tap percentages below are against the ' +
-        'creative\'s own Shown, which is the only cohort we know was measurable, so treat them as ' +
-        'a ceiling — against delivered reach the acknowledgement rate is <b>' +
-        pct(t.understood || 0, imp) + '%</b>.</div>' : "");
+      tile("Partners reached", reached,
+           screens + " screens served to " + reached + " unique CSPs") +
+      tile("Closed the screen", closed,
+           pct(closed, reached) + "% of them — " + closedScreens + " of " + screens + " screens") +
+      tile("Median time on screen", (os.median !== null && os.median !== undefined ? os.median + "s" : "—"),
+           (os.avg ? "mean " + os.avg + "s · " : "") + "impression to dismissal") +
+      tile("Screens never closed", (t.never_dismissed || 0),
+           pct(t.never_dismissed || 0, screens) + "% — app backgrounded with it open",
+           (t.never_dismissed || 0) > screens * 0.2 ? "act" : "") +
+      "</div>";
 
-    /* ---- creative-not-published banner ----
-       CleverTap is delivering the campaign but not one MeraNetwork_Edu_* event has
-       arrived. That is the untracked build of the creative still being live, not a
-       quiet audience — say so rather than drawing a funnel of zeroes. */
-    if (imp && !shown) {
-      var warn = document.createElement("div");
-      warn.className = "note";
-      warn.style.borderLeftColor = "var(--warn)";
-      warn.style.marginTop = "14px";
-      warn.innerHTML = "<b>The creative in CleverTap is the untracked build.</b> Campaign " +
-        esc(d.campaign_id) + " has been delivered to <b>" + imp + "</b> CSPs, and <b>zero</b> " +
-        "<code>MeraNetwork_Edu_*</code> events have arrived — CleverTap does not know the event " +
-        "names yet. Paste the tracked <code>mera-network-moved-popup.html</code> into the campaign, " +
-        "tick <b>Include JavaScript</b>, and republish. Everything below stays empty until then.";
-      $("hero").appendChild(warn);
-    }
-
-    /* ---- funnel ---- */
-    var fp = document.createElement("div");
-    fp.className = "panel";
-    fp.innerHTML = '<div class="phead"><div class="pname"><span class="swatch" ' +
-      'style="background:var(--s1)"></span>How the one screen played out</div>' +
-      '<span class="pn">' + shown + ' CSPs shown</span></div>';
+    /* ---- time on screen ---- */
+    var rows = (os.buckets || []), tot = 0;
+    rows.forEach(function(r){ tot += r.n; });
+    var panel = document.createElement("div");
+    panel.className = "panel";
+    panel.innerHTML = '<div class="phead"><div class="pname"><span class="swatch" ' +
+      'style="background:var(--s1)"></span>How long the screen stayed open</div>' +
+      '<span class="pn">' + tot + ' screens</span></div>' +
+      '<p style="margin:0 0 16px;font-size:13.5px;color:var(--muted)">Seconds between the in-app ' +
+      'being shown and being dismissed. Under 3 seconds is a reflex swat — nobody read 40 words of ' +
+      'Hindi in that time. Six seconds or more is someone who took the message in. Counted per ' +
+      '<b>screen</b>, not per CSP.</p>';
     var bars = document.createElement("div");
     bars.className = "bars";
-    var COLOR = {shown: "--s1", understood: "--good", closed: "--s2"};
-    f.forEach(function(s){
-      bars.appendChild(bar(s.label, s.users, shown, COLOR[s.key] || "--s1", s.raw + " events"));
+    rows.forEach(function(r, i){
+      var color = i === 0 ? "--warn" : i === 1 ? "--s2" : "--good";
+      bars.appendChild(barRow(esc(r.label), r.n, tot, color,
+        r.label + " — " + r.n + " screens, " + pct(r.n, tot) + "% of dismissals"));
     });
-    bars.appendChild(bar("No tap recorded", t.no_action || 0, shown, "--warn"));
-    fp.appendChild(bars);
-    $("funnel").innerHTML = "<h2>The funnel</h2>";
-    $("funnel").appendChild(fp);
-    if (t.orphans) {
-      var n = document.createElement("div");
-      n.className = "note";
-      n.style.marginTop = "14px";
-      n.innerHTML = "<b>" + t.orphans + " CSPs tapped with no <code>Shown</code> on record.</b> " +
-        "The creative fires its own <code>Shown</code> from JS, so a device whose CleverTap bridge " +
-        "was still injecting when the page painted misses it and still records the tap. They are " +
-        "reported here and never folded into the reach number — but a large figure means reach is " +
-        "under-counted, so read the tap percentages as a floor.";
-      $("funnel").appendChild(n);
-    }
+    panel.appendChild(bars);
+    $("dwell").innerHTML = "<h2>Did they read it?</h2>";
+    $("dwell").appendChild(panel);
+    var readers = 0;
+    rows.forEach(function(r, i){ if (i >= 2) readers += r.n; });
+    var n1 = document.createElement("div");
+    n1.className = "note";
+    n1.style.marginTop = "14px";
+    n1.innerHTML = "<b>" + pct(readers, tot) + "% stayed 6 seconds or longer</b> (" + readers +
+      " of " + tot + " screens). <b>How a dismissal is tied to this campaign:</b> " +
+      "<code>inApp_Shown</code> carries the campaign id, <code>inApp_Dismissed</code> does not — " +
+      "not one of the dismissals in the window mentions it. So each impression is paired with the " +
+      "first dismissal by the same CSP within " + Math.round((os.window || 900) / 60) + " minutes, " +
+      "and the pair is thrown away if any other in-app opened in between. That makes the pairing " +
+      "conservative, never optimistic: a stolen dismissal is dropped rather than counted.";
+    $("dwell").appendChild(n1);
 
     /* ---- daily trend ---- */
     var days = d.daily || [];
     if (days.length) {
       var max = 0;
-      days.forEach(function(x){ max = Math.max(max, x.impressions || 0, x.shown, x.understood + x.closed); });
+      days.forEach(function(x){ max = Math.max(max, x.impressions || 0); });
       var cols = days.map(function(x){
-        var acted = x.understood + x.closed;
-        var base = Math.max(x.impressions || 0, x.shown);
+        var imp = x.impressions || 0, dis = x.dismissed || 0;
         var h = function(v){ return max ? Math.max(2, v / max * 118) : 2; };
-        return '<div class="day" data-t="' + esc(dayLabel(x.d) + ": " + x.shown + " shown, " +
-          x.understood + " समझ गया, " + x.closed + " ✕, " + (x.impressions || 0) + " delivered") + '">' +
+        return '<div class="day" data-t="' + esc(dayLabel(x.d) + ": " + imp + " reached, " +
+          dis + " closed the screen") + '">' +
           '<div class="stack">' +
-            '<div class="seg" style="height:' + h(x.closed) + 'px;background:var(--s2)"></div>' +
-            '<div class="seg" style="height:' + h(x.understood) + 'px;background:var(--good)"></div>' +
-            '<div class="seg" style="height:' + h(Math.max(0, base - acted)) +
+            '<div class="seg" style="height:' + h(dis) + 'px;background:var(--good)"></div>' +
+            '<div class="seg" style="height:' + h(Math.max(0, imp - dis)) +
               'px;background:var(--track)"></div>' +
           '</div><div class="dl">' + esc(dayLabel(x.d)) + '</div></div>';
       }).join("");
@@ -318,41 +295,55 @@ footer{border-top:1px solid var(--line);padding-top:20px;color:var(--faint);font
         '<div class="phead"><div class="pname">Unique CSPs per day</div>' +
         '<span class="pn">' + days.length + ' live day(s)</span></div>' +
         '<div class="days">' + cols + "</div>" +
-        '<div class="legend"><span><i style="background:var(--good)"></i>tapped समझ गया</span>' +
-        '<span><i style="background:var(--s2)"></i>closed with ✕</span>' +
-        '<span><i style="background:var(--track)"></i>delivered, no tap</span></div></div>';
+        '<div class="legend"><span><i style="background:var(--good)"></i>closed the screen</span>' +
+        '<span><i style="background:var(--track)"></i>reached, screen not closed</span></div></div>';
       Array.prototype.forEach.call($("trend").querySelectorAll(".day"), function(el){
         bindTip(el, el.getAttribute("data-t"));
       });
     }
 
-    /* ---- attention: seconds on screen + repeat exposure ---- */
-    function bucketPanel(title, sub, obj, colorVar){
-      var rows = (obj && obj.buckets) || [], tot = 0;
-      rows.forEach(function(r){ tot += r.n; });
-      var body = rows.map(function(r){
-        return '<div class="bar"><div class="top"><span class="lbl">' + esc(r.label) +
-          '</span><span class="num">' + r.n + '<i>' + pct(r.n, tot) + '%</i></span></div>' +
-          '<div class="track"><span class="fill" style="width:' +
-          (tot ? Math.max(0.8, r.n / tot * 100) : 0) + '%;background:var(' + colorVar + ')"></span></div></div>';
-      }).join("");
-      return '<div class="panel"><div class="phead"><div class="pname">' + title +
-        '</div><span class="pn">' + (obj && obj.median !== null && obj.median !== undefined ?
-          "median " + obj.median + "s" : "no data") + '</span></div>' +
-        '<p style="margin:0 0 14px;font-size:13px;color:var(--muted)">' + sub + '</p>' +
-        '<div class="bars">' + (body || '<span class="pn">no data</span>') + "</div></div>";
+    /* ---- the tracked-creative funnel: समझ गया vs ✕, which system events cannot split ---- */
+    var shown = t.shown || 0;
+    var tp = document.createElement("div");
+    tp.className = "panel";
+    tp.innerHTML = '<div class="phead"><div class="pname"><span class="swatch" ' +
+      'style="background:var(--s2)"></span>Which button they used</div>' +
+      '<span class="pn">' + shown + ' screens tracked</span></div>';
+    var tb = document.createElement("div");
+    tb.className = "bars";
+    var COLOR = {shown: "--s1", understood: "--good", closed: "--s2"};
+    f.forEach(function(s){
+      tb.appendChild(barRow(esc(s.label), s.users, shown || 1, COLOR[s.key] || "--s1",
+        s.event + " — " + s.raw + " events"));
+    });
+    tp.appendChild(tb);
+    $("tracked").innerHTML = "<h2>समझ गया or ✕</h2>";
+    $("tracked").appendChild(tp);
+    var n2 = document.createElement("div");
+    n2.className = "note";
+    n2.style.marginTop = "14px";
+    if (!shown) {
+      n2.style.borderLeftColor = "var(--warn)";
+      n2.innerHTML = "<b>Empty because the creative live in CleverTap is the untracked build.</b> " +
+        "The SDK's own events say a screen was shown and dismissed; they cannot say which control " +
+        "did it, and the untracked creative fires nothing of its own. Zero " +
+        "<code>MeraNetwork_Edu_*</code> events exist — CleverTap does not know the names yet. " +
+        "Paste the tracked <code>mera-network-moved-popup.html</code> into campaign " +
+        esc(d.campaign_id) + ", tick <b>Include JavaScript</b>, republish, and this section fills " +
+        "in. Everything above keeps working either way.";
+    } else {
+      n2.innerHTML = "<b>Tap percentages run against the creative's own <code>Shown</code></b> (" +
+        shown + "), not the " + reached + " CSPs the SDK delivered to" +
+        (t.shown_gap ? ", a gap of <b>" + t.shown_gap + "</b> whose bridge attached after paint" : "") +
+        ". " + (t.orphans ? "<b>" + t.orphans + "</b> CSPs tapped with no <code>Shown</code> on " +
+        "record and are reported, never folded in. " : "") +
+        "Against delivered reach the acknowledgement rate is <b>" +
+        pct(t.understood || 0, reached) + "%</b>.";
     }
-    $("attention").innerHTML = "<h2>Did they read it?</h2><div class=\"cols\">" +
-      bucketPanel('Seconds before <span class="dev">समझ गया</span>',
-        "Wall-clock time on the screen before the tap. Taps under 3 seconds are a reflex, not a read — " +
-        "events counted, not unique CSPs.", sec.understood, "--good") +
-      bucketPanel("Seconds before ✕",
-        "Same clock, for partners who closed instead. A ✕ at 6 seconds or more read the screen and " +
-        "chose not to acknowledge — events counted, not unique CSPs.", sec.closed, "--s2") +
-      "</div>";
+    $("tracked").appendChild(n2);
 
     /* ---- plumbing ---- */
-    var freq = d.freq || [], ftot = 0;
+    var freq = d.imp_freq || [], ftot = 0;
     freq.forEach(function(r){ ftot += r.n; });
     var frows = freq.map(function(r){
       return "<tr><td>" + esc(r.label) + "</td><td class=\"n\">" + r.n + "</td><td class=\"n\">" +
@@ -360,32 +351,35 @@ footer{border-top:1px solid var(--line);padding-top:20px;color:var(--faint);font
     }).join("");
     $("plumbing").innerHTML = "<h2>Plumbing</h2><div class=\"cols\">" +
       '<div class="panel" style="padding:0;overflow:hidden"><div class="tw" style="border:none;box-shadow:none">' +
-      "<table><thead><tr><th>Times shown</th><th class=\"n\">CSPs</th><th class=\"n\">Share</th></tr></thead>" +
+      "<table><thead><tr><th>Times served</th><th class=\"n\">CSPs</th><th class=\"n\">Share</th></tr></thead>" +
       "<tbody>" + (frows || "<tr><td>no data</td><td class=\"n\">—</td><td class=\"n\">—</td></tr>") +
       "</tbody></table></div></div>" +
       '<div class="panel"><div class="phead"><div class="pname">Event volume</div>' +
       '<span class="pn">events, not CSPs</span></div><div class="bars">' +
+      '<div class="bar"><div class="top"><span class="lbl"><code>inApp_Shown</code> · this campaign' +
+      '</span><span class="num">' + screens + "</span></div></div>" +
+      '<div class="bar"><div class="top"><span class="lbl"><code>inApp_Dismissed</code> · matched' +
+      '</span><span class="num">' + closedScreens + "</span></div></div>" +
       (f.map(function(s){
         return '<div class="bar"><div class="top"><span class="lbl"><code>' + esc(s.event) +
           '</code></span><span class="num">' + s.raw + "</span></div></div>";
       }).join("")) + "</div></div></div>" +
-      '<div class="note" style="margin-top:14px"><b>Times shown</b> is the only block counted from ' +
-      'raw event volume per CSP rather than unique users. Repeat exposure is governed by the ' +
-      'CleverTap frequency cap, so a heavy <code>5+</code> bucket means the cap is not applied. ' +
-      '<b>Event volume</b> against the unique counts above is the same check from the other side.</div>';
+      '<div class="note" style="margin-top:14px"><b>Times served</b> counts SDK impressions per ' +
+      'CSP, so it reflects the real frequency cap. A heavy <code>5+</code> bucket means the cap is ' +
+      'not applied.</div>';
 
     $("foot").innerHTML = "Source: <code>mera_network_data.json</code>, written by " +
-      "<code>fetch_mera_network.py</code> from the CleverTap events export. Unique CSPs " +
-      "deduplicated on <code>profileData.cspid</code>, falling back to profile identity; the test " +
-      "shop is excluded. Creative: <code>mera-network-moved-popup.html</code>, events " +
-      "<code>MeraNetwork_Edu_Shown / _Understood / _Closed</code>. No partner names or phone " +
-      "numbers appear on this page.";
+      "<code>fetch_mera_network.py</code> from the CleverTap events export (<code>inApp_Shown</code>, " +
+      "<code>inApp_Dismissed</code> and <code>MeraNetwork_Edu_*</code>). Unique CSPs deduplicated on " +
+      "<code>profileData.cspid</code>, falling back to profile identity; the test shop is excluded. " +
+      "Creative: <code>mera-network-moved-popup.html</code>. No partner names, phone numbers or " +
+      "locations appear on this page.";
   }
 
   fetch("mera_network_data.json", {cache: "no-store"})
     .then(function(r){ if (!r.ok) throw new Error("no data file"); return r.json(); })
     .then(function(d){
-      if (!d.funnel || !d.funnel.length) throw new Error("empty");
+      if (!d.totals) throw new Error("empty");
       render(d);
     })
     .catch(function(){
