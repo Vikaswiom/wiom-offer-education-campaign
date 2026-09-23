@@ -1,0 +1,28 @@
+# Manual, read-only: does an inApp_Dismissed record carry the campaign id in any
+# field at all? Prints whole records (identity blanked) to the job log.
+name: probe-dismiss
+
+on:
+  workflow_dispatch:
+    inputs:
+      campaign_id:
+        description: "CleverTap campaign id"
+        required: false
+        default: "1790081258"
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - name: probe
+        env:
+          CLEVERTAP_ACCOUNT: ${{ secrets.CLEVERTAP_ACCOUNT }}
+          CLEVERTAP_PASSCODE: ${{ secrets.CLEVERTAP_PASSCODE }}
+        run: python3 probe_dismiss_raw.py "${{ inputs.campaign_id }}"
