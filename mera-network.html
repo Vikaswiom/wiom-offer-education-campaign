@@ -242,7 +242,7 @@ footer{border-top:1px solid var(--line);padding-top:20px;color:var(--faint);font
            pct(t.no_action || 0, shown) + "% — backgrounded the app or dismissed elsewhere",
            (t.no_action || 0) > shown * 0.3 ? "act" : "") +
       "</div>" +
-      (imp ? '<div class="note" style="margin-top:14px"><b>Two reach numbers, and they will not ' +
+      (imp && shown ? '<div class="note" style="margin-top:14px"><b>Two reach numbers, and they will not ' +
         'match.</b> CleverTap delivered the in-app to <b>' + imp + '</b> CSPs (<code>inApp_Shown</code>, ' +
         'campaign ' + esc(d.campaign_id) + '); the creative\'s own JS recorded <b>' + shown +
         '</b>. The <b>' + (t.shown_gap || 0) + '</b> in the gap are devices whose CleverTap bridge ' +
@@ -250,6 +250,23 @@ footer{border-top:1px solid var(--line);padding-top:20px;color:var(--faint);font
         'creative\'s own Shown, which is the only cohort we know was measurable, so treat them as ' +
         'a ceiling — against delivered reach the acknowledgement rate is <b>' +
         pct(t.understood || 0, imp) + '%</b>.</div>' : "");
+
+    /* ---- creative-not-published banner ----
+       CleverTap is delivering the campaign but not one MeraNetwork_Edu_* event has
+       arrived. That is the untracked build of the creative still being live, not a
+       quiet audience — say so rather than drawing a funnel of zeroes. */
+    if (imp && !shown) {
+      var warn = document.createElement("div");
+      warn.className = "note";
+      warn.style.borderLeftColor = "var(--warn)";
+      warn.style.marginTop = "14px";
+      warn.innerHTML = "<b>The creative in CleverTap is the untracked build.</b> Campaign " +
+        esc(d.campaign_id) + " has been delivered to <b>" + imp + "</b> CSPs, and <b>zero</b> " +
+        "<code>MeraNetwork_Edu_*</code> events have arrived — CleverTap does not know the event " +
+        "names yet. Paste the tracked <code>mera-network-moved-popup.html</code> into the campaign, " +
+        "tick <b>Include JavaScript</b>, and republish. Everything below stays empty until then.";
+      $("hero").appendChild(warn);
+    }
 
     /* ---- funnel ---- */
     var fp = document.createElement("div");
@@ -283,16 +300,17 @@ footer{border-top:1px solid var(--line);padding-top:20px;color:var(--faint);font
     var days = d.daily || [];
     if (days.length) {
       var max = 0;
-      days.forEach(function(x){ max = Math.max(max, x.shown, x.understood + x.closed); });
+      days.forEach(function(x){ max = Math.max(max, x.impressions || 0, x.shown, x.understood + x.closed); });
       var cols = days.map(function(x){
         var acted = x.understood + x.closed;
+        var base = Math.max(x.impressions || 0, x.shown);
         var h = function(v){ return max ? Math.max(2, v / max * 118) : 2; };
         return '<div class="day" data-t="' + esc(dayLabel(x.d) + ": " + x.shown + " shown, " +
-          x.understood + " समझ गया, " + x.closed + " ✕") + '">' +
+          x.understood + " समझ गया, " + x.closed + " ✕, " + (x.impressions || 0) + " delivered") + '">' +
           '<div class="stack">' +
             '<div class="seg" style="height:' + h(x.closed) + 'px;background:var(--s2)"></div>' +
             '<div class="seg" style="height:' + h(x.understood) + 'px;background:var(--good)"></div>' +
-            '<div class="seg" style="height:' + h(Math.max(0, x.shown - acted)) +
+            '<div class="seg" style="height:' + h(Math.max(0, base - acted)) +
               'px;background:var(--track)"></div>' +
           '</div><div class="dl">' + esc(dayLabel(x.d)) + '</div></div>';
       }).join("");
@@ -302,7 +320,7 @@ footer{border-top:1px solid var(--line);padding-top:20px;color:var(--faint);font
         '<div class="days">' + cols + "</div>" +
         '<div class="legend"><span><i style="background:var(--good)"></i>tapped समझ गया</span>' +
         '<span><i style="background:var(--s2)"></i>closed with ✕</span>' +
-        '<span><i style="background:var(--track)"></i>shown, no tap</span></div></div>';
+        '<span><i style="background:var(--track)"></i>delivered, no tap</span></div></div>';
       Array.prototype.forEach.call($("trend").querySelectorAll(".day"), function(el){
         bindTip(el, el.getAttribute("data-t"));
       });
