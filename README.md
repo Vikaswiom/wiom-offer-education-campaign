@@ -7,6 +7,7 @@ every ~30 minutes by GitHub Actions.
 |---|---|---|---|
 | [`dashboard.html`](https://vikaswiom.github.io/wiom-offer-education-campaign/dashboard.html) | Offer Education in-app (CSP + Technician apps) | `data.json` | `fetch_ct_data.py` |
 | [`bonus.html`](https://vikaswiom.github.io/wiom-offer-education-campaign/bonus.html) | Bonus Seva video in-app (`Bonus_Seva_*` events) | `bonus_data.json` | `fetch_bonus_data.py` |
+| [`mera-network.html`](https://vikaswiom.github.io/wiom-offer-education-campaign/mera-network.html) | मेरा नेटवर्क education in-app, campaign `1790081258` (`MeraNetwork_Edu_*` events) | `mera_network_data.json` | `fetch_mera_network.py` |
 
 ## How the refresh works
 
@@ -23,6 +24,9 @@ if the secrets are missing. **Never commit credentials — this repo is public.*
 campaign id (campaign stats endpoint, Notification Viewed/Clicked and
 inApp_Shown export search, campaign_id breakdown). Run it from the Actions tab
 whenever the CleverTap UI and a dashboard disagree.
+
+`.github/workflows/mera-network.yml` refreshes the मेरा नेटवर्क page on its own
+half-hourly cron (`6,36`), independent of the other two fetchers.
 
 ## Attribution notes (why the fetchers look the way they do)
 
