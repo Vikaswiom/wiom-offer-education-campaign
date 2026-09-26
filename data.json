@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-26 16:46 IST",
+  "generated": "2026-09-26 20:31 IST",
   "sample": false,
   "region": "eu1",
   "start_date": "2026-07-16",
@@ -575,13 +575,13 @@
             "label": "1 time only",
             "min": 1,
             "max": 1,
-            "users": 142
+            "users": 141
           },
           {
             "label": "2 times",
             "min": 2,
             "max": 2,
-            "users": 54
+            "users": 56
           },
           {
             "label": "3 times",
@@ -593,13 +593,13 @@
             "label": "4 times",
             "min": 4,
             "max": 4,
-            "users": 26
+            "users": 24
           },
           {
             "label": "5 or more times",
             "min": 5,
             "max": null,
-            "users": 65
+            "users": 67
           }
         ],
         "ok": [
@@ -613,7 +613,7 @@
             "label": "2 times",
             "min": 2,
             "max": 2,
-            "users": 50
+            "users": 51
           },
           {
             "label": "3 times",
@@ -625,18 +625,18 @@
             "label": "4 times",
             "min": 4,
             "max": 4,
-            "users": 34
+            "users": 33
           },
           {
             "label": "5 or more times",
             "min": 5,
             "max": null,
-            "users": 38
+            "users": 39
           }
         ]
       },
       "freq_avg": {
-        "shown": 2.5,
+        "shown": 2.51,
         "ok": 2.31
       },
       "freq_max": {
@@ -659,8 +659,8 @@
         ]
       ],
       "funnel": {
-        "shown": 307,
-        "ok": 290
+        "shown": 308,
+        "ok": 291
       },
       "ok_outside_shown": 0,
       "options": [],
@@ -882,8 +882,8 @@
         },
         {
           "date": "2026-09-26",
-          "shown": 32,
-          "ok": 28
+          "shown": 37,
+          "ok": 31
         }
       ],
       "note": "Full-page offer creative (round 2): one screen, one ठीक है, no quiz."
