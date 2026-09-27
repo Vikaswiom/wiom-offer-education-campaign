@@ -1,5 +1,5 @@
 {
- "generated": "2026-09-27 10:38 IST",
+ "generated": "2026-09-27 16:11 IST",
  "region": "eu1",
  "start_date": "20260922",
  "creative": "mera_network_moved_v1",
@@ -35,12 +35,12 @@
   "no_action": 0,
   "orphans": 0,
   "raw_shown": 0,
-  "impressions": 457,
-  "raw_impressions": 892,
-  "dismissed": 454,
-  "raw_dismissed": 867,
-  "never_dismissed": 25,
-  "shown_gap": 457
+  "impressions": 467,
+  "raw_impressions": 923,
+  "dismissed": 463,
+  "raw_dismissed": 896,
+  "never_dismissed": 27,
+  "shown_gap": 467
  },
  "daily": [
   {
@@ -85,8 +85,8 @@
   },
   {
    "d": "20260927",
-   "impressions": 18,
-   "dismissed": 16,
+   "impressions": 46,
+   "dismissed": 42,
    "shown": 0,
    "understood": 0,
    "closed": 0
@@ -172,25 +172,25 @@
   }
  ],
  "on_screen": {
-  "n": 867,
-  "avg": 8.6,
-  "median": 5,
+  "n": 896,
+  "avg": 8.5,
+  "median": 5.0,
   "buckets": [
    {
     "label": "0–2s",
-    "n": 201
+    "n": 209
    },
    {
     "label": "3–5s",
-    "n": 241
+    "n": 251
    },
    {
     "label": "6–10s",
-    "n": 214
+    "n": 220
    },
    {
     "label": "11–30s",
-    "n": 185
+    "n": 190
    },
    {
     "label": "31s+",
@@ -206,7 +206,7 @@
   },
   {
    "label": "2",
-   "n": 190
+   "n": 196
   },
   {
    "label": "3",
@@ -214,11 +214,11 @@
   },
   {
    "label": "4",
-   "n": 31
+   "n": 33
   },
   {
    "label": "5+",
-   "n": 13
+   "n": 15
   }
  ]
 }
