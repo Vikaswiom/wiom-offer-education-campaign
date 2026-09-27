@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-27 13:27 IST",
+  "generated": "2026-09-27 19:16 IST",
   "sample": false,
   "region": "eu1",
   "start_date": "2026-07-16",
@@ -44,13 +44,13 @@
       "funnel": {
         "shown": 399,
         "edu_ok": 393,
-        "completed": 344
+        "completed": 359
       },
       "options": [
         {
           "option": "1",
           "label": "1st (top)",
-          "users": 269
+          "users": 282
         },
         {
           "option": "2",
@@ -60,7 +60,7 @@
         {
           "option": "3",
           "label": "3rd (bottom)",
-          "users": 46
+          "users": 48
         }
       ],
       "daily": [
@@ -72,22 +72,22 @@
         {
           "date": "2026-07-17",
           "shown": 57,
-          "completed": 38
+          "completed": 41
         },
         {
           "date": "2026-07-18",
           "shown": 64,
-          "completed": 46
+          "completed": 47
         },
         {
           "date": "2026-07-19",
           "shown": 64,
-          "completed": 36
+          "completed": 38
         },
         {
           "date": "2026-07-20",
           "shown": 72,
-          "completed": 41
+          "completed": 46
         },
         {
           "date": "2026-07-21",
@@ -97,12 +97,12 @@
         {
           "date": "2026-07-22",
           "shown": 50,
-          "completed": 30
+          "completed": 31
         },
         {
           "date": "2026-07-23",
           "shown": 31,
-          "completed": 21
+          "completed": 22
         },
         {
           "date": "2026-07-24",
@@ -112,12 +112,12 @@
         {
           "date": "2026-07-25",
           "shown": 19,
-          "completed": 11
+          "completed": 12
         },
         {
           "date": "2026-07-26",
           "shown": 17,
-          "completed": 11
+          "completed": 12
         },
         {
           "date": "2026-07-27",
@@ -233,50 +233,50 @@
       "funnel": {
         "shown": 267,
         "edu_ok": 264,
-        "completed": 240
+        "completed": 255
       },
       "options": [
         {
           "option": "1",
           "label": "1st (top)",
-          "users": 193
+          "users": 203
         },
         {
           "option": "2",
           "label": "2nd (middle)",
-          "users": 17
+          "users": 19
         },
         {
           "option": "3",
           "label": "3rd (bottom)",
-          "users": 30
+          "users": 33
         }
       ],
       "daily": [
         {
           "date": "2026-07-16",
           "shown": 7,
-          "completed": 4
+          "completed": 5
         },
         {
           "date": "2026-07-17",
           "shown": 27,
-          "completed": 18
+          "completed": 19
         },
         {
           "date": "2026-07-18",
           "shown": 63,
-          "completed": 37
+          "completed": 39
         },
         {
           "date": "2026-07-19",
           "shown": 83,
-          "completed": 50
+          "completed": 51
         },
         {
           "date": "2026-07-20",
           "shown": 63,
-          "completed": 32
+          "completed": 33
         },
         {
           "date": "2026-07-21",
@@ -286,17 +286,17 @@
         {
           "date": "2026-07-22",
           "shown": 30,
-          "completed": 22
+          "completed": 25
         },
         {
           "date": "2026-07-23",
           "shown": 15,
-          "completed": 9
+          "completed": 10
         },
         {
           "date": "2026-07-24",
           "shown": 5,
-          "completed": 2
+          "completed": 3
         },
         {
           "date": "2026-07-25",
@@ -316,7 +316,7 @@
         {
           "date": "2026-07-28",
           "shown": 0,
-          "completed": 1
+          "completed": 3
         },
         {
           "date": "2026-07-29",
@@ -350,6 +350,11 @@
         },
         {
           "date": "2026-08-08",
+          "shown": 0,
+          "completed": 2
+        },
+        {
+          "date": "2026-08-13",
           "shown": 0,
           "completed": 1
         },
@@ -582,19 +587,19 @@
             "label": "3 times",
             "min": 3,
             "max": 3,
-            "users": 18
+            "users": 19
           },
           {
             "label": "4 times",
             "min": 4,
             "max": 4,
-            "users": 16
+            "users": 12
           },
           {
             "label": "5 or more times",
             "min": 5,
             "max": null,
-            "users": 78
+            "users": 82
           }
         ],
         "ok": [
@@ -614,28 +619,28 @@
             "label": "3 times",
             "min": 3,
             "max": 3,
-            "users": 23
+            "users": 22
           },
           {
             "label": "4 times",
             "min": 4,
             "max": 4,
-            "users": 23
+            "users": 22
           },
           {
             "label": "5 or more times",
             "min": 5,
             "max": null,
-            "users": 55
+            "users": 58
           }
         ]
       },
       "freq_avg": {
-        "shown": 2.69,
-        "ok": 2.48
+        "shown": 2.73,
+        "ok": 2.51
       },
       "freq_max": {
-        "shown": 10,
+        "shown": 11,
         "ok": 10
       },
       "attribution": "event",
@@ -654,8 +659,8 @@
         ]
       ],
       "funnel": {
-        "shown": 308,
-        "ok": 291
+        "shown": 309,
+        "ok": 292
       },
       "ok_outside_shown": 0,
       "options": [],
@@ -882,8 +887,8 @@
         },
         {
           "date": "2026-09-27",
-          "shown": 53,
-          "ok": 47
+          "shown": 66,
+          "ok": 57
         }
       ],
       "note": "Full-page offer creative (round 2): one screen, one ठीक है, no quiz."
@@ -1125,9 +1130,9 @@
   ],
   "unattributed": {
     "edu_ok": 984,
-    "completed": 807,
+    "completed": 832,
     "edu_ok_technician": 517,
-    "completed_technician": 443
+    "completed_technician": 459
   },
   "both_apps": 0
 }
