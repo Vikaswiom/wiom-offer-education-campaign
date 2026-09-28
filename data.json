@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-28 22:31 IST",
+  "generated": "2026-09-29 04:01 IST",
   "sample": false,
   "region": "eu1",
   "start_date": "2026-07-16",
@@ -636,8 +636,8 @@
         ]
       },
       "freq_avg": {
-        "shown": 2.86,
-        "ok": 2.62
+        "shown": 2.91,
+        "ok": 2.66
       },
       "freq_max": {
         "shown": 11,
@@ -894,6 +894,11 @@
           "date": "2026-09-28",
           "shown": 37,
           "ok": 33
+        },
+        {
+          "date": "2026-09-29",
+          "shown": 13,
+          "ok": 10
         }
       ],
       "note": "Full-page offer creative (round 2): one screen, one ठीक है, no quiz."
