@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-29 07:46 IST",
+  "generated": "2026-09-29 14:13 IST",
   "sample": false,
   "region": "eu1",
   "start_date": "2026-07-16",
@@ -581,7 +581,7 @@
             "label": "2 times",
             "min": 2,
             "max": 2,
-            "users": 52
+            "users": 48
           },
           {
             "label": "3 times",
@@ -593,13 +593,13 @@
             "label": "4 times",
             "min": 4,
             "max": 4,
-            "users": 14
+            "users": 16
           },
           {
             "label": "5 or more times",
             "min": 5,
             "max": null,
-            "users": 87
+            "users": 89
           }
         ],
         "ok": [
@@ -607,13 +607,13 @@
             "label": "1 time only",
             "min": 1,
             "max": 1,
-            "users": 134
+            "users": 133
           },
           {
             "label": "2 times",
             "min": 2,
             "max": 2,
-            "users": 51
+            "users": 48
           },
           {
             "label": "3 times",
@@ -631,16 +631,16 @@
             "label": "5 or more times",
             "min": 5,
             "max": null,
-            "users": 65
+            "users": 69
           }
         ]
       },
       "freq_avg": {
-        "shown": 2.92,
-        "ok": 2.67
+        "shown": 3.07,
+        "ok": 2.8
       },
       "freq_max": {
-        "shown": 11,
+        "shown": 12,
         "ok": 10
       },
       "attribution": "event",
@@ -897,8 +897,8 @@
         },
         {
           "date": "2026-09-29",
-          "shown": 18,
-          "ok": 13
+          "shown": 63,
+          "ok": 52
         }
       ],
       "note": "Full-page offer creative (round 2): one screen, one ठीक है, no quiz."
