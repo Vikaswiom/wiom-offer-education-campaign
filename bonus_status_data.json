@@ -1,5 +1,5 @@
 {
- "generated": "2026-09-30 00:20 IST",
+ "generated": "2026-09-30 04:26 IST",
  "start_date": "20260812",
  "cycle_end": "2026-08-31",
  "credit_on": "2026-09-01",
@@ -48,7 +48,7 @@
      "label": "Tapped through to सेवा स्थिति",
      "event": "Bonus_Status_GoTo_SevaSthiti",
      "users": 87,
-     "raw": 177
+     "raw": 186
     }
    ],
    "help": [
@@ -226,8 +226,8 @@
      "key": "goto",
      "label": "Tapped through to सेवा स्थिति",
      "event": "Bonus_Status_GoTo_SevaSthiti",
-     "users": 98,
-     "raw": 172
+     "users": 100,
+     "raw": 177
     }
    ],
    "help": [
@@ -364,7 +364,7 @@
   "reached": 258,
   "audience": 263,
   "callbacks": 25,
-  "goto": 185,
+  "goto": 187,
   "need_help": 35
  },
  "all_callback_ids": [
