@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-30 07:54 IST",
+  "generated": "2026-09-30 14:18 IST",
   "region": "eu1",
   "start_date": "2026-07-27",
   "triggers": [
@@ -140,23 +140,23 @@
         "cohort_event": "Bonus_Seva_Quiz_Answered",
         "cohort_users": 106,
         "pre": {
-          "users": 49,
-          "events": 230,
+          "users": 48,
+          "events": 228,
           "days": 11.0,
-          "reach_pct": 46,
-          "per_user_day": 0.197,
+          "reach_pct": 45,
+          "per_user_day": 0.196,
           "label": "16 Jul–26 Jul (before)"
         },
         "post": {
-          "users": 62,
-          "events": 260,
+          "users": 60,
+          "events": 257,
           "days": 3.48,
-          "reach_pct": 58,
-          "per_user_day": 0.705,
+          "reach_pct": 57,
+          "per_user_day": 0.697,
           "label": "27 Jul 23:33 → 31 Jul 11:00 (while live)"
         },
         "stopped": true,
-        "lift_pct": 258
+        "lift_pct": 256
       },
       "daily": [
         {
@@ -359,34 +359,34 @@
       {
         "key": "before",
         "label": "16 Jul–26 Jul",
-        "users": 127,
-        "events": 560,
+        "users": 122,
+        "events": 550,
         "days": 11.0,
         "reach_pct": 16,
-        "per_user_day": 0.066
+        "per_user_day": 0.065
       },
       {
         "key": "round1",
         "label": "27 Jul 23:33 → 31 Jul 11:00",
-        "users": 126,
-        "events": 649,
+        "users": 120,
+        "events": 636,
         "days": 3.48,
         "reach_pct": 16,
-        "per_user_day": 0.241
+        "per_user_day": 0.237
       },
       {
         "key": "round2",
         "label": "since 31 Jul 11:00",
-        "users": 310,
-        "events": 2434,
-        "days": 60.87,
-        "reach_pct": 40,
-        "per_user_day": 0.052
+        "users": 292,
+        "events": 2333,
+        "days": 61.14,
+        "reach_pct": 38,
+        "per_user_day": 0.049
       }
     ],
     "lift_r1": 265,
-    "lift_r2": -78,
-    "lift_total": -21
+    "lift_r2": -79,
+    "lift_total": -25
   },
   "followthrough": {
     "chip_event": "service_status_opened",
@@ -409,7 +409,7 @@
       {
         "key": "help",
         "label": "Opened the (?) help screen · within 3 min of that",
-        "users": 24
+        "users": 22
       }
     ]
   },
@@ -424,23 +424,23 @@
         "cohort_event": "Bonus_Seva_Quiz_Answered",
         "cohort_users": 106,
         "pre": {
-          "users": 49,
-          "events": 230,
+          "users": 48,
+          "events": 228,
           "days": 11.0,
-          "reach_pct": 46,
-          "per_user_day": 0.197,
+          "reach_pct": 45,
+          "per_user_day": 0.196,
           "label": "16 Jul–26 Jul (before)"
         },
         "post": {
-          "users": 62,
-          "events": 260,
+          "users": 60,
+          "events": 257,
           "days": 3.48,
-          "reach_pct": 58,
-          "per_user_day": 0.705,
+          "reach_pct": 57,
+          "per_user_day": 0.697,
           "label": "27 Jul 23:33 → 31 Jul 11:00 (while live)"
         },
         "stopped": true,
-        "lift_pct": 258
+        "lift_pct": 256
       }
     },
     {
@@ -453,23 +453,23 @@
         "cohort_event": "Bonus_Seva2_Flow_Completed",
         "cohort_users": 773,
         "pre": {
-          "users": 172,
-          "events": 1052,
+          "users": 165,
+          "events": 1026,
           "days": 11.0,
-          "reach_pct": 22,
-          "per_user_day": 0.124,
+          "reach_pct": 21,
+          "per_user_day": 0.121,
           "label": "20 Jul–30 Jul (before)"
         },
         "post": {
-          "users": 310,
-          "events": 2434,
-          "days": 60.87,
-          "reach_pct": 40,
-          "per_user_day": 0.052,
+          "users": 292,
+          "events": 2333,
+          "days": 61.14,
+          "reach_pct": 38,
+          "per_user_day": 0.049,
           "label": "since 31 Jul 11:00 (after)"
         },
         "stopped": false,
-        "lift_pct": -58,
+        "lift_pct": -60,
         "pre_overlaps": [
           "Quality-of-work section"
         ]
