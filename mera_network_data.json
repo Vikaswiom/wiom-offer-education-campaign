@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-02 05:36 IST",
+ "generated": "2026-10-02 11:35 IST",
  "region": "eu1",
  "start_date": "20260922",
  "creative": "mera_network_moved_v1",
@@ -36,9 +36,9 @@
   "orphans": 0,
   "raw_shown": 0,
   "impressions": 537,
-  "raw_impressions": 1166,
+  "raw_impressions": 1168,
   "dismissed": 535,
-  "raw_dismissed": 1136,
+  "raw_dismissed": 1138,
   "never_dismissed": 30,
   "shown_gap": 537
  },
@@ -125,8 +125,8 @@
   },
   {
    "d": "20261002",
-   "impressions": 1,
-   "dismissed": 1,
+   "impressions": 3,
+   "dismissed": 3,
    "shown": 0,
    "understood": 0,
    "closed": 0
@@ -212,13 +212,13 @@
   }
  ],
  "on_screen": {
-  "n": 1136,
+  "n": 1138,
   "avg": 8.4,
   "median": 5.0,
   "buckets": [
    {
     "label": "0–2s",
-    "n": 276
+    "n": 277
    },
    {
     "label": "3–5s",
@@ -230,7 +230,7 @@
    },
    {
     "label": "11–30s",
-    "n": 222
+    "n": 223
    },
    {
     "label": "31s+",
@@ -246,11 +246,11 @@
   },
   {
    "label": "2",
-   "n": 247
+   "n": 245
   },
   {
    "label": "3",
-   "n": 66
+   "n": 68
   },
   {
    "label": "4",
