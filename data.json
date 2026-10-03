@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-03 18:01 IST",
+  "generated": "2026-10-03 22:09 IST",
   "sample": false,
   "region": "eu1",
   "start_date": "2026-07-16",
@@ -220,7 +220,7 @@
       "key": "tech",
       "label": "Technician App",
       "color": "#2563EB",
-      "note": "Technician app — Shown comes from CleverTap's own impression event (Notification Viewed, wzrk_id 1784203536) because this app does not fire the custom inApp_Shown; education/quiz are locked to that cohort by identity. 518 role = technician profile(s) acted without a recorded impression.",
+      "note": "Technician app — Shown comes from CleverTap's own impression event (Notification Viewed, wzrk_id 1784203536) because this app does not fire the custom inApp_Shown; education/quiz are locked to that cohort by identity. 517 role = technician profile(s) acted without a recorded impression.",
       "campaigns": [
         "1784203536"
       ],
@@ -581,7 +581,7 @@
             "label": "2 times",
             "min": 2,
             "max": 2,
-            "users": 41
+            "users": 40
           },
           {
             "label": "3 times",
@@ -599,7 +599,7 @@
             "label": "5 or more times",
             "min": 5,
             "max": null,
-            "users": 108
+            "users": 109
           }
         ],
         "ok": [
@@ -613,13 +613,13 @@
             "label": "2 times",
             "min": 2,
             "max": 2,
-            "users": 45
+            "users": 44
           },
           {
             "label": "3 times",
             "min": 3,
             "max": 3,
-            "users": 20
+            "users": 21
           },
           {
             "label": "4 times",
@@ -636,8 +636,8 @@
         ]
       },
       "freq_avg": {
-        "shown": 3.77,
-        "ok": 3.43
+        "shown": 3.79,
+        "ok": 3.44
       },
       "freq_max": {
         "shown": 16,
@@ -917,8 +917,8 @@
         },
         {
           "date": "2026-10-03",
-          "shown": 67,
-          "ok": 57
+          "shown": 72,
+          "ok": 60
         }
       ],
       "note": "Full-page offer creative (round 2): one screen, one ठीक है, no quiz."
@@ -1161,8 +1161,8 @@
   "unattributed": {
     "edu_ok": 984,
     "completed": 832,
-    "edu_ok_technician": 517,
-    "completed_technician": 459
+    "edu_ok_technician": 516,
+    "completed_technician": 458
   },
   "both_apps": 0
 }
