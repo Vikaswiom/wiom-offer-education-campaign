@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-03 07:21 IST",
+  "generated": "2026-10-03 12:40 IST",
   "region": "eu1",
   "start_date": "2026-07-27",
   "triggers": [
@@ -379,14 +379,14 @@
         "label": "since 31 Jul 11:00",
         "users": 313,
         "events": 2447,
-        "days": 63.85,
+        "days": 64.07,
         "reach_pct": 40,
-        "per_user_day": 0.05
+        "per_user_day": 0.049
       }
     ],
     "lift_r1": 265,
-    "lift_r2": -79,
-    "lift_total": -24
+    "lift_r2": -80,
+    "lift_total": -26
   },
   "followthrough": {
     "chip_event": "service_status_opened",
@@ -463,9 +463,9 @@
         "post": {
           "users": 313,
           "events": 2447,
-          "days": 63.85,
+          "days": 64.07,
           "reach_pct": 40,
-          "per_user_day": 0.05,
+          "per_user_day": 0.049,
           "label": "since 31 Jul 11:00 (after)"
         },
         "stopped": false,
