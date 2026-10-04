@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-04 12:59 IST",
+  "generated": "2026-10-04 18:55 IST",
   "sample": false,
   "region": "eu1",
   "start_date": "2026-07-16",
@@ -587,19 +587,19 @@
             "label": "3 times",
             "min": 3,
             "max": 3,
-            "users": 18
+            "users": 19
           },
           {
             "label": "4 times",
             "min": 4,
             "max": 4,
-            "users": 11
+            "users": 10
           },
           {
             "label": "5 or more times",
             "min": 5,
             "max": null,
-            "users": 111
+            "users": 112
           }
         ],
         "ok": [
@@ -607,19 +607,19 @@
             "label": "1 time only",
             "min": 1,
             "max": 1,
-            "users": 129
+            "users": 128
           },
           {
             "label": "2 times",
             "min": 2,
             "max": 2,
-            "users": 44
+            "users": 46
           },
           {
             "label": "3 times",
             "min": 3,
             "max": 3,
-            "users": 22
+            "users": 21
           },
           {
             "label": "4 times",
@@ -631,13 +631,13 @@
             "label": "5 or more times",
             "min": 5,
             "max": null,
-            "users": 96
+            "users": 97
           }
         ]
       },
       "freq_avg": {
-        "shown": 3.87,
-        "ok": 3.52
+        "shown": 3.89,
+        "ok": 3.53
       },
       "freq_max": {
         "shown": 17,
@@ -659,8 +659,8 @@
         ]
       ],
       "funnel": {
-        "shown": 320,
-        "ok": 302
+        "shown": 321,
+        "ok": 303
       },
       "ok_outside_shown": 0,
       "options": [],
@@ -922,8 +922,8 @@
         },
         {
           "date": "2026-10-04",
-          "shown": 25,
-          "ok": 20
+          "shown": 35,
+          "ok": 29
         }
       ],
       "note": "Full-page offer creative (round 2): one screen, one ठीक है, no quiz."
