@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-11 18:54 IST",
+ "generated": "2026-10-11 23:54 IST",
  "start_date": "20260812",
  "cycle_end": "2026-08-31",
  "credit_on": "2026-09-01",
@@ -191,43 +191,45 @@
    "label": "4 में से 2",
    "sub": "Two checks short",
    "size": 152,
-   "reached": 146,
-   "not_reached": 6,
-   "orphans": [],
+   "reached": 147,
+   "not_reached": 5,
+   "orphans": [
+    "a0b9t8"
+   ],
    "funnel": [
     {
      "key": "viewed",
      "label": "Screen shown",
      "event": "Bonus_Status_Comm_Viewed",
-     "users": 146,
+     "users": 147,
      "raw": 418
     },
     {
      "key": "next",
      "label": "Tapped आगे",
      "event": "Bonus_Status_Next_Tapped",
-     "users": 134,
+     "users": 135,
      "raw": 299
     },
     {
      "key": "help",
      "label": "Reached the help question",
      "event": "Bonus_Status_Help_Viewed",
-     "users": 134,
+     "users": 135,
      "raw": 299
     },
     {
      "key": "finale",
      "label": "Reached the ending",
      "event": "Bonus_Status_Finale_Viewed",
-     "users": 123,
+     "users": 124,
      "raw": 248
     },
     {
      "key": "goto",
      "label": "Tapped through to सेवा स्थिति",
      "event": "Bonus_Status_GoTo_SevaSthiti",
-     "users": 100,
+     "users": 101,
      "raw": 177
     }
    ],
@@ -236,7 +238,7 @@
      "key": "understood",
      "label": "नहीं, सब समझ गया",
      "event": "Bonus_Status_Help_Understood",
-     "users": 76
+     "users": 77
     },
     {
      "key": "some_questions",
@@ -257,12 +259,12 @@
      "users": 61
     }
    ],
-   "help_answered": 126,
+   "help_answered": 127,
    "clicks": [
     {
      "event": "Bonus_Status_Next_Tapped",
      "label": "आगे (page 1)",
-     "users": 134,
+     "users": 135,
      "raw": 299
     },
     {
@@ -274,7 +276,7 @@
     {
      "event": "Bonus_Status_Help_Understood",
      "label": "समझ गया",
-     "users": 76,
+     "users": 77,
      "raw": 110
     },
     {
@@ -298,7 +300,7 @@
     {
      "event": "Bonus_Status_SevaSthiti_Primary_Tapped",
      "label": "सेवा स्थिति — primary button",
-     "users": 95,
+     "users": 96,
      "raw": 154
     },
     {
@@ -362,10 +364,10 @@
   }
  ],
  "totals": {
-  "reached": 259,
+  "reached": 260,
   "audience": 263,
   "callbacks": 25,
-  "goto": 187,
+  "goto": 188,
   "need_help": 35
  },
  "all_callback_ids": [
