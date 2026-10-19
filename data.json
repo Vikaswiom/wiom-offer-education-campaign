@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-19 07:05 IST",
+  "generated": "2026-10-19 12:17 IST",
   "sample": false,
   "region": "eu1",
   "start_date": "2026-07-16",
@@ -593,13 +593,13 @@
             "label": "4 times",
             "min": 4,
             "max": 4,
-            "users": 7
+            "users": 6
           },
           {
             "label": "5 or more times",
             "min": 5,
             "max": null,
-            "users": 142
+            "users": 143
           }
         ],
         "ok": [
@@ -619,7 +619,7 @@
             "label": "3 times",
             "min": 3,
             "max": 3,
-            "users": 18
+            "users": 17
           },
           {
             "label": "4 times",
@@ -631,13 +631,13 @@
             "label": "5 or more times",
             "min": 5,
             "max": null,
-            "users": 129
+            "users": 130
           }
         ]
       },
       "freq_avg": {
-        "shown": 6.35,
-        "ok": 5.74
+        "shown": 6.44,
+        "ok": 5.84
       },
       "freq_max": {
         "shown": 31,
@@ -997,8 +997,8 @@
         },
         {
           "date": "2026-10-19",
-          "shown": 11,
-          "ok": 9
+          "shown": 42,
+          "ok": 40
         }
       ],
       "note": "Full-page offer creative (round 2): one screen, one ठीक है, no quiz."
