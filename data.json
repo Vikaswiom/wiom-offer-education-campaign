@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-20 12:53 IST",
+  "generated": "2026-10-20 18:21 IST",
   "sample": false,
   "region": "eu1",
   "start_date": "2026-07-16",
@@ -575,25 +575,25 @@
             "label": "1 time only",
             "min": 1,
             "max": 1,
-            "users": 141
+            "users": 140
           },
           {
             "label": "2 times",
             "min": 2,
             "max": 2,
-            "users": 33
+            "users": 34
           },
           {
             "label": "3 times",
             "min": 3,
             "max": 3,
-            "users": 18
+            "users": 17
           },
           {
             "label": "4 times",
             "min": 4,
             "max": 4,
-            "users": 5
+            "users": 6
           },
           {
             "label": "5 or more times",
@@ -607,7 +607,7 @@
             "label": "1 time only",
             "min": 1,
             "max": 1,
-            "users": 129
+            "users": 128
           },
           {
             "label": "2 times",
@@ -619,29 +619,29 @@
             "label": "3 times",
             "min": 3,
             "max": 3,
-            "users": 18
+            "users": 19
           },
           {
             "label": "4 times",
             "min": 4,
             "max": 4,
-            "users": 7
+            "users": 6
           },
           {
             "label": "5 or more times",
             "min": 5,
             "max": null,
-            "users": 130
+            "users": 131
           }
         ]
       },
       "freq_avg": {
-        "shown": 6.6,
-        "ok": 5.95
+        "shown": 6.65,
+        "ok": 6.0
       },
       "freq_max": {
-        "shown": 32,
-        "ok": 30
+        "shown": 33,
+        "ok": 31
       },
       "attribution": "event",
       "campaigns": [],
@@ -1002,8 +1002,8 @@
         },
         {
           "date": "2026-10-20",
-          "shown": 34,
-          "ok": 25
+          "shown": 50,
+          "ok": 40
         }
       ],
       "note": "Full-page offer creative (round 2): one screen, one ठीक है, no quiz."
