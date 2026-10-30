@@ -1,0 +1,30 @@
+# Manual, read-only diagnostic: dump Net-Box Return in-app events (campaign 1793098955)
+# to the job log.
+# Trigger from the Actions tab (Run workflow) — it never pushes anything.
+name: probe-netbox
+
+on:
+  workflow_dispatch:
+    inputs:
+      from_date:
+        description: "Start date YYYYMMDD"
+        required: false
+        default: "20261027"
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: probe
+        env:
+          CLEVERTAP_ACCOUNT: ${{ secrets.CLEVERTAP_ACCOUNT }}
+          CLEVERTAP_PASSCODE: ${{ secrets.CLEVERTAP_PASSCODE }}
+        run: python3 probe_netbox.py "${{ inputs.from_date }}"
