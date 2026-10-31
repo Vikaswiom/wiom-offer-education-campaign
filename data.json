@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-31 18:19 IST",
+  "generated": "2026-10-31 22:55 IST",
   "sample": false,
   "region": "eu1",
   "start_date": "2026-07-16",
@@ -575,13 +575,13 @@
             "label": "1 time only",
             "min": 1,
             "max": 1,
-            "users": 133
+            "users": 132
           },
           {
             "label": "2 times",
             "min": 2,
             "max": 2,
-            "users": 43
+            "users": 44
           },
           {
             "label": "3 times",
@@ -593,13 +593,13 @@
             "label": "4 times",
             "min": 4,
             "max": 4,
-            "users": 8
+            "users": 7
           },
           {
             "label": "5 or more times",
             "min": 5,
             "max": null,
-            "users": 152
+            "users": 153
           }
         ],
         "ok": [
@@ -607,13 +607,13 @@
             "label": "1 time only",
             "min": 1,
             "max": 1,
-            "users": 123
+            "users": 122
           },
           {
             "label": "2 times",
             "min": 2,
             "max": 2,
-            "users": 41
+            "users": 42
           },
           {
             "label": "3 times",
@@ -625,19 +625,19 @@
             "label": "4 times",
             "min": 4,
             "max": 4,
-            "users": 10
+            "users": 9
           },
           {
             "label": "5 or more times",
             "min": 5,
             "max": null,
-            "users": 140
+            "users": 141
           }
         ]
       },
       "freq_avg": {
-        "shown": 8.37,
-        "ok": 7.71
+        "shown": 8.39,
+        "ok": 7.73
       },
       "freq_max": {
         "shown": 43,
@@ -1057,8 +1057,8 @@
         },
         {
           "date": "2026-10-31",
-          "shown": 54,
-          "ok": 51
+          "shown": 60,
+          "ok": 57
         }
       ],
       "note": "Full-page offer creative (round 2): one screen, one ठीक है, no quiz."
