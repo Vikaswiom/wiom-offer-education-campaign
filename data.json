@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-31 11:48 IST",
+  "generated": "2026-10-31 18:19 IST",
   "sample": false,
   "region": "eu1",
   "start_date": "2026-07-16",
@@ -220,7 +220,7 @@
       "key": "tech",
       "label": "Technician App",
       "color": "#2563EB",
-      "note": "Technician app — Shown comes from CleverTap's own impression event (Notification Viewed, wzrk_id 1784203536) because this app does not fire the custom inApp_Shown; education/quiz are locked to that cohort by identity. 515 role = technician profile(s) acted without a recorded impression.",
+      "note": "Technician app — Shown comes from CleverTap's own impression event (Notification Viewed, wzrk_id 1784203536) because this app does not fire the custom inApp_Shown; education/quiz are locked to that cohort by identity. 514 role = technician profile(s) acted without a recorded impression.",
       "campaigns": [
         "1784203536"
       ],
@@ -575,13 +575,13 @@
             "label": "1 time only",
             "min": 1,
             "max": 1,
-            "users": 136
+            "users": 133
           },
           {
             "label": "2 times",
             "min": 2,
             "max": 2,
-            "users": 40
+            "users": 43
           },
           {
             "label": "3 times",
@@ -607,13 +607,13 @@
             "label": "1 time only",
             "min": 1,
             "max": 1,
-            "users": 126
+            "users": 123
           },
           {
             "label": "2 times",
             "min": 2,
             "max": 2,
-            "users": 38
+            "users": 41
           },
           {
             "label": "3 times",
@@ -636,8 +636,8 @@
         ]
       },
       "freq_avg": {
-        "shown": 8.31,
-        "ok": 7.66
+        "shown": 8.37,
+        "ok": 7.71
       },
       "freq_max": {
         "shown": 43,
@@ -1057,8 +1057,8 @@
         },
         {
           "date": "2026-10-31",
-          "shown": 34,
-          "ok": 36
+          "shown": 54,
+          "ok": 51
         }
       ],
       "note": "Full-page offer creative (round 2): one screen, one ठीक है, no quiz."
