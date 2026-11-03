@@ -1,0 +1,32 @@
+# Manual, read-only diagnostic: dump every occurrence of one CleverTap event
+# to the job log. Trigger from the Actions tab (Run workflow) — it never pushes anything.
+name: probe-event
+
+on:
+  workflow_dispatch:
+    inputs:
+      event_name:
+        description: "CleverTap event name"
+        required: true
+      from_date:
+        description: "Start date YYYYMMDD (blank = 7 days ago)"
+        required: false
+        default: ""
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: probe
+        env:
+          CLEVERTAP_ACCOUNT: ${{ secrets.CLEVERTAP_ACCOUNT }}
+          CLEVERTAP_PASSCODE: ${{ secrets.CLEVERTAP_PASSCODE }}
+        run: python3 probe_event.py "${{ inputs.event_name }}" ${{ inputs.from_date }}
