@@ -1,5 +1,5 @@
 {
-  "generated": "2026-11-10 02:23 IST",
+  "generated": "2026-11-10 08:33 IST",
   "sample": false,
   "region": "eu1",
   "start_date": "2026-07-16",
@@ -220,7 +220,7 @@
       "key": "tech",
       "label": "Technician App",
       "color": "#2563EB",
-      "note": "Technician app — Shown comes from CleverTap's own impression event (Notification Viewed, wzrk_id 1784203536) because this app does not fire the custom inApp_Shown; education/quiz are locked to that cohort by identity. 516 role = technician profile(s) acted without a recorded impression.",
+      "note": "Technician app — Shown comes from CleverTap's own impression event (Notification Viewed, wzrk_id 1784203536) because this app does not fire the custom inApp_Shown; education/quiz are locked to that cohort by identity. 515 role = technician profile(s) acted without a recorded impression.",
       "campaigns": [
         "1784203536"
       ],
@@ -636,8 +636,8 @@
         ]
       },
       "freq_avg": {
-        "shown": 9.72,
-        "ok": 9.04
+        "shown": 9.73,
+        "ok": 9.05
       },
       "freq_max": {
         "shown": 52,
@@ -1107,8 +1107,8 @@
         },
         {
           "date": "2026-11-10",
-          "shown": 4,
-          "ok": 3
+          "shown": 9,
+          "ok": 7
         }
       ],
       "note": "Full-page offer creative (round 2): one screen, one ठीक है, no quiz."
